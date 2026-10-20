@@ -1,7 +1,7 @@
 {
   "id": "privacy",
   "lastReviewed": "2026-10-20",
-  "lastUpdated": "2026-10-19",
+  "lastUpdated": "2026-10-20",
   "claims": {
     "noCookies": true
   },
@@ -37,12 +37,12 @@
         "heading": "Counting visits",
         "points": [
           "Outbite uses GoatCounter to count page views.",
-          "GoatCounter keeps only totals, counted by day or hour: the page visited, the site or page you came from, your browser and operating system type, your approximate country, your language and your screen width.",
+          "GoatCounter keeps only totals, counted by day or hour: the page visited, the site or page you came from, your browser and operating system type, your approximate country (and, for visits from the United States, your approximate state) and your screen width.",
           "GoatCounter doesn’t store IP addresses. It doesn’t use cookies or store anything in your browser, and it doesn’t share data with third parties.",
           "To avoid counting the same visit twice, GoatCounter links your IP address and browser details to a random ID. It keeps that link only in memory, for up to 8 hours, and your IP address is never saved.",
           "GoatCounter stores its data in Finland and Germany."
         ],
-        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a ZIP code or a place.",
+        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a ZIP code or a place. As with any website, your browser also sends its IP address and browser details with the request; GoatCounter uses them only as described above.",
         "noJs": "With JavaScript turned off, visits aren’t counted at all.",
         "link": "GoatCounter’s privacy page",
         "switchLabel": "Don’t count my visits",
@@ -95,12 +95,12 @@
         "heading": "Cómo contamos las visitas",
         "points": [
           "Outbite usa GoatCounter para contar las visitas a cada página.",
-          "GoatCounter guarda solo totales, por día o por hora: la página visitada, el sitio o la página de donde vienes, el tipo de navegador y de sistema operativo, tu país aproximado, tu idioma y el ancho de tu pantalla.",
+          "GoatCounter guarda solo totales, por día o por hora: la página visitada, el sitio o la página de donde vienes, el tipo de navegador y de sistema operativo, tu país aproximado (y, si visitas desde Estados Unidos, tu estado aproximado) y el ancho de tu pantalla.",
           "GoatCounter no guarda direcciones IP. No usa cookies ni guarda nada en tu navegador, y no comparte datos con terceros.",
           "Para no contar la misma visita dos veces, GoatCounter vincula tu dirección IP y los datos de tu navegador con un identificador al azar. Guarda ese vínculo solo en la memoria, por hasta 8 horas, y tu dirección IP nunca se guarda.",
           "GoatCounter guarda los datos en Finlandia y Alemania."
         ],
-        "sends": "Outbite le envía a GoatCounter solo la dirección de la página, el título de la página, el sitio de donde vienes y el ancho de tu pantalla, además de un número al azar que evita que el navegador reutilice una solicitud anterior y, en los navegadores automatizados, una señal que los marca como bots. Nunca envía nada que escribas o elijas en el sitio, como un código postal o un lugar.",
+        "sends": "Outbite le envía a GoatCounter solo la dirección de la página, el título de la página, el sitio de donde vienes y el ancho de tu pantalla, además de un número al azar que evita que el navegador reutilice una solicitud anterior y, en los navegadores automatizados, una señal que los marca como bots. Nunca envía nada que escribas o elijas en el sitio, como un código postal o un lugar. Como con cualquier sitio web, tu navegador también envía su dirección IP y los datos del navegador con la solicitud; GoatCounter los usa solo como se explica arriba.",
         "noJs": "Con JavaScript desactivado, las visitas no se cuentan.",
         "link": "Página de privacidad de GoatCounter",
         "switchLabel": "No contar mis visitas",
