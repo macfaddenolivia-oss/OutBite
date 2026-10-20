@@ -9,6 +9,12 @@ choose practical ways to protect themselves, their households and their communit
 guidance follows CDC and EPA first, then WHO, and its case numbers come straight from CDC's
 public data. It is built with [Astro](https://astro.build) as a static site.
 
+## Status
+
+**In development.** The content is awaiting expert review (clinician, entomologist and
+native Spanish speaker) and is not yet published as a website. Don’t rely on it for health
+decisions.
+
 ## Install and build
 
 Needs Node.js 22 or newer (LTS) and npm.
