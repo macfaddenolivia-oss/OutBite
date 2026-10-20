@@ -11,9 +11,10 @@ public data. It is built with [Astro](https://astro.build) as a static site.
 
 ## Status
 
-**In development.** The content is awaiting expert review (clinician, entomologist and
-native Spanish speaker) and is not yet published as a website. Don’t rely on it for health
-decisions.
+**Preview.** The site is published as a preview at
+<https://macfaddenolivia-oss.github.io/OutBite/> while its content awaits expert review
+(clinician, entomologist and native Spanish speaker). Don’t rely on it for health decisions
+yet.
 
 ## Install and build
 
