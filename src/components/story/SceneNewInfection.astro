@@ -1,0 +1,21 @@
+---
+// Scene 5: the neighbor (virus dots, standing where Ana stands in scene 2) and,
+// beside them, a small calendar labeled "3–14 days". No mosquito, no bucket.
+import Backdrop from './Backdrop.astro';
+import Calendar from './Calendar.astro';
+import Person from './Person.astro';
+import { GROUND, PERSON_X, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+  name: string;
+  days: string;
+}
+const { label, name, days } = Astro.props;
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label}>
+  <Backdrop names={[{ x: PERSON_X, text: name }]} />
+  <Person x={PERSON_X} y={GROUND} color="#24539A" dots />
+  <Calendar x={250} y={GROUND - 138} width={140} height={110} label={days} />
+</svg>

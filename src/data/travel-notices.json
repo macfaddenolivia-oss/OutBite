@@ -1,0 +1,50 @@
+{
+  "source": {
+    "feedUrl": "https://wwwnc.cdc.gov/travel/rss/notices.xml",
+    "pageUrl": "https://wwwnc.cdc.gov/travel/notices"
+  },
+  "fetchedAt": "2026-10-19T19:29:11.889Z",
+  "feedItems": 21,
+  "notices": [
+    {
+      "title": "Level 1 - Global Dengue",
+      "level": 1,
+      "disease": "dengue",
+      "destination": "Global",
+      "date": "2026-10-02",
+      "url": "https://wwwnc.cdc.gov/travel/notices/level1/dengue-global"
+    },
+    {
+      "title": "Level 2 - Chikungunya in Nicaragua",
+      "level": 2,
+      "disease": "chikungunya",
+      "destination": "Nicaragua",
+      "date": "2026-09-03",
+      "url": "https://wwwnc.cdc.gov/travel/notices/level2/chikungunya-nicaragua"
+    },
+    {
+      "title": "Level 2 - Zika in Indonesia",
+      "level": 2,
+      "disease": "zika",
+      "destination": "Indonesia",
+      "date": "2026-08-07",
+      "url": "https://wwwnc.cdc.gov/travel/notices/level2/zika-indonesia"
+    },
+    {
+      "title": "Level 2 - Chikungunya in Costa Rica",
+      "level": 2,
+      "disease": "chikungunya",
+      "destination": "Costa Rica",
+      "date": "2026-07-30",
+      "url": "https://wwwnc.cdc.gov/travel/notices/level2/chikungunya-costa-rica"
+    },
+    {
+      "title": "Level 2 - Chikungunya in French Guiana",
+      "level": 2,
+      "disease": "chikungunya",
+      "destination": "French Guiana",
+      "date": "2026-06-04",
+      "url": "https://wwwnc.cdc.gov/travel/notices/level2/chikungunya-french-guiana"
+    }
+  ]
+}

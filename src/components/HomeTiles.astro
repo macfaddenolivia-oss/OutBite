@@ -1,0 +1,278 @@
+---
+// Home page: three preview tiles. Each tile is one link
+// (the whole tile is clickable): a decorative preview (aria-hidden; the tile's text
+// describes it), a title, one line and a light-orange button. The previews reuse the
+// real drawings and data, built at build time:
+// 1. How it spreads: the moment of the bite (bucket, dotted flight from its water, the
+//    mosquito level and facing right, biting Ana's shoulder and carrying the virus (the
+//    four scattered dots); the bucket stands in the light-blue ground with its contact
+//    shadow; "Ana" on the ground).
+// 2. Protect yourself: a small, airy nested-layers graphic (no rows or mosquitoes).
+// 3. Is it near me?: the dashboard map (dengue, current shading) with a Puerto Rico inset.
+import Bucket from './story/Bucket.astro';
+import Mosquito from './story/Mosquito.astro';
+import Person from './story/Person.astro';
+import { BUCKET_WATER_Y } from './story/layout';
+import map from '../data/us-map.json';
+import { bin, caseData } from '../lib/cases';
+import { localizePath, useTranslations } from '../i18n';
+import { getPage } from '../config/pages';
+
+interface Props {
+  lang: string;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const href = (key: string) => localizePath(lang, getPage(key).path);
+
+// ---- 1. Story preview (380 × 200 units) ----
+const G = 166; // ground line
+const ana = { x: 300, y: G };
+// The bucket stands on the ground line, drawn in front of it, its base corners `sink`
+// units below G: about 3px at 1313×900, where this drawing renders at 0.91px per unit.
+const bucket = { x: 82, y: G, scale: 0.8, sink: 3 / 0.91 };
+const water = { x: bucket.x, y: G + bucket.sink + BUCKET_WATER_Y * bucket.scale };
+// Ana's near (left) shoulder; the mosquito (90% size) faces right, its proboscis tip
+// 27 units ahead at full size.
+const mqScale = 0.9;
+const bite = { x: ana.x - 25.4, y: G - 58 };
+const mq = { x: bite.x - 27 * mqScale, y: bite.y };
+const flight = `M${water.x} ${water.y} C ${water.x} ${water.y - 95}, ${mq.x - 80} ${mq.y - 45}, ${mq.x - 30 * mqScale} ${mq.y}`;
+
+// ---- 2. Layers preview (378 × 198 units): evenly spaced rings ----
+const rings = [
+  ['community', 44, 14, 290, 170, '#A9C8E0'],
+  ['yard', 80, 35, 218, 128, '#F0AF74'],
+  ['home', 116, 56, 146, 86, '#CBDCEC'],
+  ['body', 152, 77, 74, 44, '#F4D1A8'],
+] as const;
+
+// ---- 3. Map preview: states (dengue year totals, the dashboard's shading) ----
+const states = Object.entries(map.states as Record<string, string>).filter(([code]) => code !== 'DC');
+const binOf = (code: string) => bin(caseData.places[code]?.dengue.ytd ?? null);
+const pr = (map.territories as Record<string, { d: string; width: number; height: number }>).PR;
+---
+
+<ul class="tiles">
+  <li>
+    <a class="tile" href={href('howItSpreads')}>
+      <span class="tile__preview tile__preview--story" aria-hidden="true">
+        <svg viewBox="0 0 380 200" class="tile__svg tile__svg--story">
+          <rect width="380" height="200" fill="#FFFFFF"></rect>
+          <rect x="-2000" y={G} width="4380" height="2000" fill="#CBDCEC"></rect>
+          <Bucket x={bucket.x} y={bucket.y} scale={bucket.scale} onGround sink={bucket.sink} />
+          <path d={flight} fill="none" stroke="#17306A" stroke-width="2.4" stroke-dasharray="2.4 7" stroke-linecap="round"></path>
+          <Person x={ana.x} y={ana.y} />
+          <Mosquito x={mq.x} y={mq.y} scale={mqScale} flip dots />
+          <text x={ana.x} y={G + 19} text-anchor="middle" class="tile__name">Ana</text>
+        </svg>
+      </span>
+      <span class="tile__body">
+        <span class="tile__title">{t('home.tiles.story.title')}</span>
+        <span class="tile__text">{t('home.tiles.story.text')}</span>
+        <span class="tile__btn">{t('home.tiles.story.button')} <span aria-hidden="true">→</span></span>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a class="tile" href={href('protect')}>
+      <span class="tile__preview" aria-hidden="true">
+        <svg viewBox="0 0 378 198" class="tile__svg">
+          {
+            rings.map(([layer, x, y, w, h, fill]) => (
+              <rect x={x} y={y} width={w} height={h} fill={fill} stroke="#17306A" stroke-width="2.5" />
+            ))
+          }
+          {
+            rings
+              .filter(([layer]) => layer !== 'body')
+              .map(([layer, x, y]) => (
+                <text x={x + 8} y={y + 15} class="tile__ring-label">
+                  {t(`home.layersGraphic.${layer}`)}
+                </text>
+              ))
+          }
+          <circle cx="189" cy="92" r="6.5" fill="#17306A"></circle>
+          <path d="M176 119 V113 a13 12 0 0 1 26 0 V119 Z" fill="#17306A"></path>
+        </svg>
+      </span>
+      <span class="tile__body">
+        <span class="tile__title">{t('home.tiles.protect.title')}</span>
+        <span class="tile__text">{t('home.tiles.protect.text')}</span>
+        <span class="tile__btn">{t('home.tiles.protect.button')} <span aria-hidden="true">→</span></span>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a class="tile" href={href('nearMe')}>
+      <span class="tile__preview" aria-hidden="true">
+        <svg viewBox="0 -10 975 640" class="tile__svg tile__svg--map">
+          {states.map(([code, d]) => <path d={d} class={`tile__state tile__bin-${binOf(code)}`} />)}
+          <g transform="translate(830 520)">
+            <rect x="0" y="0" width="120" height="62" fill="#FFFFFF" stroke="#17306A" stroke-width="3"></rect>
+            <g transform={`translate(10 ${(62 - pr.height) / 2}) scale(1)`}>
+              <path d={pr.d} class={`tile__state tile__bin-${binOf('PR')}`} />
+            </g>
+          </g>
+        </svg>
+      </span>
+      <span class="tile__body">
+        <span class="tile__title">{t('home.tiles.nearMe.title')}</span>
+        <span class="tile__text">{t('home.tiles.nearMe.text')}</span>
+        <span class="tile__btn">{t('home.tiles.nearMe.button')} <span aria-hidden="true">→</span></span>
+      </span>
+    </a>
+  </li>
+</ul>
+
+<style>
+  /* Three across on desktop, two plus one on tablets, stacked on phones. */
+  .tiles {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 40rem) {
+    .tiles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .tiles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .tiles li {
+    display: flex;
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: box-shadow 0.12s;
+  }
+
+  /* Hover: a slightly thicker border (drawn inside, so nothing moves). */
+  .tile:hover {
+    box-shadow: inset 0 0 0 2px var(--color-rule);
+  }
+
+  .tile:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  /* Previews: the same height in all three, white in both modes, divider below. */
+  .tile__preview {
+    position: relative;
+    display: block;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 3px solid var(--color-rule);
+    background: #ffffff;
+  }
+
+  .tile__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Story: the drawing sits at the top; the ground reaches the divider at any width. */
+  .tile__svg--story {
+    height: auto;
+    overflow: visible;
+  }
+
+  .tile__preview--story {
+    background: #cbdcec;
+  }
+
+  .tile__preview--story .tile__svg--story {
+    background: #ffffff;
+  }
+
+  .tile__name {
+    fill: #17306a;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .tile__ring-label {
+    fill: #17306a;
+    font-family: var(--font-heading);
+    font-size: 11px; /* about 10px at the tile's size */
+    font-weight: 900;
+    letter-spacing: 0.08em;
+  }
+
+  .tile__svg--map {
+    padding: 8px 10px;
+  }
+
+  .tile__state {
+    stroke: #17306a;
+    stroke-width: 0.8;
+    stroke-linejoin: round;
+  }
+
+  .tile__bin-0,
+  .tile__bin--1 { fill: #ffffff; }
+  .tile__bin-1 { fill: var(--color-map-1); }
+  .tile__bin-2 { fill: var(--color-map-2); }
+  .tile__bin-3 { fill: var(--color-map-3); }
+  .tile__bin-4 { fill: var(--color-map-4); stroke: #ffffff; }
+  .tile__bin-5 { fill: var(--color-map-5); stroke: #ffffff; }
+
+  .tile__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--pad-box-lg);
+  }
+
+  .tile__title {
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-size: 1.625rem;
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .tile__text {
+    flex: 1;
+  }
+
+  .tile__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    margin-top: var(--space-1);
+    padding: var(--space-2) var(--pad-box);
+    border: 3px solid var(--color-primary-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-bg);
+    color: var(--color-primary-text);
+    font-weight: var(--weight-strong);
+  }
+
+  .tile:hover .tile__btn {
+    background: var(--color-primary-bg-hover);
+  }
+</style>

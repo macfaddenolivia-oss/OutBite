@@ -1,0 +1,231 @@
+---
+// Printable 4: the when-to-get-care card, two half-page cards on one US Letter sheet
+// with a dashed "✂ cut here · corta aquí" line between them (like the neighbor flyer).
+// `langs` picks the halves: English + English, Spanish + Spanish, or English top and
+// Spanish bottom. Content: the sick page's card text (src/content/sick-page.json:
+// printTitle, printCall, emergencyAction, emergencyPregnant, disclaimer), CDC's
+// severe-dengue warning signs (src/content/warning-signs.json, shared), the phone numbers, a QR code to the sick page in
+// that language (its own title in the QR line), and a source line. Navy on white: reads in black and white.
+import PrintSheet from './PrintSheet.astro';
+import PrintLogo from './PrintLogo.astro';
+import PrintQr from './PrintQr.astro';
+import PrintSources from './PrintSources.astro';
+import sick from '../../content/sick-page.json';
+import warningSigns from '../../content/warning-signs.json';
+import printables from '../../content/printables.json';
+import { localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+interface Props {
+  langs: ['en' | 'es', 'en' | 'es'];
+  id: string;
+}
+const { langs, id } = Astro.props;
+const cite = sick.cite as Record<string, string[]>;
+const ids = [...new Set([...warningSigns.cite.signs, ...cite.emergency, ...cite.step1])];
+---
+
+<PrintSheet id={id} lang={langs[0]} label={sick.text[langs[0]].printTitle}>
+  {
+    langs.map((lang, half) => {
+      const s = sick.text[lang];
+      const ws = warningSigns.text[lang];
+      const p = printables.text[lang];
+      const t = useTranslations(lang);
+      return (
+        <>
+          {half === 1 && (
+            <p class="pc__cut" aria-hidden="true">
+              <span>{printables.text.en.flyer.cut}</span>
+            </p>
+          )}
+          <article class="pc" lang={lang}>
+            <header class="pc__head">
+              <h2 class="pc__title">{s.printTitle}</h2>
+              <PrintLogo size={20} />
+            </header>
+            <div class="pc__main">
+              <div class="pc__steps">
+                <p class="pc__step">
+                  <span class="pc__num">1</span>
+                  <span>{s.printCall}</span>
+                </p>
+                <div class="pc__step pc__step--warn">
+                  <span class="pc__num">2</span>
+                  <div>
+                    <p class="pc__lead">{ws.lead}</p>
+                    <ul class="pc__signs">{ws.signs.map((w) => <li>{w}</li>)}</ul>
+                    <p class="pc__action">{s.emergencyAction}</p>
+                    <p>{ws.timing}</p>
+                    <p class="pc__preg">{s.emergencyPregnant}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pc__side">
+                <div class="pc__phones">
+                  <p class="pc__911">{t('sick.call911')}</p>
+                  <p>
+                    {t('card.safety.poison')}:<br />
+                    <strong>1-800-222-1222</strong>
+                  </p>
+                  <p>
+                    {t('card.safety.npic')}:<br />
+                    <strong>1-800-858-7378</strong>
+                  </p>
+                </div>
+                <PrintQr path={localizePath(lang, getPage('sick').path)} text={p.care.scan.replace('{title}', t('pages.sick.title'))} placeholder={p.common.siteAddress} size={62} />
+              </div>
+            </div>
+            <div class="pc__fine">
+              <PrintSources ids={ids} label={p.common.sources} lang={lang} />
+              <p>{s.disclaimer}</p>
+            </div>
+          </article>
+        </>
+      );
+    })
+  }
+</PrintSheet>
+
+<style>
+  .pc {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 468px;
+    padding: 16px 22px 12px;
+    box-sizing: border-box;
+    border: 3px solid #17306a;
+  }
+
+  .pc__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid #17306a;
+  }
+
+  .pc__title {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .pc__main {
+    display: grid;
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr) 196px;
+    gap: 16px;
+    min-height: 0;
+  }
+
+  .pc__steps {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .pc__step {
+    display: grid !important;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .pc__num {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #17306a;
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 13px;
+  }
+
+  .pc__step--warn > div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .pc__lead {
+    font-weight: 800;
+  }
+
+  .pc__signs {
+    columns: 2;
+    column-gap: 14px;
+    padding-left: 16px !important;
+    font-weight: 700;
+  }
+
+  .pc__signs li {
+    break-inside: avoid;
+    margin-bottom: 2px;
+  }
+
+  .pc__action {
+    padding: 4px 8px;
+    border-left: 5px solid #17306a;
+    font-weight: 800;
+  }
+
+  .pc__preg {
+    font-weight: 700;
+  }
+
+  .pc__side {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .pc__phones {
+    display: grid;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 2px solid #17306a;
+  }
+
+  .pc__911 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  .pc__fine {
+    display: grid;
+    gap: 2px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .pc__fine :global(.print-sources) {
+    font-size: 10px;
+  }
+
+  .pc__cut {
+    position: relative;
+    height: 24px;
+    border-top: 1.5px dashed #6b7488;
+    transform: translateY(12px);
+    font-size: 10.5px;
+  }
+
+  .pc__cut span {
+    position: absolute;
+    top: -9px;
+    left: 40px;
+    padding: 0 6px;
+    background: #ffffff;
+    line-height: 1.4;
+  }
+</style>

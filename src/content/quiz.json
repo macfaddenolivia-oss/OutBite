@@ -1,0 +1,449 @@
+{
+  "id": "quiz",
+  "lastReviewed": "2026-10-20",
+  "questions": [
+    {
+      "id": "q1",
+      "layer": "body",
+      "tip": "B1",
+      "best": "usually"
+    },
+    {
+      "id": "q2",
+      "layer": "body",
+      "tip": "B2",
+      "best": "usually"
+    },
+    {
+      "id": "q3",
+      "layer": "home",
+      "tip": "H1",
+      "best": "all"
+    },
+    {
+      "id": "q4",
+      "layer": "home",
+      "tip": "H3",
+      "best": "usually"
+    },
+    {
+      "id": "q5",
+      "layer": "yard",
+      "tip": "Y1",
+      "best": "weekly"
+    },
+    {
+      "id": "q6",
+      "layer": "yard",
+      "tip": "Y1",
+      "best": "none"
+    },
+    {
+      "id": "q7",
+      "layer": "community",
+      "tip": "C2",
+      "best": "yes"
+    },
+    {
+      "id": "q8",
+      "layer": "community",
+      "tip": "C1",
+      "best": "yes"
+    }
+  ],
+  "ease": {
+    "B1": 1,
+    "B2": 1,
+    "H3": 1,
+    "Y1": 1,
+    "H1": 2,
+    "C1": 2,
+    "C2": 3
+  },
+  "text": {
+    "en": {
+      "questions": [
+        {
+          "q": "When you’re outside during the day, how often do you use insect repellent?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Usually"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely or never"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            }
+          ]
+        },
+        {
+          "q": "When mosquitoes are around, how often do you wear long sleeves and long pants?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Usually"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely or never"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            }
+          ]
+        },
+        {
+          "q": "Do your windows and doors have screens without holes?",
+          "options": [
+            {
+              "value": "all",
+              "label": "Yes, all of them"
+            },
+            {
+              "value": "some",
+              "label": "Some"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            }
+          ]
+        },
+        {
+          "q": "Do you keep doors closed or use air conditioning when you can?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Usually"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            }
+          ]
+        },
+        {
+          "q": "How often do you empty and scrub things outside that hold water?",
+          "options": [
+            {
+              "value": "weekly",
+              "label": "Every week"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely"
+            },
+            {
+              "value": "no-outdoor",
+              "label": "I don’t have outdoor space"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            }
+          ]
+        },
+        {
+          "q": "Are there things outside that could hold water, like tires, buckets or plant saucers?",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "few",
+              "label": "A few"
+            },
+            {
+              "value": "many",
+              "label": "Many"
+            },
+            {
+              "value": "not-sure",
+              "label": "Not sure"
+            },
+            {
+              "value": "no-outdoor",
+              "label": "I don’t have outdoor space"
+            }
+          ]
+        },
+        {
+          "q": "Have you talked with neighbors about standing water or mosquitoes?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "not-yet",
+              "label": "Not yet"
+            }
+          ]
+        },
+        {
+          "q": "Do you know who to contact about standing water in public places?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        }
+      ],
+      "progress": "Question {n} of {total} · {layer}",
+      "back": "Back",
+      "next": "Next",
+      "seeResults": "See my results",
+      "chooseFirst": "Choose an answer to go on.",
+      "resultHeading": "Your protection",
+      "stepsHeading": "Your next 3 steps",
+      "orderLabel": "Order my steps by:",
+      "orders": {
+        "water": "Standing water first",
+        "layers": "Layer order",
+        "easiest": "Easiest first"
+      },
+      "tagStrong": "✓ Strong",
+      "tagGrow": "Could be stronger",
+      "tagIndoors": "Indoors: empty vases weekly",
+      "seeTip": "See this tip",
+      "noGaps": "Your protection looks strong. Keep it up every week.",
+      "noGapsChecklist": "Use the weekly checklist",
+      "noGapsCommunity": "Help your community",
+      "protectAll": "See all tips on the Protect page",
+      "printChecklist": "Print the weekly checklist",
+      "startOver": "Start over",
+      "staticIntro": "Check yourself against these eight questions. Each “not yet” answer points to a layer you can add.",
+      "staticLink": "See all tips on the Protect page",
+      "resultAnnounce": "Your protection: results are ready.",
+      "stepsHeadingN": "Your next {n} steps",
+      "stepsHeadingOne": "Your next step"
+    },
+    "es": {
+      "questions": [
+        {
+          "q": "Cuando estás afuera durante el día, ¿con qué frecuencia usas repelente de insectos?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Casi siempre"
+            },
+            {
+              "value": "sometimes",
+              "label": "A veces"
+            },
+            {
+              "value": "rarely",
+              "label": "Rara vez o nunca"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            }
+          ]
+        },
+        {
+          "q": "Cuando hay mosquitos, ¿con qué frecuencia usas mangas largas y pantalones largos?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Casi siempre"
+            },
+            {
+              "value": "sometimes",
+              "label": "A veces"
+            },
+            {
+              "value": "rarely",
+              "label": "Rara vez o nunca"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            }
+          ]
+        },
+        {
+          "q": "¿Tus ventanas y puertas tienen mallas sin hoyos?",
+          "options": [
+            {
+              "value": "all",
+              "label": "Sí, todas"
+            },
+            {
+              "value": "some",
+              "label": "Algunas"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            }
+          ]
+        },
+        {
+          "q": "¿Mantienes las puertas cerradas o usas aire acondicionado cuando puedes?",
+          "options": [
+            {
+              "value": "usually",
+              "label": "Casi siempre"
+            },
+            {
+              "value": "sometimes",
+              "label": "A veces"
+            },
+            {
+              "value": "rarely",
+              "label": "Rara vez"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            }
+          ]
+        },
+        {
+          "q": "¿Con qué frecuencia vacías y friegas las cosas de afuera que acumulan agua?",
+          "options": [
+            {
+              "value": "weekly",
+              "label": "Cada semana"
+            },
+            {
+              "value": "sometimes",
+              "label": "A veces"
+            },
+            {
+              "value": "rarely",
+              "label": "Rara vez"
+            },
+            {
+              "value": "no-outdoor",
+              "label": "No tengo espacio al aire libre"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            }
+          ]
+        },
+        {
+          "q": "¿Hay cosas afuera que podrían acumular agua, como gomas, baldes o platos de macetas?",
+          "options": [
+            {
+              "value": "none",
+              "label": "Ninguna"
+            },
+            {
+              "value": "few",
+              "label": "Algunas"
+            },
+            {
+              "value": "many",
+              "label": "Muchas"
+            },
+            {
+              "value": "not-sure",
+              "label": "No sé"
+            },
+            {
+              "value": "no-outdoor",
+              "label": "No tengo espacio al aire libre"
+            }
+          ]
+        },
+        {
+          "q": "¿Has hablado con tus vecinos sobre el agua estancada o los mosquitos?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Sí"
+            },
+            {
+              "value": "not-yet",
+              "label": "Todavía no"
+            }
+          ]
+        },
+        {
+          "q": "¿Sabes a quién avisar sobre el agua estancada en lugares públicos?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        }
+      ],
+      "progress": "Pregunta {n} de {total} · {layer}",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "seeResults": "Ver mis resultados",
+      "chooseFirst": "Elige una respuesta para seguir.",
+      "resultHeading": "Tu protección",
+      "stepsHeading": "Tus próximos 3 pasos",
+      "orderLabel": "Ordenar mis pasos por:",
+      "orders": {
+        "water": "Primero el agua estancada",
+        "layers": "Orden de las capas",
+        "easiest": "Lo más fácil primero"
+      },
+      "tagStrong": "✓ Fuerte",
+      "tagGrow": "Podría ser más fuerte",
+      "tagIndoors": "Adentro: vacía los floreros cada semana",
+      "seeTip": "Ver este consejo",
+      "noGaps": "Tu protección se ve fuerte. Sigue así cada semana.",
+      "noGapsChecklist": "Usa la lista semanal",
+      "noGapsCommunity": "Ayuda a tu comunidad",
+      "protectAll": "Ver todos los consejos en la página Protégete",
+      "printChecklist": "Imprimir la lista semanal",
+      "startOver": "Empezar de nuevo",
+      "staticIntro": "Revisa tu protección con estas ocho preguntas. Cada respuesta de “todavía no” señala una capa que puedes añadir.",
+      "staticLink": "Ver todos los consejos en la página Protégete",
+      "resultAnnounce": "Tu protección: los resultados están listos.",
+      "stepsHeadingN": "Tus próximos {n} pasos",
+      "stepsHeadingOne": "Tu próximo paso"
+    }
+  }
+}

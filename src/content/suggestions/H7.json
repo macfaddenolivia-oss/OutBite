@@ -1,0 +1,63 @@
+{
+  "id": "H7",
+  "layer": "home",
+  "effortGroup": "quick",
+  "guidance": "who",
+  "evidence": "limited",
+  "cost": [
+    "$"
+  ],
+  "effort": "each-time",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": true,
+  "related": [],
+  "sources": [
+    "who-dengue",
+    "rosenberg-2019"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Mosquito coils and vaporizers: limited help",
+      "summary": "WHO lists them for bite protection, but studies in Puerto Rico haven't shown they protect people.",
+      "guidanceNote": "CDC doesn't mention them",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "WHO lists them among ways to prevent bites."
+      ],
+      "cantDo": [
+        "Coils and vaporizers haven't shown clear protection in Puerto Rico studies."
+      ],
+      "research": [
+        {
+          "text": "One Puerto Rico study reported more Zika among people who used coils, most likely because people use coils where there are the most mosquitoes.",
+          "cite": [
+            "rosenberg-2019"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Espirales y vaporizadores contra mosquitos: poca ayuda",
+      "summary": "La OMS los menciona para prevenir picadas, pero los estudios en Puerto Rico no han mostrado que protejan a las personas.",
+      "guidanceNote": "los CDC no los mencionan",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "La OMS los menciona entre las formas de prevenir picadas."
+      ],
+      "cantDo": [
+        "Los espirales y los vaporizadores no han mostrado una protección clara en los estudios de Puerto Rico."
+      ],
+      "research": [
+        {
+          "text": "Un estudio de Puerto Rico informó más zika entre las personas que usaban espirales, probablemente porque la gente los usa donde hay más mosquitos.",
+          "cite": [
+            "rosenberg-2019"
+          ]
+        }
+      ]
+    }
+  }
+}

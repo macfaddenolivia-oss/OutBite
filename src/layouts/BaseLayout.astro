@@ -1,0 +1,112 @@
+---
+// The frame around every page: <head>, alert banner, header, main, footer.
+// Also: the chosen text size (applied in <head> before the page draws), the social
+// preview tags (og:/twitter:, URLs built from siteUrl in src/config/site.json, with the
+// placeholder https://outbite.example until it is set) and "Last reviewed" at the bottom
+// of each page (src/lib/page-review.ts).
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import AlertBanner from '../components/AlertBanner.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import VisitCounter from '../components/VisitCounter.astro';
+import { assetPath, defaultLocale, getLocale, locales, localizePath, siteName, switchLocalePath, useTranslations } from '../i18n';
+import { STORAGE } from '../lib/storage';
+import { formatDate } from '../lib/cases';
+import { lastReviewed, pageForPath } from '../lib/page-review';
+import site from '../config/site.json';
+
+interface Props {
+  lang: string;
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  /** Fixed path for visit counting (the 404 page reports "/404", never the typed address). */
+  countPath?: string;
+  /** Language links point to each language's home page (the 404 page). */
+  langLinksHome?: boolean;
+}
+
+const { lang, title, description, noindex = false, countPath, langLinksHome = false } = Astro.props;
+const langPath = (code: string) => (langLinksHome ? localizePath(code) : switchLocalePath(pathname, code));
+const locale = getLocale(lang);
+const t = useTranslations(lang);
+const pathname = Astro.url.pathname;
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
+// Social preview: one image per language (public/brand/social-en.png, -es.png).
+const siteBase = site.siteUrl || 'https://outbite.example';
+const pageUrl = new URL(pathname, siteBase).href;
+const socialImage = new URL(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}.png`), siteBase).href;
+const shareDescription = description ?? t('social.description');
+const page = pageForPath(pathname);
+const reviewed = page ? lastReviewed(page) : null;
+---
+
+<!doctype html>
+<html lang={locale.meta.htmlLang} dir={locale.meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#132650" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href={assetPath('brand/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={assetPath('brand/outbite-mark-180.png')} sizes="180x180" />
+    <link rel="manifest" href={assetPath('manifest.webmanifest')} />
+    {
+      locales.map((l) => (
+        <link rel="alternate" hreflang={l.meta.htmlLang} href={absolute(langPath(l.code))} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={absolute(langPath(defaultLocale))} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={shareDescription} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t('social.imageAlt')} />
+    <meta property="og:locale" content={locale.meta.ogLocale} />
+    <meta property="og:site_name" content={siteName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={shareDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={t('social.imageAlt')} />
+    <script is:inline define:vars={{ textSizeKey: STORAGE.textSize }}>
+      document.documentElement.classList.add('js');
+      // Text size chosen on this device (the "Text size" buttons), before the page draws.
+      try {
+        var size = localStorage.getItem(textSizeKey);
+        if (size === '115' || size === '130') document.documentElement.dataset.textSize = size;
+      } catch (e) {}
+    </script>
+    <VisitCounter path={countPath} />
+  </head>
+  <body>
+    <div class="brand-stripe" aria-hidden="true"></div>
+    <a class="skip-link" href="#main">{t('a11y.skipToContent')}</a>
+    <AlertBanner lang={lang} />
+    <Header lang={lang} langLinksHome={langLinksHome} />
+    <main id="main" tabindex="-1">
+      <slot />
+      {
+        reviewed && (
+          <div class="container last-reviewed">
+            <p>
+              <strong>{t('lastReviewed.label')}:</strong> <time datetime={reviewed}>{formatDate(reviewed, locale.meta.htmlLang)}</time>
+            </p>
+          </div>
+        )
+      }
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

@@ -1,0 +1,3856 @@
+{
+  "fetchedAt": "2026-10-19T19:29:11.891Z",
+  "dengue": {
+    "source": "https://www.cdc.gov/dengue/areas-with-risk/index.html",
+    "updated": "2026-10-13",
+    "notes": [
+      "As of October 07, 2026, Cuba met the criteria for being in the high transmission category and having 10 or more cases reported among travelers in the last three months."
+    ],
+    "groups": [
+      {
+        "region": "Africa",
+        "categories": [
+          {
+            "name": "Frequent or continuous",
+            "places": [
+              {
+                "name": "Burkina Faso",
+                "code": "BF",
+                "part": false
+              },
+              {
+                "name": "Cameroon",
+                "code": "CM",
+                "part": false
+              },
+              {
+                "name": "Cote d'Ivoire",
+                "code": "CI",
+                "part": false
+              },
+              {
+                "name": "Egypt",
+                "code": "EG",
+                "part": false
+              },
+              {
+                "name": "Eritrea",
+                "code": "ER",
+                "part": false
+              },
+              {
+                "name": "Ethiopia",
+                "code": "ET",
+                "part": false
+              },
+              {
+                "name": "Gabon",
+                "code": "GA",
+                "part": false
+              },
+              {
+                "name": "Kenya",
+                "code": "KE",
+                "part": false
+              },
+              {
+                "name": "Mauritius",
+                "code": "MU",
+                "part": false
+              },
+              {
+                "name": "Mayotte",
+                "code": "YT",
+                "part": false
+              },
+              {
+                "name": "Reunion",
+                "code": "RE",
+                "part": false
+              },
+              {
+                "name": "Senegal",
+                "code": "SN",
+                "part": false
+              },
+              {
+                "name": "Seychelles",
+                "code": "SC",
+                "part": false
+              },
+              {
+                "name": "Somalia",
+                "code": "SO",
+                "part": false
+              },
+              {
+                "name": "Sudan",
+                "code": "SD",
+                "part": false
+              },
+              {
+                "name": "United Republic of Tanzania",
+                "code": "TZ",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Sporadic or uncertain",
+            "places": [
+              {
+                "name": "Angola",
+                "code": "AO",
+                "part": false
+              },
+              {
+                "name": "Benin",
+                "code": "BJ",
+                "part": false
+              },
+              {
+                "name": "Cape Verde",
+                "code": "CV",
+                "part": false
+              },
+              {
+                "name": "Central African Republic",
+                "code": "CF",
+                "part": false
+              },
+              {
+                "name": "Chad",
+                "code": "TD",
+                "part": false
+              },
+              {
+                "name": "Comoros",
+                "code": "KM",
+                "part": false
+              },
+              {
+                "name": "Congo (Democratic Republic of)",
+                "code": "CD",
+                "part": false
+              },
+              {
+                "name": "Djibouti",
+                "code": "DJ",
+                "part": false
+              },
+              {
+                "name": "Equatorial Guinea",
+                "code": "GQ",
+                "part": false
+              },
+              {
+                "name": "Ghana",
+                "code": "GH",
+                "part": false
+              },
+              {
+                "name": "Guinea",
+                "code": "GN",
+                "part": false
+              },
+              {
+                "name": "Liberia",
+                "code": "LR",
+                "part": false
+              },
+              {
+                "name": "Madagascar",
+                "code": "MG",
+                "part": false
+              },
+              {
+                "name": "Mali",
+                "code": "ML",
+                "part": false
+              },
+              {
+                "name": "Mauritania",
+                "code": "MR",
+                "part": false
+              },
+              {
+                "name": "Mozambique",
+                "code": "MZ",
+                "part": false
+              },
+              {
+                "name": "Nigeria",
+                "code": "NG",
+                "part": false
+              },
+              {
+                "name": "Rwanda",
+                "code": "RW",
+                "part": false
+              },
+              {
+                "name": "São Tomé and Príncipe",
+                "code": "ST",
+                "part": false
+              },
+              {
+                "name": "Sierra Leone",
+                "code": "SL",
+                "part": false
+              },
+              {
+                "name": "Togo",
+                "code": "TG",
+                "part": false
+              },
+              {
+                "name": "Uganda",
+                "code": "UG",
+                "part": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region": "Americas",
+        "categories": [
+          {
+            "name": "Frequent or continuous",
+            "places": [
+              {
+                "name": "Anguilla",
+                "code": "AI",
+                "part": false
+              },
+              {
+                "name": "Antigua and Barbuda",
+                "code": "AG",
+                "part": false
+              },
+              {
+                "name": "Aruba",
+                "code": "AW",
+                "part": false
+              },
+              {
+                "name": "Bahamas",
+                "code": "BS",
+                "part": false
+              },
+              {
+                "name": "Barbados",
+                "code": "BB",
+                "part": false
+              },
+              {
+                "name": "Belize",
+                "code": "BZ",
+                "part": false
+              },
+              {
+                "name": "Bolivia",
+                "code": "BO",
+                "part": false
+              },
+              {
+                "name": "Brazil",
+                "code": "BR",
+                "part": false
+              },
+              {
+                "name": "British Virgin Islands",
+                "code": "VG",
+                "part": false
+              },
+              {
+                "name": "Cayman Islands",
+                "code": "KY",
+                "part": false
+              },
+              {
+                "name": "Chile (Easter Island only)",
+                "code": "CL",
+                "part": true
+              },
+              {
+                "name": "Colombia",
+                "code": "CO",
+                "part": false
+              },
+              {
+                "name": "Costa Rica",
+                "code": "CR",
+                "part": false
+              },
+              {
+                "name": "Cuba",
+                "code": "CU",
+                "part": false
+              },
+              {
+                "name": "Dominica",
+                "code": "DM",
+                "part": false
+              },
+              {
+                "name": "Dominican Republic",
+                "code": "DO",
+                "part": false
+              },
+              {
+                "name": "French Guiana",
+                "code": "GF",
+                "part": false
+              },
+              {
+                "name": "Grenada",
+                "code": "GD",
+                "part": false
+              },
+              {
+                "name": "Guadeloupe",
+                "code": "GP",
+                "part": false
+              },
+              {
+                "name": "Guatemala",
+                "code": "GT",
+                "part": false
+              },
+              {
+                "name": "Guyana",
+                "code": "GY",
+                "part": false
+              },
+              {
+                "name": "Haiti",
+                "code": "HT",
+                "part": false
+              },
+              {
+                "name": "Honduras",
+                "code": "HN",
+                "part": false
+              },
+              {
+                "name": "Jamaica",
+                "code": "JM",
+                "part": false
+              },
+              {
+                "name": "Martinique",
+                "code": "MQ",
+                "part": false
+              },
+              {
+                "name": "Mexico",
+                "code": "MX",
+                "part": false
+              },
+              {
+                "name": "Nicaragua",
+                "code": "NI",
+                "part": false
+              },
+              {
+                "name": "Panama",
+                "code": "PA",
+                "part": false
+              },
+              {
+                "name": "Paraguay",
+                "code": "PY",
+                "part": false
+              },
+              {
+                "name": "Peru",
+                "code": "PE",
+                "part": false
+              },
+              {
+                "name": "Puerto Rico",
+                "code": "PR",
+                "part": false
+              },
+              {
+                "name": "Saint Barthelemy",
+                "code": "BL",
+                "part": false
+              },
+              {
+                "name": "Saint Kitts and Nevis",
+                "code": "KN",
+                "part": false
+              },
+              {
+                "name": "Saint Lucia",
+                "code": "LC",
+                "part": false
+              },
+              {
+                "name": "Saint Martin",
+                "code": "MF",
+                "part": false
+              },
+              {
+                "name": "Saint Vincent and the Grenadines",
+                "code": "VC",
+                "part": false
+              },
+              {
+                "name": "Sint Maarten",
+                "code": "SX",
+                "part": false
+              },
+              {
+                "name": "Suriname",
+                "code": "SR",
+                "part": false
+              },
+              {
+                "name": "Trinidad and Tobago",
+                "code": "TT",
+                "part": false
+              },
+              {
+                "name": "Turks and Caicos",
+                "code": "TC",
+                "part": false
+              },
+              {
+                "name": "United States Virgin Islands",
+                "code": "VI",
+                "part": false
+              },
+              {
+                "name": "Venezuela",
+                "code": "VE",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Sporadic or uncertain",
+            "places": [
+              {
+                "name": "Bermuda",
+                "code": "BM",
+                "part": false
+              },
+              {
+                "name": "Bonaire",
+                "code": "BQ",
+                "part": false
+              },
+              {
+                "name": "Curacao",
+                "code": "CW",
+                "part": false
+              },
+              {
+                "name": "Montserrat",
+                "code": "MS",
+                "part": false
+              },
+              {
+                "name": "Saba",
+                "code": "BQ",
+                "part": false
+              },
+              {
+                "name": "Saint Eustatius",
+                "code": "BQ",
+                "part": false
+              },
+              {
+                "name": "Uruguay",
+                "code": "UY",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Risk varies based on region",
+            "places": [
+              {
+                "name": "Argentina",
+                "code": "AR",
+                "part": false
+              },
+              {
+                "name": "Ecuador",
+                "code": "EC",
+                "part": false
+              },
+              {
+                "name": "El Salvador",
+                "code": "SV",
+                "part": false
+              },
+              {
+                "name": "United States",
+                "code": "US",
+                "part": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region": "Asia",
+        "categories": [
+          {
+            "name": "Frequent or continuous",
+            "places": [
+              {
+                "name": "Afghanistan",
+                "code": "AF",
+                "part": false
+              },
+              {
+                "name": "Bangladesh",
+                "code": "BD",
+                "part": false
+              },
+              {
+                "name": "Bhutan",
+                "code": "BT",
+                "part": false
+              },
+              {
+                "name": "Brunei Darussalam",
+                "code": "BN",
+                "part": false
+              },
+              {
+                "name": "Burma",
+                "code": "MM",
+                "part": false
+              },
+              {
+                "name": "Cambodia",
+                "code": "KH",
+                "part": false
+              },
+              {
+                "name": "India",
+                "code": "IN",
+                "part": false
+              },
+              {
+                "name": "Indonesia",
+                "code": "ID",
+                "part": false
+              },
+              {
+                "name": "Lao People's Democratic Republic",
+                "code": "LA",
+                "part": false
+              },
+              {
+                "name": "Macau",
+                "code": "MO",
+                "part": false
+              },
+              {
+                "name": "Malaysia",
+                "code": "MY",
+                "part": false
+              },
+              {
+                "name": "Nepal",
+                "code": "NP",
+                "part": false
+              },
+              {
+                "name": "Philippines",
+                "code": "PH",
+                "part": false
+              },
+              {
+                "name": "Saudi Arabia",
+                "code": "SA",
+                "part": false
+              },
+              {
+                "name": "Singapore",
+                "code": "SG",
+                "part": false
+              },
+              {
+                "name": "Sri Lanka",
+                "code": "LK",
+                "part": false
+              },
+              {
+                "name": "Taiwan",
+                "code": "TW",
+                "part": false
+              },
+              {
+                "name": "Thailand",
+                "code": "TH",
+                "part": false
+              },
+              {
+                "name": "Timor-Leste",
+                "code": "TL",
+                "part": false
+              },
+              {
+                "name": "Vietnam",
+                "code": "VN",
+                "part": false
+              },
+              {
+                "name": "Yemen",
+                "code": "YE",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Sporadic or uncertain",
+            "places": [
+              {
+                "name": "Hong Kong",
+                "code": "HK",
+                "part": false
+              },
+              {
+                "name": "Jammu and Kashmir",
+                "code": "IN",
+                "part": true
+              },
+              {
+                "name": "Japan",
+                "code": "JP",
+                "part": false
+              },
+              {
+                "name": "Oman",
+                "code": "OM",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Risk varies by region",
+            "places": [
+              {
+                "name": "China",
+                "code": "CN",
+                "part": false
+              },
+              {
+                "name": "Pakistan",
+                "code": "PK",
+                "part": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region": "Europe",
+        "categories": [
+          {
+            "name": "Sporadic or uncertain",
+            "places": [
+              {
+                "name": "France",
+                "code": "FR",
+                "part": false
+              },
+              {
+                "name": "Italy",
+                "code": "IT",
+                "part": false
+              },
+              {
+                "name": "Spain",
+                "code": "ES",
+                "part": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region": "Oceania/Pacific Islands",
+        "categories": [
+          {
+            "name": "Frequent or continuous",
+            "places": [
+              {
+                "name": "American Samoa",
+                "code": "AS",
+                "part": false
+              },
+              {
+                "name": "Cook Islands",
+                "code": "CK",
+                "part": false
+              },
+              {
+                "name": "Fiji",
+                "code": "FJ",
+                "part": false
+              },
+              {
+                "name": "French Polynesia",
+                "code": "PF",
+                "part": false
+              },
+              {
+                "name": "Maldives",
+                "code": "MV",
+                "part": false
+              },
+              {
+                "name": "Micronesia (Federated States of)",
+                "code": "FM",
+                "part": false
+              },
+              {
+                "name": "Nauru",
+                "code": "NR",
+                "part": false
+              },
+              {
+                "name": "Palau",
+                "code": "PW",
+                "part": false
+              },
+              {
+                "name": "Papua New Guinea",
+                "code": "PG",
+                "part": false
+              },
+              {
+                "name": "Samoa",
+                "code": "WS",
+                "part": false
+              },
+              {
+                "name": "Solomon Islands",
+                "code": "SB",
+                "part": false
+              },
+              {
+                "name": "Tonga",
+                "code": "TO",
+                "part": false
+              },
+              {
+                "name": "Tuvalu",
+                "code": "TV",
+                "part": false
+              },
+              {
+                "name": "Vanuatu",
+                "code": "VU",
+                "part": false
+              },
+              {
+                "name": "Wallis and Futuna",
+                "code": "WF",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Sporadic or uncertain",
+            "places": [
+              {
+                "name": "Guam",
+                "code": "GU",
+                "part": false
+              },
+              {
+                "name": "Kiribati",
+                "code": "KI",
+                "part": false
+              },
+              {
+                "name": "Marshall Islands",
+                "code": "MH",
+                "part": false
+              },
+              {
+                "name": "Niue",
+                "code": "NU",
+                "part": false
+              },
+              {
+                "name": "Tokelau",
+                "code": "TK",
+                "part": false
+              }
+            ]
+          },
+          {
+            "name": "Risk varies based on region",
+            "places": [
+              {
+                "name": "Australia",
+                "code": "AU",
+                "part": false
+              },
+              {
+                "name": "New Caledonia",
+                "code": "NC",
+                "part": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "notesEs": [
+      "A la fecha del 7 de octubre de 2026, Cuba cumple con los criterios para estar en la categoría de alta transmisión y tener 10 o más casos notificados entre viajeros en los últimos tres meses."
+    ],
+    "byCode": {
+      "BF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CM": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CI": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "EG": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "ER": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "ET": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GA": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "KE": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MU": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "YT": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "RE": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SC": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SD": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TZ": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "AO": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "BJ": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "CV": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "CF": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "TD": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "KM": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "CD": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "DJ": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "GQ": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "GH": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "GN": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "LR": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "MG": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "ML": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "MR": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "MZ": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "NG": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "RW": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "ST": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "SL": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "TG": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "UG": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "AI": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "AG": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "AW": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BS": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BB": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BZ": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BR": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VG": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "KY": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CR": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CU": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "DM": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "DO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GD": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GP": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GT": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GY": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "HT": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "HN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "JM": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MQ": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MX": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "NI": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PA": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PY": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PE": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PR": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BL": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "KN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "LC": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VC": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SX": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SR": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TT": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TC": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VI": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VE": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BM": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "BQ": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "CW": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "MS": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "UY": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "AR": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "EC": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "SV": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "US": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "AF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BD": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BT": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "BN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MM": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "KH": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "IN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "ID": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "LA": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MY": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "NP": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PH": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SA": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SG": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "LK": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TW": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TH": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TL": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VN": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "YE": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "HK": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "JP": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "OM": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "CN": {
+        "category": "Risk varies by region",
+        "part": false
+      },
+      "PK": {
+        "category": "Risk varies by region",
+        "part": false
+      },
+      "FR": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "IT": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "ES": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "AS": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "CK": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "FJ": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "MV": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "FM": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "NR": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PW": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "PG": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "WS": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "SB": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TO": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "TV": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "VU": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "WF": {
+        "category": "Frequent or continuous",
+        "part": false
+      },
+      "GU": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "KI": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "MH": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "NU": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "TK": {
+        "category": "Sporadic or uncertain",
+        "part": false
+      },
+      "AU": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "NC": {
+        "category": "Risk varies based on region",
+        "part": false
+      },
+      "CL": {
+        "category": "Frequent or continuous",
+        "part": true
+      }
+    },
+    "unmatched": [],
+    "checkedAt": "2026-10-19T19:29:11.891Z"
+  },
+  "chikungunya": {
+    "source": "https://www.cdc.gov/chikungunya/data-maps/index.html",
+    "updated": "2026-09-03",
+    "groups": [
+      {
+        "name": "Current outbreaks",
+        "places": [
+          {
+            "name": "Costa Rica (northwest region)",
+            "code": "CR",
+            "part": true
+          },
+          {
+            "name": "French Guiana",
+            "code": "GF",
+            "part": false
+          },
+          {
+            "name": "Nicaragua",
+            "code": "NI",
+            "part": false
+          }
+        ]
+      },
+      {
+        "name": "Countries with elevated risk for U.S. travelers",
+        "places": [
+          {
+            "name": "Brazil",
+            "code": "BR",
+            "part": false
+          },
+          {
+            "name": "Colombia",
+            "code": "CO",
+            "part": false
+          },
+          {
+            "name": "India",
+            "code": "IN",
+            "part": false
+          },
+          {
+            "name": "Indonesia",
+            "code": "ID",
+            "part": false
+          },
+          {
+            "name": "Mexico",
+            "code": "MX",
+            "part": false
+          },
+          {
+            "name": "Nigeria",
+            "code": "NG",
+            "part": false
+          },
+          {
+            "name": "Pakistan",
+            "code": "PK",
+            "part": false
+          },
+          {
+            "name": "Peru",
+            "code": "PE",
+            "part": false
+          },
+          {
+            "name": "Philippines",
+            "code": "PH",
+            "part": false
+          },
+          {
+            "name": "Thailand",
+            "code": "TH",
+            "part": false
+          }
+        ]
+      }
+    ],
+    "footnote": "*Countries in this list have had a median of one or more cases reported annually in U.S. travelers during the last 5 years, with at least one case that was laboratory-confirmed.",
+    "byCode": {
+      "GF": {
+        "category": "Current outbreaks",
+        "part": false
+      },
+      "NI": {
+        "category": "Current outbreaks",
+        "part": false
+      },
+      "BR": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "CO": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "IN": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "ID": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "MX": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "NG": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "PK": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "PE": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "PH": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "TH": {
+        "category": "Countries with elevated risk for U.S. travelers",
+        "part": false
+      },
+      "CR": {
+        "category": "Current outbreaks",
+        "part": true
+      }
+    },
+    "unmatched": [],
+    "checkedAt": "2026-10-19T19:29:11.891Z"
+  },
+  "zika": {
+    "source": "https://www.cdc.gov/zika/geo/index.html",
+    "dataFile": "https://www.cdc.gov/zika/modules/geo/zika-areas-risk.json",
+    "updated": "2026-08-07",
+    "asOf": "2026-05-15",
+    "groups": [
+      {
+        "name": "Current or past Zika transmission",
+        "places": [
+          {
+            "name": "American Samoa",
+            "code": "AS",
+            "part": false
+          },
+          {
+            "name": "Angola",
+            "code": "AO",
+            "part": false
+          },
+          {
+            "name": "Anguilla (U.K.)",
+            "code": "AI",
+            "part": false
+          },
+          {
+            "name": "Antigua and Barbuda",
+            "code": "AG",
+            "part": false
+          },
+          {
+            "name": "Argentina",
+            "code": "AR",
+            "part": false
+          },
+          {
+            "name": "Aruba",
+            "code": "AW",
+            "part": false
+          },
+          {
+            "name": "Bahamas",
+            "code": "BS",
+            "part": false
+          },
+          {
+            "name": "Bangladesh",
+            "code": "BD",
+            "part": false
+          },
+          {
+            "name": "Barbados",
+            "code": "BB",
+            "part": false
+          },
+          {
+            "name": "Belize",
+            "code": "BZ",
+            "part": false
+          },
+          {
+            "name": "Bolivia",
+            "code": "BO",
+            "part": false
+          },
+          {
+            "name": "Bonaire, Sint Eustatius and Saba",
+            "code": "BQ",
+            "part": false
+          },
+          {
+            "name": "Brazil",
+            "code": "BR",
+            "part": false
+          },
+          {
+            "name": "Burkina Faso",
+            "code": "BF",
+            "part": false
+          },
+          {
+            "name": "Burundi",
+            "code": "BI",
+            "part": false
+          },
+          {
+            "name": "Cabo Verde",
+            "code": "CV",
+            "part": false
+          },
+          {
+            "name": "Cambodia",
+            "code": "KH",
+            "part": false
+          },
+          {
+            "name": "Cameroon",
+            "code": "CM",
+            "part": false
+          },
+          {
+            "name": "Cayman Islands (U.K.)",
+            "code": "KY",
+            "part": false
+          },
+          {
+            "name": "Central African Republic",
+            "code": "CF",
+            "part": false
+          },
+          {
+            "name": "Colombia",
+            "code": "CO",
+            "part": false
+          },
+          {
+            "name": "Cook Islands (New Zealand)",
+            "code": "CK",
+            "part": false
+          },
+          {
+            "name": "Costa Rica",
+            "code": "CR",
+            "part": false
+          },
+          {
+            "name": "Côte d'Ivoire",
+            "code": "CI",
+            "part": false
+          },
+          {
+            "name": "Cuba",
+            "code": "CU",
+            "part": false
+          },
+          {
+            "name": "Curaçao",
+            "code": "CW",
+            "part": false
+          },
+          {
+            "name": "Dominica",
+            "code": "DM",
+            "part": false
+          },
+          {
+            "name": "Dominican Republic",
+            "code": "DO",
+            "part": false
+          },
+          {
+            "name": "Easter Island",
+            "code": "CL",
+            "part": true
+          },
+          {
+            "name": "Ecuador",
+            "code": "EC",
+            "part": false
+          },
+          {
+            "name": "El Salvador",
+            "code": "SV",
+            "part": false
+          },
+          {
+            "name": "Ethiopia",
+            "code": "ET",
+            "part": false
+          },
+          {
+            "name": "Federated States of Micronesia",
+            "code": "FM",
+            "part": false
+          },
+          {
+            "name": "Fiji",
+            "code": "FJ",
+            "part": false
+          },
+          {
+            "name": "French Guiana (France)",
+            "code": "GF",
+            "part": false
+          },
+          {
+            "name": "French Polynesia (France)",
+            "code": "PF",
+            "part": false
+          },
+          {
+            "name": "Gabon",
+            "code": "GA",
+            "part": false
+          },
+          {
+            "name": "Grenada",
+            "code": "GD",
+            "part": false
+          },
+          {
+            "name": "Guadeloupe",
+            "code": "GP",
+            "part": false
+          },
+          {
+            "name": "Guatemala",
+            "code": "GT",
+            "part": false
+          },
+          {
+            "name": "Guinea",
+            "code": "GN",
+            "part": false
+          },
+          {
+            "name": "Guinea-Bissau",
+            "code": "GW",
+            "part": false
+          },
+          {
+            "name": "Guyana",
+            "code": "GY",
+            "part": false
+          },
+          {
+            "name": "Haiti",
+            "code": "HT",
+            "part": false
+          },
+          {
+            "name": "Honduras",
+            "code": "HN",
+            "part": false
+          },
+          {
+            "name": "India",
+            "code": "IN",
+            "part": false
+          },
+          {
+            "name": "Indonesia",
+            "code": "ID",
+            "part": false
+          },
+          {
+            "name": "Jamaica",
+            "code": "JM",
+            "part": false
+          },
+          {
+            "name": "Kenya",
+            "code": "KE",
+            "part": false
+          },
+          {
+            "name": "Kiribati",
+            "code": "KI",
+            "part": false
+          },
+          {
+            "name": "Laos",
+            "code": "LA",
+            "part": false
+          },
+          {
+            "name": "Madagascar",
+            "code": "MG",
+            "part": false
+          },
+          {
+            "name": "Malaysia",
+            "code": "MY",
+            "part": false
+          },
+          {
+            "name": "Maldives",
+            "code": "MV",
+            "part": false
+          },
+          {
+            "name": "Mali",
+            "code": "ML",
+            "part": false
+          },
+          {
+            "name": "Marshall Islands",
+            "code": "MH",
+            "part": false
+          },
+          {
+            "name": "Martinique (France)",
+            "code": "MQ",
+            "part": false
+          },
+          {
+            "name": "Mexico",
+            "code": "MX",
+            "part": false
+          },
+          {
+            "name": "Montserrat (U.K.)",
+            "code": "MS",
+            "part": false
+          },
+          {
+            "name": "Myanmar (Burma)",
+            "code": "MM",
+            "part": false
+          },
+          {
+            "name": "New Caledonia",
+            "code": "NC",
+            "part": false
+          },
+          {
+            "name": "Nicaragua",
+            "code": "NI",
+            "part": false
+          },
+          {
+            "name": "Nigeria",
+            "code": "NG",
+            "part": false
+          },
+          {
+            "name": "Pakistan",
+            "code": "PK",
+            "part": false
+          },
+          {
+            "name": "Palau",
+            "code": "PW",
+            "part": false
+          },
+          {
+            "name": "Panama",
+            "code": "PA",
+            "part": false
+          },
+          {
+            "name": "Papua New Guinea",
+            "code": "PG",
+            "part": false
+          },
+          {
+            "name": "Paraguay",
+            "code": "PY",
+            "part": false
+          },
+          {
+            "name": "Peru",
+            "code": "PE",
+            "part": false
+          },
+          {
+            "name": "Philippines",
+            "code": "PH",
+            "part": false
+          },
+          {
+            "name": "Puerto Rico (U.S.)",
+            "code": "PR",
+            "part": false
+          },
+          {
+            "name": "Saint Barthélemy",
+            "code": "BL",
+            "part": false
+          },
+          {
+            "name": "Saint Kitts and Nevis",
+            "code": "KN",
+            "part": false
+          },
+          {
+            "name": "Saint Lucia",
+            "code": "LC",
+            "part": false
+          },
+          {
+            "name": "Saint Martin (French part)",
+            "code": "MF",
+            "part": true
+          },
+          {
+            "name": "Saint Vincent and the Grenadines",
+            "code": "VC",
+            "part": false
+          },
+          {
+            "name": "Samoa",
+            "code": "WS",
+            "part": false
+          },
+          {
+            "name": "Senegal",
+            "code": "SN",
+            "part": false
+          },
+          {
+            "name": "Seychelles",
+            "code": "SC",
+            "part": false
+          },
+          {
+            "name": "Singapore",
+            "code": "SG",
+            "part": false
+          },
+          {
+            "name": "Sint Maarten (Dutch part)",
+            "code": "SX",
+            "part": false
+          },
+          {
+            "name": "Solomon Islands",
+            "code": "SB",
+            "part": false
+          },
+          {
+            "name": "Sri Lanka",
+            "code": "LK",
+            "part": false
+          },
+          {
+            "name": "Suriname",
+            "code": "SR",
+            "part": false
+          },
+          {
+            "name": "Thailand",
+            "code": "TH",
+            "part": false
+          },
+          {
+            "name": "Tonga",
+            "code": "TO",
+            "part": false
+          },
+          {
+            "name": "Trinidad and Tobago",
+            "code": "TT",
+            "part": false
+          },
+          {
+            "name": "Turks and Caicos Islands (U.K.)",
+            "code": "TC",
+            "part": false
+          },
+          {
+            "name": "Uganda",
+            "code": "UG",
+            "part": false
+          },
+          {
+            "name": "Vanuatu",
+            "code": "VU",
+            "part": false
+          },
+          {
+            "name": "Venezuela",
+            "code": "VE",
+            "part": false
+          },
+          {
+            "name": "Vietnam",
+            "code": "VN",
+            "part": false
+          },
+          {
+            "name": "Virgin Islands (British)",
+            "code": "VG",
+            "part": false
+          },
+          {
+            "name": "Virgin Islands (U.S.)",
+            "code": "VI",
+            "part": false
+          },
+          {
+            "name": "Yemen",
+            "code": "YE",
+            "part": false
+          }
+        ]
+      },
+      {
+        "name": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "places": [
+          {
+            "name": "Afghanistan",
+            "code": "AF",
+            "part": false
+          },
+          {
+            "name": "Australia",
+            "code": "AU",
+            "part": false
+          },
+          {
+            "name": "Benin",
+            "code": "BJ",
+            "part": false
+          },
+          {
+            "name": "Bhutan",
+            "code": "BT",
+            "part": false
+          },
+          {
+            "name": "Botswana",
+            "code": "BW",
+            "part": false
+          },
+          {
+            "name": "Brunei",
+            "code": "BN",
+            "part": false
+          },
+          {
+            "name": "Chad",
+            "code": "TD",
+            "part": false
+          },
+          {
+            "name": "China",
+            "code": "CN",
+            "part": false
+          },
+          {
+            "name": "Christmas Island (Australia)",
+            "code": "CX",
+            "part": false
+          },
+          {
+            "name": "Comoros",
+            "code": "KM",
+            "part": false
+          },
+          {
+            "name": "Cyprus",
+            "code": "CY",
+            "part": false
+          },
+          {
+            "name": "Democratic Republic of the Congo",
+            "code": "CD",
+            "part": false
+          },
+          {
+            "name": "Djibouti",
+            "code": "DJ",
+            "part": false
+          },
+          {
+            "name": "Egypt",
+            "code": "EG",
+            "part": false
+          },
+          {
+            "name": "Equatorial Guinea",
+            "code": "GQ",
+            "part": false
+          },
+          {
+            "name": "Eritrea",
+            "code": "ER",
+            "part": false
+          },
+          {
+            "name": "France",
+            "code": "FR",
+            "part": false
+          },
+          {
+            "name": "Gambia",
+            "code": "GM",
+            "part": false
+          },
+          {
+            "name": "Georgia",
+            "code": "GE",
+            "part": false
+          },
+          {
+            "name": "Ghana",
+            "code": "GH",
+            "part": false
+          },
+          {
+            "name": "Guam (U.S.)",
+            "code": "GU",
+            "part": false
+          },
+          {
+            "name": "Hawaii",
+            "code": "US",
+            "part": true
+          },
+          {
+            "name": "Heard Island and McDonald Islands",
+            "code": "HM",
+            "part": false
+          },
+          {
+            "name": "Liberia",
+            "code": "LR",
+            "part": false
+          },
+          {
+            "name": "Madeira Islands",
+            "code": "PT",
+            "part": true
+          },
+          {
+            "name": "Malawi",
+            "code": "MW",
+            "part": false
+          },
+          {
+            "name": "Mauritania",
+            "code": "MR",
+            "part": false
+          },
+          {
+            "name": "Mauritius",
+            "code": "MU",
+            "part": false
+          },
+          {
+            "name": "Mayotte (France)",
+            "code": "YT",
+            "part": false
+          },
+          {
+            "name": "Mozambique",
+            "code": "MZ",
+            "part": false
+          },
+          {
+            "name": "Namibia",
+            "code": "NA",
+            "part": false
+          },
+          {
+            "name": "Nauru",
+            "code": "NR",
+            "part": false
+          },
+          {
+            "name": "Nepal",
+            "code": "NP",
+            "part": false
+          },
+          {
+            "name": "Niger",
+            "code": "NE",
+            "part": false
+          },
+          {
+            "name": "Niue (New Zealand)",
+            "code": "NU",
+            "part": false
+          },
+          {
+            "name": "Northern Mariana Islands (U.S.)",
+            "code": "MP",
+            "part": false
+          },
+          {
+            "name": "Oman",
+            "code": "OM",
+            "part": false
+          },
+          {
+            "name": "Republic of the Congo",
+            "code": "CG",
+            "part": false
+          },
+          {
+            "name": "Russia",
+            "code": "RU",
+            "part": false
+          },
+          {
+            "name": "Rwanda",
+            "code": "RW",
+            "part": false
+          },
+          {
+            "name": "São Tomé and Principe",
+            "code": "ST",
+            "part": false
+          },
+          {
+            "name": "Saudi Arabia",
+            "code": "SA",
+            "part": false
+          },
+          {
+            "name": "Sierra Leone",
+            "code": "SL",
+            "part": false
+          },
+          {
+            "name": "Somalia",
+            "code": "SO",
+            "part": false
+          },
+          {
+            "name": "South Africa",
+            "code": "ZA",
+            "part": false
+          },
+          {
+            "name": "South Sudan",
+            "code": "SS",
+            "part": false
+          },
+          {
+            "name": "Sudan",
+            "code": "SD",
+            "part": false
+          },
+          {
+            "name": "Taiwan",
+            "code": "TW",
+            "part": false
+          },
+          {
+            "name": "Tanzania",
+            "code": "TZ",
+            "part": false
+          },
+          {
+            "name": "Timor-Leste (East Timor)",
+            "code": "TL",
+            "part": false
+          },
+          {
+            "name": "Togo",
+            "code": "TG",
+            "part": false
+          },
+          {
+            "name": "Tokelau (New Zealand)",
+            "code": "TK",
+            "part": false
+          },
+          {
+            "name": "Turkey",
+            "code": "TR",
+            "part": false
+          },
+          {
+            "name": "Tuvalu",
+            "code": "TV",
+            "part": false
+          },
+          {
+            "name": "United States of America",
+            "code": "US",
+            "part": false
+          },
+          {
+            "name": "Uruguay",
+            "code": "UY",
+            "part": false
+          },
+          {
+            "name": "Wallis and Futuna",
+            "code": "WF",
+            "part": false
+          },
+          {
+            "name": "Zambia",
+            "code": "ZM",
+            "part": false
+          },
+          {
+            "name": "Zimbabwe",
+            "code": "ZW",
+            "part": false
+          }
+        ]
+      },
+      {
+        "name": "Not known to have mosquito that spreads Zika",
+        "places": [
+          {
+            "name": "Åland Islands",
+            "code": "AX",
+            "part": false
+          },
+          {
+            "name": "Alaska",
+            "code": "US",
+            "part": true
+          },
+          {
+            "name": "Albania",
+            "code": "AL",
+            "part": false
+          },
+          {
+            "name": "Algeria",
+            "code": "DZ",
+            "part": false
+          },
+          {
+            "name": "Andorra",
+            "code": "AD",
+            "part": false
+          },
+          {
+            "name": "Antarctica",
+            "code": "AQ",
+            "part": false
+          },
+          {
+            "name": "Armenia",
+            "code": "AM",
+            "part": false
+          },
+          {
+            "name": "Austria",
+            "code": "AT",
+            "part": false
+          },
+          {
+            "name": "Azerbaijan",
+            "code": "AZ",
+            "part": false
+          },
+          {
+            "name": "Azores Islands",
+            "code": "PT",
+            "part": true
+          },
+          {
+            "name": "Bahrain",
+            "code": "BH",
+            "part": false
+          },
+          {
+            "name": "Belarus",
+            "code": "BY",
+            "part": false
+          },
+          {
+            "name": "Belgium",
+            "code": "BE",
+            "part": false
+          },
+          {
+            "name": "Bermuda (U.K.)",
+            "code": "BM",
+            "part": false
+          },
+          {
+            "name": "Bosnia and Herzegovina",
+            "code": "BA",
+            "part": false
+          },
+          {
+            "name": "Bouvet Island",
+            "code": "BV",
+            "part": false
+          },
+          {
+            "name": "British Indian Ocean Territory",
+            "code": "IO",
+            "part": false
+          },
+          {
+            "name": "Bulgaria",
+            "code": "BG",
+            "part": false
+          },
+          {
+            "name": "Canada",
+            "code": "CA",
+            "part": false
+          },
+          {
+            "name": "Canary Islands",
+            "code": "ES",
+            "part": true
+          },
+          {
+            "name": "Chile",
+            "code": "CL",
+            "part": false
+          },
+          {
+            "name": "Cocos (Keeling) Islands (Australia)",
+            "code": "CC",
+            "part": false
+          },
+          {
+            "name": "Corsica",
+            "code": "FR",
+            "part": true
+          },
+          {
+            "name": "Croatia",
+            "code": "HR",
+            "part": false
+          },
+          {
+            "name": "Czechia",
+            "code": "CZ",
+            "part": false
+          },
+          {
+            "name": "Denmark",
+            "code": "DK",
+            "part": false
+          },
+          {
+            "name": "Estonia",
+            "code": "EE",
+            "part": false
+          },
+          {
+            "name": "Eswatini",
+            "code": "SZ",
+            "part": false
+          },
+          {
+            "name": "Falkland Islands",
+            "code": "FK",
+            "part": false
+          },
+          {
+            "name": "Faroe Islands (Denmark)",
+            "code": "FO",
+            "part": false
+          },
+          {
+            "name": "Finland",
+            "code": "FI",
+            "part": false
+          },
+          {
+            "name": "French Southern Territories",
+            "code": "TF",
+            "part": false
+          },
+          {
+            "name": "Gaza/West Bank",
+            "code": "PS",
+            "part": false
+          },
+          {
+            "name": "Germany",
+            "code": "DE",
+            "part": false
+          },
+          {
+            "name": "Gibraltar",
+            "code": "GI",
+            "part": false
+          },
+          {
+            "name": "Greece",
+            "code": "GR",
+            "part": false
+          },
+          {
+            "name": "Greenland (Denmark)",
+            "code": "GL",
+            "part": false
+          },
+          {
+            "name": "Guernsey",
+            "code": "GG",
+            "part": false
+          },
+          {
+            "name": "Hong Kong",
+            "code": "HK",
+            "part": false
+          },
+          {
+            "name": "Hungary",
+            "code": "HU",
+            "part": false
+          },
+          {
+            "name": "Iceland",
+            "code": "IS",
+            "part": false
+          },
+          {
+            "name": "Iran",
+            "code": "IR",
+            "part": false
+          },
+          {
+            "name": "Iraq",
+            "code": "IQ",
+            "part": false
+          },
+          {
+            "name": "Ireland",
+            "code": "IE",
+            "part": false
+          },
+          {
+            "name": "Isle of Man",
+            "code": "IM",
+            "part": false
+          },
+          {
+            "name": "Israel",
+            "code": "IL",
+            "part": false
+          },
+          {
+            "name": "Italy",
+            "code": "IT",
+            "part": false
+          },
+          {
+            "name": "Japan",
+            "code": "JP",
+            "part": false
+          },
+          {
+            "name": "Jersey",
+            "code": "JE",
+            "part": false
+          },
+          {
+            "name": "Jordan",
+            "code": "JO",
+            "part": false
+          },
+          {
+            "name": "Kazakhstan",
+            "code": "KZ",
+            "part": false
+          },
+          {
+            "name": "Kosovo",
+            "code": "XK",
+            "part": false
+          },
+          {
+            "name": "Kuwait",
+            "code": "KW",
+            "part": false
+          },
+          {
+            "name": "Kyrgyzstan",
+            "code": "KG",
+            "part": false
+          },
+          {
+            "name": "Latvia",
+            "code": "LV",
+            "part": false
+          },
+          {
+            "name": "Lebanon",
+            "code": "LB",
+            "part": false
+          },
+          {
+            "name": "Lesotho",
+            "code": "LS",
+            "part": false
+          },
+          {
+            "name": "Libya",
+            "code": "LY",
+            "part": false
+          },
+          {
+            "name": "Liechtenstein",
+            "code": "LI",
+            "part": false
+          },
+          {
+            "name": "Lithuania",
+            "code": "LT",
+            "part": false
+          },
+          {
+            "name": "Luxembourg",
+            "code": "LU",
+            "part": false
+          },
+          {
+            "name": "Macao",
+            "code": "MO",
+            "part": false
+          },
+          {
+            "name": "Malta",
+            "code": "MT",
+            "part": false
+          },
+          {
+            "name": "Moldova",
+            "code": "MD",
+            "part": false
+          },
+          {
+            "name": "Monaco",
+            "code": "MC",
+            "part": false
+          },
+          {
+            "name": "Mongolia",
+            "code": "MN",
+            "part": false
+          },
+          {
+            "name": "Montenegro",
+            "code": "ME",
+            "part": false
+          },
+          {
+            "name": "Morocco",
+            "code": "MA",
+            "part": false
+          },
+          {
+            "name": "Netherlands",
+            "code": "NL",
+            "part": false
+          },
+          {
+            "name": "New Zealand",
+            "code": "NZ",
+            "part": false
+          },
+          {
+            "name": "Norfolk Island (Australia)",
+            "code": "NF",
+            "part": false
+          },
+          {
+            "name": "North Korea",
+            "code": "KP",
+            "part": false
+          },
+          {
+            "name": "North Macedonia",
+            "code": "MK",
+            "part": false
+          },
+          {
+            "name": "Norway",
+            "code": "NO",
+            "part": false
+          },
+          {
+            "name": "Pitcairn (U.K.)",
+            "code": "PN",
+            "part": false
+          },
+          {
+            "name": "Plazas de Soberania",
+            "code": "ES",
+            "part": true
+          },
+          {
+            "name": "Poland",
+            "code": "PL",
+            "part": false
+          },
+          {
+            "name": "Portugal",
+            "code": "PT",
+            "part": false
+          },
+          {
+            "name": "Qatar",
+            "code": "QA",
+            "part": false
+          },
+          {
+            "name": "Réunion (France)",
+            "code": "RE",
+            "part": false
+          },
+          {
+            "name": "Romania",
+            "code": "RO",
+            "part": false
+          },
+          {
+            "name": "Saint Helena, Ascension and Tristan da Cunha",
+            "code": "SH",
+            "part": false
+          },
+          {
+            "name": "Saint Paul and New Amsterdamn Islands",
+            "code": "TF",
+            "part": true
+          },
+          {
+            "name": "Saint Pierre and Miquelon (France)",
+            "code": "PM",
+            "part": false
+          },
+          {
+            "name": "San Marino",
+            "code": "SM",
+            "part": false
+          },
+          {
+            "name": "Sardinia",
+            "code": "IT",
+            "part": true
+          },
+          {
+            "name": "Serbia",
+            "code": "RS",
+            "part": false
+          },
+          {
+            "name": "Sicily",
+            "code": "IT",
+            "part": true
+          },
+          {
+            "name": "Slovakia",
+            "code": "SK",
+            "part": false
+          },
+          {
+            "name": "Slovenia",
+            "code": "SI",
+            "part": false
+          },
+          {
+            "name": "South Georgia and the South Sandwich Islands",
+            "code": "GS",
+            "part": false
+          },
+          {
+            "name": "South Korea",
+            "code": "KR",
+            "part": false
+          },
+          {
+            "name": "Sovereign Base Areas of Akrotiri and Dhekelia",
+            "code": "CY",
+            "part": true
+          },
+          {
+            "name": "Spain",
+            "code": "ES",
+            "part": false
+          },
+          {
+            "name": "Svalbard and Jan Mayen",
+            "code": "SJ",
+            "part": false
+          },
+          {
+            "name": "Sweden",
+            "code": "SE",
+            "part": false
+          },
+          {
+            "name": "Switzerland",
+            "code": "CH",
+            "part": false
+          },
+          {
+            "name": "Syria",
+            "code": "SY",
+            "part": false
+          },
+          {
+            "name": "Tajikistan",
+            "code": "TJ",
+            "part": false
+          },
+          {
+            "name": "Tunisia",
+            "code": "TN",
+            "part": false
+          },
+          {
+            "name": "Turkmenistan",
+            "code": "TM",
+            "part": false
+          },
+          {
+            "name": "Ukraine",
+            "code": "UA",
+            "part": false
+          },
+          {
+            "name": "United Arab Emirates",
+            "code": "AE",
+            "part": false
+          },
+          {
+            "name": "United Kingdom of Great Britain and Northern Ireland",
+            "code": "GB",
+            "part": false
+          },
+          {
+            "name": "United States Minor Outlying Islands",
+            "code": "UM",
+            "part": false
+          },
+          {
+            "name": "Uzbekistan",
+            "code": "UZ",
+            "part": false
+          },
+          {
+            "name": "Vatican",
+            "code": "VA",
+            "part": false
+          },
+          {
+            "name": "Western Sahara",
+            "code": "EH",
+            "part": false
+          }
+        ]
+      }
+    ],
+    "rows": 262,
+    "unknownCategories": [],
+    "byCode": {
+      "AS": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AO": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AR": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AW": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BS": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BD": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BB": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BZ": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BO": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BQ": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BR": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BF": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CV": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "KH": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CM": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "KY": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CF": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CO": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CK": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CR": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CU": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "CW": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "DM": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "DO": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "EC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SV": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "ET": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "FM": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "FJ": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GF": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PF": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GA": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GD": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GP": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GT": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GW": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "GY": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "HT": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "HN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "IN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "ID": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "JM": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "KE": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "KI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "LA": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MY": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MV": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "ML": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MH": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MQ": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MX": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MS": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "MM": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "NC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "NI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "NG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PK": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PW": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PA": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PY": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PE": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PH": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "PR": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "BL": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "KN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "LC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "WS": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SX": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SB": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "LK": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "SR": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "TH": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "TO": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "TT": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "TC": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "UG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VU": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VE": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VN": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VG": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "VI": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "YE": {
+        "category": "Current or past Zika transmission",
+        "part": false
+      },
+      "AF": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "AU": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "BJ": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "BT": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "BW": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "BN": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TD": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "CN": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "CX": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "KM": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "CY": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "CD": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "DJ": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "EG": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "GQ": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "ER": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "FR": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "GM": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "GE": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "GH": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "GU": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "HM": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "LR": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "MW": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "MR": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "MU": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "YT": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "MZ": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "NA": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "NR": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "NP": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "NE": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "NU": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "MP": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "OM": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "CG": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "RU": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "RW": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "ST": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "SA": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "SL": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "SO": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "ZA": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "SS": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "SD": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TW": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TZ": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TL": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TG": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TK": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TR": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "TV": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "US": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "UY": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "WF": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "ZM": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "ZW": {
+        "category": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "part": false
+      },
+      "AX": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "DZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AD": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AQ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AT": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BH": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BY": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BV": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "BG": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "CA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "CL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "CC": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "HR": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "CZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "DK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "EE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "FK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "FO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "FI": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "TF": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "PS": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "DE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GI": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GR": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GG": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "HK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "HU": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IS": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IR": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IQ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "IT": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "JP": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "JE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "JO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "KZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "XK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "KW": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "KG": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LV": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LB": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LS": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LY": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LI": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LT": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "LU": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MT": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MD": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MC": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MN": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "ME": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "NL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "NZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "NF": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "KP": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "NO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "PN": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "PL": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "PT": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "QA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "RE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "RO": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SH": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "PM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "RS": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SK": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SI": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GS": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "KR": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "ES": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SJ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "CH": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "SY": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "TJ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "TN": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "TM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "UA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "AE": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "GB": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "UM": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "UZ": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "VA": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "EH": {
+        "category": "Not known to have mosquito that spreads Zika",
+        "part": false
+      },
+      "MF": {
+        "category": "Current or past Zika transmission",
+        "part": true
+      }
+    },
+    "unmatched": [],
+    "checkedAt": "2026-10-19T19:29:11.891Z"
+  }
+}

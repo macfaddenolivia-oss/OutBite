@@ -1,0 +1,197 @@
+{
+  "id": "sick",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "emergency": [
+      "cdc-dengue-manage",
+      "cdc-dengue-symptoms",
+      "cdc-dengue-pregnancy-pdf"
+    ],
+    "symptoms": [
+      "cdc-dengue-symptoms",
+      "cdc-zika-symptoms",
+      "cdc-chik-symptoms"
+    ],
+    "step1": [
+      "cdc-dengue-symptoms",
+      "cdc-dengue-testing"
+    ],
+    "step2": [
+      "cdc-dengue-manage",
+      "cdc-zika-treatment"
+    ],
+    "step3": [
+      "cdc-dengue-manage",
+      "cdc-zika-transmission",
+      "cdc-zika-prevention",
+      "cdc-travel-bites-3wk"
+    ],
+    "healthCenters": [
+      "hrsa-get-care"
+    ],
+    "urgentCare": [
+      "healthcare-gov-urgent-care"
+    ],
+    "emergencyRooms": [
+      "cms-emtala"
+    ],
+    "dengue": [
+      "cdc-dengue-manage"
+    ],
+    "zikaDiffer": [
+      "cdc-zika-symptoms"
+    ],
+    "chikungunya": [
+      "cdc-chik-symptoms"
+    ],
+    "testing": [
+      "cdc-dengue-testing",
+      "cdc-chik-testing",
+      "cdc-zika-testing",
+      "cdc-dengue-symptoms"
+    ]
+  },
+  "text": {
+    "en": {
+      "disclaimer": "This page can't diagnose you. If you feel very sick, get care now.",
+      "intro": "You don't need to know which virus you might have. The first steps are the same for all three.",
+      "symptomsHeading": "Common symptoms",
+      "symptomsIntro": "Dengue, Zika and chikungunya can start the same way, usually 3 to 14 days after a mosquito bite.",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Rash",
+        "Joint or muscle pain",
+        "Pain behind the eyes",
+        "Red eyes"
+      ],
+      "stepLabel": "Step {n}",
+      "step1Heading": "Call your doctor or clinic",
+      "step1": [
+        "Tell them where you live and about any recent travel.",
+        "A blood test can confirm which virus you have, but care doesn't have to wait for the results."
+      ],
+      "step2Heading": "While you recover",
+      "step3Heading": "Protect the people around you",
+      "step3": [
+        "Avoid mosquito bites while you’re sick: use screens, sleep under a bed net and wear repellent, so mosquitoes don’t pick up the virus. Zika can also spread through sex and during pregnancy.",
+        "After a trip, CDC says: “Prevent mosquito bites for 3 weeks after your trip.”"
+      ],
+      "zikaLink": "More about Zika",
+      "accessHeading": "No regular doctor?",
+      "healthCenters": "Community health centers see patients whether or not they have insurance, with fees based on income.",
+      "healthCentersLink": "Find a health center",
+      "urgentCare": "Urgent care is for problems that need care right away but aren't emergencies.",
+      "emergency": "Most emergency rooms must check you for an emergency and treat it (or transfer you), even if you can’t pay. Under a federal law called EMTALA, hospitals that take part in Medicare and offer emergency services must check anyone who asks for emergency care and give treatment to stabilize them, even if they can't pay.",
+      "dengue": "Dengue can sometimes become severe. Watch for the warning signs above.",
+      "zikaDiffer": "Zika is usually mild, but infection during pregnancy can cause birth defects.",
+      "chikungunya": "Chikungunya often causes joint pain that can be severe and last for months.",
+      "print": "Print a when-to-get-care card",
+      "printTitle": "When to get care",
+      "printCall": "Call your doctor or clinic. Tell them where you live and about any recent travel.",
+      "step2": [
+        "Rest.",
+        "Drink plenty of fluids.",
+        "CDC: “Take acetaminophen (also known as paracetamol outside of the US) to control fever and relieve pain.”",
+        "Don't take ibuprofen or aspirin until a doctor has ruled out dengue. They can raise the risk of bleeding."
+      ],
+      "handyHeading": "Keep this handy",
+      "handyText": "A one-page card with the warning signs and what to do, for the fridge or your bag.",
+      "urgentCareHeading": "Urgent care",
+      "emergencyRoomsHeading": "Emergency rooms must help",
+      "learnHeading": "Learn more about each virus",
+      "sourcesHeading": "Sources for this page",
+      "emergencyAction": "If you can't get there safely or feel very sick, call 911.",
+      "emergencyPregnant": "Pregnant? Contact your doctor or clinic right away for any of these symptoms.",
+      "stepsHeading": "If you feel sick",
+      "testingLine": "How testing works: tests work best early, while you still have symptoms.",
+      "testingHeading": "Testing",
+      "testing": [
+        {
+          "label": "Dengue and chikungunya",
+          "text": "A test that looks for the virus works best in the first week of symptoms. Later, an antibody test may be used."
+        },
+        {
+          "label": "Zika",
+          "text": "CDC advises testing as soon as possible, while you still have symptoms."
+        },
+        {
+          "label": "Pregnant",
+          "text": "CDC recommends Zika testing if you are pregnant, have symptoms of Zika, and traveled to an area with Zika or had sex with someone who lives in or recently traveled to one. Testing is no longer routinely recommended for pregnant people without symptoms, but you can talk with your doctor about it."
+        }
+      ],
+      "condomLink": "Condoms can reduce the chance of getting Zika from sex"
+    },
+    "es": {
+      "disclaimer": "Esta página no puede diagnosticarte. Si te sientes muy mal, busca atención ahora.",
+      "intro": "No necesitas saber qué virus podrías tener. Los primeros pasos son los mismos para los tres.",
+      "symptomsHeading": "Síntomas comunes",
+      "symptomsIntro": "El dengue, el zika y el chikungunya pueden empezar igual, por lo general de 3 a 14 días después de una picada de mosquito.",
+      "symptoms": [
+        "Fiebre",
+        "Dolor de cabeza",
+        "Sarpullido",
+        "Dolor en las articulaciones o los músculos",
+        "Dolor detrás de los ojos",
+        "Ojos rojos"
+      ],
+      "stepLabel": "Paso {n}",
+      "step1Heading": "Llama a tu médico o clínica",
+      "step1": [
+        "Diles dónde vives y si has viajado hace poco.",
+        "Una prueba de sangre puede confirmar qué virus tienes, pero la atención no tiene que esperar los resultados."
+      ],
+      "step2Heading": "Mientras te recuperas",
+      "step3Heading": "Protege a las personas a tu alrededor",
+      "step3": [
+        "Evita las picadas de mosquito mientras te sientes mal: usa mallas, duerme bajo un mosquitero y ponte repelente, para que los mosquitos no recojan el virus. El zika también se puede transmitir por vía sexual y durante el embarazo.",
+        "Después de un viaje, los CDC dicen que evites las picadas de mosquito durante 3 semanas."
+      ],
+      "zikaLink": "Más sobre el zika",
+      "accessHeading": "¿No tienes un médico regular?",
+      "healthCenters": "Los centros de salud comunitarios atienden a pacientes tengan o no seguro médico, con tarifas según sus ingresos.",
+      "healthCentersLink": "Busca un centro de salud",
+      "urgentCare": "El cuidado urgente es para problemas que necesitan atención pronto pero que no son emergencias.",
+      "emergency": "La mayoría de las salas de emergencias tienen que evaluarte en una emergencia y tratarte (o trasladarte), aunque no puedas pagar. Por una ley federal llamada EMTALA, los hospitales que participan en Medicare y ofrecen servicios de emergencia tienen que evaluar a cualquier persona que pida atención de emergencia y darle tratamiento para estabilizarla, aunque no pueda pagar.",
+      "dengue": "El dengue a veces puede volverse grave. Presta atención a las señales de alarma de arriba.",
+      "zikaDiffer": "El zika suele ser leve, pero la infección durante el embarazo puede causar defectos de nacimiento.",
+      "chikungunya": "El chikungunya suele causar dolor en las articulaciones que puede ser fuerte y durar meses.",
+      "print": "Imprimir una tarjeta de cuándo buscar atención",
+      "printTitle": "Cuándo buscar atención",
+      "printCall": "Llama a tu médico o clínica. Diles dónde vives y si has viajado hace poco.",
+      "step2": [
+        "Descansa.",
+        "Toma muchos líquidos.",
+        "Los CDC dicen: “Toma acetaminofén (también llamado paracetamol fuera de Estados Unidos) para controlar la fiebre y aliviar el dolor”.",
+        "No tomes ibuprofeno ni aspirina hasta que un médico descarte el dengue. Estos medicamentos pueden aumentar el riesgo de sangrado."
+      ],
+      "handyHeading": "Tenlo a mano",
+      "handyText": "Una tarjeta de una página con las señales de alarma y qué hacer, para el refrigerador o tu bolso.",
+      "urgentCareHeading": "Cuidado urgente",
+      "emergencyRoomsHeading": "Las salas de emergencia deben ayudar",
+      "learnHeading": "Más sobre cada virus",
+      "sourcesHeading": "Fuentes de esta página",
+      "emergencyAction": "Si no puedes llegar de forma segura o te sientes muy mal, llama al 911.",
+      "emergencyPregnant": "¿Estás embarazada? Comunícate con tu médico o profesional de la salud de inmediato si tienes cualquiera de estos síntomas.",
+      "stepsHeading": "Si te sientes mal",
+      "testingLine": "Cómo funcionan las pruebas: funcionan mejor pronto, mientras todavía tienes síntomas.",
+      "testingHeading": "Pruebas",
+      "testing": [
+        {
+          "label": "Dengue y chikungunya",
+          "text": "Una prueba que busca el virus funciona mejor en la primera semana de síntomas. Más adelante, se puede usar una prueba de anticuerpos."
+        },
+        {
+          "label": "Zika",
+          "text": "Los CDC aconsejan hacerse la prueba lo antes posible, mientras todavía tienes síntomas."
+        },
+        {
+          "label": "Embarazo",
+          "text": "Los CDC recomiendan la prueba del zika si estás embarazada, tienes síntomas del zika y viajaste a una zona con zika o tuviste relaciones sexuales con alguien que vive en una de esas zonas o que viajó a una hace poco. Ya no se recomienda la prueba de rutina para las personas embarazadas sin síntomas, pero puedes hablar con tu médico sobre ella."
+        }
+      ],
+      "condomLink": "Los condones pueden reducir la probabilidad de contraer el zika por vía sexual"
+    }
+  },
+  "healthCenterTool": "hrsa-find-health-center"
+}

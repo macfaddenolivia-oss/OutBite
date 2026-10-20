@@ -1,0 +1,81 @@
+{
+  "id": "Y1",
+  "layer": "yard",
+  "effortGroup": "regular",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "weekly",
+  "audiences": [
+    "all",
+    "renter",
+    "homeowner"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-control-home",
+    "who-dengue",
+    "barrera-2011",
+    "dussault-2022"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Every week: empty, scrub, flip, cover, or toss anything holding water",
+      "summary": "Aedes mosquitoes lay their eggs in small containers right around homes.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "The weekly check removes the places where Aedes mosquitoes lay eggs. They breed in small containers right around homes.",
+        "CDC and WHO both say to do it every week."
+      ],
+      "cantDo": [
+        "Your weekly check can't reach your neighbors' yards or empty lots.",
+        "Studies haven't yet shown that the weekly check prevents infection on its own."
+      ],
+      "research": [
+        {
+          "text": "In San Juan's dry season, most young mosquitoes came from containers that people use and look after.",
+          "cite": [
+            "barrera-2011"
+          ]
+        },
+        {
+          "text": "In Ponce, about 1 in 3 households did at least 3 of 6 prevention steps. That is why it helps to make this an easy weekly routine.",
+          "cite": [
+            "dussault-2022"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Cada semana: vacía, friega, voltea, tapa o bota todo lo que guarde agua",
+      "summary": "Los mosquitos Aedes ponen sus huevos en recipientes pequeños alrededor de las casas.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "La revisión semanal elimina los lugares donde los mosquitos Aedes ponen huevos. Estos mosquitos se crían en recipientes pequeños alrededor de las casas.",
+        "Los CDC y la OMS dicen que se haga cada semana."
+      ],
+      "cantDo": [
+        "Tu revisión semanal no llega a los patios de tus vecinos ni a los solares vacíos.",
+        "Los estudios todavía no han demostrado que la revisión semanal prevenga la infección por sí sola."
+      ],
+      "research": [
+        {
+          "text": "En la temporada seca en San Juan, la mayoría de los mosquitos jóvenes salieron de recipientes que la gente usa y cuida.",
+          "cite": [
+            "barrera-2011"
+          ]
+        },
+        {
+          "text": "En Ponce, cerca de 1 de cada 3 hogares hacía al menos 3 de 6 medidas de prevención. Por eso ayuda convertir esto en una rutina semanal fácil.",
+          "cite": [
+            "dussault-2022"
+          ]
+        }
+      ]
+    }
+  }
+}

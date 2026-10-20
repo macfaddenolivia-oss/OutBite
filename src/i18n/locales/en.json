@@ -1,0 +1,769 @@
+{
+  "_meta": {
+    "name": "English",
+    "htmlLang": "en",
+    "ogLocale": "en_US",
+    "dir": "ltr"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "mainNav": "Main",
+    "footerNav": "More pages",
+    "languageNav": "Language",
+    "menu": "Menu",
+    "alertRegion": "Alert"
+  },
+  "header": {
+    "sick": "I think I'm sick",
+    "diseases": "Diseases"
+  },
+  "footer": {
+    "disclaimer": "{siteName} shares general health information, not medical advice. If you feel sick, contact a doctor or clinic. In an emergency, call 911.",
+    "diseasesHeading": "Diseases",
+    "aboutHeading": "About this site"
+  },
+  "alert": {
+    "label": "Alert",
+    "dismiss": "Hide this alert"
+  },
+  "disclaimer": {
+    "heading": "This is not medical advice",
+    "body": "This page shares general information. It can't diagnose you or replace a doctor. If you feel sick, contact a doctor or clinic. If you think it’s an emergency, call 911 or go to a clinic or emergency room right away."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "We couldn't find that page. It may have moved.",
+    "home": "Go to the home page"
+  },
+  "home": {
+    "cta": {
+      "protect": "Protect where I live",
+      "nearMe": "Is it near me?"
+    },
+    "cases": {
+      "asOf": "As of {date}"
+    },
+    "spread": {
+      "heading": "How it spreads",
+      "intro": "The same Aedes mosquitoes spread all three viruses, from person to mosquito to person.",
+      "step1": "A mosquito bites a person who has the virus.",
+      "step2": "The virus grows inside the mosquito.",
+      "step3": "The mosquito bites someone else and can pass the virus on.",
+      "link": "Learn how it spreads"
+    },
+    "layers": {
+      "heading": "Four layers of protection",
+      "intro": "Protection works best when it's built into your home and your community, so it keeps working even on busy days.",
+      "body": {
+        "title": "Your body",
+        "summary": "Repellent and clothing that block bites."
+      },
+      "home": {
+        "title": "Your home",
+        "summary": "Screens, closed doors, and cool air keep mosquitoes outside."
+      },
+      "yard": {
+        "title": "Your yard",
+        "summary": "Empty standing water every week so mosquitoes can't breed."
+      },
+      "community": {
+        "title": "Your community",
+        "summary": "Work with neighbors and local programs to cover the whole block."
+      },
+      "link": "See all the steps"
+    },
+    "hero": {
+      "tag": "Dengue · Zika · Chikungunya",
+      "line1": "Simple steps around your home",
+      "line2": "keep mosquitoes away.",
+      "subhead": "They can spread dengue, Zika and chikungunya. Here's how to protect your family and neighbors.",
+      "intro": "Dengue, Zika and chikungunya spread through Aedes mosquito bites. Here’s how they spread, how to protect yourself, and where cases are reported.",
+      "travelLink": "Traveling soon? See what CDC says for your trip"
+    },
+    "near": {
+      "stateLabel": "State or territory",
+      "allUS": "All of the U.S.",
+      "zipLabel": "ZIP code",
+      "privacy": "No location tracking.",
+      "unit": "cases",
+      "us": "the U.S.",
+      "zipNotFound": "We couldn’t find that ZIP code. Choose your state or territory instead.",
+      "zipShort": "Enter a 5-digit ZIP code.",
+      "zipMulti": "This ZIP code is in more than one state. Choose one:",
+      "zipFound": "Showing {place}.",
+      "zipGo": "Go",
+      "zipNote": "Case numbers are by state, so your ZIP code shows your state’s numbers.",
+      "showing": "These numbers are for {place}.",
+      "seeState": "See your state or territory",
+      "place": "In {place} this year",
+      "zipPlaceholder": "e.g. 33101",
+      "prLine": "Dengue is common in Puerto Rico.",
+      "prLink": "See Puerto Rico’s numbers"
+    },
+    "spreadCta": "How it spreads",
+    "layersGraphic": {
+      "text": "Every layer you add keeps more mosquitoes away. The outer layers protect the most people, including you.",
+      "label": "Four nested squares labeled community, yard, home and body surround a person; mosquitoes outside bounce off the outer layer.",
+      "community": "COMMUNITY",
+      "yard": "YARD",
+      "home": "HOME",
+      "body": "BODY",
+      "rows": {
+        "body": {
+          "name": "Body",
+          "desc": "Repellent and clothing that block bites."
+        },
+        "home": {
+          "name": "Home",
+          "desc": "Screens and closed doors keep mosquitoes out."
+        },
+        "yard": {
+          "name": "Yard",
+          "desc": "Empty and scrub anything that holds water once a week."
+        },
+        "community": {
+          "name": "Community",
+          "desc": "Work with neighbors and local programs."
+        }
+      }
+    },
+    "tiles": {
+      "story": {
+        "title": "How it spreads",
+        "text": "A short story about Ana shows how these viruses spread.",
+        "button": "See the story"
+      },
+      "protect": {
+        "title": "Protect yourself",
+        "text": "Simple steps for your body, home, yard and community.",
+        "button": "See the steps"
+      },
+      "nearMe": {
+        "title": "Is it near me?",
+        "text": "Reported cases in every state and territory, from CDC.",
+        "button": "See the map"
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "nav": "Home",
+      "summary": "Simple steps around your home keep mosquitoes away. They can spread dengue, Zika and chikungunya."
+    },
+    "howItSpreads": {
+      "title": "How it spreads",
+      "nav": "How it spreads",
+      "summary": "Follow the virus from person to mosquito to person, and explore the spots around your home where mosquitoes breed."
+    },
+    "protect": {
+      "title": "Protect yourself and your home",
+      "nav": "Protect",
+      "summary": "Practical steps in layers: your body, your home, your yard, and your community."
+    },
+    "community": {
+      "title": "Protect your community",
+      "nav": "Community",
+      "summary": "Mosquitoes don't stop at property lines. Work with neighbors, landlords and local programs."
+    },
+    "nearMe": {
+      "title": "Is it near me?",
+      "nav": "Is it near me?",
+      "summary": "Recent case counts for your state or territory, from CDC and health department data."
+    },
+    "sick": {
+      "title": "Think you might be sick?",
+      "nav": "I think I'm sick",
+      "summary": "What to do first, and the warning signs that mean you need care right away."
+    },
+    "tools": {
+      "title": "Tools",
+      "nav": "Tools",
+      "summary": "Checklists, a quiz, reminders, and printables to help you keep up the habit."
+    },
+    "checklist": {
+      "title": "Weekly mosquito check",
+      "nav": "Weekly mosquito check",
+      "summary": "A quick once-a-week check of your yard, home and routine, with a box to tick for each step."
+    },
+    "quiz": {
+      "title": "How layered is my protection?",
+      "nav": "How layered is my protection?",
+      "summary": "Answer 8 quick questions and see your three most useful next steps. Nothing is stored or sent."
+    },
+    "reminders": {
+      "title": "Seasonal reminders",
+      "nav": "Reminders",
+      "summary": "Add a weekly check and a start-of-season reminder to your own calendar. No account needed, and nothing is sent."
+    },
+    "printables": {
+      "title": "Printables",
+      "nav": "Printables",
+      "summary": "Checklist, neighbor flyer, clean-up day flyer, “Spot the Aedes” poster, when-to-get-care card and trip checklist, to print or save as a PDF."
+    },
+    "sources": {
+      "title": "Sources and methods",
+      "nav": "Sources",
+      "summary": "Where our information comes from, how we rate the evidence, and how we check it."
+    },
+    "dengue": {
+      "title": "Dengue",
+      "nav": "Dengue",
+      "summary": "How dengue spreads, its symptoms and when to get care, pregnancy, and local data."
+    },
+    "zika": {
+      "title": "Zika",
+      "nav": "Zika",
+      "summary": "How Zika spreads, its symptoms and when to get care, pregnancy, and local data."
+    },
+    "chikungunya": {
+      "title": "Chikungunya",
+      "nav": "Chikungunya",
+      "summary": "How chikungunya spreads, its symptoms and when to get care, pregnancy, and local data."
+    },
+    "faq": {
+      "title": "Questions and answers",
+      "nav": "FAQ",
+      "summary": "Short answers about dengue, Zika and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from."
+    },
+    "about": {
+      "title": "About {siteName}",
+      "nav": "About",
+      "summary": "Why Outbite exists, who it’s for, how it’s built and who made it."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "nav": "Privacy",
+      "summary": "Outbite doesn’t ask for your name, email or location, and doesn’t use cookies."
+    },
+    "travel": {
+      "title": "Traveling soon?",
+      "nav": "Traveling soon?",
+      "summary": "See what CDC says about dengue, chikungunya and Zika where you’re going, and what to do before, during and after your trip.",
+      "menu": "Travel"
+    },
+    "glossary": {
+      "title": "Words to know",
+      "nav": "Words to know",
+      "summary": "Plain definitions of words used on this site, from CDC and EPA."
+    }
+  },
+  "protect": {
+    "intro": "Here are practical steps, from your own skin out to your whole neighborhood. They're suggestions, not orders: pick the ones that fit your home and your budget.",
+    "labelsLink": "How we rate evidence",
+    "controlsHeading": "Arrange the cards",
+    "audienceLabel": "Show first:",
+    "audienceHint": "Matching tips move to the top. Nothing is hidden.",
+    "clear": "Clear",
+    "statusNone": "No highlights. Cards are in their usual order.",
+    "statusSome": "{count} tips match. They're at the top of each section.",
+    "pickerHeading": "Choose a layer of protection",
+    "keyLine": "✓ = CDC or EPA recommends it. Tap a tip for details and what the research says.",
+    "openAll": "Open all",
+    "closeAll": "Close all",
+    "quizNudge": "Not sure where to start? Answer 8 quick questions and get your top 3 steps.",
+    "quizLink": "Take the quiz"
+  },
+  "card": {
+    "guidance": "Official guidance",
+    "evidence": "Evidence",
+    "cost": "Cost",
+    "effort": "Effort",
+    "for": "For",
+    "chip": {
+      "cdc-epa": "CDC/EPA recommends",
+      "who": "WHO recommends",
+      "none": "No official recommendation",
+      "unknown": "Agencies say effectiveness unknown"
+    },
+    "level": {
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "limited": "Limited",
+      "emerging": "Emerging",
+      "not-supported": "Not supported",
+      "linked": "Same as the cards it supports",
+      "not-rated": "Not rated (CDC guidance only)"
+    },
+    "costLabel": {
+      "free": "Free",
+      "program": "Program-run",
+      "ask": "Cost: ask a travel clinic or pharmacy"
+    },
+    "costSr": {
+      "$": "low cost",
+      "$$": "medium cost",
+      "$$$": "high cost"
+    },
+    "effortLabel": {
+      "one-time": "One-time",
+      "each-time": "Each time",
+      "daily": "Daily",
+      "nightly": "Nightly",
+      "weekly": "Weekly",
+      "as-needed": "As needed",
+      "ongoing": "Ongoing"
+    },
+    "audience": {
+      "all": "Everyone",
+      "pregnant": "Pregnant",
+      "renter": "Renters",
+      "homeowner": "Homeowners",
+      "kids": "Kids",
+      "traveler": "Travelers"
+    },
+    "matches": "(matches your selection)",
+    "research": "What the research says",
+    "canDo": "What it can do",
+    "cantDo": "What it can't do",
+    "notes": "Research notes",
+    "tips": "Good to know",
+    "sources": "Sources",
+    "seeAlso": "See also",
+    "pending": "Source check pending",
+    "travel": "When you travel",
+    "sourceCdc": "Source: CDC",
+    "safety": {
+      "heading": "Product safety",
+      "poison": "Poison Control (if someone swallows a product or is exposed to it)",
+      "npic": "National Pesticide Information Center (questions about products)"
+    },
+    "asOf": "As of {date}"
+  },
+  "sourcesPage": {
+    "intro": "Where our information comes from, how we rate the evidence, and how we check it.",
+    "listen": {
+      "heading": "Who we listen to",
+      "lead": "Outbite follows public health agencies first. Research comes in only to explain how well something works.",
+      "steps": [
+        {
+          "title": "CDC & EPA first",
+          "text": "U.S. health and environment agencies. Every tip is checked against their advice first, and all case numbers come from CDC."
+        },
+        {
+          "title": "World Health Organization (WHO) to fill gaps",
+          "text": "When CDC and EPA don’t cover a topic, we use guidance from the World Health Organization."
+        },
+        {
+          "title": "Research studies",
+          "text": "Published studies explain how well a step works, in “What the research says” on each tip."
+        }
+      ]
+    },
+    "rating": {
+      "heading": "How we label tips",
+      "lead": "Each tip has two separate labels: whether agencies recommend it, and how strong the research is.",
+      "guidanceHeading": "Official guidance",
+      "evidenceHeading": "Evidence",
+      "evidenceIntro": "The badge always says what it measures, like “Strong: fewer bites”.",
+      "guidance": {
+        "cdc-epa": "Named in current CDC or EPA guidance.",
+        "who": "Named in current WHO guidance, on a topic CDC and EPA don’t cover.",
+        "none": "Based on research or a community program; agencies haven’t issued guidance.",
+        "unknown": "Agencies say they don’t know if it works, like unregistered “natural” repellents."
+      },
+      "evidence": {
+        "strong": "Consistent, well-designed evidence.",
+        "moderate": "Consistent evidence for a step along the way (fewer bites or mosquitoes), or one well-designed study on infection.",
+        "limited": "Mixed results, or few and small studies.",
+        "emerging": "A new method still being studied.",
+        "not-supported": "Evidence shows it doesn’t work.",
+        "not-rated": "The step comes from CDC or EPA guidance; Outbite hasn’t rated research for it."
+      }
+    },
+    "numbers": {
+      "heading": "How the numbers update",
+      "lead": "Every case number and travel notice comes straight from CDC. We never type them in by hand.",
+      "publishes": {
+        "title": "CDC publishes",
+        "text": "Weekly case counts by state and territory (NNDSS)."
+      },
+      "checks": {
+        "title": "Outbite checks",
+        "text": "Once the site is live, a script checks every day for CDC’s newest week.",
+        "textScheduled": "Every day, a script checks for CDC’s newest week."
+      },
+      "shows": {
+        "title": "The site shows CDC’s date",
+        "text": "“Data through the week ending {date}.”"
+      },
+      "lastChecked": "Last checked:",
+      "dataThrough": "CDC data through:",
+      "weekEnding": "week ending {date}",
+      "listHeading": "Full list of data sources"
+    },
+    "reviews": {
+      "heading": "How content is reviewed",
+      "lead": "Expert reviews are planned. We’ll mark each review done only when it’s finished.",
+      "items": {
+        "clinician": {
+          "name": "Clinician review",
+          "scope": "Health and symptom content"
+        },
+        "entomologist": {
+          "name": "Entomologist review",
+          "scope": "Mosquito facts and drawings"
+        },
+        "spanish": {
+          "name": "Spanish review",
+          "scope": "All Spanish text"
+        }
+      },
+      "status": {
+        "planned": "Planned",
+        "in-progress": "In progress",
+        "done": "Done, {date}"
+      }
+    },
+    "data": {
+      "items": [
+        {
+          "name": "CDC National Notifiable Diseases Surveillance System (NNDSS), Weekly Data",
+          "note": "Reported cases this year by state and territory, including travel-related cases.",
+          "url": "https://data.cdc.gov/NNDSS/NNDSS-Weekly-Data/x9gk-5huc",
+          "small": "Dataset ID: x9gk-5huc"
+        },
+        {
+          "name": "CDC: Zika cases in the United States",
+          "note": "Local and travel-associated cases for the whole country.",
+          "url": "https://www.cdc.gov/zika/zika-cases-us/index.html"
+        },
+        {
+          "name": "CDC: current dengue data",
+          "note": "Local and travel-associated dengue cases (linked; the numbers are in a chart).",
+          "url": "https://www.cdc.gov/dengue/data-research/facts-stats/current-data.html"
+        },
+        {
+          "name": "CDC: chikungunya data and maps",
+          "note": "Local and travel-associated chikungunya cases (linked).",
+          "url": "https://www.cdc.gov/chikungunya/data-maps/index.html"
+        },
+        {
+          "name": "CDC Travel Health Notices",
+          "note": "Current notices about dengue, Zika and chikungunya.",
+          "url": "https://wwwnc.cdc.gov/travel/notices"
+        },
+        {
+          "name": "U.S. Census Bureau cartographic boundary files (2017)",
+          "note": "Map outlines of the states, D.C. and the territory insets (Puerto Rico, U.S. Virgin Islands, Guam, Northern Mariana Islands, American Samoa; insets not to scale); public domain, via the us-atlas package (ISC license).",
+          "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html"
+        },
+        {
+          "name": "U.S. Census Bureau: 2020 ZCTA to County relationship file",
+          "note": "The ZIP code box on “Is it near me?”: which state or territory each ZIP Code Tabulation Area is in (all of them, for a ZIP that crosses state lines). ZCTAs are close to, but not exactly, USPS ZIP codes, so some ZIPs (like PO boxes) aren’t found. Public domain. Read by a script when the site is built; your ZIP code is looked up in your browser.",
+          "url": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html"
+        },
+        {
+          "name": "CDC: Areas with Risk of Dengue",
+          "note": "The world list of countries by CDC’s dengue risk category, for the world maps on “Traveling soon?” and the disease pages (read daily, with CDC’s date and notes).",
+          "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
+        },
+        {
+          "name": "CDC: Areas at Risk for Chikungunya",
+          "note": "Current outbreaks and countries with elevated risk for U.S. travelers, for the world maps on “Traveling soon?” and the disease pages.",
+          "url": "https://www.cdc.gov/chikungunya/data-maps/index.html"
+        },
+        {
+          "name": "CDC: Countries & Territories at Risk for Zika",
+          "note": "CDC’s Zika geographic risk classifications (the data file the page’s map uses), for the world maps on “Traveling soon?” and the disease pages.",
+          "url": "https://www.cdc.gov/zika/geo/index.html"
+        },
+        {
+          "name": "Natural Earth (via world-atlas)",
+          "note": "World map outlines; public domain (Natural Earth), via the world-atlas package (ISC license). Small islands are shown as dots.",
+          "url": "https://www.naturalearthdata.com/"
+        }
+      ]
+    }
+  },
+  "places": {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "DC": "District of Columbia",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PA": "Pennsylvania",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming",
+    "PR": "Puerto Rico",
+    "VI": "U.S. Virgin Islands",
+    "GU": "Guam",
+    "AS": "American Samoa",
+    "MP": "Northern Mariana Islands"
+  },
+  "sick": {
+    "source": "Source",
+    "call911": "Call 911",
+    "sources": "Sources",
+    "pageCountOne": "1 page",
+    "pageCount": "{count} pages"
+  },
+  "dash": {
+    "numbersHeading": "Reported cases this year",
+    "unitNote": "Reported{ref} cases this year, including travel-related",
+    "cases": "cases",
+    "notReported": "not reported",
+    "noCases": "no cases reported",
+    "countLabel": "{count} cases",
+    "countLabelOne": "1 case",
+    "seeMap": "See the map and CDC travel notices",
+    "intro": "Reported cases of dengue, Zika and chikungunya by state and territory, from CDC.",
+    "pickHeading": "Choose your state or territory",
+    "meaningHeading": "What these numbers mean",
+    "meaning1": "Most cases in U.S. states are in people who got sick while traveling.",
+    "meaning2": "A 0 doesn't mean there's no risk: protect your home anyway.",
+    "moreHeading": "More about these numbers",
+    "more": [
+      "Reporting takes time. Health departments often add cases weeks later, so this year's numbers keep growing.",
+      "Weekly numbers are cases newly reported to CDC that week, not people who got sick that week. Reports can arrive weeks late, so many weeks show none.",
+      "These totals include people who were infected while traveling. CDC publishes the split between local and travel cases only for the whole country (shown below), not for each state here.",
+      "CDC counts each case where the person lives, not where they were bitten.",
+      "All numbers are early counts that can still change as more reports come in.",
+      "Many mild cases are never tested, so the real number is higher. Don't compare places or years directly."
+    ],
+    "protectLink": "See how to protect where you live",
+    "placeHeading": "In {place} in {year}",
+    "splitHeading": "Across the U.S.: local and travel cases",
+    "splitLine": "{local} locally acquired and {travel} travel-associated in U.S. states; {tlocal} locally acquired and {ttravel} travel-associated in U.S. territories ({year}).",
+    "splitAsOf": "CDC, as of {date}",
+    "splitLink": "See CDC's breakdown of local and travel cases",
+    "mapHeading": "Map of reported cases",
+    "tabsLabel": "Choose a virus",
+    "mapNote": "Darker = more reported cases, mostly from travel in U.S. states.",
+    "mapLabel": "Map of the U.S. states, DC and territories, shaded by reported {disease} cases this year. The same numbers are in the table.",
+    "legendHeading": "Reported cases in {year}",
+    "bins": [
+      "1",
+      "2–9",
+      "10–49",
+      "50–199",
+      "200 or more"
+    ],
+    "legendNone": "No cases reported",
+    "legendNotReported": "Not reported",
+    "legendLocal": "Ongoing local spread (CDC)",
+    "viewTable": "View as table",
+    "viewMap": "View as map",
+    "tableCaption": "Reported{ref} cases by state and territory: this year (including travel-related) and the week ending {date}. 0 = none reported to CDC so far this year; reports can arrive late. Select a column heading to sort.",
+    "colPlace": "State or territory",
+    "noticesHeading": "CDC travel notices",
+    "noticesAsOf": "Per CDC, as of {date}",
+    "noticesIntro": "Current notices about dengue, Zika and chikungunya for places travelers visit.",
+    "levelNames": {
+      "1": "Level 1 – Practice Usual Precautions",
+      "2": "Level 2 – Practice Enhanced Precautions",
+      "3": "Level 3 – Reconsider Nonessential Travel",
+      "4": "Level 4 – Avoid All Travel"
+    },
+    "posted": "Posted {date}",
+    "noNotices": "CDC has no current travel notices for these viruses.",
+    "allNotices": "See all CDC travel notices",
+    "prdhNote": "Puerto Rico's Department of Health may have more recent numbers, broken down by municipality.",
+    "prdhLink": "Puerto Rico Department of Health: viruses spread by mosquitoes (arbovirus surveillance)",
+    "worldwide": "Worldwide",
+    "sourceCdc": "Source: CDC",
+    "sourcesHeading": "Sources",
+    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC Travel Health Notices; CDC case pages for dengue, Zika and chikungunya. Map outlines and ZIP codes: U.S. Census Bureau.",
+    "lastChecked": "Last checked {date}: the last day Outbite looked for new CDC data.",
+    "short": {
+      "DC": "D.C.",
+      "PR": "Puerto Rico",
+      "VI": "U.S. Virgin Is.",
+      "GU": "Guam",
+      "AS": "Am. Samoa",
+      "MP": "N. Mariana Is."
+    },
+    "selected": "Showing {place}",
+    "inSentence": {
+      "dengue": "dengue",
+      "zika": "Zika",
+      "chikungunya": "chikungunya"
+    },
+    "sourceLabel": "Source:",
+    "sourceCdcName": "CDC",
+    "sourceRest": "Counts include cases reported up to {date}. CDC updates these numbers weekly.",
+    "mapHint": "Tap a state or territory on the map to see its numbers.",
+    "mapHintSr": "Select a state or territory on the map to see its numbers.",
+    "notToScale": "Territories not to scale",
+    "weekWith": "{n} newly reported{ref} to CDC in the week ending {date}",
+    "weekWithOne": "{n} newly reported{ref} to CDC in the week ending {date}",
+    "weekNone": "None reported{ref} to CDC in the week ending {date}",
+    "weekMissing": "Not reported for this week",
+    "noteRefLabel": "see note",
+    "reportedNote": "*Reported cases are only the ones diagnosed and reported to CDC. The real number of infections is higher.",
+    "colYear": "this year",
+    "colWeek": "week ending {date}",
+    "allUSHeading": "all of the U.S. (states, D.C. and territories)",
+    "backToUS": "Back to all of the U.S.",
+    "allUSMissing": "Doesn’t include places CDC hasn’t reported yet.",
+    "casesIn": "Cases reported in {year}",
+    "reportedThisYear": "reported{ref} this year, including travel-related",
+    "localSpreadOf": "ongoing local {disease} spread",
+    "travelWorld": "Traveling? See CDC’s risk around the world",
+    "dataThrough": "CDC data through: week ending {date}.",
+    "lastCheckedExplain": "Last checked {date}: the last day Outbite looked for new CDC data.",
+    "splitExplain": "Locally acquired: caught from a mosquito where the person lives. Travel-associated: caught while traveling."
+  },
+  "faqLinks": {
+    "faqNumbers": "Where do these numbers come from?",
+    "faqReal": "Why might the real number be higher?",
+    "faqRepellents": "Which repellents work?",
+    "faqRepellentSafety": "Is repellent safe for children and during pregnancy?",
+    "faqSpot": "How to tell an Aedes mosquito apart",
+    "faqLabel": "From our questions and answers",
+    "faqSpotShort": "Spotting Aedes"
+  },
+  "diseasePage": {
+    "aboutLink": "About {disease}",
+    "inSentence": {
+      "dengue": "dengue",
+      "zika": "Zika",
+      "chikungunya": "chikungunya"
+    },
+    "placeInSentence": {
+      "VI": "the U.S. Virgin Islands"
+    },
+    "switchLabel": "Dengue, Zika and chikungunya pages",
+    "glanceHeading": "At a glance",
+    "glance": {
+      "spreadBy": "Spread by",
+      "symptomsStart": "Symptoms start",
+      "howManySick": "How many get sick",
+      "vaccine": "Vaccine"
+    },
+    "asOf": "As of {date}",
+    "vaccineLink": "CDC’s current vaccine page",
+    "symptomsHeading": "Symptoms and warning signs",
+    "sickButton": "I think I’m sick",
+    "riskHeading": "Who’s at higher risk",
+    "whereHeading": "Where it spreads",
+    "reportedAllUS": "reported{ref} cases in all of the U.S. in {year}, including travel-related",
+    "seeMap": "See the {disease} map",
+    "compareHeading": "Dengue, Zika and chikungunya compared",
+    "compare": {
+      "mosquitoes": "Spread by mosquitoes",
+      "other": "Other ways it spreads",
+      "symptoms": "Common symptoms",
+      "risk": "Most serious risk",
+      "vaccine": "Vaccine ({date})"
+    },
+    "protectAll": "How to protect yourself from all three",
+    "and": "and",
+    "zikaSplit": "CDC lists {travel} as travel-associated and {local} as locally acquired (as of {date})."
+  },
+  "worldRisk": {
+    "heading": "Around the world",
+    "mapLabel": "World map: {disease} risk by country, per CDC. The same information is in the list.",
+    "viewList": "View as list",
+    "viewListAz": "See every country’s CDC risk, A to Z",
+    "viewMap": "View as map",
+    "legendTitle": "Per CDC",
+    "notListed": "Not on CDC’s list",
+    "part": "Only part of the country (see the list)",
+    "perCdc": "Per CDC, last updated {date}",
+    "asOf": "classifications as of {date}",
+    "source": "CDC page",
+    "notices": "CDC Travel Health Notices for {disease}",
+    "noNotices": "No current CDC Travel Health Notices for {disease}.",
+    "allNotices": "All CDC Travel Health Notices",
+    "noteFromCdc": "Note from CDC",
+    "tapHint": "Tap or hover over a country to see its name and category.",
+    "categories": {
+      "dengue": {
+        "Frequent or continuous": "Frequent or continuous",
+        "Sporadic or uncertain": "Sporadic or uncertain",
+        "Risk varies based on region": "Risk varies by region",
+        "Risk varies by region": "Risk varies by region"
+      },
+      "chikungunya": {
+        "Current outbreaks": "Current outbreaks",
+        "Countries with elevated risk for U.S. travelers": "Countries with elevated risk for U.S. travelers"
+      },
+      "zika": {
+        "Current or past Zika transmission": "Current or past Zika transmission",
+        "Known to have mosquito that spreads Zika, but no reported Zika cases": "Known to have mosquito that spreads Zika, but no reported Zika cases",
+        "Not known to have mosquito that spreads Zika": "Not known to have mosquito that spreads Zika"
+      }
+    },
+    "regions": {
+      "Africa": "Africa",
+      "Americas": "Americas",
+      "Asia": "Asia",
+      "Europe": "Europe",
+      "Oceania/Pacific Islands": "Oceania/Pacific Islands"
+    },
+    "placeNames": {},
+    "chikFootnote": "",
+    "codeNames": {},
+    "notListedNote": "Not on CDC’s list doesn’t mean there’s no risk.",
+    "levels": "CDC ranks Travel Health Notices from Level 1 to Level 4: Level 1 – Practice Usual Precautions; Level 2 – Practice Enhanced Precautions; Level 3 – Reconsider Nonessential Travel; Level 4 – Avoid All Travel."
+  },
+  "actions": {
+    "groupLabel": "Page tools",
+    "listen": "Listen",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stop": "Stop",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "copyFailed": "Couldn’t copy the link. Copy it from the address bar.",
+    "textSize": "Text size",
+    "sizes": {
+      "100": "Normal text",
+      "115": "Larger text",
+      "130": "Largest text"
+    }
+  },
+  "lastReviewed": {
+    "label": "Last reviewed",
+    "note": "The date a person last checked this page."
+  },
+  "social": {
+    "description": "Dengue, Zika and chikungunya: how they spread and how to protect your family.",
+    "imageAlt": "Outbite: Stop the bite before it starts. An Aedes mosquito over light-blue ground."
+  }
+}

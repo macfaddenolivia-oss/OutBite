@@ -1,0 +1,354 @@
+---
+// Seasonal reminders: calendar files (.ics) made in the visitor's browser, no account,
+// no outside calendar service, nothing sent. Two reminders:
+// 1. Weekly water check: chosen weekday and time (default Saturday 9:00 AM), repeating
+//    every week, listing the weekly checklist's Outside · Yard items and its link.
+// 2. Start of mosquito season: an all-day event on the 1st of the chosen month, every
+//    year, with a link to Protect. "Typical season, per CDC" shows only for places and
+//    months CDC states (content.cdcSeason; empty when CDC gives none).
+// "Remind me" (on by default) adds an alert. Without JavaScript: two ready-made files
+// with the defaults ([lang]/tools/reminders/[file].ts).
+// Text: src/content/reminders.json; file format: src/lib/ics.js.
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import content from '../../../content/reminders.json';
+import printables from '../../../content/printables.json';
+import { sources } from '../../../lib/suggestions';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = content.text[L];
+const htmlLang = getLocale(lang).meta.htmlLang;
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const d = content.defaults;
+
+// Weekday and month names in this language (Sunday = 0; January = 1).
+const dayName = (i: number) => new Intl.DateTimeFormat(htmlLang, { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + i)));
+const monthName = (m: number) => new Intl.DateTimeFormat(htmlLang, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, m - 1, 1)));
+const cap = (s: string) => s.charAt(0).toLocaleUpperCase(htmlLang) + s.slice(1);
+const days = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ value: i, label: cap(dayName(i)) }));
+const months = Array.from({ length: 12 }, (_, i) => ({ value: i + 1, label: cap(monthName(i + 1)) }));
+
+const yard = printables.text[L].checklist.items.filter((_, i) => printables.itemLayers[i] === 'yard');
+const cdcSeason = (content.cdcSeason as { place: Record<string, string>; months: Record<string, string>; source: string }[]) ?? [];
+const data = {
+  event: text.event,
+  items: yard,
+  checklistPath: href('checklist'),
+  protectPath: href('protect'),
+  downloading: text.downloading,
+};
+const fileHref = (file: string) => `${href('reminders')}${file}`;
+---
+
+<BaseLayout lang={lang} title={t('pages.reminders.title')} description={text.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.reminders.title')}</h1>
+      <p class="page-intro__lead">{text.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container rem-page">
+    <!-- Without JavaScript: the two ready-made files with the defaults. -->
+    <section class="rem-static" data-rem-static aria-label={t('pages.reminders.title')}>
+      <ul>
+        <li><a href={fileHref('weekly-check.ics')} download>{text.noJsWeekly}</a></li>
+        <li><a href={fileHref('season-reminder.ics')} download>{text.noJsSeason}</a></li>
+      </ul>
+      <p>{text.noJsNote}</p>
+    </section>
+
+    <!-- With JavaScript: choose, then make the file in this browser. -->
+    <form class="rem" data-rem={JSON.stringify(data)} hidden>
+      <div class="rem__cards">
+        <fieldset class="rem__card">
+          <legend class="rem__heading">{text.weeklyHeading}</legend>
+          <p>{text.weeklyText}</p>
+          <div class="rem__fields">
+            <label class="rem__field">
+              <span>{text.dayLabel}</span>
+              <select name="day" data-day>
+                {days.map((o) => <option value={o.value} selected={o.value === d.day}>{o.label}</option>)}
+              </select>
+            </label>
+            <label class="rem__field">
+              <span>{text.timeLabel}</span>
+              <input type="time" name="time" value={d.time} required data-time />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="rem__card">
+          <legend class="rem__heading">{text.seasonHeading}</legend>
+          <p>{text.seasonText}</p>
+          <div class="rem__fields">
+            <label class="rem__field">
+              <span>{text.monthLabel}</span>
+              <select name="month" data-month>
+                {months.map((o) => <option value={o.value} selected={o.value === d.month}>{o.label}</option>)}
+              </select>
+            </label>
+          </div>
+          <p class="rem__note">
+            <a href={`${href('community')}#find-report`}>{text.localNote}</a>
+          </p>
+          {
+            cdcSeason.length > 0 && (
+              <div class="rem__cdc">
+                <p class="rem__cdc-heading">{text.cdcSeasonHeading}</p>
+                <ul>
+                  {cdcSeason.map((s) => (
+                    <li>
+                      {s.place[L]}: {s.months[L]} (<a href={sources[s.source]?.url}>CDC</a>)
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+        </fieldset>
+      </div>
+
+      <label class="rem__remind">
+        <input type="checkbox" name="remind" checked={d.remind} data-remind />
+        <span>{text.remind}</span>
+      </label>
+
+      <div class="rem__buttons">
+        <button type="button" class="btn btn-primary" data-add="weekly">{text.addWeekly}</button>
+        <button type="button" class="btn btn-primary" data-add="season">{text.addSeason}</button>
+        <button type="button" class="btn btn-secondary" data-add="both">{text.addBoth}</button>
+      </div>
+      <p class="rem__made">{text.madeHere}</p>
+      <p class="rem__status" role="status" data-rem-status></p>
+    </form>
+
+    <section class="rem__how" aria-labelledby="how-heading">
+      <h2 id="how-heading">{text.howHeading}</h2>
+      <ul>{text.how.map((s) => <li>{s}</li>)}</ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Builds the .ics file here and downloads it. Nothing is sent or saved by Outbite.
+  import { buildIcs, icsFileName } from '../../../lib/ics.js';
+  import { reminderText } from '../../../lib/reminder-text.js';
+
+  const form = document.querySelector<HTMLFormElement>('[data-rem]');
+  if (form?.dataset.rem) {
+    const data = JSON.parse(form.dataset.rem);
+    const status = form.querySelector<HTMLElement>('[data-rem-status]')!;
+    const day = form.querySelector<HTMLSelectElement>('[data-day]')!;
+    const time = form.querySelector<HTMLInputElement>('[data-time]')!;
+    const month = form.querySelector<HTMLSelectElement>('[data-month]')!;
+    const remind = form.querySelector<HTMLInputElement>('[data-remind]')!;
+    const origin = location.origin;
+
+    for (const button of form.querySelectorAll<HTMLButtonElement>('[data-add]')) {
+      button.addEventListener('click', () => {
+        const kind = button.dataset.add as 'weekly' | 'season' | 'both';
+        const text = reminderText(data.event, data.items, origin + data.checklistPath, origin + data.protectPath);
+        const ics = buildIcs({
+          kind,
+          day: Number(day.value),
+          time: /^\d{2}:\d{2}$/.test(time.value) ? time.value : '09:00',
+          month: Number(month.value),
+          remind: remind.checked,
+          text,
+        });
+        const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = icsFileName(kind);
+        document.body.append(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        status.textContent = data.downloading;
+      });
+    }
+
+    document.querySelector<HTMLElement>('[data-rem-static]')!.hidden = true;
+    form.hidden = false;
+  }
+</script>
+
+<style>
+  .rem-page {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  .rem-static[hidden],
+  .rem[hidden] {
+    display: none;
+  }
+
+  .rem-static,
+  .rem__card,
+  .rem__how {
+    padding: var(--pad-box-lg);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .rem-static ul {
+    margin: 0 0 var(--space-2);
+    padding-inline-start: 1.2em;
+    font-weight: var(--weight-strong);
+  }
+
+  .rem-static li + li {
+    margin-top: var(--space-2);
+  }
+
+  .rem-static p {
+    margin: 0;
+  }
+
+  .rem__cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .rem__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .rem__card {
+    min-width: 0;
+    margin: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+  }
+
+  .rem__heading {
+    float: left;
+    width: 100%;
+    margin-bottom: var(--space-2);
+    padding: 0;
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+  }
+
+  .rem__card p {
+    clear: both;
+    margin: 0 0 var(--space-3);
+  }
+
+  .rem__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .rem__field {
+    display: grid;
+    gap: var(--space-1);
+    font-weight: var(--weight-strong);
+  }
+
+  .rem__field select,
+  .rem__field input {
+    min-height: var(--tap-target);
+    min-width: 11rem;
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: var(--color-field-bg);
+    color: var(--color-field-text);
+    font: inherit;
+    font-weight: var(--weight-body, 400);
+  }
+
+  .rem__note {
+    font-size: var(--text-sm);
+  }
+
+  .rem__cdc {
+    padding: var(--space-2) var(--pad-box);
+    background: var(--color-surface-tint);
+    font-size: var(--text-sm);
+  }
+
+  .rem__cdc-heading {
+    margin: 0 0 var(--space-1) !important;
+    font-weight: var(--weight-strong);
+  }
+
+  .rem__cdc ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .rem__remind {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    margin-top: var(--space-4);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .rem__remind input {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--color-link);
+  }
+
+  .rem__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .rem__made {
+    margin: var(--space-3) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .rem__status {
+    margin: var(--space-2) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .rem__status:empty {
+    display: none;
+  }
+
+  .rem__how {
+    margin-top: var(--section-gap);
+  }
+
+  .rem__how h2 {
+    margin-bottom: var(--space-2);
+  }
+
+  .rem__how ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .rem__how li + li {
+    margin-top: var(--space-2);
+  }
+</style>

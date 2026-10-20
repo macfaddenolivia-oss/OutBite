@@ -1,0 +1,28 @@
+---
+// Small flat calendar icon in the story style: white page, navy outline, peach
+// header with two navy rings, and a label on the page (e.g. "3–14 days").
+// (x, y) is the top-left corner of the page.
+interface Props {
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  label: string;
+}
+const { x, y, width = 160, height = 124, label } = Astro.props;
+const header = 34;
+const navy = '#17306A';
+---
+
+<g class="calendar">
+  <rect x={x} y={y} width={width} height={height} rx="3" fill="#FFFFFF" stroke={navy} stroke-width="5"></rect>
+  <path
+    d={`M${x} ${y + header} V${y + 3} Q${x} ${y} ${x + 3} ${y} H${x + width - 3} Q${x + width} ${y} ${x + width} ${y + 3} V${y + header} Z`}
+    fill="#F4D1A8"
+    stroke={navy}
+    stroke-width="5"
+    stroke-linejoin="round"></path>
+  <rect x={x + width * 0.25 - 4} y={y - 12} width="8" height="24" rx="4" fill={navy}></rect>
+  <rect x={x + width * 0.75 - 4} y={y - 12} width="8" height="24" rx="4" fill={navy}></rect>
+  <text x={x + width / 2} y={y + header + (height - header) / 2 + 10} text-anchor="middle" class="calendar-label">{label}</text>
+</g>

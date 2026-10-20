@@ -1,0 +1,353 @@
+---
+// Home page: headline and intro, three preview tiles
+// (How it spreads, Protect yourself, Is it near me?), then a slim case box: CDC NNDSS
+// reported cases for All of the U.S. (every state, D.C. and territory) or a chosen
+// place, with the weekly line and the asterisk note. The box always opens on All of
+// the U.S.; no place is remembered and nothing is sent anywhere.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeTiles from '../../components/HomeTiles.astro';
+import CdcSourceLine from '../../components/CdcSourceLine.astro';
+import Genus from '../../components/Genus.astro';
+import NoteRef from '../../components/NoteRef.astro';
+import RefText from '../../components/RefText.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import {
+  DISEASES,
+  REPORTED_NOTE_SOURCES,
+  allUSMissing,
+  caseData,
+  formatWeekDate,
+  latestWeekByPlace,
+  nationalLatestWeek,
+  weekTemplate,
+  ytdByPlace,
+  type Count,
+} from '../../lib/cases';
+import placeData from '../../data/places.json';
+import { getLocale, getTagline, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const formatNumber = new Intl.NumberFormat(htmlLang);
+const showCount = (n: Count) => (n === null ? t('dash.notReported') : formatNumber.format(n));
+
+const places = placeData.places
+  .map((p) => ({ ...p, name: t(`places.${p.code}`) }))
+  .sort((a, b) => a.name.localeCompare(b.name, htmlLang));
+// CDC NNDSS year-to-date reported cases (including travel-related ones) and the
+// latest week's new reports, per place and for All of the U.S. null = not reported.
+const ytd = ytdByPlace();
+const week = latestWeekByPlace();
+const usWeek = nationalLatestWeek();
+const weekText = {
+  weekWith: t('dash.weekWith'),
+  weekWithOne: t('dash.weekWithOne'),
+  weekNone: t('dash.weekNone'),
+  weekMissing: t('dash.weekMissing'),
+  date: formatWeekDate(caseData.weekEnding, htmlLang),
+};
+const weekLineText = (n: Count) => weekTemplate(n, weekText).replace('{n}', n === null ? '' : formatNumber.format(n)).replace('{date}', weekText.date);
+const NOTE_ID = 'near-note';
+const refLabel = t('dash.noteRefLabel');
+const pickerData = {
+  us: { counts: caseData.allUS.ytd, week: usWeek },
+  places: Object.fromEntries(places.map((p) => [p.code, { name: p.name, counts: ytd[p.code], week: week[p.code] }])),
+  weekText,
+  notReported: t('dash.notReported'),
+  showing: t('home.near.showing'),
+  usName: t('dash.allUSHeading'),
+  locale: htmlLang,
+};
+---
+
+<BaseLayout lang={lang} title={getTagline(lang)} description={t('pages.home.summary')}>
+  <!-- 1. Headline and intro -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <h1 id="hero-heading" class="hero__headline">{t('home.hero.line1')} {t('home.hero.line2')}</h1>
+      <p class="hero__intro"><Genus text={t('home.hero.intro')} /></p>
+      <p class="hero__travel"><a href={href('travel')}>{t('home.hero.travelLink')} <span aria-hidden="true">→</span></a></p>
+      <ActionRow lang={lang} />
+    </div>
+  </section>
+
+  <div class="home-main">
+    <div class="container">
+      <!-- 2. Three preview tiles -->
+      <HomeTiles lang={lang} />
+
+      <!-- 3. Case box -->
+      <section class="near" aria-labelledby="near-heading" data-near={JSON.stringify(pickerData)}>
+        <div class="near__side">
+          <h2 id="near-heading" class="near__heading">{t('dash.casesIn', { year: String(caseData.mmwrYear) })}</h2>
+          <label class="visually-hidden" for="near-state">{t('home.near.stateLabel')}</label>
+          <select class="near__input" id="near-state" data-near-state hidden>
+            <option value="">{t('home.near.allUS')}</option>
+            {places.map((p) => <option value={p.code}>{p.name}</option>)}
+          </select>
+          <p class="near__fallback" data-near-fallback>
+            <strong>{t('home.near.allUS')}</strong> ·{' '}
+            <a href={href('nearMe')}>{t('home.near.seeState')} <span aria-hidden="true">→</span></a>
+          </p>
+          <CdcSourceLine lang={lang} class="near__source" />
+        </div>
+        <ul class="near__numbers">
+          {
+            DISEASES.map((disease) => (
+              <li class="near__cell">
+                <span class="near__disease">{t(`pages.${disease}.title`)}</span>
+                <span class="near__number" data-count={disease}>
+                  {showCount(caseData.allUS.ytd[disease])}
+                </span>
+                <span class="near__unit">
+                  <RefText text={t('dash.reportedThisYear')} href={`#${NOTE_ID}`} label={refLabel} />
+                </span>
+                <span class="near__week" data-week={disease}>
+                  <RefText text={weekLineText(usWeek[disease])} href={`#${NOTE_ID}`} label={refLabel} />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="near__notes">
+          {allUSMissing && <p class="near__missing" data-near-missing>{t('dash.allUSMissing')}</p>}
+          <div class="near__caveat" id={NOTE_ID}>
+            <p>{t('dash.reportedNote')}</p>
+            <SourceLine lang={lang} ids={REPORTED_NOTE_SOURCES} compact />
+          </div>
+          <p class="near__more">
+            <a href={href('nearMe')}>{t('dash.seeMap')} <span aria-hidden="true">→</span></a>
+          </p>
+        </div>
+        <template data-ref-template><NoteRef href={`#${NOTE_ID}`} label={refLabel} /></template>
+        <p class="visually-hidden" role="status" data-near-status></p>
+      </section>
+      <!-- Puerto Rico: CDC says dengue is common there (Dengue Facts and Stats). -->
+      <p class="near-pr">
+        {t('home.near.prLine')}{' '}
+        <a href={`${href('nearMe')}#place-PR`}>{t('home.near.prLink')} <span aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Case box picker. Runs entirely in this browser; nothing is sent or saved. It
+  // always opens on All of the U.S.
+  import { fillRefText, weekLine, type WeekText } from '../../lib/place-client';
+
+  interface Counts {
+    dengue: number | null;
+    zika: number | null;
+    chikungunya: number | null;
+  }
+  interface PickerData {
+    us: { counts: Counts; week: Counts };
+    places: Record<string, { name: string; counts: Counts; week: Counts }>;
+    weekText: WeekText;
+    notReported: string;
+    showing: string;
+    usName: string;
+    locale: string;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-near]');
+  if (root?.dataset.near) {
+    const data: PickerData = JSON.parse(root.dataset.near);
+    const format = new Intl.NumberFormat(data.locale);
+    const select = root.querySelector<HTMLSelectElement>('[data-near-state]')!;
+    const status = root.querySelector<HTMLElement>('[data-near-status]')!;
+    const refTemplate = root.querySelector<HTMLTemplateElement>('[data-ref-template]');
+
+    const show = (code: string) => {
+      const place = data.places[code] ?? data.us;
+      for (const el of root.querySelectorAll<HTMLElement>('[data-count]')) {
+        const n = place.counts[el.dataset.count as keyof Counts];
+        el.textContent = n === null ? data.notReported : format.format(n);
+      }
+      for (const el of root.querySelectorAll<HTMLElement>('[data-week]')) {
+        fillRefText(el, weekLine(place.week[el.dataset.week as keyof Counts], data.weekText, format), refTemplate);
+      }
+      const missing = root.querySelector<HTMLElement>('[data-near-missing]');
+      if (missing) missing.hidden = Boolean(data.places[code]);
+      status.textContent = data.showing.replace('{place}', data.places[code]?.name ?? data.usName);
+    };
+
+    select.addEventListener('change', () => show(select.value));
+    select.value = '';
+    select.hidden = false;
+    root.querySelector<HTMLElement>('[data-near-fallback]')!.hidden = true;
+  }
+</script>
+
+<style>
+  /* ---- 1. Headline and intro ---- */
+  .hero {
+    padding-block: var(--section-gap);
+    background: var(--color-intro-bg);
+    border-bottom: 4px solid var(--color-rule);
+  }
+
+  .hero__headline {
+    max-width: 50rem;
+    margin-bottom: var(--space-3);
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 2.875rem);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+
+  .near-pr {
+    margin: var(--space-3) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .hero__travel {
+    margin: var(--space-2) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .hero__intro {
+    max-width: 50rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  .home-main {
+    padding-block: var(--section-gap);
+  }
+
+  /* ---- 3. Case box: one row on desktop (heading, picker and source | three numbers),
+     the notes underneath; stacked on phones. ---- */
+  .near {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--section-gap);
+    padding: var(--pad-box-lg);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  @media (min-width: 64rem) {
+    .near {
+      grid-template-columns: minmax(16rem, 1fr) minmax(0, 2.6fr);
+      align-items: start;
+    }
+
+    .near__notes {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .near__side {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .near__heading {
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+  }
+
+  .near__input {
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: var(--color-field-bg);
+    color: var(--color-field-text);
+    font: inherit;
+  }
+
+  .near__input[hidden] {
+    display: none;
+  }
+
+  .near__fallback {
+    margin: 0;
+  }
+
+  .near__side :global(.near__source) {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .near__numbers {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 40rem) {
+    .near__numbers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .near__cell {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+  }
+
+  .near__disease {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .near__number {
+    color: var(--color-heading);
+    font-size: clamp(2.25rem, 2rem + 1vw, 2.75rem);
+    font-weight: var(--weight-display);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .near__unit {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* "+N reported* to CDC in the week ending …": 15px, navy, never orange or red. */
+  .near__week {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  .near__notes {
+    display: grid;
+    gap: var(--space-1);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .near__notes p,
+  .near__caveat p {
+    margin: 0;
+  }
+
+  .near__more {
+    font-weight: var(--weight-strong);
+  }
+</style>

@@ -1,0 +1,548 @@
+---
+// One tip on the Protect page, as a row that opens (Oct 19 redesign). Every tip has an
+// Official guidance chip and an Evidence badge. Content comes from src/content/suggestions/<ID>.json; labels from card.* in the
+// translation files. Closed: title (with ▸/▾), one-line summary and one meta line
+// ("✓ CDC/EPA recommends · $ · Each time · Everyone"). The title is a real button with
+// aria-expanded; the page script also opens the row when the rest of it is tapped.
+// Open: official guidance, "When you travel", "Good to know" and the "What the research
+// says" panel (a native <details>, evidence badge at its top). Without JavaScript every
+// row is open.
+import { useTranslations } from '../i18n';
+import {
+  cardText,
+  effortOrder,
+  getSuggestion,
+  sources,
+  suggestions,
+  type Suggestion,
+} from '../lib/suggestions';
+
+interface Props {
+  lang: string;
+  card: Suggestion;
+}
+
+const { lang, card } = Astro.props;
+const t = useTranslations(lang);
+const text = cardText(card, lang);
+
+const costText = (c: string) => (c.startsWith('$') ? c : t(`card.costLabel.${c}`));
+const audiences = card.audiences;
+const ownSources = [...new Set([...card.sources, ...(card.travelSource ? [card.travelSource] : [])])];
+const source = (id: string) => sources[id];
+const travelUrl = card.travelSource ? source(card.travelSource)?.url : undefined;
+const related = card.related.map((id) => ({ id, title: cardText(getSuggestion(id), lang).title }));
+const layerOrder = suggestions.indexOf(card);
+const titleId = `card-${card.id}-title`;
+const bodyId = `card-${card.id}-body`;
+const recommended = card.guidance === 'cdc-epa' || card.guidance === 'who';
+// Visible links (e.g. EPA's repellent finder) and an "As of [month year]" date for
+// time-sensitive tips (vaccines).
+const tipLinks = ((card as Suggestion & { links?: string[] }).links ?? []).map((id) => sources[id]).filter(Boolean);
+const asOf = (card as Suggestion & { asOf?: string }).asOf;
+const asOfText = asOf
+  ? t('card.asOf', {
+      date: new Intl.DateTimeFormat(lang === 'es' ? 'es' : 'en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${asOf}-01T00:00:00Z`)),
+    })
+  : '';
+import Badge from './Badge.astro';
+import Genus from './Genus.astro';
+import community from '../content/community.json';
+import { localizePath } from '../i18n';
+import { getPage } from '../config/pages';
+// Community tips link to the matching section of the Community page.
+const communitySection: Record<string, string> = {
+  C1: 'find-report',
+  C2: 'organize',
+  C3: 'spraying',
+  C4: 'spraying',
+  C5: 'renters',
+};
+const communityHref = communitySection[card.id]
+  ? `${localizePath(lang, getPage('community').path)}#${communitySection[card.id]}`
+  : null;
+const communityMore = community.text[lang === 'es' ? 'es' : 'en'].moreLink;
+---
+
+<li
+  class={`tip tip--${card.layer}`}
+  id={`card-${card.id}`}
+  data-card
+  data-layer={card.layer}
+  data-effort-group={card.effortGroup}
+  data-audiences={audiences.join(' ')}
+  data-layer-order={layerOrder}
+  data-effort-order={effortOrder(card)}
+>
+  <article aria-labelledby={titleId} class="tip__row" data-tip-row>
+    <h3 class="tip__title">
+      <button type="button" class="tip__toggle" id={titleId} aria-expanded="true" aria-controls={bodyId} data-tip-toggle disabled>
+        <span class="tip__marker" aria-hidden="true"><span class="tip__marker-closed">▸</span><span class="tip__marker-open">▾</span></span>
+        <span><Genus text={text.title} /></span>
+      </button>
+    </h3>
+
+    <p class="tip__meta">
+      {
+        recommended && (
+          <>
+            <span class="tip__rec">
+              <span aria-hidden="true">✓</span> {t(`card.chip.${card.guidance}`)}
+            </span>
+            <span class="tip__sep" aria-hidden="true"> · </span>
+          </>
+        )
+      }
+      <span>
+        {card.cost.map((c, i) => (
+          <>
+            {i > 0 && '–'}
+            <span aria-hidden={c.startsWith('$') ? 'true' : undefined}>{costText(c)}</span>
+            {c.startsWith('$') && <span class="visually-hidden">{t(`card.costSr.${c}`)}</span>}
+          </>
+        ))}
+      </span>
+      {
+        card.effort !== 'none' && (
+          <>
+            <span class="tip__sep" aria-hidden="true"> · </span>
+            <span>{t(`card.effortLabel.${card.effort}`)}</span>
+          </>
+        )
+      }
+      <span class="tip__sep" aria-hidden="true"> · </span>
+      <span class="visually-hidden">{t('card.for')}: </span>
+      {audiences.map((a, i) => (
+        <>
+          {i > 0 && ', '}
+          <span class="tag" data-audience={a}>
+            {t(`card.audience.${a}`)}
+            <span class="visually-hidden" data-match-text hidden>
+              {' '}
+              {t('card.matches')}
+            </span>
+          </span>
+        </>
+      ))}
+    </p>
+
+    <p class="tip__summary">
+      <Genus text={text.summary} />
+      {communityHref && (
+        <>
+          {' '}
+          <a class="tip__more" href={communityHref}>
+            {communityMore} <span aria-hidden="true">→</span>
+          </a>
+        </>
+      )}
+    </p>
+
+    <div class="tip__body" id={bodyId} data-tip-body>
+      <p class="tip__guidance">
+        <strong>{t('card.guidance')}:</strong>{' '}
+        <Badge lang={lang} kind="guidance" value={card.guidance}>
+          {t(`card.chip.${card.guidance}`)}{text.guidanceNote && <> (<Genus text={text.guidanceNote} />)</>}
+        </Badge>
+        {asOfText && <span class="tip__asof"> · {asOfText}</span>}
+      </p>
+
+      {
+        text.travel && (
+          <p class="tip__travel">
+            <strong>{t('card.travel')}:</strong> <Genus text={text.travel} />{' '}
+            <a href={travelUrl} class="card__cdc">
+              {t('card.sourceCdc')}
+            </a>
+          </p>
+        )
+      }
+
+      {
+        tipLinks.length > 0 && (
+          <ul class="tip__links">
+            {tipLinks.map((l) => (
+              <li>
+                <a href={l.url}>
+                  {l.short}: {l.title} <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      {
+        text.tips && text.tips.length > 0 && (
+          <div class="tip__howto">
+            <p class="tip__howto-heading"><strong>{t('card.tips')}</strong></p>
+            <ul>{text.tips.map((item) => <li><Genus text={item} /></li>)}</ul>
+          </div>
+        )
+      }
+
+      <details class="card__details">
+        <summary>{t('card.research')}</summary>
+        <div class="card__panel">
+          {/* Evidence badge at the top of the research panel (decided Oct 15, 2026). */}
+          <dl class="card__labels card__labels--panel">
+            <div>
+              <dt>{t('card.evidence')}</dt>
+              <dd>
+                <Badge lang={lang} kind="evidence" value={card.evidence}>
+                  {
+                    card.evidence === 'linked' || card.evidence === 'not-rated' ? (
+                      t(`card.level.${card.evidence}`)
+                    ) : (
+                      <>
+                        {t(`card.level.${card.evidence}`)}: <Genus text={text.evidenceMeasures} />
+                      </>
+                    )
+                  }
+                </Badge>
+              </dd>
+            </div>
+          </dl>
+
+          <h4>{t('card.canDo')}</h4>
+          <ul>{text.canDo.map((item) => <li><Genus text={item} /></li>)}</ul>
+
+          <h4>{t('card.cantDo')}</h4>
+          <ul>{text.cantDo.map((item) => <li><Genus text={item} /></li>)}</ul>
+
+          {
+            text.research.length > 0 && (
+              <>
+                <h4>{t('card.notes')}</h4>
+                <ul>
+                  {text.research.map((note) => (
+                    <li>
+                      <Genus text={note.text} />
+                      {note.cite.length > 0 && (
+                        <>
+                          {' ('}
+                          {note.cite.map((id, i) => (
+                            <>
+                              {i > 0 && '; '}
+                              {source(id) ? <a href={source(id).url}>{source(id).short}</a> : id}
+                            </>
+                          ))}
+                          {')'}
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
+          {
+            related.length > 0 && (
+              <>
+                <h4>{t('card.seeAlso')}</h4>
+                <ul>
+                  {related.map((r) => (
+                    <li>
+                      <a href={`#card-${r.id}`}>{r.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
+          <h4>{t('card.sources')}</h4>
+          <ul class="card__sources">
+            {
+              ownSources.map((id) =>
+                source(id) ? (
+                  <li>
+                    <a href={source(id).url}>{source(id).title}</a>. {source(id).publisher}
+                    {source(id).date && <>, {source(id).date}</>}.
+                  </li>
+                ) : (
+                  <li>{id}</li>
+                ),
+              )
+            }
+          </ul>
+        </div>
+      </details>
+    </div>
+  </article>
+</li>
+
+<style>
+  /* ---- Row ---- */
+  .tip {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tip__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'title' 'summary' 'meta' 'body';
+    padding-block: var(--space-2);
+    cursor: pointer;
+  }
+
+  /* Desktop: the meta line sits on the right of the title row. */
+  @media (min-width: 64rem) {
+    .tip__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'title meta' 'summary summary' 'body body';
+      column-gap: var(--space-4);
+    }
+
+    .tip__meta {
+      align-self: center;
+      text-align: end;
+    }
+  }
+
+  /* Highlighted by "Show first": a warm bar on the left edge plus the text tag. */
+  .tip[data-match] {
+    box-shadow: inset 4px 0 0 var(--color-match-border);
+    padding-inline-start: var(--space-3);
+  }
+
+  .tip p {
+    margin: 0;
+  }
+
+  .tip__title {
+    grid-area: title;
+    margin: 0;
+    font-size: var(--text-lg);
+  }
+
+  .tip__toggle {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-1) 0;
+    border: 0;
+    background: none;
+    color: var(--color-heading);
+    font: inherit;
+    font-weight: var(--weight-heading);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  /* Without JavaScript the toggle does nothing: it stays disabled (the page script turns
+     it on), reads as the plain title and shows no ▾. */
+  .tip__toggle:disabled {
+    color: var(--color-heading);
+    cursor: default;
+  }
+
+  .tip__toggle:disabled .tip__marker {
+    display: none;
+  }
+
+  .tip__toggle:not(:disabled):hover span:last-child {
+    text-decoration: underline;
+  }
+
+  .tip__marker {
+    flex: none;
+    width: 1em;
+    color: var(--color-text-muted);
+  }
+
+  .tip__marker-closed {
+    display: none;
+  }
+
+  .tip__toggle[aria-expanded='false'] .tip__marker-open {
+    display: none;
+  }
+
+  .tip__toggle[aria-expanded='false'] .tip__marker-closed {
+    display: inline;
+  }
+
+  .tip__summary {
+    grid-area: summary;
+    padding-inline-start: calc(1em + var(--space-2));
+    font-size: var(--text-base);
+  }
+
+  .tip__meta {
+    grid-area: meta;
+    padding-inline-start: calc(1em + var(--space-2));
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  @media (min-width: 64rem) {
+    .tip__meta {
+      padding-inline-start: 0;
+    }
+  }
+
+  .tip__more {
+    font-weight: var(--weight-strong);
+    white-space: nowrap;
+  }
+
+  .tip__rec {
+    color: var(--color-text);
+  }
+
+  .tag[data-match] {
+    padding: 0 0.35em;
+    border-radius: var(--radius-sm);
+    background: var(--color-badge-bg);
+    color: var(--color-badge-text);
+  }
+
+  .tip__body {
+    grid-area: body;
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-inline-start: calc(1em + var(--space-2));
+    font-size: var(--text-base);
+    cursor: auto;
+  }
+
+  .tip__body[hidden] {
+    display: none;
+  }
+
+  .tip__howto ul {
+    margin: var(--space-1) 0 0;
+    padding-inline-start: 1.1em;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .card__labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .card__labels dt {
+    font-size: 0.8125rem;
+    font-weight: var(--weight-strong);
+    letter-spacing: 0.02em;
+    color: var(--color-text-muted);
+  }
+
+  .tip__asof {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .tip__links {
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+    font-weight: var(--weight-strong);
+  }
+
+  .tip__links li + li {
+    margin-top: var(--space-1);
+  }
+
+  .card__cdc {
+    font-weight: var(--weight-strong);
+    white-space: nowrap;
+  }
+
+  /* ---- Research panel ---- */
+  .card__details {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-1);
+  }
+
+  .card__details summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    color: var(--color-link);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .card__details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .card__details summary::before {
+    content: '';
+    flex: none;
+    width: 0.55em;
+    height: 0.55em;
+    border-right: 2.5px solid currentColor;
+    border-bottom: 2.5px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.15s;
+  }
+
+  .card__details[open] summary::before {
+    transform: rotate(45deg);
+  }
+
+  .card__details summary:hover {
+    text-decoration: underline;
+  }
+
+  .card__panel {
+    padding-bottom: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .card__panel h4 {
+    margin: var(--space-4) 0 var(--space-1);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .card__panel h4:first-child {
+    margin-top: var(--space-2);
+  }
+
+  .card__labels--panel {
+    margin-top: var(--space-2);
+  }
+
+  .card__panel ul {
+    margin: 0;
+    padding-inline-start: 1.1em;
+  }
+
+  .card__panel li + li {
+    margin-top: var(--space-1);
+  }
+
+  .card__sources {
+    overflow-wrap: anywhere;
+  }
+
+  /* Print: every row and research panel open (the page script opens them too). */
+  @media print {
+    .tip__body[hidden] {
+      display: grid;
+    }
+    .card__details > *:not(summary) {
+      display: block;
+    }
+  }
+</style>

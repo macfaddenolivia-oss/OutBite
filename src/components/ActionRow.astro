@@ -1,0 +1,359 @@
+---
+// The row under each page's title and intro: Listen,
+// Share and Copy link on the left, "Text size" with three A buttons on the right (two
+// lines on phones). Everything happens on this device; nothing is sent anywhere and no
+// third-party script is used.
+// - Listen: the browser's own speech (speechSynthesis) reads the page's main content in
+//   the page's language, skipping menus, footer, source lists, drawings and anything
+//   hidden; while reading it becomes Pause (Resume) and Stop; it stops when the visitor
+//   leaves the page. Hidden when the browser has no speech or no voice for the language.
+// - Share opens the device's own share menu (navigator.share) with the page title and
+//   address; Copy link copies the address to the clipboard and says "Link copied".
+//   Without navigator.share only Copy link shows; on phones (touch, no hover) only Share.
+// - Text size: 100%, 115%, 130% (the current one filled in), saved on this device
+//   (STORAGE.textSize) and applied in <head> by BaseLayout so the page doesn't jump.
+// Without JavaScript the whole row is hidden. Not on the 404 page or the printable sheets.
+import { getLocale, useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const SIZES = ['100', '115', '130'] as const;
+---
+
+<div class="action-row" data-action-row data-lang={htmlLang} role="group" aria-label={t('actions.groupLabel')}>
+  <div class="action-row__main">
+    <button type="button" class="action-btn action-btn--listen" data-listen hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"></path><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      <span>{t('actions.listen')}</span>
+    </button>
+    <button type="button" class="action-btn" data-pause data-pause-label={t('actions.pause')} data-resume-label={t('actions.resume')} hidden>{t('actions.pause')}</button>
+    <button type="button" class="action-btn" data-stop hidden>{t('actions.stop')}</button>
+    <button type="button" class="action-btn" data-share hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <span>{t('actions.share')}</span>
+    </button>
+    <button type="button" class="action-btn" data-copy-link hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      <span>{t('actions.copyLink')}</span>
+    </button>
+    <p class="action-row__status" role="status" data-copy-status data-copied={t('actions.linkCopied')} data-failed={t('actions.copyFailed')}></p>
+  </div>
+  <div class="action-row__size" role="group" aria-labelledby={`text-size-label`}>
+    <span class="action-row__size-label" id="text-size-label">{t('actions.textSize')}</span>
+    <div class="size-buttons">
+      {
+        SIZES.map((size) => (
+          <button type="button" class={`size-btn size-btn--${size}`} data-size={size} aria-pressed={size === '100' ? 'true' : 'false'} aria-label={t(`actions.sizes.${size}`)}>
+            A
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  import { STORAGE } from '../lib/storage';
+
+  const row = document.querySelector<HTMLElement>('[data-action-row]');
+  if (row) {
+    const lang = row.dataset.lang ?? document.documentElement.lang;
+    const $ = <T extends HTMLElement>(sel: string) => row.querySelector<T>(sel)!;
+
+    // ---- Text size ----
+    const sizeButtons = [...row.querySelectorAll<HTMLButtonElement>('[data-size]')];
+    const showSize = () => {
+      const current = document.documentElement.dataset.textSize ?? '100';
+      for (const b of sizeButtons) b.setAttribute('aria-pressed', String(b.dataset.size === current));
+    };
+    for (const b of sizeButtons) {
+      b.addEventListener('click', () => {
+        const size = b.dataset.size!;
+        if (size === '100') delete document.documentElement.dataset.textSize;
+        else document.documentElement.dataset.textSize = size;
+        try {
+          if (size === '100') localStorage.removeItem(STORAGE.textSize);
+          else localStorage.setItem(STORAGE.textSize, size);
+        } catch {
+          /* storage blocked: the size still applies on this page */
+        }
+        showSize();
+        // Layout scripts (header height, map labels, number rows) re-measure.
+        window.dispatchEvent(new Event('resize'));
+      });
+    }
+    showSize();
+
+    // ---- Share and Copy link ----
+    const url = location.href.split('#')[0];
+    const phone = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const share = $<HTMLButtonElement>('[data-share]');
+    const copy = $<HTMLButtonElement>('[data-copy-link]');
+    const status = $<HTMLElement>('[data-copy-status]');
+    const canShare = typeof navigator.share === 'function';
+    const canCopy = !!navigator.clipboard?.writeText;
+    share.hidden = !canShare;
+    copy.hidden = !canCopy || (canShare && phone);
+    share.addEventListener('click', () => {
+      navigator.share({ title: document.title, url }).catch(() => {
+        /* the visitor closed the share menu */
+      });
+    });
+    let clear: number | undefined;
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        status.textContent = status.dataset.copied ?? '';
+        status.dataset.ok = '';
+      } catch {
+        status.textContent = status.dataset.failed ?? '';
+        delete status.dataset.ok;
+      }
+      window.clearTimeout(clear);
+      clear = window.setTimeout(() => (status.textContent = ''), 4000);
+    });
+
+    // ---- Listen ----
+    const listen = $<HTMLButtonElement>('[data-listen]');
+    const pause = $<HTMLButtonElement>('[data-pause]');
+    const stop = $<HTMLButtonElement>('[data-stop]');
+    const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
+    const prefix = lang.slice(0, 2).toLowerCase();
+    const voiceFor = () => {
+      const voices = synth?.getVoices() ?? [];
+      return voices.find((v) => v.lang.toLowerCase() === lang.toLowerCase()) ?? voices.find((v) => v.lang.toLowerCase().startsWith(prefix)) ?? null;
+    };
+    const updateListen = () => {
+      listen.hidden = !synth || !voiceFor() || !pause.hidden;
+    };
+    if (synth) {
+      synth.cancel(); // nothing left over from another page
+      updateListen();
+      synth.addEventListener?.('voiceschanged', updateListen);
+    }
+
+    // The page's main content, in reading order: text blocks inside <main>, skipping the
+    // menus, this row, source lists, printable sheets, drawings and anything hidden.
+    const SKIP = 'nav, header, footer, [data-action-row], .source-line, .print-sources, .print-sheet, .trip-sheets, .last-reviewed, svg, script, style, template, noscript, .visually-hidden, [aria-hidden="true"], [hidden], [data-no-listen]';
+    const BLOCKS = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, figcaption, summary, blockquote, caption, legend';
+    const readable = () => {
+      const main = document.querySelector('main');
+      if (!main) return [];
+      const out: string[] = [];
+      for (const el of main.querySelectorAll<HTMLElement>(BLOCKS)) {
+        if (el.closest(SKIP) || !el.getClientRects().length) continue;
+        if (el.parentElement?.closest(BLOCKS)) continue; // read as part of its outer block
+        const details = el.closest('details');
+        if (details && !details.open && !el.closest('summary')) continue;
+        const text = el.innerText.replace(/\s+/g, ' ').trim();
+        if (text) out.push(/[.!?:]$/.test(text) ? text : `${text}.`);
+      }
+      return out;
+    };
+    // Short pieces (browsers cut off long utterances), split at sentence ends.
+    const pieces = (blocks: string[]) =>
+      blocks.flatMap((b) => b.match(/[^.!?]+[.!?]+["”’)]*\s*|[^.!?]+$/g) ?? [b]).map((s) => s.trim()).filter(Boolean);
+
+    let queue: string[] = [];
+    const reset = () => {
+      queue = [];
+      pause.hidden = true;
+      stop.hidden = true;
+      pause.textContent = pause.dataset.pauseLabel ?? '';
+      updateListen();
+    };
+    const next = () => {
+      const text = queue.shift();
+      if (!text || !synth) return reset();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      const voice = voiceFor();
+      if (voice) u.voice = voice;
+      u.addEventListener('end', next);
+      u.addEventListener('error', reset);
+      synth.speak(u);
+    };
+    listen.addEventListener('click', () => {
+      if (!synth) return;
+      synth.cancel();
+      queue = pieces(readable());
+      listen.hidden = true;
+      pause.hidden = false;
+      stop.hidden = false;
+      pause.focus();
+      next();
+    });
+    pause.addEventListener('click', () => {
+      if (!synth) return;
+      if (synth.paused) {
+        synth.resume();
+        pause.textContent = pause.dataset.pauseLabel ?? '';
+      } else {
+        synth.pause();
+        pause.textContent = pause.dataset.resumeLabel ?? '';
+      }
+    });
+    stop.addEventListener('click', () => {
+      queue = [];
+      synth?.cancel();
+      reset();
+      listen.focus();
+    });
+    // Stop when the visitor leaves the page.
+    window.addEventListener('pagehide', () => {
+      queue = [];
+      synth?.cancel();
+    });
+  }
+</script>
+
+<style>
+  /* Hidden without JavaScript (the inline script in <head> adds .js before the page draws,
+     so the row doesn't appear late or push the page down). */
+  .action-row {
+    display: none;
+  }
+
+  :global(.js) .action-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-3);
+  }
+
+  .action-row__main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .action-btn[hidden] {
+    display: none;
+  }
+
+  .action-btn:hover {
+    text-decoration: underline;
+  }
+
+  .action-btn:focus-visible,
+  .size-btn:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .action-btn--listen {
+    border-color: var(--color-primary-border);
+    background: var(--color-primary-bg);
+    color: var(--color-primary-text);
+  }
+
+  .action-btn svg {
+    width: 1.15em;
+    height: 1.15em;
+    flex: none;
+  }
+
+  /* "✓ Link copied": a small navy chip while it shows. */
+  .action-row__status {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .action-row__status:empty {
+    display: none;
+  }
+
+  .action-row__status[data-ok] {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-rule);
+    color: var(--color-surface);
+  }
+
+  .action-row__status[data-ok]::before {
+    content: '✓ ';
+  }
+
+  .action-row__size {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .action-row__size-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .size-buttons {
+    display: flex;
+  }
+
+  .size-btn {
+    display: grid;
+    place-items: center;
+    width: var(--tap-target);
+    height: var(--tap-target);
+    padding: 0;
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .size-btn + .size-btn {
+    margin-left: -2px;
+  }
+
+  .size-btn--100 {
+    font-size: 0.85rem;
+  }
+
+  .size-btn--115 {
+    font-size: 1.05rem;
+  }
+
+  .size-btn--130 {
+    font-size: 1.3rem;
+  }
+
+  .size-btn[aria-pressed='true'] {
+    position: relative;
+    background: var(--color-rule);
+    color: var(--color-surface);
+  }
+
+  /* Phones: the buttons on one line, Text size on the next. */
+  @media (max-width: 40rem) {
+    :global(.js) .action-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

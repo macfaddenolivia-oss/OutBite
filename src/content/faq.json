@@ -1,0 +1,647 @@
+{
+  "id": "faq",
+  "lastReviewed": "2026-10-20",
+  "vaccineAsOf": "2026-10",
+  "groups": [
+    {
+      "id": "viruses",
+      "questions": [
+        "what-are",
+        "how-spread",
+        "person-to-person",
+        "dengue-again",
+        "very-sick",
+        "zika-pregnancy",
+        "vaccine"
+      ]
+    },
+    {
+      "id": "mosquitoes",
+      "questions": [
+        "spot-aedes",
+        "when-bite",
+        "where-live",
+        "repellents",
+        "repellent-safety",
+        "zappers"
+      ]
+    },
+    {
+      "id": "travel",
+      "questions": [
+        "before-trip",
+        "packing",
+        "after-trip",
+        "sick-after-trip"
+      ]
+    },
+    {
+      "id": "about",
+      "questions": [
+        "sources",
+        "case-numbers",
+        "real-number",
+        "privacy",
+        "medical-advice"
+      ]
+    }
+  ],
+  "cite": {
+    "what-are": [
+      "cdc-dengue-about",
+      "cdc-zika-about",
+      "cdc-chik-about"
+    ],
+    "how-spread": [
+      "cdc-dengue-transmission"
+    ],
+    "person-to-person": [
+      "cdc-zika-transmission",
+      "cdc-dengue-transmission",
+      "cdc-yellowbook-chik",
+      "cdc-zika-prevention"
+    ],
+    "dengue-again": [
+      "cdc-yellowbook-dengue",
+      "cdc-dengue-about"
+    ],
+    "very-sick": [
+      "cdc-han-dengue-2025",
+      "cdc-chik-symptoms"
+    ],
+    "zika-pregnancy": [
+      "cdc-zika-symptoms",
+      "cdc-zika-transmission",
+      "cdc-zika-travel",
+      "cdc-zika-prevention"
+    ],
+    "vaccine": [
+      "cdc-dengue-vaccines",
+      "cdc-chik-vaccines",
+      "cdc-yellowbook-chik",
+      "cdc-zika-about",
+      "cdc-chik-vaccines-hcp"
+    ],
+    "spot-aedes": [
+      "cdc-unwanted-mosquitoes"
+    ],
+    "when-bite": [
+      "cdc-dengue-transmission"
+    ],
+    "where-live": [
+      "cdc-aedes-range"
+    ],
+    "repellents": [
+      "cdc-prevent-bites"
+    ],
+    "repellent-safety": [
+      "cdc-prevent-bites",
+      "epa-repellent-safely",
+      "cdc-travel-bites",
+      "cdc-yellowbook-arthropods"
+    ],
+    "zappers": [
+      "cdc-prevent-bites",
+      "epa-citronella"
+    ],
+    "before-trip": [
+      "cdc-travel-notices",
+      "cdc-before-travel"
+    ],
+    "packing": [
+      "cdc-travel-bites-3wk",
+      "cdc-prevent-dengue",
+      "cdc-before-travel"
+    ],
+    "after-trip": [
+      "cdc-travel-bites-3wk",
+      "cdc-zika-prevention"
+    ],
+    "sick-after-trip": [
+      "cdc-travel-bites-3wk"
+    ],
+    "case-numbers": [
+      "cdc-dengue-current-data"
+    ],
+    "real-number": [
+      "cdc-dengue-current-data"
+    ]
+  },
+  "questionMeta": {
+    "spot-aedes": {
+      "figure": "aedes-culex"
+    },
+    "before-trip": {
+      "page": "nearMe",
+      "links": [
+        "cdc-travel-notices"
+      ],
+      "pages": [
+        "travel"
+      ]
+    },
+    "sick-after-trip": {
+      "page": "sick",
+      "links": [
+        "cdc-travel-notices"
+      ],
+      "pages": [
+        "travel"
+      ]
+    },
+    "sources": {
+      "page": "sources"
+    },
+    "case-numbers": {
+      "page": "nearMe"
+    },
+    "privacy": {
+      "page": "privacy"
+    },
+    "what-are": {
+      "diseases": [
+        "dengue",
+        "zika",
+        "chikungunya"
+      ]
+    },
+    "person-to-person": {
+      "diseases": [
+        "dengue",
+        "zika",
+        "chikungunya"
+      ],
+      "figure": "zika-spread",
+      "tips": [
+        "B5"
+      ]
+    },
+    "dengue-again": {
+      "diseases": [
+        "dengue"
+      ]
+    },
+    "very-sick": {
+      "diseases": [
+        "dengue",
+        "chikungunya"
+      ]
+    },
+    "zika-pregnancy": {
+      "diseases": [
+        "zika"
+      ],
+      "tips": [
+        "B5"
+      ]
+    },
+    "vaccine": {
+      "diseases": [
+        "dengue",
+        "zika",
+        "chikungunya"
+      ],
+      "tips": [
+        "B6"
+      ]
+    },
+    "after-trip": {
+      "tips": [
+        "B5"
+      ],
+      "links": [
+        "cdc-travel-notices"
+      ],
+      "pages": [
+        "travel"
+      ]
+    },
+    "repellents": {
+      "links": [
+        "epa-find-repellent"
+      ]
+    },
+    "repellent-safety": {
+      "links": [
+        "epa-repellent-safely",
+        "epa-find-repellent"
+      ],
+      "tips": [
+        "B4"
+      ]
+    },
+    "packing": {
+      "links": [
+        "cdc-travel-notices"
+      ],
+      "tips": [
+        "B6"
+      ],
+      "pages": [
+        "travel"
+      ]
+    }
+  },
+  "text": {
+    "en": {
+      "title": "Questions and answers",
+      "intro": "Short answers about dengue, Zika and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from.",
+      "searchLabel": "Search questions",
+      "clear": "Clear search",
+      "count": "{n} questions match",
+      "countOne": "1 question matches",
+      "none": "No questions match. Try another word, or browse the groups below.",
+      "jumpLabel": "Question groups",
+      "openAll": "Open all",
+      "closeAll": "Close all",
+      "copyLink": "Copy link",
+      "copied": "Link copied",
+      "readMoreCdc": "Read more from CDC",
+      "readMoreEpa": "Read more from EPA",
+      "sickLink": "Feeling sick? See what to do",
+      "pageLinks": {
+        "nearMe": "See “Is it near me?”",
+        "sick": "See “Think you might be sick?”",
+        "sources": "See our Sources page",
+        "privacy": "See our Privacy page",
+        "travel": "See “Traveling soon?”"
+      },
+      "groups": {
+        "viruses": {
+          "heading": "The viruses",
+          "subtitle": "What dengue, Zika and chikungunya are, and how people get them."
+        },
+        "mosquitoes": {
+          "heading": "Mosquitoes & repellent",
+          "subtitle": "How to spot Aedes mosquitoes and keep them from biting."
+        },
+        "travel": {
+          "heading": "Travel & coming home",
+          "subtitle": "What to do before, during and after a trip."
+        },
+        "about": {
+          "heading": "About the site",
+          "subtitle": "Where our information and numbers come from."
+        }
+      },
+      "questions": {
+        "what-are": {
+          "q": "What are dengue, Zika and chikungunya?",
+          "a": [
+            "Dengue, Zika and chikungunya are illnesses caused by viruses. Infected mosquitoes spread all three viruses to people. Dengue is caused by any of four related viruses."
+          ]
+        },
+        "how-spread": {
+          "q": "How do people get them?",
+          "a": [
+            "Most people get these viruses from the bite of an infected Aedes mosquito. A mosquito picks up the virus when it bites a person who already has it, and it can then pass the virus on with later bites."
+          ]
+        },
+        "person-to-person": {
+          "q": "Can these viruses spread from one person to another?",
+          "a": [
+            "Zika can spread through sex, even from a partner who has no symptoms, and a pregnant person with Zika can pass it to the baby. Dengue can pass from a pregnant person to the baby during pregnancy or around birth, and in rare cases it spreads through blood transfusions, organ transplants or needlestick injuries. Chikungunya rarely passes from a pregnant person to the baby during most of pregnancy; the risk is highest when the pregnant person has the virus at the time of delivery.",
+            "Condoms can reduce the chance of getting Zika from sex. After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms. CDC advises this after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission."
+          ]
+        },
+        "dengue-again": {
+          "q": "Can someone get dengue more than once?",
+          "a": [
+            "Yes. Dengue comes in four types, and a person can have dengue more than once. After one type, the body is protected from that type for a long time but from the other three only for a short time. A second dengue infection carries a higher risk of severe illness."
+          ]
+        },
+        "very-sick": {
+          "q": "Who is more likely to get very sick?",
+          "a": [
+            "For dengue, babies 1 year old or younger, pregnant people, adults 65 and older, people with certain medical conditions and people who have had dengue before are more likely to get very sick. For chikungunya, newborns infected around the time of birth, adults 65 and older, and people with conditions such as high blood pressure, diabetes or heart disease are at higher risk of serious illness."
+          ]
+        },
+        "zika-pregnancy": {
+          "q": "Why does Zika matter during pregnancy?",
+          "a": [
+            "Zika infection during pregnancy can cause serious birth defects. Zika is also linked to other pregnancy problems, such as pregnancy loss, stillbirth and early birth. Many people with Zika have no symptoms or only mild ones. Preventing mosquito bites helps prevent Zika, and condoms can reduce the chance of getting Zika from sex.",
+            "In short: if you’re pregnant, talk with your doctor about Zika, and CDC advises not traveling to places with an active Zika Travel Health Notice. CDC: “If you are pregnant or planning pregnancy, talk to your healthcare provider about your potential risk of Zika infection, the possible health effects of Zika virus infection on a baby, and ways to protect yourself from Zika.” For pregnant travelers, CDC says: “You should avoid travel to areas with an active Zika Travel Health Notice.” For areas with current or past Zika transmission (places where Zika has spread through mosquitoes at some point): “Discuss travel plans, reasons for travel, ability to prevent mosquito bites, and potential risks with your healthcare provider.” CDC’s timeframes: After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms."
+          ]
+        },
+        "vaccine": {
+          "q": "Is there a vaccine?",
+          "a": [
+            "As of {asOf}, here is what CDC says for each virus."
+          ],
+          "items": [
+            {
+              "label": "Dengue",
+              "text": "no dengue vaccines are available in the United States. Dengvaxia is no longer available in the United States.",
+              "source": "cdc-dengue-vaccines"
+            },
+            {
+              "label": "Chikungunya",
+              "text": "one vaccine, VIMKUNYA, is available in the United States for people 12 and older. CDC recommends it for people 12 and older traveling to a place with a chikungunya outbreak. The FDA suspended the license of another vaccine, Ixchiq, in August 2025.",
+              "source": "cdc-chik-vaccines"
+            },
+            {
+              "label": "Zika",
+              "text": "no vaccine is available.",
+              "source": "cdc-zika-about"
+            }
+          ]
+        },
+        "spot-aedes": {
+          "q": "How can I tell if a mosquito is an Aedes mosquito?",
+          "a": [
+            "Aedes mosquitoes are black or dark brown, with white bands on their legs and white spots on their bodies. Aedes aegypti also has stripes on its upper body that look like a lyre (a small harp)."
+          ]
+        },
+        "when-bite": {
+          "q": "When do Aedes mosquitoes bite?",
+          "a": [
+            "Aedes mosquitoes can bite during the day and at night. These mosquitoes prefer to bite people and live both indoors and outdoors near people."
+          ]
+        },
+        "where-live": {
+          "q": "Do Aedes mosquitoes live where I live?",
+          "a": [
+            "CDC has maps of the United States that show where Aedes mosquitoes have been found or could survive. The maps don't show disease risk: a shaded area doesn't mean the mosquitoes there carry a virus. Aedes mosquitoes can also turn up in places that aren't shaded."
+          ]
+        },
+        "repellents": {
+          "q": "Which insect repellents work?",
+          "a": [
+            "CDC recommends EPA-registered insect repellents with one of these active ingredients: DEET, picaridin, IR3535, oil of lemon eucalyptus (OLE), para-menthane-diol (PMD) or 2-undecanone. These repellents are proven safe and effective when used as the label says."
+          ]
+        },
+        "repellent-safety": {
+          "q": "Is repellent safe for children and during pregnancy?",
+          "a": [
+            "EPA-registered repellents are safe for people who are pregnant or breastfeeding when used as the label directs.",
+            "Babies and young children: CDC says “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old,” and repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.” Don't put repellent on a child's hands, eyes, mouth, cuts or irritated skin; adults put it on their own hands first, then on the child's face. Children shouldn't handle repellent. EPA says to wash a child's treated skin and clothes with soap and water after coming indoors. For babies, CDC advises clothing that covers arms and legs, and mosquito netting over strollers and baby carriers."
+          ]
+        },
+        "zappers": {
+          "q": "Do bug zappers, citronella candles or phone apps keep mosquitoes away?",
+          "a": [
+            "Wristbands and sound devices don’t protect you from mosquito bites. CDC says “wearing sound-emitting devices or repellent-impregnated wristbands are ineffective.” CDC and EPA don’t address bug zappers or phone apps. EPA says citronella products, including candles, vary in how well they work. CDC says the effectiveness of repellents that aren’t EPA-registered, including some natural ones, is not known. CDC recommends an EPA-registered repellent, loose long-sleeved shirts and pants, and screens or air conditioning."
+          ]
+        },
+        "before-trip": {
+          "q": "How do I know if a place I'm visiting has these viruses?",
+          "a": [
+            "CDC posts Travel Health Notices about health risks around the world, such as outbreaks, ranked from Level 1 to Level 4. Check the notices before any trip. The “Is it near me?” page lists the current CDC notices for dengue, Zika and chikungunya.",
+            "CDC also advises seeing a travel clinic or your doctor at least 4–6 weeks before you leave."
+          ]
+        },
+        "packing": {
+          "q": "What should I pack?",
+          "a": [
+            "An EPA-registered insect repellent and loose, long-sleeved shirts and pants are the basics. Clothing and gear such as boots, socks and tents can be treated with 0.5% permethrin, an insecticide for clothing and gear, not skin. A mosquito net helps if you'll sleep outside or in a room without screens.",
+            "CDC: “Pack acetaminophen (also known as paracetamol outside the United States) in your first aid kit. These medications can be used to manage fever and body pain in case you get dengue.” CDC also advises seeing a travel clinic or your doctor at least 4–6 weeks before you leave."
+          ]
+        },
+        "after-trip": {
+          "q": "I just got back from a trip. What should I do?",
+          "a": [
+            "CDC says: “Prevent mosquito bites for 3 weeks after your trip,” even if you are not sick. This step keeps you from spreading viruses like dengue, chikungunya and Zika to mosquitoes that aren’t infected. CDC recommends an EPA-registered insect repellent as one way to prevent bites.",
+            "After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms. CDC advises this after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission."
+          ]
+        },
+        "sick-after-trip": {
+          "q": "I got sick after a trip. What should I do?",
+          "a": [
+            "CDC says to see a doctor or clinic right away if you have a fever, headache, muscle or joint pain, or a rash after a trip. Tell them about your symptoms and where you traveled."
+          ]
+        },
+        "sources": {
+          "q": "Where does Outbite's information come from?",
+          "a": [
+            "Outbite’s health information comes from CDC and EPA first. When CDC and EPA don’t cover a topic, we use guidance from the World Health Organization. Each tip, story step and answer links to the page it comes from, and the Sources page lists them."
+          ]
+        },
+        "case-numbers": {
+          "q": "Where do the case numbers come from, and how often do they update?",
+          "a": [
+            "The case numbers come from CDC's National Notifiable Diseases Surveillance System (NNDSS), the CDC system that collects reports of cases from across the U.S., which CDC updates every week. The numbers on this site include cases reported up to {date}."
+          ]
+        },
+        "real-number": {
+          "q": "Why might the real number of cases be higher than the reported number?",
+          "a": [
+            "Reported cases are only the ones diagnosed and reported to CDC. The real number of infections is higher. CDC notes that under-reporting is a limitation common to all surveillance systems that rely on healthcare providers, and mild cases are more likely to go unreported than severe ones."
+          ]
+        },
+        "privacy": {
+          "q": "Does Outbite collect my information?",
+          "a": [
+            "No. Outbite doesn’t ask for your name, email or location, has no accounts and doesn’t use cookies. Visits are counted with GoatCounter in a way that doesn’t identify you, and the Privacy page has a switch to stop counting your visits. Five choices are saved in your own browser only: the weekly checklist’s ticks, the Protect page’s “Show first” choices, the “Don’t count my visits” switch, your text size and whether you closed the alert banner. The ZIP code box and place picker never save or send what you type."
+          ]
+        },
+        "medical-advice": {
+          "q": "Is Outbite medical advice?",
+          "a": [
+            "No. Outbite shares general health information, not medical advice. If you feel sick, contact a doctor or clinic. In an emergency, call 911."
+          ]
+        }
+      },
+      "tipLabel": "Tip"
+    },
+    "es": {
+      "title": "Preguntas y respuestas",
+      "intro": "Respuestas cortas sobre el dengue, el zika y el chikungunya, los mosquitos que los transmiten, los viajes y este sitio. Cada respuesta tiene un enlace a la página de los CDC o de la EPA de donde viene.",
+      "searchLabel": "Buscar preguntas",
+      "clear": "Borrar búsqueda",
+      "count": "{n} preguntas coinciden",
+      "countOne": "1 pregunta coincide",
+      "none": "Ninguna pregunta coincide. Prueba otra palabra o mira los grupos abajo.",
+      "jumpLabel": "Grupos de preguntas",
+      "openAll": "Abrir todo",
+      "closeAll": "Cerrar todo",
+      "copyLink": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "readMoreCdc": "Lee más en los CDC",
+      "readMoreEpa": "Lee más en la EPA",
+      "sickLink": "¿Te sientes mal? Mira qué hacer",
+      "pageLinks": {
+        "nearMe": "Ver “¿Está cerca de mí?”",
+        "sick": "Ver “¿Crees que te enfermaste?”",
+        "sources": "Ver nuestra página de Fuentes",
+        "privacy": "Ver nuestra página de Privacidad",
+        "travel": "Ver “¿Vas a viajar pronto?”"
+      },
+      "groups": {
+        "viruses": {
+          "heading": "Los virus",
+          "subtitle": "Qué son el dengue, el zika y el chikungunya, y cómo se contagian."
+        },
+        "mosquitoes": {
+          "heading": "Mosquitos y repelente",
+          "subtitle": "Cómo reconocer a los mosquitos Aedes y evitar sus picadas."
+        },
+        "travel": {
+          "heading": "Viajes y regreso a casa",
+          "subtitle": "Qué hacer antes, durante y después de un viaje."
+        },
+        "about": {
+          "heading": "Sobre este sitio",
+          "subtitle": "De dónde viene nuestra información y nuestras cifras."
+        }
+      },
+      "questions": {
+        "what-are": {
+          "q": "¿Qué son el dengue, el zika y el chikungunya?",
+          "a": [
+            "El dengue, el zika y el chikungunya son enfermedades causadas por virus. Los mosquitos infectados transmiten los tres virus a las personas. El dengue puede ser causado por cualquiera de cuatro virus parecidos."
+          ]
+        },
+        "how-spread": {
+          "q": "¿Cómo se contagian?",
+          "a": [
+            "La mayoría de las personas se contagian por la picada de un mosquito Aedes infectado. Un mosquito recoge el virus cuando pica a una persona que ya lo tiene, y después puede pasarlo en otras picadas."
+          ]
+        },
+        "person-to-person": {
+          "q": "¿Pueden pasar estos virus de una persona a otra?",
+          "a": [
+            "El zika se puede transmitir por relaciones sexuales, incluso de una pareja que no tiene síntomas, y una persona embarazada con zika puede pasárselo al bebé. El dengue puede pasar de una persona embarazada al bebé durante el embarazo o cerca del parto, y en casos raros se transmite por transfusiones de sangre, trasplantes de órganos o pinchazos con agujas. El chikungunya rara vez pasa de una persona embarazada al bebé durante la mayor parte del embarazo; el riesgo es mayor cuando la persona embarazada tiene el virus en el momento del parto.",
+            "Los condones pueden reducir la probabilidad de contraer el zika por vía sexual. Después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas. Los CDC lo aconsejan después de viajar a una zona con un aviso de salud para viajeros por el zika activo y, “si te preocupan los riesgos del zika”, después de viajar a una zona con transmisión actual o pasada del zika."
+          ]
+        },
+        "dengue-again": {
+          "q": "¿Se puede tener dengue más de una vez?",
+          "a": [
+            "Sí. Hay cuatro tipos de dengue, y una persona puede tener dengue más de una vez. Después de un tipo, el cuerpo queda protegido contra ese tipo por mucho tiempo, pero contra los otros tres solo por poco tiempo. Una segunda infección de dengue tiene más riesgo de enfermedad grave."
+          ]
+        },
+        "very-sick": {
+          "q": "¿Quién tiene más probabilidad de enfermarse gravemente?",
+          "a": [
+            "En el dengue, los bebés de 1 año o menos, las personas embarazadas, los adultos de 65 años o más, las personas con ciertas condiciones médicas y quienes ya tuvieron dengue tienen más probabilidad de enfermarse gravemente. En el chikungunya, los recién nacidos infectados cerca del parto, los adultos de 65 años o más y las personas con condiciones como presión alta, diabetes o enfermedades del corazón tienen más riesgo de enfermarse gravemente."
+          ]
+        },
+        "zika-pregnancy": {
+          "q": "¿Por qué importa el zika durante el embarazo?",
+          "a": [
+            "La infección por zika durante el embarazo puede causar defectos de nacimiento graves. El zika también se relaciona con otros problemas del embarazo, como la pérdida del embarazo, el nacimiento sin vida y el parto prematuro. Muchas personas con zika no tienen síntomas o los tienen leves. Evitar las picadas ayuda a prevenir el zika, y los condones pueden reducir la probabilidad de contraer el zika por vía sexual.",
+            "En resumen: si estás embarazada, habla con tu médico sobre el zika; los CDC recomiendan no viajar a lugares con un aviso de salud para viajeros por el zika activo. Los CDC dicen: “Si estás embarazada o planeas un embarazo, habla con tu médico o profesional de la salud sobre tu posible riesgo de infección por el zika, los posibles efectos de la infección por el virus del Zika en un bebé y las formas de protegerte del zika”. Para las viajeras embarazadas: “Debes evitar viajar a zonas con un aviso de salud para viajeros por el zika activo”. Para las zonas con transmisión actual o pasada del zika (lugares donde el zika se ha transmitido por mosquitos en algún momento): “Habla con tu médico o profesional de la salud sobre tus planes de viaje, las razones del viaje, si puedes prevenir las picadas de mosquito y los posibles riesgos”. Los plazos de los CDC: después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas."
+          ]
+        },
+        "vaccine": {
+          "q": "¿Hay una vacuna?",
+          "a": [
+            "Al {asOf}, esto es lo que dicen los CDC sobre cada virus."
+          ],
+          "items": [
+            {
+              "label": "Dengue",
+              "text": "no hay vacunas contra el dengue disponibles en Estados Unidos. Dengvaxia ya no está disponible en Estados Unidos.",
+              "source": "cdc-dengue-vaccines"
+            },
+            {
+              "label": "Chikungunya",
+              "text": "una vacuna, VIMKUNYA, está disponible en Estados Unidos para personas de 12 años o más. Los CDC la recomiendan para personas de 12 años o más que viajan a un lugar con un brote de chikungunya. La FDA suspendió la licencia de otra vacuna, Ixchiq, en agosto de 2025.",
+              "source": "cdc-chik-vaccines"
+            },
+            {
+              "label": "Zika",
+              "text": "no hay vacuna disponible.",
+              "source": "cdc-zika-about"
+            }
+          ]
+        },
+        "spot-aedes": {
+          "q": "¿Cómo sé si un mosquito es Aedes?",
+          "a": [
+            "Los mosquitos Aedes son negros o café oscuro, con bandas blancas en las patas y manchas blancas en el cuerpo. El Aedes aegypti también tiene rayas en la parte de arriba del cuerpo que parecen una lira (un arpa pequeña)."
+          ]
+        },
+        "when-bite": {
+          "q": "¿Cuándo pican los mosquitos Aedes?",
+          "a": [
+            "Los mosquitos Aedes pueden picar de día y de noche. Estos mosquitos prefieren picar a las personas y viven dentro y fuera de las casas, cerca de la gente."
+          ]
+        },
+        "where-live": {
+          "q": "¿Viven mosquitos Aedes donde yo vivo?",
+          "a": [
+            "Los CDC tienen mapas de Estados Unidos que muestran dónde se han encontrado mosquitos Aedes o dónde podrían vivir. Los mapas no muestran el riesgo de enfermedad: un área sombreada no significa que los mosquitos de allí lleven un virus. Los mosquitos Aedes también pueden aparecer en lugares que no están sombreados."
+          ]
+        },
+        "repellents": {
+          "q": "¿Qué repelentes funcionan?",
+          "a": [
+            "Los CDC recomiendan repelentes registrados por la EPA con uno de estos ingredientes activos: DEET, picaridina, IR3535, aceite de eucalipto de limón (OLE), para-mentano-diol (PMD) o 2-undecanona. Estos repelentes son seguros y eficaces cuando se usan como dice la etiqueta."
+          ]
+        },
+        "repellent-safety": {
+          "q": "¿Es seguro el repelente para niños y durante el embarazo?",
+          "a": [
+            "Los repelentes registrados por la EPA son seguros para personas embarazadas o que están amamantando cuando se usan como dice la etiqueta.",
+            "Bebés y niños pequeños: los CDC dicen “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”, y que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”. No le pongas repelente en las manos, los ojos, la boca, cortaduras ni piel irritada a un niño; los adultos se lo ponen primero en sus propias manos y luego en la cara del niño. Los niños no deben manejar el repelente. La EPA dice que hay que lavar la piel tratada y la ropa del niño con agua y jabón al regresar adentro. Para los bebés, los CDC aconsejan ropa que cubra los brazos y las piernas, y mosquiteros sobre los coches de bebé y los portabebés."
+          ]
+        },
+        "zappers": {
+          "q": "¿Funcionan las lámparas matainsectos, las velas de citronela o las aplicaciones del celular?",
+          "a": [
+            "Las pulseras y los aparatos que emiten sonido no te protegen de las picadas de mosquito. Los CDC dicen que “los aparatos que emiten sonido y las pulseras con repelente no son eficaces”. Los CDC y la EPA no hablan de las lámparas matainsectos ni de las aplicaciones del celular. La EPA dice que los productos de citronela, incluidas las velas, varían en qué tan bien funcionan. Los CDC dicen que no se sabe qué tan eficaces son los repelentes que no están registrados por la EPA, incluidos algunos naturales. Los CDC recomiendan un repelente registrado por la EPA, camisas de manga larga y pantalones largos y holgados, y mallas en las ventanas o aire acondicionado."
+          ]
+        },
+        "before-trip": {
+          "q": "¿Cómo sé si el lugar que voy a visitar tiene estos virus?",
+          "a": [
+            "Los CDC publican avisos de salud para viajeros sobre riesgos de salud en todo el mundo, como los brotes, del Nivel 1 al Nivel 4. Revisa los avisos antes de cualquier viaje. La página “¿Está cerca de mí?” muestra los avisos actuales de los CDC sobre el dengue, el zika y el chikungunya.",
+            "Los CDC también aconsejan ir a una clínica de viajeros o a tu médico o profesional de la salud al menos 4 a 6 semanas antes de salir."
+          ]
+        },
+        "packing": {
+          "q": "¿Qué debo llevar?",
+          "a": [
+            "Lo básico es un repelente registrado por la EPA y camisas de manga larga y pantalones largos y holgados. La ropa y el equipo, como botas, medias y casetas de campaña, se pueden tratar con permetrina al 0.5%, un insecticida para ropa y equipo, no para la piel. Un mosquitero ayuda si vas a dormir afuera o en un cuarto sin mallas.",
+            "Los CDC dicen: “Lleva acetaminofén (también llamado paracetamol fuera de Estados Unidos) en tu botiquín de primeros auxilios. Estos medicamentos se pueden usar para controlar la fiebre y el dolor en el cuerpo en caso de que te dé dengue”. Los CDC también aconsejan ir a una clínica de viajeros o a tu médico o profesional de la salud al menos 4 a 6 semanas antes de salir."
+          ]
+        },
+        "after-trip": {
+          "q": "Acabo de regresar de un viaje. ¿Qué debo hacer?",
+          "a": [
+            "Después de un viaje, los CDC dicen que evites las picadas de mosquito durante 3 semanas, aunque no te sientas mal. Así no les pasas virus como el dengue, el chikungunya o el zika a mosquitos que no están infectados. Los CDC recomiendan un repelente registrado por la EPA como una forma de evitar las picadas.",
+            "Después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas. Los CDC lo aconsejan después de viajar a una zona con un aviso de salud para viajeros por el zika activo y, “si te preocupan los riesgos del zika”, después de viajar a una zona con transmisión actual o pasada del zika."
+          ]
+        },
+        "sick-after-trip": {
+          "q": "Me enfermé después de un viaje. ¿Qué debo hacer?",
+          "a": [
+            "Los CDC dicen que vayas a un médico o profesional de la salud de inmediato si tienes fiebre, dolor de cabeza, dolor en los músculos o las articulaciones, o sarpullido después de un viaje. Cuéntale a tu médico tus síntomas y a dónde viajaste."
+          ]
+        },
+        "sources": {
+          "q": "¿De dónde viene la información de Outbite?",
+          "a": [
+            "La información de salud de Outbite viene primero de los CDC y la EPA. Cuando los CDC y la EPA no cubren un tema, usamos las recomendaciones de la Organización Mundial de la Salud. Cada consejo, paso de la historia y respuesta tiene un enlace a la página de donde viene, y la página de Fuentes las reúne."
+          ]
+        },
+        "case-numbers": {
+          "q": "¿De dónde vienen las cifras de casos y cada cuánto se actualizan?",
+          "a": [
+            "Las cifras de casos vienen del Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, el sistema que reúne los reportes de casos de todo EE. UU., que los CDC actualizan cada semana. Las cifras de este sitio incluyen casos reportados hasta el {date}."
+          ]
+        },
+        "real-number": {
+          "q": "¿Por qué el número real de casos podría ser mayor que el reportado?",
+          "a": [
+            "Los casos reportados son solo los que se diagnosticaron y se reportaron a los CDC. El número real de infecciones es mayor. Los CDC señalan que el subregistro es un límite común de todos los sistemas de vigilancia que dependen de los médicos y profesionales de la salud, y que los casos leves se reportan menos que los graves."
+          ]
+        },
+        "privacy": {
+          "q": "¿Outbite recoge mi información?",
+          "a": [
+            "No. Outbite no te pide tu nombre, correo ni ubicación, no tiene cuentas y no usa cookies. Las visitas se cuentan con GoatCounter de una forma que no te identifica, y la página de Privacidad tiene un interruptor para que no se cuenten tus visitas. Cinco opciones se guardan solo en tu propio navegador: las marcas de la lista semanal, las opciones de “Mostrar primero” de la página Protégete, el interruptor “No contar mis visitas”, el tamaño del texto y si cerraste el aviso. La casilla del código postal y el selector de lugar nunca guardan ni envían lo que escribes."
+          ]
+        },
+        "medical-advice": {
+          "q": "¿Outbite da consejos médicos?",
+          "a": [
+            "No. Outbite comparte información general de salud, no consejo médico. Si te sientes mal, comunícate con un médico o una clínica. En una emergencia, llama al 911."
+          ]
+        }
+      },
+      "tipLabel": "Consejo"
+    }
+  }
+}

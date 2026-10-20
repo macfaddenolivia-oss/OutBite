@@ -1,0 +1,44 @@
+---
+// Plain white scene with light-blue ground (no outline; --color-ground-bg: #CBDCEC,
+// dark mode #24539A) and the name labels on it. The ground rectangle reaches far past
+// the viewBox on the left, right and bottom; the svg lets it overflow and the picture
+// panel clips it, so the ground always fills the whole bottom of the panel to its
+// edges, however the drawing scales. Its top edge (GROUND) is where everyone stands.
+// `names` puts a label under each person; `notes` adds a smaller line under a name.
+import { GROUND, NAME_Y, VIEW_H, VIEW_W } from './layout';
+
+// How far the ground reaches past the drawing (in drawing units).
+const BLEED = 4000;
+// Baseline of a note under a name: its capitals start about 2 units below the name.
+const NOTE_GAP = 12;
+
+interface Props {
+  names?: { x: number; text: string }[];
+  notes?: { x: number; text: string }[];
+}
+const { names = [], notes = [] } = Astro.props;
+---
+
+<rect width={VIEW_W} height={VIEW_H} fill="#FFFFFF"></rect>
+<rect class="ground" x={-BLEED} y={GROUND} width={VIEW_W + 2 * BLEED} height={BLEED} fill="#CBDCEC"></rect>
+{
+  names.map((n) => (
+    <text x={n.x} y={NAME_Y} text-anchor="middle" class="story-name on-ground">
+      {n.text}
+    </text>
+  ))
+}
+{
+  /* A note continues the name above it ("Ana / is no longer contagious"): its
+     capitals start about 2px under the name. Long notes get a phone-only nudge. */
+  notes.map((n) => (
+    <text
+      x={n.x}
+      y={NAME_Y + NOTE_GAP}
+      text-anchor="middle"
+      class:list={['story-label story-note on-ground', { 'story-note--long': n.text.length > 16 }]}>
+      {n.text}
+    </text>
+  ))
+}
+

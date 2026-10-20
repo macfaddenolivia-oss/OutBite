@@ -1,0 +1,41 @@
+{
+  "name": "outbite",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Outbite: bilingual public-health site on Aedes mosquitoes, dengue, Zika, and chikungunya.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check-contrast": "node scripts/check-contrast.mjs",
+    "check-content": "node scripts/check-content.mjs",
+    "update-data": "node scripts/update-data.mjs",
+    "check-data": "node scripts/check-data.mjs",
+    "build-map": "node scripts/build-map.mjs",
+    "test-ics": "node scripts/test-ics.mjs",
+    "build-world-map": "node scripts/build-world-map.mjs",
+    "build-zip-data": "node scripts/build-zip-data.mjs",
+    "due-for-review": "node scripts/due-for-review.mjs",
+    "build-social-images": "node scripts/build-social-images.mjs",
+    "check-browser": "node scripts/check-browser.mjs",
+    "check": "npm run check-content && npm run check-contrast && npm run check-data && npm run test-ics && npm run check-browser"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@fontsource/public-sans": "^5.3.0",
+    "astro": "^7.4.0"
+  },
+  "devDependencies": {
+    "d3-geo": "^3.1.1",
+    "i18n-iso-countries": "^7.14.0",
+    "ical.js": "^2.2.1",
+    "qrcode": "^1.5.4",
+    "topojson-client": "^3.1.0",
+    "us-atlas": "^3.0.1",
+    "world-atlas": "^2.0.2"
+  }
+}

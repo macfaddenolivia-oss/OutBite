@@ -1,0 +1,97 @@
+---
+// Small flat icons for the Tools page cards, 72 × 72, in the
+// site palette with navy outlines; decorative (aria-hidden). The travel icon is the
+// story's airplane (story/Airplane.astro, from How it spreads) on a light-blue circle.
+import Airplane from './story/Airplane.astro';
+
+interface Props {
+  tool: string;
+}
+const { tool } = Astro.props;
+const NAVY = '#17306A';
+const LIGHT_BLUE = '#A9C8E0';
+const PALE_BLUE = '#CBDCEC';
+const PEACH = '#F4D1A8';
+const LIGHT_ORANGE = '#F0AF74';
+const ORANGE = '#E07034';
+---
+
+<svg class="tool-icon" viewBox="0 0 72 72" width="72" height="72" aria-hidden="true" focusable="false">
+  {
+    tool === 'quiz' && (
+      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round">
+        {/* Nested layers with a check */}
+        <rect x="4" y="4" width="64" height="64" fill={LIGHT_BLUE} />
+        <rect x="14" y="14" width="44" height="44" fill={LIGHT_ORANGE} />
+        <rect x="23" y="23" width="26" height="26" fill="#FFFFFF" />
+        <path d="M29 36 L34 41 L44 30" fill="none" stroke-width="3.5" stroke-linecap="round" />
+      </g>
+    )
+  }
+  {
+    tool === 'checklist' && (
+      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round">
+        {/* Clipboard with ticks */}
+        <rect x="12" y="9" width="48" height="58" rx="4" fill="#FFFFFF" />
+        <rect x="25" y="4" width="22" height="10" rx="2" fill={PALE_BLUE} />
+        <rect x="20" y="22" width="9" height="9" fill="#FFFFFF" />
+        <rect x="20" y="37" width="9" height="9" fill="#FFFFFF" />
+        <rect x="20" y="52" width="9" height="9" fill="#FFFFFF" />
+        <path d="M21.5 26.5 L24 29 L30 21" fill="none" stroke={ORANGE} stroke-width="3" stroke-linecap="round" />
+        <path d="M21.5 41.5 L24 44 L30 36" fill="none" stroke={ORANGE} stroke-width="3" stroke-linecap="round" />
+        <g stroke={LIGHT_BLUE} stroke-width="3.5" stroke-linecap="round">
+          <path d="M35 27 H52" />
+          <path d="M35 42 H52" />
+          <path d="M35 57 H52" />
+        </g>
+      </g>
+    )
+  }
+  {
+    tool === 'reminders' && (
+      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round">
+        {/* Calendar with a peach header */}
+        <rect x="6" y="10" width="60" height="56" rx="4" fill="#FFFFFF" />
+        <path d="M6 14 Q6 10 10 10 H62 Q66 10 66 14 V26 H6 Z" fill={PEACH} />
+        <path d="M20 4 V16 M52 4 V16" stroke-linecap="round" />
+        <g stroke="none">
+          {[0, 1, 2, 3, 4].flatMap((c) =>
+            [0, 1, 2].map((r) => <rect x={14 + c * 10} y={33 + r * 10} width="6" height="6" fill={c === 2 && r === 1 ? ORANGE : LIGHT_BLUE} />),
+          )}
+        </g>
+      </g>
+    )
+  }
+  {
+    tool === 'printables' && (
+      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round">
+        {/* Printer */}
+        <rect x="18" y="6" width="36" height="18" fill="#FFFFFF" />
+        <rect x="5" y="22" width="62" height="28" rx="5" fill={LIGHT_BLUE} />
+        <rect x="16" y="40" width="40" height="27" fill="#FFFFFF" />
+        <g stroke={LIGHT_BLUE} stroke-width="3" stroke-linecap="round">
+          <path d="M23 50 H49" />
+          <path d="M23 58 H41" />
+        </g>
+        <circle cx="57" cy="31" r="2.5" fill={NAVY} stroke="none" />
+      </g>
+    )
+  }
+  {
+    tool === 'travel' && (
+      <g>
+        <circle cx="36" cy="36" r="34" fill={PALE_BLUE} />
+        <Airplane x={35} y={37} scale={0.46} />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .tool-icon {
+    display: block;
+    flex: none;
+    width: 72px;
+    height: 72px;
+  }
+</style>

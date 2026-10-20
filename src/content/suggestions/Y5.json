@@ -1,0 +1,49 @@
+{
+  "id": "Y5",
+  "layer": "yard",
+  "effortGroup": "regular",
+  "guidance": "cdc-epa",
+  "evidence": "limited",
+  "cost": [
+    "$",
+    "$$"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "homeowner"
+  ],
+  "safetyContacts": true,
+  "related": [
+    "Y1"
+  ],
+  "sources": [
+    "cdc-control-home"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Spray outdoor resting spots for adult mosquitoes",
+      "summary": "A short-term extra step, not a replacement for emptying water.",
+      "evidenceMeasures": "when used on its own",
+      "canDo": [
+        "Outdoor spraying kills mosquitoes resting under furniture and in carports and garages."
+      ],
+      "cantDo": [
+        "Outdoor spraying doesn't last. It adds to the weekly water check; it doesn't replace it."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Rocía insecticida donde descansan los mosquitos afuera",
+      "summary": "Un paso extra de corto plazo, no un reemplazo de vaciar el agua.",
+      "evidenceMeasures": "cuando se usa por sí solo",
+      "canDo": [
+        "Rociar afuera mata a los mosquitos que descansan debajo de muebles, en marquesinas y en garajes."
+      ],
+      "cantDo": [
+        "Rociar afuera no dura: se suma a la revisión semanal del agua, pero no la reemplaza."
+      ],
+      "research": []
+    }
+  }
+}

@@ -1,0 +1,846 @@
+---
+// Disease pages: /[lang]/dengue/, /[lang]/zika/, /[lang]/chikungunya/
+// All three use exactly the same layout and sections:
+// 1. Top: picture box (the story mosquito carrying the virus) | title, intro and the
+//    three disease buttons (current one filled navy). Then the "not medical advice" box.
+// 2. At a glance: Spread by, Symptoms start, How many get sick, Vaccine (as of month
+//    year, with a link to CDC's current vaccine page).
+// 3. Symptoms and warning signs, with the deep-red "Get medical care right away" box
+//    (the only deep red on the page) and the "I think I'm sick →" button.
+// 4. Who's at higher risk.
+// 5. Where it spreads: CDC's All of the U.S. year total from cases.json (asterisk note),
+//    then "Around the world" (WorldRiskMap: CDC's world risk list for this virus),
+//    where it spreads now (each virus's own localSpread places from places.json), and
+//    "See the [disease] map →" (opens that virus's tab on Is it near me?).
+// 6. Comparison table, the same on all three pages, current column in peach; three
+//    stacked cards on phones (current disease first).
+// Text, Spanish and sources: src/content/diseases.json (checked against CDC only).
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import Genus from '../../components/Genus.astro';
+import Mosquito from '../../components/story/Mosquito.astro';
+import ZikaSpread from '../../components/ZikaSpread.astro';
+import WorldRiskMap from '../../components/WorldRiskMap.astro';
+import NoteRef from '../../components/NoteRef.astro';
+import RefText from '../../components/RefText.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import content from '../../content/diseases.json';
+import warningSigns from '../../content/warning-signs.json';
+import placeData from '../../data/places.json';
+import { DISEASES, caseData, formatDate, type Disease } from '../../lib/cases';
+import { sources } from '../../lib/suggestions';
+import { getLocale, localeCodes, localizePath, useTranslations } from '../../i18n';
+import { diseaseKeys, getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((lang) => diseaseKeys.map((disease) => ({ params: { lang, disease } })));
+}
+
+const { lang, disease: diseaseParam } = Astro.params;
+const disease = diseaseParam as Disease;
+const t = useTranslations(lang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const href = (key: string) => localizePath(lang, getPage(key).path);
+
+// Dengue's warning signs come from the shared warning-signs.json; Zika and chikungunya
+// keep their own "see a doctor or clinic if" box.
+type DiseaseText = (typeof content.text.en.diseases)['zika'];
+const all = (content.text as Record<string, typeof content.text.en>)[lang] ?? content.text.en;
+const text = all.diseases[disease] as DiseaseText;
+const ws = warningSigns.text[(lang === 'es' ? 'es' : 'en') as 'en' | 'es'];
+const cite = content.cite as Record<string, string[]>;
+const c = (section: string) => cite[`${disease}-${section}`] ?? [];
+
+const title = t(`pages.${disease}.title`);
+const nameIn = (d: string) => t(`diseasePage.inSentence.${d}`);
+const formatNumber = new Intl.NumberFormat(htmlLang);
+const monthYear = new Intl.DateTimeFormat(htmlLang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+  new Date(`${content.vaccineAsOf}-01T00:00:00Z`),
+);
+const monthYearShort = new Intl.DateTimeFormat(htmlLang, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+  new Date(`${content.vaccineAsOf}-01T00:00:00Z`),
+);
+const vaccineUrl = sources[content.vaccineSource[disease]]?.url;
+// Extras (Oct 19, 2026): links to Protect tips, CDC's risk map per virus, the Zika
+// pregnancy box and the "Before you travel" block (all three pages).
+const ex = all.extras;
+const tipHref = (id: string) => `${href('protect')}#card-${id}`;
+const riskUrl = sources[(content.riskSource as Record<string, string>)[disease]]?.url;
+
+// Where it spreads: places with ongoing local spread of this virus come from places.json
+// (CDC "frequent/continuous" risk), never typed in by hand.
+const inSentencePlaces = ((getLocale(lang).messages as Record<string, any>).diseasePage?.placeInSentence ?? {}) as Record<string, string>;
+const placeName = (code: string) => inSentencePlaces[code] ?? t(`places.${code}`);
+// "A, B and C" / "A, B y C" (the site's style: no comma before "and").
+const listJoin = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} ${t('diseasePage.and')} ${items.at(-1)}`;
+const localPlaces = listJoin(placeData.places.filter((p) => p.localSpread[disease]).map((p) => placeName(p.code)));
+const where = text.whereSpreads.map((s: string) => s.replace('{places}', localPlaces));
+const total = caseData.allUS.ytd[disease];
+const NOTE_ID = 'disease-note';
+const mapHref = `${href('nearMe')}#map-${disease}`;
+
+// Comparison: same rows and columns on every page; the current disease is highlighted
+// (and comes first in the phone cards).
+const rows = ['mosquitoes', 'other', 'symptoms', 'risk', 'vaccine'] as const;
+const rowLabel = (row: (typeof rows)[number]) =>
+  row === 'vaccine' ? t('diseasePage.compare.vaccine', { date: monthYearShort }) : t(`diseasePage.compare.${row}`);
+const cardOrder = [disease, ...DISEASES.filter((d) => d !== disease)];
+---
+
+<BaseLayout lang={lang} title={title} description={text.intro}>
+  <!-- 1. Top -->
+  <div class="dhero">
+    <div class="container dhero__grid">
+      <div class="dhero__picture" aria-hidden="true">
+        <svg viewBox="0 4 64 66"><Mosquito x={31} y={37} dots /></svg>
+      </div>
+      <div class="dhero__text">
+        <h1>{title}</h1>
+        <p class="dhero__intro"><Genus text={text.intro} /></p>
+        <ActionRow lang={lang} />
+        <nav class="dswitch" aria-label={t('diseasePage.switchLabel')}>
+          <ul>
+            {
+              DISEASES.map((d) => (
+                <li>
+                  <a class="dswitch__btn" href={href(d)} aria-current={d === disease ? 'page' : undefined}>
+                    {t(`pages.${d}.title`)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="container dpage">
+    <Disclaimer lang={lang} />
+
+    {
+      disease === 'zika' && (
+        <section class="dsec dsec--spread">
+          <ZikaSpread text={all.zikaSpread} />
+        </section>
+      )
+    }
+
+    {
+      disease === 'zika' && (
+        <section class="preg" aria-labelledby="preg-heading">
+          <h2 id="preg-heading" class="preg__heading">{ex.pregnancyHeading}</h2>
+          <dl class="preg__list">
+            {ex.pregnancy.map((x: { label: string; summary: string; quote: string }) => (
+              <div>
+                <dt>{x.label}</dt>
+                <dd>
+                  <p class="preg__summary">{x.summary}</p>
+                  <p>{x.quote}</p>
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p class="preg__note">{ex.zikaPast}</p>
+          <p class="preg__more">
+            <a href={tipHref('B5')}>{ex.sexLink} <span aria-hidden="true">→</span></a>
+          </p>
+          <p class="preg__note">{ex.pregnancyNote}</p>
+          <SourceLine lang={lang} ids={cite['zika-pregnancy']} compact />
+        </section>
+      )
+    }
+
+    <!-- 2. At a glance -->
+    <section class="glance" aria-labelledby="glance-heading">
+      <h2 id="glance-heading" class="visually-hidden">{t('diseasePage.glanceHeading')}</h2>
+      <dl class="glance__grid">
+        <div class="glance__box">
+          <dt>{t('diseasePage.glance.spreadBy')}</dt>
+          <dd>
+            <Genus text={text.glance.spreadBy} />
+            {disease === 'zika' && (
+              <a class="glance__link" href={tipHref('B5')}>
+                {ex.sexLink} <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </dd>
+        </div>
+        <div class="glance__box">
+          <dt>{t('diseasePage.glance.symptomsStart')}</dt>
+          <dd>{text.glance.symptomsStart}</dd>
+        </div>
+        <div class="glance__box">
+          <dt>{t('diseasePage.glance.howManySick')}</dt>
+          <dd>{text.glance.howManySick}</dd>
+        </div>
+        <div class="glance__box">
+          <dt>{t('diseasePage.glance.vaccine')}</dt>
+          <dd>
+            {text.glance.vaccine}
+            <span class="glance__asof">
+              {t('diseasePage.asOf', { date: monthYear })} ·{' '}
+              <a href={vaccineUrl}>{t('diseasePage.vaccineLink')}</a>
+            </span>
+            {disease === 'chikungunya' && (
+              <a class="glance__link" href={tipHref('B6')}>
+                {ex.vaccineTipLink} <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </dd>
+        </div>
+      </dl>
+      <SourceLine lang={lang} ids={c('glance')} compact />
+    </section>
+
+    <div class="dcols">
+      <!-- 3. Symptoms and warning signs -->
+      <section class="dsec" aria-labelledby="symptoms-heading">
+        <h2 id="symptoms-heading" class="dsec__heading">{t('diseasePage.symptomsHeading')}</h2>
+        <ul class="dsec__list">{text.symptoms.map((s: string) => <li><Genus text={s} /></li>)}</ul>
+        <p class="dsec__medicine">{all.extras.noNsaid}</p>
+        <div class="warn">
+          {
+            disease === 'dengue' ? (
+              <>
+                <h3 class="warn__heading">{ws.heading}</h3>
+                <p class="warn__lead">{ws.lead}</p>
+                <ul>{ws.signs.map((s: string) => <li>{s}</li>)}</ul>
+                <p class="warn__when">{ws.timing}</p>
+              </>
+            ) : (
+              <>
+                <h3 class="warn__heading">{text.warningHeading}</h3>
+                <ul>{text.warningSigns.map((s: string) => <li>{s}</li>)}</ul>
+                <p class="warn__when">{text.warningWhen}</p>
+              </>
+            )
+          }
+          <a class="warn__btn" href={href('sick')}>{t('diseasePage.sickButton')} <span aria-hidden="true">→</span></a>
+        </div>
+        <SourceLine lang={lang} ids={c('symptoms')} compact />
+      </section>
+
+      <div class="dcols__side">
+        <!-- 4. Who's at higher risk -->
+        <section class="dsec" aria-labelledby="risk-heading">
+          <h2 id="risk-heading" class="dsec__heading">{t('diseasePage.riskHeading')}</h2>
+          <ul class="dsec__list">{text.higherRisk.map((s: string) => <li>{s}</li>)}</ul>
+          {disease === 'zika' && (
+            <p class="dsec__more">
+              <a href={tipHref('B5')}>{ex.sexLink} <span aria-hidden="true">→</span></a>
+            </p>
+          )}
+          <SourceLine lang={lang} ids={c('risk')} compact />
+        </section>
+
+        <!-- 5. Where it spreads -->
+        <section class="dsec" aria-labelledby="where-heading">
+          <h2 id="where-heading" class="dsec__heading">{t('diseasePage.whereHeading')}</h2>
+          <div class="where">
+            <p class="where__total">
+              <span class="where__number">{formatNumber.format(total)}</span>
+              <span class="where__unit">
+                <RefText
+                  text={t('diseasePage.reportedAllUS', { year: String(caseData.mmwrYear) })}
+                  href={`#${NOTE_ID}`}
+                  label={t('dash.noteRefLabel')}
+                />
+              </span>
+            </p>
+            {
+              disease === 'zika' && caseData.split.zika.available && (
+                <p class="where__split">
+                  {t('diseasePage.zikaSplit', {
+                    travel: formatNumber.format(caseData.split.zika.states!.travel + caseData.split.zika.territories!.travel),
+                    local: formatNumber.format(caseData.split.zika.states!.local + caseData.split.zika.territories!.local),
+                    date: formatDate(caseData.split.zika.asOf!, htmlLang),
+                  })}{' '}
+                  {t('dash.splitExplain')}
+                </p>
+              )
+            }
+            <div class="where__text">
+              {where.map((s: string) => <p>{s}</p>)}
+            </div>
+          </div>
+          <p class="where__map">
+            <a href={mapHref}>{t('diseasePage.seeMap', { disease: nameIn(disease) })} <span aria-hidden="true">→</span></a>
+            <a href={riskUrl}>{ex.riskLink.replace('{disease}', nameIn(disease))} <span aria-hidden="true">→</span></a>
+          </p>
+          <p class="where__note" id={NOTE_ID}>{t('dash.reportedNote')}</p>
+          <SourceLine lang={lang} ids={c('where')} compact />
+        </section>
+      </div>
+    </div>
+
+    <!-- Where it spreads, around the world: CDC's world risk list on a map -->
+    <section class="dsec world" aria-labelledby={`world-${disease}-heading`}>
+      <h2 id={`world-${disease}-heading`} class="dsec__heading">{t('worldRisk.heading')}</h2>
+      <WorldRiskMap lang={lang} viruses={[disease]} id={`world-${disease}`} hideHeading />
+    </section>
+
+    <!-- Before you travel (all three pages) -->
+    <section class="dsec travel" aria-labelledby="travel-heading">
+      <h2 id="travel-heading" class="dsec__heading">{ex.travelHeading}</h2>
+      <ul class="dsec__list">
+        <li>{ex.travelVisit}</li>
+        <li><a href={sources['cdc-travel-notices'].url}>{ex.travelNotices} <span aria-hidden="true">→</span></a></li>
+        <li><a href={href('travel')}>{ex.travelPage} <span aria-hidden="true">→</span></a></li>
+        <li>{ex.travelPacking}</li>
+      </ul>
+      <SourceLine lang={lang} ids={cite.travel} compact />
+    </section>
+
+    <!-- 6. Comparison -->
+    <section class="dsec compare" aria-labelledby="compare-heading">
+      <h2 id="compare-heading" class="dsec__heading">{t('diseasePage.compareHeading')}</h2>
+      <div class="compare__table-wrap">
+        <table class="compare__table">
+          <thead>
+            <tr>
+              <td></td>
+              {
+                DISEASES.map((d) => (
+                  <th scope="col" class={d === disease ? 'is-current' : undefined}>
+                    {t(`pages.${d}.title`)}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((row) => (
+                <tr>
+                  <th scope="row">{rowLabel(row)}</th>
+                  {DISEASES.map((d) => (
+                    <td class={d === disease ? 'is-current' : undefined}>{all.diseases[d].compare[row]}</td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <ul class="compare__cards">
+        {
+          cardOrder.map((d) => (
+            <li class={`compare__card${d === disease ? ' is-current' : ''}`}>
+              <h3 class="compare__card-title">{t(`pages.${d}.title`)}</h3>
+              <dl>
+                {rows.map((row) => (
+                  <div>
+                    <dt>{rowLabel(row)}</dt>
+                    <dd>{all.diseases[d].compare[row]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="compare__more">
+        <a href={href('protect')}>{t('diseasePage.protectAll')} <span aria-hidden="true">→</span></a>
+      </p>
+      <SourceLine lang={lang} ids={cite.comparison} compact />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- 1. Top ---- */
+  .dhero {
+    padding-block: var(--space-5);
+    border-bottom: 4px solid var(--color-rule);
+    background: var(--color-intro-bg);
+  }
+
+  .dhero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    .dhero__grid {
+      grid-template-columns: 16.5rem minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .dhero__picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 16.5rem;
+    aspect-ratio: 270 / 180;
+    border: 3px solid #17306a;
+    background: #cbdcec;
+  }
+
+  .dhero__picture svg {
+    display: block;
+    height: 96%;
+  }
+
+  .dhero__text h1 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-title);
+  }
+
+  .dhero__intro {
+    max-width: 42rem;
+    margin: 0 0 var(--space-4);
+    color: var(--color-text-muted);
+    font-size: var(--text-intro);
+    line-height: 1.45;
+  }
+
+  .dswitch ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dswitch__btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--pad-box);
+    border: 3px solid var(--color-tab-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-tab-bg);
+    color: var(--color-tab-text);
+    font-weight: var(--weight-strong);
+    text-decoration: none;
+  }
+
+  .dswitch__btn:hover {
+    background: var(--color-tab-hover-bg);
+  }
+
+  .dswitch__btn[aria-current='page'] {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .dpage {
+    padding-block: var(--space-2) var(--section-gap);
+  }
+
+  /* ---- 2. At a glance: 4 across, 2×2 on tablets, stacked on phones ---- */
+  .glance__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  @media (min-width: 40rem) {
+    .glance__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .glance__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .glance__box {
+    padding: var(--space-3) var(--pad-box-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .glance__box:first-child {
+    border-top: 0;
+  }
+
+  @media (min-width: 40rem) {
+    .glance__box:nth-child(2) {
+      border-top: 0;
+    }
+
+    .glance__box:nth-child(even) {
+      border-inline-start: 1px solid var(--color-border);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .glance__box {
+      border-top: 0;
+    }
+
+    .glance__box + .glance__box {
+      border-inline-start: 1px solid var(--color-border);
+    }
+  }
+
+  .glance__box dt {
+    margin-bottom: var(--space-1);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .glance__box dd {
+    margin: 0;
+  }
+
+  .glance__asof {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .glance :global(.source-line) {
+    margin-top: var(--space-2);
+  }
+
+  /* ---- Sections ---- */
+  .dcols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 64rem) {
+    .dcols {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  .dcols__side {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .glance__link,
+  .dsec__more a {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .dsec__more {
+    margin: 0 0 var(--space-2);
+  }
+
+  /* Zika: "Pregnant or planning a pregnancy?" in the peach callout, navy text. */
+  .preg {
+    margin-bottom: var(--space-5);
+    padding: var(--pad-box-lg);
+    border-left: 8px solid #17306a;
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+  }
+
+  .preg__heading {
+    margin-bottom: var(--space-2);
+    color: inherit;
+  }
+
+  .preg__list {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .preg__list dt {
+    font-weight: var(--weight-display);
+  }
+
+  .preg__list dd {
+    margin: 0;
+  }
+
+  .preg__more {
+    margin: var(--space-3) 0 var(--space-1);
+    font-weight: var(--weight-strong);
+  }
+
+  .preg a {
+    color: inherit;
+  }
+
+  .preg__list dd p {
+    margin: 0;
+  }
+
+  .preg__summary {
+    font-weight: var(--weight-strong);
+  }
+
+  .preg__note {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .preg :global(.source-line),
+  .preg :global(a) {
+    color: inherit;
+  }
+
+  .travel,
+  .world {
+    margin-top: var(--space-5);
+  }
+
+  .where__map a + a {
+    display: block;
+    margin-top: var(--space-1);
+  }
+
+  .dsec--spread {
+    margin-bottom: var(--space-5);
+  }
+
+  .dsec {
+    padding: var(--pad-box-lg) var(--pad-box-lg) var(--pad-box);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .dsec__heading {
+    margin-bottom: var(--space-2);
+  }
+
+  .dsec__list {
+    margin: 0 0 var(--space-3);
+    padding-inline-start: 1.2em;
+  }
+
+  .dsec__list li + li {
+    margin-top: var(--space-1);
+  }
+
+  /* Warning signs: the page's only deep red. */
+  .warn {
+    margin-bottom: var(--space-3);
+    padding: var(--space-3) var(--pad-box-lg);
+    border: 3px solid var(--color-urgent-border);
+    background: var(--color-surface);
+  }
+
+  .warn__heading {
+    margin: 0 0 var(--space-2);
+    color: var(--color-warning-text);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--weight-display);
+  }
+
+  .warn ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+    font-size: var(--text-sm);
+  }
+
+  .dsec__medicine {
+    margin: 0 0 var(--space-3);
+    font-weight: var(--weight-strong);
+  }
+
+  .where__split {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .warn__lead {
+    margin: 0 0 var(--space-2);
+    font-weight: var(--weight-strong);
+  }
+
+  .warn__when {
+    margin: var(--space-2) 0 var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .warn__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--pad-box);
+    border-radius: var(--radius-sm);
+    background: var(--color-urgent-bg);
+    color: var(--color-urgent-text);
+    font-weight: var(--weight-strong);
+    text-decoration: none;
+  }
+
+  .warn__btn:hover {
+    text-decoration: underline;
+  }
+
+  /* Where it spreads */
+  .where {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2) var(--space-4);
+  }
+
+  @media (min-width: 30rem) {
+    .where {
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  .where__total {
+    display: grid;
+    margin: 0;
+    max-width: 11rem;
+  }
+
+  .where__number {
+    color: var(--color-heading);
+    font-size: clamp(2.25rem, 2rem + 1vw, 2.75rem);
+    font-weight: var(--weight-display);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .where__unit {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.3;
+  }
+
+  .where__text p {
+    margin: 0;
+  }
+
+  .where__text p + p {
+    margin-top: var(--space-2);
+  }
+
+  .where__map {
+    margin: var(--space-3) 0 var(--space-2);
+    font-weight: var(--weight-strong);
+  }
+
+  .where__note {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* ---- 6. Comparison: a table on wider screens, three cards on phones ---- */
+  .compare {
+    margin-top: var(--space-5);
+  }
+
+  .compare__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .compare__table th,
+  .compare__table td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .compare__table thead th {
+    border-bottom-width: 1px;
+  }
+
+  .compare__table tbody th {
+    width: 22%;
+    font-size: var(--text-sm);
+  }
+
+  .compare__table thead td {
+    width: 22%;
+  }
+
+  .compare__table .is-current,
+  .compare__card.is-current {
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+  }
+
+  .compare__cards {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .compare__card {
+    padding: var(--space-3) var(--pad-box);
+    border: 2px solid var(--color-rule);
+  }
+
+  .compare__card.is-current {
+    border-color: #17306a;
+  }
+
+  .compare__card-title {
+    margin: 0 0 var(--space-2);
+    color: inherit;
+    font-size: var(--text-lg);
+  }
+
+  .compare__card dl {
+    margin: 0;
+  }
+
+  .compare__card dl > div + div {
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .compare__card.is-current dl > div + div {
+    border-top-color: #a9c8e0;
+  }
+
+  .compare__card dt {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .compare__card dd {
+    margin: 0;
+  }
+
+  .compare__table-wrap {
+    display: none;
+  }
+
+  @media (min-width: 40rem) {
+    .compare__table-wrap {
+      display: block;
+    }
+
+    .compare__cards {
+      display: none;
+    }
+  }
+
+  .compare__more {
+    margin: var(--space-3) 0 var(--space-2);
+    font-weight: var(--weight-strong);
+  }
+</style>

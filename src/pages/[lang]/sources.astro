@@ -1,0 +1,400 @@
+---
+// Sources and methods. Title and intro, then four sections
+// (each keeps its anchor, e.g. #how-we-rate-evidence):
+// 1. Who we listen to: CDC & EPA → WHO → research (↓ on phones).
+// 2. How we label tips (#how-we-rate-evidence, which every "How we rate evidence →"
+//    link points to): the real tip badges (Badge.astro) with one-line meanings.
+// 3. How the numbers update: CDC publishes → Outbite checks → the site shows CDC's
+//    date. Dates come from src/data/cases.json and travel-notices.json, never typed
+//    in. The full data source list is a <details> that is open without JavaScript.
+//    The "checks" wording switches to "Every day…" once dailyUpdatesScheduled is true
+//    in src/config/site.json (see README.md).
+// 4. How content is reviewed: statuses from src/content/reviews.json.
+// Text: sourcesPage.* in the translation files.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Badge from '../../components/Badge.astro';
+import reviewData from '../../content/reviews.json';
+import site from '../../config/site.json';
+import { caseData, formatDate, noticeData } from '../../lib/cases';
+import { getLocale, langStaticPaths, useTranslations } from '../../i18n';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const page = (getLocale(lang).messages as Record<string, any>).sourcesPage;
+const steps = page.listen.steps as { title: string; text: string }[];
+const dataSources = page.data.items as { name: string; note: string; url: string }[];
+
+const guidance = ['cdc-epa', 'who', 'none', 'unknown'] as const;
+const levels = ['strong', 'moderate', 'limited', 'emerging', 'not-supported', 'not-rated'] as const;
+
+const ids = { listen: 'who-we-listen-to', rating: 'how-we-rate-evidence', numbers: 'how-the-numbers-update', reviews: 'how-content-is-reviewed' };
+
+// Dates from the data files: the latest check of either file, and CDC's own week.
+const lastChecked = [caseData.fetchedAt, noticeData.fetchedAt].sort().at(-1)!;
+const weekEnding = formatDate(caseData.weekEnding, htmlLang);
+const flow = [
+  { title: page.numbers.publishes.title, text: page.numbers.publishes.text },
+  { title: page.numbers.checks.title, text: site.dailyUpdatesScheduled ? page.numbers.checks.textScheduled : page.numbers.checks.text },
+  { title: page.numbers.shows.title, text: t('sourcesPage.numbers.shows.text', { date: weekEnding }) },
+];
+
+const monthYear = (ym: string) =>
+  new Intl.DateTimeFormat(htmlLang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${ym}-01T00:00:00Z`));
+const reviews = reviewData.reviews.map((r) => ({
+  ...r,
+  name: t(`sourcesPage.reviews.items.${r.id}.name`),
+  scope: t(`sourcesPage.reviews.items.${r.id}.scope`),
+  statusText:
+    r.status === 'done' && r.doneDate
+      ? t('sourcesPage.reviews.status.done', { date: monthYear(r.doneDate) })
+      : t(`sourcesPage.reviews.status.${r.status}`),
+}));
+---
+
+<BaseLayout lang={lang} title={t('pages.sources.title')} description={page.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.sources.title')}</h1>
+      <p class="page-intro__lead">{page.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container sources">
+    <!-- 1. Who we listen to -->
+    <section class="ssec" id={ids.listen} aria-labelledby="listen-heading">
+      <h2 id="listen-heading" class="ssec__heading">{page.listen.heading}</h2>
+      <p class="ssec__lead">{page.listen.lead}</p>
+      <ol class="flow flow--ranked">
+        {
+          steps.map((step, i) => (
+            <li class={`flow__box flow__box--${i + 1}`}>
+              <span class="flow__number" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3 class="flow__title">{step.title}</h3>
+              <p class="flow__text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <!-- 2. How we label tips -->
+    <section class="ssec" id={ids.rating} aria-labelledby="rating-heading">
+      <h2 id="rating-heading" class="ssec__heading">{page.rating.heading}</h2>
+      <p class="ssec__lead">{page.rating.lead}</p>
+      <div class="labels">
+        <div>
+          <h3 class="labels__heading">{page.rating.guidanceHeading}</h3>
+          <dl class="labels__list">
+            {
+              guidance.map((g) => (
+                <div class="labels__item">
+                  <dt>
+                    <Badge lang={lang} kind="guidance" value={g} />
+                  </dt>
+                  <dd>{page.rating.guidance[g]}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div>
+          <h3 class="labels__heading">{page.rating.evidenceHeading}</h3>
+          <p class="labels__note">{page.rating.evidenceIntro}</p>
+          <dl class="labels__list">
+            {
+              levels.map((level) => (
+                <div class="labels__item">
+                  <dt>
+                    <Badge lang={lang} kind="evidence" value={level} />
+                  </dt>
+                  <dd>{page.rating.evidence[level]}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. How the numbers update -->
+    <section class="ssec" id={ids.numbers} aria-labelledby="numbers-heading">
+      <h2 id="numbers-heading" class="ssec__heading">{page.numbers.heading}</h2>
+      <p class="ssec__lead">{page.numbers.lead}</p>
+      <ol class="flow flow--data">
+        {
+          flow.map((step) => (
+            <li class="flow__box">
+              <h3 class="flow__title">{step.title}</h3>
+              <p class="flow__text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="dates">
+        <span><strong>{page.numbers.lastChecked}</strong> {formatDate(lastChecked, htmlLang)}</span>
+        <span class="dates__sep" aria-hidden="true">·</span>
+        <span>
+          <strong>{page.numbers.dataThrough}</strong> {t('sourcesPage.numbers.weekEnding', { date: weekEnding })}
+        </span>
+      </p>
+      <details class="data-list" open data-data-list>
+        <summary>{page.numbers.listHeading}</summary>
+        <ul>
+          {
+            dataSources.map((s) => (
+              <li>
+                <a href={s.url}>{s.name}</a>: {s.note}
+                {s.small && <small class="src-small">{s.small}</small>}
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </section>
+
+    <!-- 4. How content is reviewed -->
+    <section class="ssec" id={ids.reviews} aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading" class="ssec__heading">{page.reviews.heading}</h2>
+      <p class="ssec__lead">{page.reviews.lead}</p>
+      <ul class="reviews">
+        {
+          reviews.map((r) => (
+            <li class="reviews__row">
+              <span class="reviews__what">
+                <strong class="reviews__name">{r.name}</strong>
+                <span class="reviews__scope">{r.scope}</span>
+              </span>
+              <span class={`reviews__status reviews__status--${r.status}`}>{r.statusText}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // The data source list starts closed with JavaScript; without it, it stays open.
+  for (const el of document.querySelectorAll<HTMLDetailsElement>('[data-data-list]')) el.open = false;
+</script>
+
+<style>
+  .sources {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  .ssec:first-child {
+    margin-top: 0;
+  }
+
+  /* Sections: white with a navy top rule. */
+  .ssec {
+    margin-top: var(--space-5);
+    padding: var(--pad-box-lg);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .ssec__heading {
+    margin-bottom: var(--space-1);
+  }
+
+  .ssec__lead {
+    margin: 0 0 var(--space-4);
+  }
+
+  /* Three boxes joined by arrows: → across on wide screens, ↓ stacked on phones. */
+  .flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .flow__box {
+    position: relative;
+    padding: var(--space-3) var(--pad-box);
+    background: var(--color-layer-home-bg);
+    color: var(--color-layer-text);
+  }
+
+  .flow__box + .flow__box::before {
+    content: '↓';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: var(--space-6);
+    margin-left: calc(var(--space-6) / -2);
+    color: var(--color-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-strong);
+    line-height: var(--space-6);
+    text-align: center;
+  }
+
+  @media (min-width: 48rem) {
+    .flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .flow__box + .flow__box::before {
+      content: '→';
+      top: 50%;
+      bottom: auto;
+      left: auto;
+      right: 100%;
+      margin: calc(var(--space-6) / -2) 0 0;
+    }
+  }
+
+  .flow--ranked .flow__box {
+    padding: var(--pad-box);
+    border: 3px solid var(--color-layers-border);
+  }
+
+  .flow__box--1 {
+    background: var(--color-layer-body-bg);
+  }
+
+  .flow__box--3 {
+    background: var(--color-layer-community-bg);
+  }
+
+  .flow__number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: var(--weight-display);
+    line-height: 1.1;
+  }
+
+  .flow__title {
+    margin: 0 0 var(--space-1);
+    color: inherit;
+    font-size: var(--text-lg);
+  }
+
+  .flow__text {
+    margin: 0;
+  }
+
+  /* Labels: two columns on wide screens, stacked on phones. */
+  .labels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5) var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .labels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .labels__heading {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .labels__list {
+    margin: 0;
+  }
+
+  .labels__item {
+    padding-block: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .labels__item dd {
+    margin: var(--space-1) 0 0;
+  }
+
+  .labels__note {
+    margin: calc(var(--space-1) * -1) 0 var(--space-1);
+    font-size: var(--text-sm);
+  }
+
+  /* Dates line and the data source list. */
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2);
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .data-list {
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .data-list summary {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    color: var(--color-link);
+    font-weight: var(--weight-strong);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .data-list ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .data-list li + li {
+    margin-top: var(--space-2);
+  }
+
+  /* Reviews: one row each, status tag on the right. */
+  .reviews {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reviews__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .reviews__what {
+    display: grid;
+  }
+
+  .reviews__scope {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .reviews__status {
+    flex: none;
+    padding: 0.15em 0.6em;
+    background: var(--color-tag-bg);
+    color: var(--color-tag-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+  }
+
+  .reviews__status--done {
+    background: var(--color-chip-bg);
+    color: var(--color-chip-text);
+  }
+</style>

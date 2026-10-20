@@ -1,0 +1,140 @@
+---
+// Last scene: the cycle diagram, rebuilt from the approved cycle diagram
+// (Oct 16 2026): same viewBox, positions, sizes and arrows; plain-text labels
+// (no boxes). Ana → Mosquito → Neighbor ("picks up virus", "passes it on"), a dashed
+// arc over the top from Neighbor back to Ana ("and the cycle repeats"), and a small
+// "Standing water" circle (bucket with eggs) below, joined to the Mosquito by a
+// straight two-headed arrow (along the line between the two centres), with a two-line
+// note. Arrowhead tips are calculated to touch each ring's outside edge.
+// The page sets data-block on the <svg> to body, home, yard or community; CSS turns
+// that arrow light blue and dashed and shows its burnt-orange X with "Blocked" right
+// beside it (placed so it never covers a label). Room for every mark is inside the
+// fixed viewBox, so the diagram never moves.
+import Bucket from './Bucket.astro';
+import Mosquito from './Mosquito.astro';
+import { BUCKET_K } from './layout';
+
+interface Props {
+  label: string;
+  t: Record<string, string>;
+}
+const { label, t } = Astro.props;
+
+const head = 'M-7 -8 L9 0 L-7 8 Z'; // arrowhead, pointing along +x
+const TIP = 9; // the arrowhead's tip is 9 units ahead of its origin
+
+// Circles: centre, radius and ring width. Every arrowhead's tip touches the outside
+// edge of the ring exactly (radius + half the ring width): no overlap, no gap. The
+// heads have no outline, and the blocked states only change their colour, so this
+// holds in every state.
+const RING = 5;
+const C = {
+  ana: { x: 100, y: 200, r: 50 },
+  mosquito: { x: 320, y: 200, r: 50 },
+  neighbor: { x: 540, y: 200, r: 50 },
+  water: { x: 190, y: 350, r: 36 },
+};
+const outer = (c: { r: number }) => c.r + RING / 2;
+/** Head placement whose tip touches circle `c` from direction (ux, uy) (unit vector
+ *  pointing into the circle); returns the head origin and its rotation. */
+const headInto = (c: { x: number; y: number; r: number }, ux: number, uy: number) => {
+  const tip = { x: c.x - ux * outer(c), y: c.y - uy * outer(c) };
+  return { x: tip.x - ux * TIP, y: tip.y - uy * TIP, angle: (Math.atan2(uy, ux) * 180) / Math.PI };
+};
+// Straight arrows along the row: heads pointing right into the Mosquito and Neighbor.
+const bodyHead = headInto(C.mosquito, 1, 0);
+const homeHead = headInto(C.neighbor, 1, 0);
+// The repeat arc arrives at Ana straight down, from above.
+const repeatHead = headInto(C.ana, 0, 1);
+// Two-way arrow along the line between the Standing water and Mosquito centres.
+const len = Math.hypot(C.mosquito.x - C.water.x, C.mosquito.y - C.water.y);
+const u = { x: (C.mosquito.x - C.water.x) / len, y: (C.mosquito.y - C.water.y) / len };
+const yardToMosquito = headInto(C.mosquito, u.x, u.y);
+const yardToWater = headInto(C.water, -u.x, -u.y);
+const r1 = (n: number) => Math.round(n * 10) / 10;
+const [noteA, noteB] = (() => {
+  // Two lines, split after the comma (both languages have one).
+  const i = t.waterNote.indexOf(',');
+  return i > 0 ? [t.waterNote.slice(0, i + 1), t.waterNote.slice(i + 2)] : [t.waterNote, ''];
+})();
+const X = 8; // half-width of a "Blocked" X
+// X centres and label anchors (see the header comment for the rules).
+const marks = {
+  body: { x: 172, y: 200, lx: 184, ly: 222, anchor: 'start' },
+  home: { x: 390, y: 200, lx: 402, ly: 222, anchor: 'start' },
+  yard: { x: 250, y: 281, lx: 237, ly: 286, anchor: 'end' }, // middle of the two-way arrow
+  community: { x: 471, y: 84.5, lx: 483, ly: 72, anchor: 'start' }, // on the arc, right of the label
+} as const;
+---
+
+<svg class="story-art cycle" viewBox="20 20 600 390" preserveAspectRatio="xMidYMid meet" role="img" aria-label={label} data-cycle>
+  <rect x="20" y="20" width="600" height="390" fill="#FFFFFF"></rect>
+
+  <!-- and the cycle repeats: dashed arc from Neighbor back to Ana -->
+  <path class="arrow arrow--repeat" d={`M540 142 C540 40 100 40 100 ${r1(repeatHead.y)}`} stroke-width="3" stroke-dasharray="9 8"></path>
+  <path class="head head--repeat" d={head} transform={`translate(${r1(repeatHead.x)} ${r1(repeatHead.y)}) rotate(${repeatHead.angle})`}></path>
+  <text x="320" y="58" text-anchor="middle" class="cycle-label cycle-label--repeat">{t.repeats}</text>
+
+  <!-- picks up virus / passes it on -->
+  <path class="arrow arrow--body" d={`M158 200 H${r1(bodyHead.x)}`} stroke-width="4"></path>
+  <path class="head head--body" d={head} transform={`translate(${r1(bodyHead.x)} ${r1(bodyHead.y)})`}></path>
+  <path class="arrow arrow--home" d={`M378 200 H${r1(homeHead.x)}`} stroke-width="4"></path>
+  <path class="head head--home" d={head} transform={`translate(${r1(homeHead.x)} ${r1(homeHead.y)})`}></path>
+  <text x="210" y="186" text-anchor="middle" class="cycle-label">{t.pickUp}</text>
+  <text x="430" y="186" text-anchor="middle" class="cycle-label">{t.passOn}</text>
+
+  <!-- Ana -->
+  <circle cx={C.ana.x} cy={C.ana.y} r={C.ana.r} fill="#FFFFFF" stroke="#17306A" stroke-width={RING}></circle>
+  <circle cx="100" cy="187" r="12" fill="#17306A"></circle>
+  <path d="M77 228 L77 210 Q77 198 100 198 Q123 198 123 210 L123 228 Z" fill="#17306A"></path>
+  <g fill="#E07034" stroke="#FFFFFF" stroke-width="1.2">
+    <circle cx="93" cy="212" r="4"></circle>
+    <circle cx="108" cy="209" r="4"></circle>
+    <circle cx="101" cy="221" r="4"></circle>
+  </g>
+  <text x="100" y="278" text-anchor="middle" class="cycle-name">{t.ana}</text>
+
+  <!-- Mosquito (the drawing is placed at translate(289 164) scale(0.98) in the approved
+       file; Mosquito.astro centres on its body point (31, 37)) -->
+  <circle cx={C.mosquito.x} cy={C.mosquito.y} r={C.mosquito.r} fill="#FFFFFF" stroke="#17306A" stroke-width={RING}></circle>
+  <Mosquito x={289 + 31 * 0.98} y={164 + 37 * 0.98} scale={0.98} />
+  <text x="320" y="278" text-anchor="middle" class="cycle-name">{t.mosquito}</text>
+
+  <!-- Neighbor -->
+  <circle cx={C.neighbor.x} cy={C.neighbor.y} r={C.neighbor.r} fill="#FFFFFF" stroke="#17306A" stroke-width={RING}></circle>
+  <circle cx="540" cy="187" r="12" fill="#24539A"></circle>
+  <path d="M517 228 L517 210 Q517 198 540 198 Q563 198 563 210 L563 228 Z" fill="#24539A"></path>
+  <g fill="#E07034" stroke="#FFFFFF" stroke-width="1.2">
+    <circle cx="533" cy="212" r="4"></circle>
+    <circle cx="548" cy="209" r="4"></circle>
+    <circle cx="541" cy="221" r="4"></circle>
+  </g>
+  <text x="540" y="278" text-anchor="middle" class="cycle-name">{t.neighbor}</text>
+
+  <!-- Standing water (approved file: bucket at translate(163 320) scale(0.54)) -->
+  <circle cx={C.water.x} cy={C.water.y} r={C.water.r} fill="#FFFFFF" stroke="#17306A" stroke-width={RING}></circle>
+  <Bucket x={163 + 50 * 0.54} y={320 + 102 * 0.54} scale={0.54 / BUCKET_K} eggs />
+  <text x="238" y="352" class="cycle-water">{t.standingWater}</text>
+  <text x="238" y="372" class="cycle-note">{noteA}</text>
+  <text x="238" y="390" class="cycle-note">{noteB}</text>
+
+  <!-- Two-headed arrow between Standing water and Mosquito -->
+  <path class="arrow arrow--yard" d={`M${r1(yardToWater.x)} ${r1(yardToWater.y)} L${r1(yardToMosquito.x)} ${r1(yardToMosquito.y)}`} stroke-width="3"></path>
+  <path class="head head--yard" d={head} transform={`translate(${r1(yardToMosquito.x)} ${r1(yardToMosquito.y)}) rotate(${r1(yardToMosquito.angle)})`}></path>
+  <path class="head head--yard" d={head} transform={`translate(${r1(yardToWater.x)} ${r1(yardToWater.y)}) rotate(${r1(yardToWater.angle)})`}></path>
+
+  <!-- "Blocked" marks: burnt-orange X on the arrow, "Blocked" right beside it -->
+  {
+    (['body', 'home', 'yard', 'community'] as const).map((key) => {
+      const m = marks[key];
+      return (
+        <g class={`block block--${key}`}>
+          <path class="block-x" d={`M${m.x - X} ${m.y - X} L${m.x + X} ${m.y + X} M${m.x + X} ${m.y - X} L${m.x - X} ${m.y + X}`} />
+          <text x={m.lx} y={m.ly} text-anchor={m.anchor} class="block-label">
+            {t.blocked}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>

@@ -1,0 +1,44 @@
+---
+// QR code block for printables: the code (SVG, made at build time) with a bold line of
+// text and the address under it ("[site address]" until siteUrl is set).
+import { qr } from '../../lib/qr';
+interface Props {
+  path: string;
+  text: string;
+  placeholder: string;
+  size?: number;
+}
+const { path, text, placeholder, size = 64 } = Astro.props;
+const code = await qr(path);
+---
+
+<div class="print-qr">
+  <span class="print-qr__code" style={`width:${size}px;height:${size}px`} set:html={code.svg} aria-hidden="true" />
+  <p class="print-qr__text"><strong>{text}</strong><br /><span>{code.shown ?? placeholder}</span></p>
+</div>
+
+<style>
+  .print-qr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .print-qr__code {
+    flex: none;
+    display: block;
+  }
+
+  .print-qr__code :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .print-qr__text {
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    max-width: 170px;
+  }
+</style>

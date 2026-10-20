@@ -1,0 +1,691 @@
+---
+// "How layered is my protection?". Eight questions, two per
+// layer, one at a time; then "Your protection": the layers graphic with a tag per layer
+// and the three most useful next steps, each an existing Protect tip (no new advice).
+// Answers live only in this page's memory: no localStorage, no cookies, no network
+// requests. Everything resets when the page closes.
+// Text and Spanish: src/content/quiz.json (questions[].tip maps a weak answer to a tip;
+// "Not sure" counts as room to improve). Without JavaScript the eight questions show as
+// a simple self-check list with a link to the Protect page.
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Genus from '../../../components/Genus.astro';
+import LayersGraphic from '../../../components/LayersGraphic.astro';
+import quiz from '../../../content/quiz.json';
+import { cardText, getSuggestion } from '../../../lib/suggestions';
+import { langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = quiz.text[L];
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const layerName = (layer: string) => t(`home.layersGraphic.rows.${layer}.name`);
+const questions = quiz.questions.map((q, i) => ({ ...q, ...text.questions[i], n: i + 1 }));
+const total = questions.length;
+
+// The tips the questions point to, with what the results show. Cost and effort ranks
+// drive "Easiest first" (Free before $ before $$; then one-time before weekly…).
+// "ask" (cost unknown, e.g. a vaccine): after the free and $ tips.
+const COST_RANK: Record<string, number> = { free: 0, program: 0, $: 1, ask: 1.5, $$: 2, $$$: 3 };
+const EFFORT_RANK: Record<string, number> = { 'one-time': 0, 'as-needed': 1, weekly: 2, 'each-time': 3, daily: 4, nightly: 4, ongoing: 5, none: 6 };
+const costText = (c: string) => (c.startsWith('$') ? c : t(`card.costLabel.${c}`));
+const tips = Object.fromEntries(
+  [...new Set(quiz.questions.map((q) => q.tip))].map((id) => {
+    const card = getSuggestion(id);
+    const ct = cardText(card, lang);
+    return [
+      id,
+      {
+        id,
+        layer: card.layer,
+        layerName: layerName(card.layer),
+        title: ct.title,
+        summary: ct.summary,
+        meta: [card.cost.map(costText).join('–'), card.effort !== 'none' ? t(`card.effortLabel.${card.effort}`) : null].filter(Boolean).join(' · '),
+        costSr: card.cost.filter((c) => c.startsWith('$')).map((c) => t(`card.costSr.${c}`)).join(', '),
+        cost: Math.min(...card.cost.map((c) => COST_RANK[c] ?? 9)),
+        effort: EFFORT_RANK[card.effort] ?? 9,
+        ease: (quiz.ease as Record<string, number | string>)[id] as number,
+        href: `${href('protect')}#card-${id}`,
+      },
+    ];
+  }),
+);
+const data = {
+  questions: quiz.questions,
+  tips,
+  text: {
+    progress: text.progress,
+    layers: Object.fromEntries(['body', 'home', 'yard', 'community'].map((l) => [l, layerName(l)])),
+    tagStrong: text.tagStrong,
+    tagGrow: text.tagGrow,
+    tagIndoors: text.tagIndoors,
+    seeTip: text.seeTip,
+    resultAnnounce: text.resultAnnounce,
+    stepsHeading: text.stepsHeading,
+    stepsHeadingN: text.stepsHeadingN,
+    stepsHeadingOne: text.stepsHeadingOne,
+  },
+};
+const ORDERS = ['water', 'layers', 'easiest'] as const;
+---
+
+<BaseLayout lang={lang} title={t('pages.quiz.title')} description={t('pages.quiz.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.quiz.title')}</h1>
+      <p class="page-intro__lead">{t('pages.quiz.summary')}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container quiz-page">
+    <!-- Without JavaScript: a simple self-check list. -->
+    <section class="quiz-static" data-quiz-static aria-labelledby="static-heading">
+      <h2 id="static-heading" class="visually-hidden">{t('pages.quiz.title')}</h2>
+      <p>{text.staticIntro}</p>
+      <ol>
+        {
+          questions.map((q) => (
+            <li>
+              <span class="quiz-static__layer">{layerName(q.layer)}</span>
+              <span class="quiz-static__q">{q.q}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="quiz-static__link">
+        <a href={href('protect')}>{text.staticLink} <span aria-hidden="true">→</span></a>
+      </p>
+    </section>
+
+    <!-- With JavaScript: one question at a time, then the results. -->
+    <div class="quiz" data-quiz={JSON.stringify(data)} data-choose-first={text.chooseFirst} hidden>
+      <form class="quiz__box" data-quiz-form novalidate>
+        {
+          questions.map((q, i) => (
+            <fieldset class="quiz__q" data-q={q.id} data-index={i} hidden={i > 0}>
+              <legend class="quiz__legend">
+                <span class="quiz__progress">
+                  {text.progress.replace('{n}', String(q.n)).replace('{total}', String(total)).replace('{layer}', layerName(q.layer))}
+                  <span class="visually-hidden">:</span>
+                </span>
+                <span class="quiz__dashes" aria-hidden="true">
+                  {questions.map((_, j) => (
+                    <span class:list={['quiz__dash', { 'is-done': j <= i }]} />
+                  ))}
+                </span>
+                <span class="quiz__question" tabindex="-1" data-q-heading>
+                  {q.q}
+                </span>
+              </legend>
+              <div class="quiz__options">
+                {q.options.map((o) => (
+                  <label class="quiz__option">
+                    <input type="radio" name={q.id} value={o.value} class="quiz__radio" />
+                    <span>{o.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))
+        }
+        <p class="quiz__hint" role="status" data-quiz-hint></p>
+        <div class="quiz__nav">
+          <button type="button" class="btn btn-secondary" data-quiz-back>
+            <span aria-hidden="true">←</span> {text.back}
+          </button>
+          <button type="submit" class="btn btn-primary" data-quiz-next data-next={text.next} data-results={text.seeResults}>
+            <span data-quiz-next-label>{text.next}</span> <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+
+      <section class="result" aria-labelledby="result-heading" data-quiz-result hidden>
+        <h2 id="result-heading" class="result__heading" tabindex="-1">{text.resultHeading}</h2>
+        <div class="result__grid">
+          <div class="result__graphic">
+            <LayersGraphic lang={lang} tags />
+          </div>
+          <div class="result__steps">
+            <h3 class="result__steps-heading" data-steps-heading>{text.stepsHeading}</h3>
+            <div class="result__order" data-result-order>
+              <span class="result__order-label" id="order-label">{text.orderLabel}</span>
+              <div class="result__order-btns" role="group" aria-labelledby="order-label">
+                {
+                  ORDERS.map((o, i) => (
+                    <button type="button" class="result__order-btn" data-order={o} aria-pressed={i === 0 ? 'true' : 'false'}>
+                      {text.orders[o]}
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+            <ol class="result__list" data-result-list></ol>
+            <div class="result__none" data-result-none hidden>
+              <p>{text.noGaps}</p>
+              <p class="result__none-links">
+                <a href={href('checklist')}>{text.noGapsChecklist} <span aria-hidden="true">→</span></a>
+                <a href={href('community')}>{text.noGapsCommunity} <span aria-hidden="true">→</span></a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="result__actions">
+          <a class="btn btn-primary" href={href('protect')}>{text.protectAll}</a>
+          <a class="btn btn-secondary" href={href('checklist')}>{text.printChecklist}</a>
+          <button type="button" class="btn btn-secondary" data-quiz-restart>{text.startOver}</button>
+        </div>
+      </section>
+      <p class="visually-hidden" role="status" data-quiz-announce></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Everything stays in memory on this page: nothing is saved or sent.
+  interface Tip {
+    id: string;
+    layer: string;
+    layerName: string;
+    title: string;
+    summary: string;
+    meta: string;
+    costSr: string;
+    cost: number;
+    effort: number;
+    ease: number;
+    href: string;
+  }
+  interface QuizData {
+    questions: { id: string; layer: string; tip: string; best: string }[];
+    tips: Record<string, Tip>;
+    text: Record<string, any>;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-quiz]');
+  if (root?.dataset.quiz) {
+    const data: QuizData = JSON.parse(root.dataset.quiz);
+    const form = root.querySelector<HTMLFormElement>('[data-quiz-form]')!;
+    const fieldsets = [...form.querySelectorAll<HTMLFieldSetElement>('[data-q]')];
+    const back = root.querySelector<HTMLButtonElement>('[data-quiz-back]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-quiz-next]')!;
+    const nextLabel = next.querySelector<HTMLElement>('[data-quiz-next-label]')!;
+    const hint = root.querySelector<HTMLElement>('[data-quiz-hint]')!;
+    const result = root.querySelector<HTMLElement>('[data-quiz-result]')!;
+    const list = root.querySelector<HTMLOListElement>('[data-result-list]')!;
+    const none = root.querySelector<HTMLElement>('[data-result-none]')!;
+    const orderBox = root.querySelector<HTMLElement>('[data-result-order]')!;
+    const announce = root.querySelector<HTMLElement>('[data-quiz-announce]')!;
+    const LAYERS = { water: ['yard', 'home', 'body', 'community'], layers: ['body', 'home', 'yard', 'community'] };
+    let index = 0;
+    let steps: Tip[] = [];
+
+    const answer = (id: string) => form.querySelector<HTMLInputElement>(`input[name="${id}"]:checked`)?.value ?? null;
+    const noOutdoor = () => answer('q5') === 'no-outdoor';
+    // Question 6 is skipped when question 5 says there's no outdoor space.
+    const skipped = (i: number) => data.questions[i].id === 'q6' && noOutdoor();
+    const step = (from: number, dir: 1 | -1) => {
+      let i = from + dir;
+      while (i >= 0 && i < fieldsets.length && skipped(i)) i += dir;
+      return i;
+    };
+
+    const show = (i: number, focus: boolean) => {
+      index = i;
+      fieldsets.forEach((f, j) => (f.hidden = j !== i));
+      back.hidden = i === 0;
+      const last = step(i, 1) >= fieldsets.length;
+      nextLabel.textContent = (last ? next.dataset.results : next.dataset.next) ?? '';
+      hint.textContent = '';
+      if (focus) fieldsets[i].querySelector<HTMLElement>('[data-q-heading]')?.focus();
+    };
+
+    // Tags and steps from the answers.
+    const results = () => {
+      const byLayer: Record<string, string[]> = {};
+      const gaps: Tip[] = [];
+      data.questions.forEach((q, i) => {
+        if (skipped(i)) return;
+        const a = answer(q.id);
+        const ok = a === q.best || (q.layer === 'yard' && a === 'no-outdoor');
+        (byLayer[q.layer] ??= []).push(ok ? 'ok' : 'gap');
+        if (!ok && !gaps.some((g) => g.id === q.tip)) gaps.push(data.tips[q.tip]);
+      });
+      // The three most useful, by "Standing water first" (Yard, Home, Body, Community;
+      // within a layer, the earlier question's tip): one per weak layer first, then a
+      // second tip from a layer only if fewer than three layers are weak.
+      const rank = (t: Tip) => LAYERS.water.indexOf(t.layer);
+      const byPriority = [...gaps].sort((a, b) => rank(a) - rank(b)); // stable: keeps question order
+      const firstPerLayer = byPriority.filter((t, i) => byPriority.findIndex((u) => u.layer === t.layer) === i);
+      steps = [...firstPerLayer, ...byPriority.filter((t) => !firstPerLayer.includes(t))].slice(0, 3);
+      for (const g of root.querySelectorAll<SVGGElement>('[data-lg-tag]')) {
+        const layer = g.dataset.lgTag!;
+        const indoors = layer === 'yard' && (noOutdoor() || answer('q6') === 'no-outdoor');
+        const strong = !indoors && byLayer[layer]?.every((v) => v === 'ok');
+        const kind = indoors ? 'indoors' : strong ? 'strong' : 'grow';
+        g.dataset.kind = kind;
+        const label = g.querySelector<SVGTextElement>('text')!;
+        label.textContent = kind === 'indoors' ? data.text.tagIndoors : kind === 'strong' ? data.text.tagStrong : data.text.tagGrow;
+        g.setAttribute('visibility', 'visible');
+        g.querySelector('rect')!.setAttribute('width', String(Math.ceil(label.getComputedTextLength() + 14)));
+      }
+    };
+
+    const ordered = (order: string) => {
+      const out = [...steps];
+      // Easiest first: by how much effort a step takes (quiz.json ease 1–3), then cost
+      // (free, $, $$) to break ties, then the layers' order.
+      if (order === 'easiest') out.sort((a, b) => a.ease - b.ease || a.cost - b.cost || LAYERS.layers.indexOf(a.layer) - LAYERS.layers.indexOf(b.layer));
+      else {
+        const seq = order === 'layers' ? LAYERS.layers : LAYERS.water;
+        out.sort((a, b) => seq.indexOf(a.layer) - seq.indexOf(b.layer));
+      }
+      return out;
+    };
+
+    const renderSteps = (order: string) => {
+      list.replaceChildren(
+        ...ordered(order).map((tip, i) => {
+          const li = document.createElement('li');
+          li.className = 'result__step';
+          li.innerHTML = `
+            <span class="result__num" aria-hidden="true">${i + 1}</span>
+            <div>
+              <p class="result__layer"></p>
+              <h4 class="result__title"></h4>
+              <p class="result__summary"></p>
+              <p class="result__meta"><span class="result__meta-text"></span> · <a class="result__link"></a></p>
+            </div>`;
+          li.querySelector('.result__layer')!.textContent = tip.layerName;
+          li.querySelector('.result__title')!.textContent = tip.title;
+          li.querySelector('.result__summary')!.textContent = tip.summary;
+          const meta = li.querySelector<HTMLElement>('.result__meta-text')!;
+          meta.textContent = tip.meta;
+          if (tip.costSr) meta.setAttribute('aria-label', tip.meta.replace(/\$+/g, (m) => tip.costSr || m));
+          const a = li.querySelector<HTMLAnchorElement>('.result__link')!;
+          a.href = tip.href;
+          a.innerHTML = `<span></span> <span aria-hidden="true">→</span>`;
+          a.firstElementChild!.textContent = data.text.seeTip;
+          return li;
+        }),
+      );
+      for (const b of orderBox.querySelectorAll<HTMLButtonElement>('[data-order]')) b.setAttribute('aria-pressed', String(b.dataset.order === order));
+    };
+
+    const showResults = () => {
+      form.hidden = true;
+      result.hidden = false;
+      results(); // after showing: the tag boxes are sized from their rendered text
+      const hasSteps = steps.length > 0;
+      list.hidden = !hasSteps;
+      orderBox.hidden = !hasSteps;
+      none.hidden = hasSteps;
+      root.querySelector<HTMLElement>('[data-steps-heading]')!.textContent =
+        steps.length === 1 ? data.text.stepsHeadingOne : steps.length === 3 ? data.text.stepsHeading : data.text.stepsHeadingN.replace('{n}', String(steps.length));
+      if (hasSteps) renderSteps('water');
+      result.querySelector<HTMLElement>('#result-heading')!.focus();
+      announce.textContent = data.text.resultAnnounce;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!answer(data.questions[index].id)) {
+        hint.textContent = hint.dataset.msg ?? '';
+        return;
+      }
+      const to = step(index, 1);
+      if (to >= fieldsets.length) showResults();
+      else show(to, true);
+    });
+    back.addEventListener('click', () => show(Math.max(0, step(index, -1)), true));
+    for (const b of orderBox.querySelectorAll<HTMLButtonElement>('[data-order]')) b.addEventListener('click', () => renderSteps(b.dataset.order!));
+    root.querySelector('[data-quiz-restart]')!.addEventListener('click', () => {
+      form.reset();
+      announce.textContent = '';
+      result.hidden = true;
+      form.hidden = false;
+      show(0, true);
+    });
+    // Choosing an answer updates "Next/See my results" (question 5 can skip question 6).
+    form.addEventListener('change', () => show(index, false));
+
+    hint.dataset.msg = root.dataset.chooseFirst ?? '';
+    document.querySelector<HTMLElement>('[data-quiz-static]')!.hidden = true;
+    root.hidden = false;
+    show(0, false);
+  }
+</script>
+
+<style>
+  .quiz-page {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* ---- Without JavaScript ---- */
+  .quiz-static {
+    max-width: var(--content-width);
+    padding: var(--pad-box-lg);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .quiz-static[hidden],
+  .quiz[hidden],
+  .quiz__q[hidden],
+  .result[hidden],
+  .result__none[hidden],
+  .result__list[hidden],
+  .result__order[hidden],
+  .quiz__nav [hidden] {
+    display: none;
+  }
+
+  .quiz-static p {
+    margin: 0;
+  }
+
+  .quiz-static ol {
+    margin: var(--space-3) 0;
+    padding-inline-start: 1.4em;
+  }
+
+  .quiz-static li + li {
+    margin-top: var(--space-2);
+  }
+
+  .quiz-static__layer {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .quiz-static__link {
+    font-weight: var(--weight-strong);
+  }
+
+  /* ---- Question screen ---- */
+  .quiz__box,
+  .result {
+    padding: var(--space-5) var(--space-6);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  @media (max-width: 40rem) {
+    .quiz__box,
+    .result {
+      padding: var(--pad-box-lg);
+    }
+  }
+
+  .quiz__q {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .quiz__progress {
+    display: block;
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .quiz__dashes {
+    display: flex;
+    gap: 6px;
+    margin: 0 0 var(--space-4);
+  }
+
+  .quiz__dash {
+    width: 2.25rem;
+    height: 6px;
+    background: var(--color-border);
+  }
+
+  .quiz__dash.is-done {
+    background: var(--color-rule);
+  }
+
+  .quiz__legend {
+    display: block;
+    width: 100%;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+  }
+
+  .quiz__question {
+    display: block;
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    line-height: 1.2;
+  }
+
+  /* Focus moves here on Next (for keyboard and screen readers); it isn't a control. */
+  .quiz__question:focus {
+    outline: none;
+  }
+
+  .quiz__options {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+    max-width: 48rem;
+  }
+
+  @media (min-width: 40rem) {
+    .quiz__options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .quiz__option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    padding: var(--space-2) var(--space-4);
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface);
+    color: var(--color-heading);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .quiz__option:hover {
+    background: var(--color-tab-hover-bg);
+  }
+
+  /* The real radio stays in place for keyboard and screen readers, but invisible. */
+  .quiz__radio {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .quiz__option:has(.quiz__radio:checked) {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .quiz__option:has(.quiz__radio:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .quiz__hint {
+    margin: var(--space-3) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .quiz__hint:empty {
+    display: none;
+  }
+
+  .quiz__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .quiz__nav [data-quiz-next] {
+    margin-inline-start: auto;
+  }
+
+  /* ---- Result screen ---- */
+  .result__heading {
+    margin-bottom: var(--space-4);
+    font-size: 1.75rem;
+  }
+
+  /* Focus moves here when the results show; it isn't a control. */
+  .result__heading:focus {
+    outline: none;
+  }
+
+  .result__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5) var(--space-6);
+    align-items: start;
+  }
+
+  @media (min-width: 56rem) {
+    .result__grid {
+      grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+    }
+  }
+
+  .result__graphic {
+    max-width: 26rem;
+  }
+
+  .result__steps-heading {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .result__order {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .result__order-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .result__order-btn {
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-tab-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-tab-bg);
+    color: var(--color-tab-text);
+    font: inherit;
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .result__order-btn:hover {
+    background: var(--color-tab-hover-bg);
+  }
+
+  .result__order-btn[aria-pressed='true'] {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .result__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .result__list :global(.result__step) {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .result__list :global(.result__num) {
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: var(--weight-display);
+    line-height: 1;
+  }
+
+  .result__list :global(p),
+  .result__list :global(h4) {
+    margin: 0;
+  }
+
+  .result__list :global(.result__layer) {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .result__list :global(.result__title) {
+    color: var(--color-heading);
+    font-size: var(--text-lg);
+  }
+
+  .result__list :global(.result__meta) {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+  }
+
+  .result__none p {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-strong);
+  }
+
+  .result__none-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-base) !important;
+  }
+
+  .result__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+</style>

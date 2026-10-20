@@ -1,0 +1,101 @@
+---
+// "Source: CDC · Manage Dengue; How Zika Spreads" line, grouped by publisher (no
+// parentheses, so titles that contain their own don't get double brackets).
+// `compact`: everything on one "Sources:" line, studies by short name only.
+// Source IDs come from src/content/sources.json.
+import { useTranslations } from '../i18n';
+import { sources } from '../lib/suggestions';
+
+interface Props {
+  lang: string;
+  ids: string[];
+  /** Studies show only their short name ("Sharp 2019"), for tight spaces. */
+  compact?: boolean;
+  /** A tap-to-open line, "Sources: CDC · 7 pages", for steps with many sources. */
+  collapsed?: boolean;
+}
+
+const { lang, ids, compact = false, collapsed = false } = Astro.props;
+const t = useTranslations(lang);
+const groups = new Map<string, { title: string; url: string }[]>();
+const studies: { short: string; url: string }[] = [];
+for (const id of ids) {
+  const s = sources[id];
+  if (!s) continue;
+  if (compact && s.kind === 'study') studies.push({ short: s.short, url: s.url });
+  else groups.set(s.short, [...(groups.get(s.short) ?? []), { title: s.title, url: s.url }]);
+}
+const count = [...groups.values()].reduce((n, l) => n + l.length, 0) + studies.length;
+---
+
+{
+  collapsed ? (
+    /* "Sources: CDC · 7 pages" (opens to the full list) */
+    <details class="source-line source-line--collapsed">
+      <summary>
+        <strong>{count > 1 ? t('sick.sources') : t('sick.source')}:</strong> {[...groups.keys()].join(', ')} ·{' '}
+        {t(count === 1 ? 'sick.pageCountOne' : 'sick.pageCount', { count: String(count) })}
+      </summary>
+      <ul>
+        {[...groups].flatMap(([short, list]) => list.map((s) => <li>{short} · <a href={s.url}>{s.title}</a></li>))}
+      </ul>
+    </details>
+  ) : compact ? (
+    /* One line: "Sources: CDC · Mosquito Control in a Community; Winch 2002; Sharp 2019" */
+    <p class="source-line">
+      <strong>{count > 1 ? t('sick.sources') : t('sick.source')}:</strong>{' '}
+      {[...groups].map(([short, list], gi) => (
+        <>
+          {gi > 0 && '; '}
+          {short} ·{' '}
+          {list.map((s, i) => (
+            <>
+              {i > 0 && '; '}
+              <a href={s.url}>{s.title}</a>
+            </>
+          ))}
+        </>
+      ))}
+      {studies.map((s, i) => (
+        <>
+          {(groups.size > 0 || i > 0) && '; '}
+          <a href={s.url}>{s.short}</a>
+        </>
+      ))}
+    </p>
+  ) : (
+    /* "Source: WHO · Dengue and severe dengue (fact sheet)" (no extra parentheses) */
+    [...groups].map(([short, list]) => (
+      <p class="source-line">
+        <strong>
+          {t('sick.source')}: {short}
+        </strong>{' '}
+        ·{' '}
+        {list.map((s, i) => (
+          <>
+            {i > 0 && '; '}
+            <a href={s.url}>{s.title}</a>
+          </>
+        ))}
+      </p>
+    ))
+  )
+}
+
+<style>
+  .source-line--collapsed summary {
+    min-height: 24px;
+    cursor: pointer;
+  }
+
+  .source-line--collapsed ul {
+    margin: var(--space-1) 0 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .source-line {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

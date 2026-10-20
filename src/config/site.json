@@ -1,0 +1,11 @@
+{
+  "name": "Outbite",
+  "tagline": {
+    "en": "Stop the bite before it starts.",
+    "es": "Detén la picada antes de que empiece."
+  },
+  "defaultLocale": "en",
+  "siteUrl": "",
+  "dailyUpdatesScheduled": false,
+  "GOATCOUNTER_CODE": ""
+}

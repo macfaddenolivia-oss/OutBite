@@ -1,0 +1,50 @@
+{
+  "id": "H9",
+  "layer": "home",
+  "effortGroup": "quick",
+  "guidance": "none",
+  "evidence": "not-supported",
+  "cost": [
+    "$"
+  ],
+  "effort": "none",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "B1"
+  ],
+  "sources": [
+    "cochrane-electronic",
+    "bug-zapper",
+    "cdc-yellowbook-arthropods"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Skip ultrasonic devices, phone apps, and bug zappers",
+      "summary": "The evidence we've found so far doesn't show they prevent bites.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "Nothing proven so far for preventing mosquito bites."
+      ],
+      "cantDo": [
+        "Wristbands and sound devices don’t protect you from mosquito bites. CDC says “wearing sound-emitting devices or repellent-impregnated wristbands are ineffective.” CDC and EPA don’t address bug zappers or phone apps."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "No gastes en aparatos ultrasónicos, aplicaciones del celular ni lámparas matainsectos",
+      "summary": "La evidencia que hemos encontrado hasta ahora no muestra que prevengan picadas.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Nada comprobado hasta ahora para prevenir picadas de mosquito."
+      ],
+      "cantDo": [
+        "Las pulseras y los aparatos que emiten sonido no te protegen de las picadas de mosquito. Los CDC dicen que “los aparatos que emiten sonido y las pulseras con repelente no son eficaces”. Los CDC y la EPA no hablan de las lámparas matainsectos ni de las aplicaciones del celular."
+      ],
+      "research": []
+    }
+  }
+}

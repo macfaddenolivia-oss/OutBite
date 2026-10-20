@@ -1,0 +1,15 @@
+---
+// Suitcase standing on the ground at (x, y).
+interface Props {
+  x: number;
+  y: number;
+  class?: string;
+}
+const { x, y, class: className } = Astro.props;
+---
+
+<g transform={`translate(${x} ${y})`} class={className} stroke="#17306A" stroke-width="4" stroke-linejoin="round">
+  <path d="M-12 -62 V-74 H12 V-62" fill="none"></path>
+  <rect x="-28" y="-62" width="56" height="60" rx="3" fill="#F0AF74"></rect>
+  <path d="M-12 -62 V-2 M12 -62 V-2" stroke-width="3"></path>
+</g>

@@ -1,0 +1,1190 @@
+---
+// "Traveling soon?": what CDC lists for a destination and what CDC recommends for the
+// trip. Built on CDC's lists (src/data/travel-risk.json) and Travel Health Notices
+// (src/data/travel-notices.json), both written by npm run update-data.
+// - "Where are you going?": type to filter the countries and territories (in this
+//   browser only: nothing is sent or saved), then pick one to see CDC's category for
+//   dengue, chikungunya and Zika, any current CDC Travel Health Notice, and "Per CDC,
+//   last updated …" for each.
+// - "What CDC recommends for this trip": src/lib/trip-items.ts (wording already on the
+//   site, checked against CDC/EPA) as a flow chart: three stages (Before you go → During
+//   your trip → After you come home; side by side with navy arrows from 64rem, stacked
+//   with down arrows below), each a line of boxes (TripStep: short title from
+//   travel.json flowTitles, plain summary, CDC's wording, "See this tip →"). Items for
+//   every trip first, then the "any risk" items under one tag, then each CDC condition
+//   as a side branch with a peach pill. With a destination chosen only what applies
+//   shows ("Showing CDC's advice for …"); with none (or no JavaScript) the whole chart.
+//   Screen readers get an ordered list per stage, each pill before its advice. The
+//   printed checklist stays a simple list.
+// - "Print trip checklist" (PrintTripChecklist, for the chosen destination) sits in the
+//   recommendations heading row: right of the heading, under it on phones. Its language
+//   menu shows once a destination is chosen; until then the button is disabled with a
+//   short hint. Without JavaScript none of it shows (printing needs it).
+// - "Around the world" (right after the picker): the world risk map (WorldRiskMap, one
+//   virus at a time, with "See every country’s CDC risk, A to Z": one A-to-Z list). Picker and map work together: choosing a
+//   place highlights and zooms to it on the map with a label and a one-line summary;
+//   clicking a country on the map chooses it in the picker. Nothing is sent or saved.
+// - "All destinations": every place as a table, sortable with JavaScript, complete
+//   without it.
+// Text: src/content/travel.json.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import WorldRiskMap from '../../components/WorldRiskMap.astro';
+import PrintTripChecklist from '../../components/print/PrintTripChecklist.astro';
+import content from '../../content/travel.json';
+import diseases from '../../content/diseases.json';
+import printables from '../../content/printables.json';
+import { sources } from '../../lib/suggestions';
+import { tripItems } from '../../lib/trip-items';
+import TripStep from '../../components/TripStep.astro';
+import { destinations, riskDates, VIRUSES, formatDate, type Destination, type Virus } from '../../lib/travel';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const x = content.text[L];
+const htmlLang = getLocale(lang).meta.htmlLang;
+const msg = (getLocale(lang).messages as Record<string, any>).worldRisk;
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+
+const list = destinations(lang);
+const other = Object.fromEntries(destinations(L === 'en' ? 'es' : 'en').map((d) => [d.code, d.name]));
+const dates = riskDates(htmlLang);
+const virusName = (v: Virus) => t(`pages.${v}.title`);
+const catLabel = (v: Virus, name: string) => msg.categories[v]?.[name] ?? name;
+const partName = (name: string) => (L === 'es' && msg.placeNames[name]) || name;
+// CDC's entries for one place and virus, as lines: the whole country's category, then
+// "Part: category" for each part CDC lists separately.
+const lines = (d: Destination, v: Virus) => d.entries[v].map((e) => (e.part ? `${partName(e.name)}: ${catLabel(v, e.category)}` : catLabel(v, e.category)));
+const dateLine = (v: Virus) => fill(x.perCdc, { date: dates[v].updated }) + (dates[v].asOf ? ` (${fill(x.zikaAsOf, { date: dates[v].asOf! })})` : '');
+const noticeLine = (n: Destination['notices'][number]) => ({ title: n.title, date: formatDate(n.date, htmlLang), url: n.url });
+
+// For the browser: everything needed to show a destination (no lookups, nothing sent).
+const data = {
+  places: list.map((d) => ({
+    c: d.code,
+    n: d.name,
+    o: other[d.code] ?? d.name,
+    q: [d.name, d.nameEn, d.code, ...VIRUSES.flatMap((v) => d.entries[v].filter((e) => e.part).map((e) => e.name))].join('|'),
+    f: d.flags,
+    v: Object.fromEntries(VIRUSES.map((v) => [v, lines(d, v)])),
+    k: d.notices.map(noticeLine),
+  })),
+  viruses: VIRUSES.map((v) => ({ v, name: virusName(v), date: dateLine(v), source: dates[v].source })),
+  text: {
+    status: x.statusHeading,
+    notListed: x.notListed,
+    noNotices: x.noNotices,
+    noRisk: x.noRisk,
+    notice: x.notice,
+    matches: x.matches,
+    matchesOne: x.matchesOne,
+    noMatch: x.noMatch,
+    // CDC notice pages are in English: say so on the Spanish page.
+    linkNote: L === 'es' ? ' (en inglés)' : '',
+    mapLabel: t('worldRisk.mapLabel'),
+  },
+  lang: L,
+};
+
+const items = tripItems(L);
+const tipHref = (id: string) => `${href('protect')}#card-${id}`;
+const flowTitles = x.flowTitles as Record<string, string>;
+const flowIf = x.flowIf as Record<string, string>;
+const [showingBefore, showingAfter] = x.showingFor.split('{place}');
+const sortCols = [{ key: 'name', label: x.colPlace }, ...VIRUSES.map((v) => ({ key: v, label: virusName(v) }))];
+const pg = printables.text[L].page;
+---
+
+<BaseLayout lang={lang} title={t('pages.travel.title')} description={x.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.travel.title')}</h1>
+      <p class="page-intro__lead">{x.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container trip" data-trip={JSON.stringify(data)}>
+    <!-- Where are you going? -->
+    <section class="trip__sec" id="where" aria-labelledby="where-heading">
+      <h2 id="where-heading">{x.pickHeading}</h2>
+      <p class="trip__nojs" data-nojs>{x.noJs}</p>
+      <div class="pick" data-pick hidden>
+        <label class="pick__label" for="trip-search">{x.searchLabel}</label>
+        <div class="pick__row">
+          <input id="trip-search" class="pick__input" type="search" autocomplete="off" spellcheck="false" placeholder={x.searchPlaceholder} aria-controls="trip-options" aria-describedby="trip-count" data-pick-input />
+          <button type="button" class="btn btn-secondary pick__clear" data-pick-clear>{x.clear}</button>
+        </div>
+        <p id="trip-count" class="pick__count" role="status" data-pick-count></p>
+        <ul id="trip-options" class="pick__list" data-pick-list aria-label={x.searchLabel}></ul>
+      </div>
+
+      <div class="status" data-status hidden>
+        <h3 class="status__heading" tabindex="-1" data-status-heading></h3>
+        <dl class="status__list" data-status-list></dl>
+        <p class="status__def" data-zika-past hidden>{diseases.text[L].extras.zikaPast}</p>
+        <p class="status__def">{msg.notListedNote}</p>
+        <h4 class="status__sub">{x.noticesHeading}</h4>
+        <p class="status__def">{msg.levels}</p>
+        <ul class="status__notices" data-status-notices></ul>
+      </div>
+    </section>
+
+    <!-- Around the world: CDC's world risk lists on a map, one virus at a time -->
+    <section class="trip__sec world" id="world" aria-labelledby="world-heading" data-world>
+      <h2 id="world-heading">{t('worldRisk.heading')}</h2>
+      <div class="world__tabs" role="group" aria-label={t('dash.tabsLabel')} data-world-tabs hidden>
+        {
+          (['dengue', 'zika', 'chikungunya'] as const).map((v, i) => (
+            <button type="button" class="world__tab" data-world-virus={v} aria-pressed={i === 0 ? 'true' : 'false'}>
+              {virusName(v)}
+            </button>
+          ))
+        }
+      </div>
+      <p class="world__hint" data-js-only hidden>{x.mapPickHint}</p>
+      <WorldRiskMap lang={lang} viruses={['dengue', 'zika', 'chikungunya']} id="world-map" hideHeading pickable azList />
+    </section>
+
+    <!-- What CDC recommends for this trip -->
+    <section class="trip__sec recs" id="recommends" aria-labelledby="recs-heading" data-trip-root>
+      <div class="recs__head">
+        <h2 id="recs-heading">{x.recHeading}</h2>
+        <div class="recs__print" data-js-only hidden>
+          <div class="recs__print-row">
+            <label class="recs__lang" data-trip-one hidden>
+              <span>{pg.language}</span>
+              <select data-print-lang>
+                {
+                  [
+                    ['en', pg.english],
+                    ['es', pg.spanish],
+                    ['both', x.bothTrip],
+                  ].map(([value, label]) => (
+                    <option value={value} selected={value === L}>
+                      {label}
+                    </option>
+                  ))
+                }
+              </select>
+            </label>
+            <button type="button" class="btn btn-primary" data-print-trip data-trip-need disabled aria-describedby="recs-print-hint">
+              {x.printButton}
+            </button>
+          </div>
+          <p class="recs__print-hint" id="recs-print-hint" data-trip-any>{x.printHint}</p>
+        </div>
+      </div>
+      <p class="recs__note" data-trip-any data-js-only hidden>{x.pickFirst}</p>
+      <p class="recs__norisk" data-norisk hidden></p>
+      <p class="recs__showing" data-trip-one hidden>
+        {showingBefore}<span data-trip-place={L}></span>{showingAfter}
+      </p>
+      <!-- Flow chart: three stages (ordered list), each an ordered list of steps on a
+           line: items for every trip, then the "any risk" group under one tag, then the
+           condition branches, each with its pill read before its advice. -->
+      <ol class="flow">
+        {
+          items.map((part, i) => {
+            const always = part.items.filter((it) => it.show === 'always');
+            const any = part.items.filter((it) => it.show === 'any');
+            const branches = part.items.filter((it) => it.show !== 'always' && it.show !== 'any');
+            const box = (it: (typeof part.items)[number]) => (
+              <TripStep item={it} title={flowTitles[it.id] ?? it.label ?? ''} tipHref={it.tip && tipHref(it.tip)} tipLink={x.tipLink} sources={sources} />
+            );
+            return (
+              <li class="flow__stage" data-trip-part>
+                <h3 class="flow__heading">
+                  <span class="flow__num" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  {x[part.key]}
+                </h3>
+                <ol class="flow__steps">
+                  {always.map((it) => (
+                    <li class="flow__step" data-show="always">
+                      {box(it)}
+                    </li>
+                  ))}
+                  {any.length > 0 && (
+                    <li class="flow__group" data-show="any">
+                      <p class="flow__tag">{x.flowAny}</p>
+                      <ol class="flow__sub">
+                        {any.map((it) => (
+                          <li class="flow__step">{box(it)}</li>
+                        ))}
+                      </ol>
+                    </li>
+                  )}
+                  {branches.map((it) => (
+                    <li class="flow__branch" data-show={it.show}>
+                      <p class="flow__pill">{flowIf[it.show]}</p>
+                      {box(it)}
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            );
+          })
+        }
+      </ol>
+      <SourceLine lang={lang} ids={content.cite.trip} compact />
+
+    </section>
+
+    <!-- The sheets, shown only when printing. -->
+    <div class="trip-sheets" data-trip-root data-trip-sheets>
+      <div data-sheet-variant="en"><PrintTripChecklist mode="en" id="trip-en" /></div>
+      <div data-sheet-variant="es"><PrintTripChecklist mode="es" id="trip-es" /></div>
+      <div data-sheet-variant="both"><PrintTripChecklist mode="both" id="trip-both" /></div>
+    </div>
+
+    <!-- All destinations -->
+    <section class="trip__sec all" id="all-destinations" aria-labelledby="all-heading">
+      <h2 id="all-heading">{x.allHeading}</h2>
+      <p>{x.allIntro} {msg.notListedNote} <span data-js-only hidden>{x.sortHint}</span></p>
+      <ul class="all__dates">
+        {
+          VIRUSES.map((v) => (
+            <li>
+              <strong>{virusName(v)}:</strong> <a href={dates[v].source}>{dateLine(v)}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <details class="all__details">
+        <summary>{fill(x.allShow, { n: list.length })}</summary>
+        <div class="all__wrap">
+          <table class="all__table" data-all-table>
+            <caption class="visually-hidden">{x.allHeading}</caption>
+            <thead>
+              <tr>
+                {
+                  sortCols.map((c, i) => (
+                    <th scope="col" aria-sort={i === 0 ? 'ascending' : undefined} data-col={c.key}>
+                      <span class="all__th-text">{c.label}</span>
+                      <button type="button" class="all__sort" data-sort={c.key} hidden aria-label={fill(x.sortBy, { col: c.label })}>
+                        <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                  ))
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {
+                list.map((d, i) => (
+                  <tr data-i={i} data-dengue={d.level.dengue} data-chikungunya={d.level.chikungunya} data-zika={d.level.zika}>
+                    <th scope="row">{d.name}</th>
+                    {VIRUSES.map((v) => (
+                      <td data-label={virusName(v)} class={d.level[v] < 0 ? 'all__none' : undefined}>
+                        {d.entries[v].length ? lines(d, v).map((l, j) => (j ? [<br />, l] : l)) : x.notListed}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <p class="trip__notices">
+      <a href={sources['cdc-travel-notices'].url}>{x.notSure} <span aria-hidden="true">→</span></a>
+    </p>
+    <Disclaimer lang={lang} />
+  </div>
+</BaseLayout>
+
+<script>
+  // Filters the list and shows the chosen destination, all in this browser: no request
+  // is made and nothing is saved.
+  import { applyTrip } from '../../lib/trip-client';
+
+  interface Place {
+    c: string;
+    n: string;
+    o: string;
+    q: string;
+    f: string[];
+    v: Record<string, string[]>;
+    k: { title: string; date: string; url: string }[];
+  }
+  const root = document.querySelector<HTMLElement>('[data-trip]');
+  if (root?.dataset.trip) {
+    const data = JSON.parse(root.dataset.trip) as {
+      places: Place[];
+      viruses: { v: string; name: string; date: string; source: string }[];
+      text: Record<string, string>;
+      lang: 'en' | 'es';
+    };
+    const T = data.text;
+    const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+    const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const search = data.places.map((p) => norm(p.q));
+
+    for (const el of root.querySelectorAll<HTMLElement>('[data-js-only], [data-pick]')) el.hidden = false;
+    root.querySelector<HTMLElement>('[data-nojs]')!.hidden = true;
+
+    const input = root.querySelector<HTMLInputElement>('[data-pick-input]')!;
+    const listEl = root.querySelector<HTMLUListElement>('[data-pick-list]')!;
+    const count = root.querySelector<HTMLElement>('[data-pick-count]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const heading = root.querySelector<HTMLElement>('[data-status-heading]')!;
+    const dl = root.querySelector<HTMLElement>('[data-status-list]')!;
+    const noticesEl = root.querySelector<HTMLElement>('[data-status-notices]')!;
+    const noRisk = root.querySelector<HTMLElement>('[data-norisk]')!;
+    const roots = [...document.querySelectorAll<HTMLElement>('[data-trip-root]')];
+    const world = document.querySelector<HTMLElement>('[data-world]');
+    const worldFig = world?.querySelector<HTMLElement>('[data-wr]');
+    const worldSummary = worldFig?.querySelector<HTMLElement>('[data-wr-summary]') ?? null;
+
+    // The option buttons, made once.
+    const buttons = data.places.map((p, i) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pick__opt';
+      b.textContent = p.n;
+      b.dataset.i = String(i);
+      li.append(b);
+      listEl.append(li);
+      return li;
+    });
+
+    const filter = () => {
+      const q = norm(input.value.trim());
+      let n = 0;
+      buttons.forEach((li, i) => {
+        const show = !q || search[i].split('|').some((s) => s.includes(q));
+        li.hidden = !show;
+        if (show) n++;
+      });
+      listEl.hidden = false;
+      count.textContent = q ? (n === 0 ? T.noMatch : n === 1 ? T.matchesOne : fill(T.matches, { n })) : '';
+    };
+
+    const show = (p: Place | null) => {
+      for (const r of roots) applyTrip(r, p && { flags: p.f, names: { [data.lang]: p.n, [data.lang === 'en' ? 'es' : 'en']: p.o } });
+      // The map shows the same place (or resets), and the line under it sums it up.
+      worldFig?.dispatchEvent(new CustomEvent('wr-select', { detail: { code: p?.c ?? null } }));
+      if (worldSummary) {
+        worldSummary.hidden = !p;
+        worldSummary.textContent = p ? `${p.n}: ${data.viruses.map((v) => `${v.name} – ${p.v[v.v].length ? p.v[v.v].join('; ') : T.notListed}`).join(' · ')}` : '';
+      }
+      if (!p) {
+        status.hidden = true;
+        noRisk.hidden = true;
+        return;
+      }
+      heading.textContent = fill(T.status, { place: p.n });
+      dl.replaceChildren(
+        ...data.viruses.flatMap((v) => {
+          const dt = document.createElement('dt');
+          dt.textContent = v.name;
+          const dd = document.createElement('dd');
+          const cat = document.createElement('p');
+          cat.className = 'status__cat';
+          const ls = p.v[v.v];
+          if (ls.length) ls.forEach((l, j) => (j ? cat.append(document.createElement('br'), l) : cat.append(l)));
+          else cat.textContent = T.notListed;
+          const date = document.createElement('a');
+          date.className = 'status__date';
+          date.href = v.source;
+          date.textContent = v.date + T.linkNote;
+          if (T.linkNote) date.hreflang = 'en';
+          dd.append(cat, date);
+          return [dt, dd];
+        }),
+      );
+      noticesEl.replaceChildren(
+        ...(p.k.length
+          ? p.k.map((n) => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = n.url;
+              a.textContent = fill(T.notice, { title: n.title, date: n.date }) + T.linkNote;
+              if (T.linkNote) a.hreflang = 'en';
+              li.append(a);
+              return li;
+            })
+          : [Object.assign(document.createElement('li'), { textContent: fill(T.noNotices, { place: p.n }) })]),
+      );
+      status.hidden = false;
+      root.querySelector<HTMLElement>('[data-zika-past]')!.hidden = !p.f.includes('zika');
+      noRisk.hidden = p.f.includes('any');
+      noRisk.textContent = fill(T.noRisk, { place: p.n });
+    };
+
+    // From the picker: focus moves to the results. From the map: the map stays in view
+    // (the summary line under it is announced instead).
+    const choose = (i: number, fromMap = false) => {
+      const p = data.places[i];
+      input.value = p.n;
+      listEl.hidden = true;
+      count.textContent = '';
+      show(p);
+      if (fromMap) return;
+      heading.focus({ preventScroll: true });
+      heading.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    };
+
+    input.addEventListener('input', () => filter());
+    input.addEventListener('focus', () => {
+      if (listEl.hidden) filter();
+    });
+    input.addEventListener('keydown', (e) => {
+      const visible = buttons.filter((li) => !li.hidden);
+      if (e.key === 'ArrowDown' && visible.length) {
+        e.preventDefault();
+        listEl.hidden = false;
+        visible[0].querySelector('button')!.focus();
+      } else if (e.key === 'Enter' && input.value.trim() && visible.length) {
+        e.preventDefault();
+        choose(Number(visible[0].querySelector('button')!.dataset.i));
+      } else if (e.key === 'Escape') {
+        listEl.hidden = true;
+      }
+    });
+    // A tap or click anywhere outside the picker closes the list.
+    document.addEventListener('pointerdown', (e) => {
+      if (!listEl.hidden && !(e.target as Element).closest('[data-pick]')) {
+        listEl.hidden = true;
+        count.textContent = '';
+      }
+    });
+    listEl.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-i]');
+      if (b) choose(Number(b.dataset.i));
+    });
+    listEl.addEventListener('keydown', (e) => {
+      const visible = buttons.filter((li) => !li.hidden).map((li) => li.querySelector('button')!);
+      const at = visible.indexOf(document.activeElement as HTMLButtonElement);
+      if (e.key === 'ArrowDown' && at < visible.length - 1) {
+        e.preventDefault();
+        visible[at + 1].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        (at > 0 ? visible[at - 1] : input).focus();
+      } else if (e.key === 'Escape') {
+        input.focus();
+        listEl.hidden = true;
+      }
+    });
+    root.querySelector('[data-pick-clear]')!.addEventListener('click', () => {
+      input.value = '';
+      show(null);
+      filter();
+      input.focus();
+    });
+    listEl.hidden = true;
+    show(null);
+
+    // Around the world: switch the map's virus; a country clicked on the map is chosen
+    // in "Where are you going?" (an in-page event; nothing is sent).
+
+    const names = Object.fromEntries(data.viruses.map((v) => [v.v, v.name]));
+    world?.querySelector<HTMLElement>('[data-world-tabs]')?.removeAttribute('hidden');
+    for (const b of world?.querySelectorAll<HTMLButtonElement>('[data-world-virus]') ?? []) {
+      b.addEventListener('click', () => {
+        if (!worldFig) return;
+        worldFig.dataset.virus = b.dataset.worldVirus!;
+        for (const o of world!.querySelectorAll('[data-world-virus]')) o.setAttribute('aria-pressed', String(o === b));
+        worldFig.querySelector('[data-wr-svg]')?.setAttribute('aria-label', fill(T.mapLabel, { disease: names[b.dataset.worldVirus!] }));
+      });
+    }
+    worldFig?.addEventListener('wr-pick', (e) => {
+      const i = data.places.findIndex((p) => p.c === (e as CustomEvent<{ code: string }>).detail.code);
+      if (i >= 0) choose(i, true);
+    });
+
+    // Print: only the chosen language's sheet.
+    root.querySelector('[data-print-trip]')!.addEventListener('click', () => {
+      const v = root.querySelector<HTMLSelectElement>('[data-print-lang]')?.value || data.lang;
+      document.body.dataset.printing = 'trip';
+      document.body.dataset.printVariant = v;
+      window.print();
+    });
+    window.addEventListener('afterprint', () => {
+      delete document.body.dataset.printing;
+      delete document.body.dataset.printVariant;
+    });
+
+    // Sortable table: by name, or by a virus (most serious CDC category first).
+    const table = root.querySelector<HTMLTableElement>('[data-all-table]')!;
+    const tbody = table.tBodies[0];
+    const rows = [...tbody.rows];
+    const ths = [...table.tHead!.rows[0].cells];
+    const collator = new Intl.Collator(document.documentElement.lang);
+    for (const btn of table.querySelectorAll<HTMLButtonElement>('[data-sort]')) {
+      btn.hidden = false;
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.sort!;
+        const th = btn.closest('th')!;
+        const desc = key === 'name' ? th.getAttribute('aria-sort') === 'ascending' : th.getAttribute('aria-sort') !== 'descending';
+        const name = (r: HTMLTableRowElement) => r.cells[0].textContent ?? '';
+        const sorted = [...rows].sort((a, b) => {
+          if (key === 'name') return (desc ? -1 : 1) * collator.compare(name(a), name(b));
+          const d = Number(b.dataset[key]) - Number(a.dataset[key]);
+          return (desc ? d : -d) || collator.compare(name(a), name(b));
+        });
+        tbody.append(...sorted);
+        for (const h of ths) h.removeAttribute('aria-sort');
+        th.setAttribute('aria-sort', desc ? 'descending' : 'ascending');
+      });
+    }
+  }
+</script>
+
+<style>
+  .trip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--section-gap);
+    padding-block: var(--section-gap);
+  }
+
+  .trip__sec {
+    padding: var(--pad-box-lg) var(--pad-box-lg) var(--pad-box);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .trip__sec h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .trip__nojs,
+  .recs__note {
+    margin-bottom: var(--space-3);
+    color: var(--color-text-muted);
+  }
+
+  /* ---- Picker ---- */
+  .pick {
+    position: relative;
+    max-width: 36rem;
+  }
+
+  .pick__label {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-weight: var(--weight-strong);
+  }
+
+  .pick__row {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .pick__input {
+    flex: 1;
+    min-width: 0;
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-field-bg);
+    color: var(--color-field-text);
+    font: inherit;
+  }
+
+  .pick__input::placeholder {
+    color: var(--color-field-placeholder);
+  }
+
+  .pick__count {
+    min-height: 1.4em;
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* The list floats over the page (opening or closing it never moves the map). */
+  .pick__list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 20;
+    max-height: 16rem;
+    margin: 0;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.18);
+    padding: var(--space-1);
+    overflow-y: auto;
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    list-style: none;
+  }
+
+  .pick__list :global(.pick__opt) {
+    display: block;
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--space-2);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--color-text);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .pick__list :global(.pick__opt:hover),
+  .pick__list :global(.pick__opt:focus-visible) {
+    background: var(--color-surface-tint);
+  }
+
+  /* ---- What CDC lists ---- */
+  .status {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 2px solid var(--color-border);
+  }
+
+  .status__heading {
+    margin-bottom: var(--space-3);
+  }
+
+  .status__heading:focus {
+    outline: none;
+  }
+
+  .status__heading:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  .status__list {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--space-2) var(--space-4);
+    margin: 0 0 var(--space-4);
+  }
+
+  .status__list :global(dt) {
+    font-weight: var(--weight-display);
+  }
+
+  .status__list :global(dd) {
+    margin: 0;
+  }
+
+  .status__list :global(.status__cat) {
+    margin: 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .status__list :global(.status__date) {
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 40rem) {
+    .status__list {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .status__list :global(dd) {
+      margin-bottom: var(--space-3);
+    }
+  }
+
+  .status__def {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .status__sub {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .status__notices {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  /* ---- Recommendations ---- */
+  .recs__norisk {
+    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--pad-box);
+    border-left: 5px solid var(--color-rule);
+    background: var(--color-bg);
+  }
+
+  .recs__showing {
+    margin: 0 0 var(--space-3);
+    font-weight: var(--weight-display);
+  }
+
+  .recs__showing[hidden] {
+    display: none;
+  }
+
+  /* ---- Flow chart: three stages left to right on desktop with a large navy arrow
+     between them; stacked below 64rem with a downward arrow. Arrows sit before every
+     shown stage that follows another shown stage (hidden stages leave no arrow). ---- */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .flow__stage {
+    position: relative;
+    padding: var(--space-3);
+    background: var(--color-surface-tint);
+    color: var(--color-text);
+  }
+
+  .flow__stage[hidden] {
+    display: none;
+  }
+
+  .flow__stage:not([hidden]) ~ .flow__stage:not([hidden])::before {
+    content: '';
+    position: absolute;
+    top: -54px;
+    left: calc(50% - 16px);
+    width: 32px;
+    height: 44px;
+    background: var(--color-rule);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 44'%3E%3Cpath d='M11 0h10v26h11L16 44 0 26h11z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 44'%3E%3Cpath d='M11 0h10v26h11L16 44 0 26h11z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  @media (min-width: 64rem) {
+    .flow {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 64px;
+    }
+
+    .flow__stage {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .flow__stage:not([hidden]) ~ .flow__stage:not([hidden])::before {
+      top: 22px;
+      left: -54px;
+      width: 44px;
+      height: 32px;
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 32'%3E%3Cpath d='M0 11h26V0l18 16-18 16V21H0z'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 32'%3E%3Cpath d='M0 11h26V0l18 16-18 16V21H0z'/%3E%3C/svg%3E");
+    }
+  }
+
+  .flow__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    color: var(--color-heading);
+  }
+
+  .flow__num {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--color-rule);
+    color: var(--color-surface);
+    font-size: var(--text-lg);
+    font-weight: 900;
+  }
+
+  /* Steps on a thin vertical line (left); each box joins it with a short stub and a
+     dot. Branches sit further right, joined by a longer stub at their pill. */
+  .flow__steps,
+  .flow__sub {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .flow__steps {
+    position: relative;
+    margin-top: var(--space-3);
+    padding-left: 30px;
+  }
+
+  .flow__steps::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 14px;
+    left: 9px;
+    width: 2px;
+    background: var(--color-rule);
+  }
+
+  .flow__steps li {
+    position: relative;
+  }
+
+  .flow__steps li[hidden] {
+    display: none;
+  }
+
+  .flow__step::before,
+  .flow__tag::before,
+  .flow__branch::before {
+    content: '';
+    position: absolute;
+    left: -21px;
+    width: 21px;
+    height: 2px;
+    background: var(--color-rule);
+  }
+
+  .flow__step::before {
+    top: 14px;
+  }
+
+  .flow__step::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: -25px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-rule);
+  }
+
+  .flow__tag {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 var(--space-2);
+    padding: 1px var(--space-2);
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    line-height: 1.35;
+  }
+
+  .flow__tag::before {
+    top: calc(0.7em + 1px);
+    left: -23px;
+  }
+
+  .flow__branch {
+    margin-left: 22px;
+  }
+
+  .flow__branch::before {
+    top: 13px;
+    left: -43px;
+    width: 43px;
+  }
+
+  .flow__pill {
+    display: inline-block;
+    margin: 0 0 var(--space-1);
+    padding: 2px var(--space-2);
+    border-radius: 0.9em;
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    line-height: 1.35;
+  }
+
+  /* Heading row: the heading, and on the right the print button (with its language
+     menu, or the hint until a destination is chosen); under the heading on phones. */
+  .recs__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .recs__head h2 {
+    flex: 1 1 20rem;
+    margin: 0;
+  }
+
+  .recs__print {
+    display: grid;
+    justify-items: end;
+    gap: var(--space-1);
+  }
+
+  .recs__print[hidden] {
+    display: none;
+  }
+
+  .recs__print-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .recs__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .recs__lang[hidden] {
+    display: none;
+  }
+
+  .recs__lang select {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-2);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: normal;
+  }
+
+  .recs__print [data-print-trip]:disabled {
+    border-style: dashed;
+    border-color: var(--color-border-strong);
+    background: transparent;
+    color: var(--color-text);
+    cursor: not-allowed;
+  }
+
+  .recs__print-hint {
+    margin: 0;
+    font-size: var(--text-sm);
+    text-align: right;
+  }
+
+  @media (max-width: 47.99rem) {
+    .recs__print,
+    .recs__print-row {
+      justify-items: start;
+      justify-content: flex-start;
+    }
+
+    .recs__print-hint {
+      text-align: left;
+    }
+  }
+
+  .trip-sheets {
+    display: none;
+  }
+
+  /* ---- Around the world ---- */
+  .world__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .world__tabs[hidden] {
+    display: none;
+  }
+
+  /* Unselected: white with navy text; selected: navy with white text (as on the
+     other pages' virus buttons). */
+  .world__tab {
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--pad-box);
+    border: 3px solid var(--color-tab-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-tab-bg);
+    color: var(--color-tab-text);
+    font: inherit;
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .world__tab:hover {
+    background: var(--color-tab-hover-bg);
+  }
+
+  .world__tab[aria-pressed='true'] {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .world__hint {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ---- All destinations ---- */
+  .all__dates {
+    margin: 0 0 var(--space-3);
+    padding-inline-start: 1.2em;
+  }
+
+  .all__details summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-strong);
+    color: var(--color-link);
+    cursor: pointer;
+  }
+
+  .all__wrap {
+    margin-top: var(--space-3);
+  }
+
+  .all__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .all__table th,
+  .all__table td {
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .all__table thead th {
+    position: sticky;
+    top: 0;
+    border-bottom: 3px solid var(--color-rule);
+    background: var(--color-surface);
+    white-space: nowrap;
+  }
+
+  .all__table tbody th {
+    font-weight: var(--weight-strong);
+  }
+
+  .all__none {
+    color: var(--color-text-muted);
+  }
+
+  .all__sort {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    margin-inline-start: var(--space-1);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  th[aria-sort] .all__sort {
+    border-color: var(--color-rule);
+    background: var(--color-surface-tint);
+  }
+
+  /* Narrow screens: each row as a small block. */
+  @media (max-width: 40rem) {
+    .all__table thead th {
+      position: static;
+    }
+
+    .all__table thead tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-3);
+    }
+
+    .all__table thead th {
+      border: 0;
+      padding: 0 0 var(--space-2);
+    }
+
+    .all__table tbody tr {
+      display: block;
+      padding-block: var(--space-2);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .all__table tbody th,
+    .all__table td {
+      display: block;
+      padding: 0;
+      border: 0;
+    }
+
+    .all__table td::before {
+      content: attr(data-label) ': ';
+      font-weight: var(--weight-strong);
+    }
+  }
+
+  .trip__notices {
+    margin: 0;
+    font-weight: var(--weight-strong);
+  }
+
+  /* ---- Print: only the chosen trip checklist ---- */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0.5in;
+    }
+
+    :global(body[data-printing='trip']) {
+      padding: 0 !important;
+      background: #ffffff !important;
+    }
+
+    :global(body[data-printing='trip'] > :not(main)),
+    :global(body[data-printing='trip'] main > :not(.trip)),
+    :global(body[data-printing='trip']) .trip > :global(:not(.trip-sheets)) {
+      display: none !important;
+    }
+
+    :global(body[data-printing='trip']) .trip {
+      display: block;
+      padding: 0;
+    }
+
+    :global(body[data-printing='trip']) .trip-sheets {
+      display: block;
+    }
+
+    .trip-sheets > div {
+      display: none;
+    }
+
+    :global(body[data-print-variant='en']) [data-sheet-variant='en'],
+    :global(body[data-print-variant='es']) [data-sheet-variant='es'],
+    :global(body[data-print-variant='both']) [data-sheet-variant='both'] {
+      display: block;
+    }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+// Round-headed person (circle head + rounded body), standing with feet at (x, y).
+// Orange dots inside = virus in their blood.
+interface Props {
+  x: number;
+  y: number;
+  color?: string;
+  dots?: boolean;
+  scale?: number;
+  dotsClass?: string;
+}
+const { x, y, color = '#17306A', dots = false, scale = 1, dotsClass = '' } = Astro.props;
+---
+
+<g transform={`translate(${x} ${y}) scale(${scale})`}>
+  <circle cx="0" cy="-92" r="17" fill={color}></circle>
+  <path d="M-30 0 V-42 a30 30 0 0 1 60 0 V0 Z" fill={color}></path>
+  {
+    dots && (
+      <g fill="#E07034" stroke="#FFFFFF" stroke-width="1.5" class={dotsClass}>
+        <circle class="dot dot--1" cx="-10" cy="-44" r="5.5" />
+        <circle class="dot dot--2" cx="9" cy="-34" r="5.5" />
+        <circle class="dot dot--3" cx="-6" cy="-20" r="5.5" />
+      </g>
+    )
+  }
+</g>

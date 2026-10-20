@@ -1,0 +1,522 @@
+{
+  "id": "glossary",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "all": [
+      "cdc-adulticides",
+      "cdc-aedes-life-cycle",
+      "cdc-bti",
+      "cdc-culex-about",
+      "cdc-dengue-current-data",
+      "cdc-dengue-facts-stats",
+      "cdc-epi-outbreak",
+      "cdc-nndss-about",
+      "cdc-permethrin",
+      "cdc-prevent-bites",
+      "cdc-travel-notices",
+      "cdc-unwanted-mosquitoes",
+      "cdc-wolbachia",
+      "cdc-zika-geo",
+      "epa-ingredients",
+      "epa-registration"
+    ]
+  },
+  "text": {
+    "en": {
+      "intro": "Plain definitions of words used on this site. Each one comes from CDC or EPA, with the source."
+    },
+    "es": {
+      "intro": "Definiciones sencillas de palabras que se usan en este sitio. Cada una viene de los CDC o la EPA, con la fuente."
+    }
+  },
+  "terms": [
+    {
+      "id": "larvicide",
+      "sources": [
+        "cdc-bti"
+      ],
+      "match": {
+        "en": [
+          "larvicides?"
+        ],
+        "es": [
+          "larvicidas?"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Larvicide",
+          "def": [
+            "A product that kills young mosquitoes (larvae) in water. CDC: “Larvicides are a type of insecticide used to control mosquitoes indoors and outdoors.”"
+          ]
+        },
+        "es": {
+          "term": "Larvicida",
+          "def": [
+            "Un producto que mata los mosquitos jóvenes (larvas) en el agua. Los CDC dicen que “los larvicidas son un tipo de insecticida que se usa para controlar los mosquitos adentro y afuera”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "bti",
+      "sources": [
+        "cdc-bti"
+      ],
+      "match": {
+        "en": [
+          "Bti"
+        ],
+        "es": [
+          "Bti"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Bti",
+          "def": [
+            "A larvicide made from a bacterium. CDC: “The bacterium Bacillus thuringiensis subspecies israelensis (Bti) is found in the soil.” “Bti is toxic to mosquito larvae, blackflies, and fungus gnats.”"
+          ]
+        },
+        "es": {
+          "term": "Bti",
+          "def": [
+            "Un larvicida hecho de una bacteria. Los CDC dicen que “la bacteria Bacillus thuringiensis subespecie israelensis (Bti) se encuentra en la tierra” y que “el Bti es tóxico para las larvas de mosquito, las moscas negras y los mosquitos de los hongos”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "adulticide",
+      "sources": [
+        "cdc-adulticides"
+      ],
+      "match": {
+        "en": [
+          "adulticides?"
+        ],
+        "es": [
+          "adulticidas?"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Adulticide",
+          "def": [
+            "A product that kills adult mosquitoes, often sprayed by local programs. CDC: “Adulticides are types of insecticides used to kill adult mosquitoes.”"
+          ]
+        },
+        "es": {
+          "term": "Adulticida",
+          "def": [
+            "Un producto que mata los mosquitos adultos; los programas locales a menudo lo rocían. Los CDC dicen que “los adulticidas son tipos de insecticidas que se usan para matar mosquitos adultos”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "epa-registered",
+      "sources": [
+        "epa-registration"
+      ],
+      "match": {
+        "en": [
+          "EPA-registered"
+        ],
+        "es": [
+          "registrad[oa]s? por la EPA"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "EPA-registered",
+          "def": [
+            "The product has an EPA registration number on its label. EPA: registration “indicates that they have been evaluated and approved for human safety and effectiveness when applied according to instructions on the label.”"
+          ]
+        },
+        "es": {
+          "term": "Registrado por la EPA",
+          "def": [
+            "El producto tiene un número de registro de la EPA en la etiqueta. La EPA dice que el registro “indica que se evaluaron y aprobaron por su seguridad para las personas y su eficacia cuando se aplican según las instrucciones de la etiqueta”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "ole-pmd",
+      "sources": [
+        "cdc-prevent-bites",
+        "epa-ingredients"
+      ],
+      "match": {
+        "en": [
+          "oil of lemon eucalyptus",
+          "para-menthane-diol",
+          "OLE",
+          "PMD"
+        ],
+        "es": [
+          "aceite de eucalipto de limón",
+          "para-mentano-diol",
+          "OLE",
+          "PMD"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "OLE and PMD",
+          "def": [
+            "Two repellent ingredients. CDC lists “Oil of lemon eucalyptus (OLE)—A plant-derived ingredient” and “Para-menthane-diol (PMD).” CDC: “Do not use products containing OLE or PMD on children under 3 years old.”"
+          ]
+        },
+        "es": {
+          "term": "OLE y PMD",
+          "def": [
+            "Dos ingredientes de repelentes. Los CDC mencionan el “aceite de eucalipto de limón (OLE), un ingrediente de origen vegetal” y el “para-mentano-diol (PMD)”. Los CDC dicen: “No uses productos que contengan OLE o PMD en niños menores de 3 años”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "permethrin",
+      "sources": [
+        "cdc-permethrin"
+      ],
+      "match": {
+        "en": [
+          "permethrin"
+        ],
+        "es": [
+          "permetrina"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Permethrin",
+          "def": [
+            "An insecticide for clothing and gear, not for skin. CDC: “Permethrin is an insecticide that kills or repels mosquitoes.” “Do not use permethrin products directly on skin.”"
+          ]
+        },
+        "es": {
+          "term": "Permetrina",
+          "def": [
+            "Un insecticida para la ropa y el equipo, no para la piel. Los CDC dicen que “la permetrina es un insecticida que mata o repele los mosquitos” y: “No uses productos con permetrina directamente sobre la piel”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "aedes",
+      "sources": [
+        "cdc-unwanted-mosquitoes",
+        "cdc-aedes-life-cycle"
+      ],
+      "match": {
+        "en": [
+          "Aedes"
+        ],
+        "es": [
+          "Aedes"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Aedes",
+          "def": [
+            "The kind of mosquito that spreads dengue, Zika and chikungunya. CDC: “Aedes aegypti and Ae. albopictus mosquitoes live in many areas of the United States.” “Aedes aegypti and Aedes albopictus mosquitoes can spread dengue and other diseases.”"
+          ]
+        },
+        "es": {
+          "term": "Aedes",
+          "def": [
+            "El tipo de mosquito que transmite el dengue, el zika y el chikungunya. Los CDC dicen que los mosquitos “Aedes aegypti y Ae. albopictus viven en muchas zonas de Estados Unidos” y que “pueden transmitir el dengue y otras enfermedades”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "culex",
+      "sources": [
+        "cdc-culex-about"
+      ],
+      "match": {
+        "en": [
+          "Culex"
+        ],
+        "es": [
+          "Culex"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Culex",
+          "def": [
+            "A common house mosquito. It doesn't spread dengue, Zika or chikungunya. CDC: “In U.S. states, Culex mosquitoes can spread West Nile, St. Louis encephalitis, and eastern equine encephalitis viruses.”"
+          ]
+        },
+        "es": {
+          "term": "Culex",
+          "def": [
+            "Un mosquito común de las casas. No transmite el dengue, el zika ni el chikungunya. Los CDC dicen que “en los estados de EE. UU., los mosquitos Culex pueden transmitir los virus del Nilo Occidental, de la encefalitis de San Luis y de la encefalitis equina del este”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "wolbachia",
+      "sources": [
+        "cdc-wolbachia"
+      ],
+      "match": {
+        "en": [
+          "Wolbachia"
+        ],
+        "es": [
+          "Wolbachia"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Wolbachia",
+          "def": [
+            "Bacteria used in some new mosquito-control programs. CDC: “Wolbachia (wohl-bach-ee-uh) is a common type of bacteria found in insects.” Programs release male mosquitoes with Wolbachia; their eggs don't hatch, so the number of these mosquitoes goes down."
+          ]
+        },
+        "es": {
+          "term": "Wolbachia",
+          "def": [
+            "Bacterias que se usan en algunos programas nuevos de control de mosquitos. Los CDC dicen que “Wolbachia es un tipo común de bacteria que se encuentra en los insectos”. Los programas liberan mosquitos machos con Wolbachia; sus huevos no nacen, así que la cantidad de estos mosquitos baja."
+          ]
+        }
+      }
+    },
+    {
+      "id": "locally-acquired",
+      "sources": [
+        "cdc-dengue-facts-stats",
+        "cdc-zika-geo"
+      ],
+      "match": {
+        "en": [
+          "locally acquired",
+          "locally-acquired"
+        ],
+        "es": [
+          "adquirid[oa]s? localmente"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Locally acquired",
+          "def": [
+            "A case caught from a mosquito where the person lives, not while traveling. CDC uses the term this way: “Most local transmission of dengue in the United States happens in areas where dengue is common (endemic).”"
+          ]
+        },
+        "es": {
+          "term": "Adquirido localmente",
+          "def": [
+            "Un caso contraído por la picada de un mosquito donde vive la persona, no durante un viaje. Los CDC usan el término así: “La mayor parte de la transmisión local del dengue en Estados Unidos ocurre en zonas donde el dengue es común (endémico)”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "travel-associated",
+      "sources": [
+        "cdc-dengue-facts-stats"
+      ],
+      "match": {
+        "en": [
+          "travel-associated",
+          "travel-related"
+        ],
+        "es": [
+          "asociad[oa]s? a viajes",
+          "relacionad[oa]s? con viajes"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Travel-associated",
+          "def": [
+            "A case in someone who was infected while traveling. CDC: “Most dengue cases reported in the 49 continental US states occur in travelers infected elsewhere.”"
+          ]
+        },
+        "es": {
+          "term": "Asociado a viajes",
+          "def": [
+            "Un caso en una persona que se infectó durante un viaje. Los CDC dicen que “la mayoría de los casos de dengue reportados en los 49 estados continentales de EE. UU. son de viajeros que se infectaron en otro lugar”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "reported-case",
+      "sources": [
+        "cdc-dengue-current-data"
+      ],
+      "match": {
+        "en": [
+          "reported cases?"
+        ],
+        "es": [
+          "casos? reportados?"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Reported case",
+          "def": [
+            "A case that a doctor or lab diagnosed and reported to public health. The real number is higher. CDC: “Under-reporting is a limitation common to all surveillance systems.” “These data are provisional and subject to change.”"
+          ]
+        },
+        "es": {
+          "term": "Caso reportado",
+          "def": [
+            "Un caso que un médico o un laboratorio diagnosticó y reportó a salud pública. El número real es mayor. Los CDC dicen que “el subregistro es un límite común de todos los sistemas de vigilancia” y que “estos datos son provisionales y pueden cambiar”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "nndss",
+      "sources": [
+        "cdc-nndss-about"
+      ],
+      "match": {
+        "en": [
+          "NNDSS"
+        ],
+        "es": [
+          "NNDSS"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "NNDSS",
+          "def": [
+            "CDC's National Notifiable Diseases Surveillance System, where the case numbers on this site come from. CDC: “The National Notifiable Diseases Surveillance System (NNDSS) collects case surveillance data from across the U.S.”"
+          ]
+        },
+        "es": {
+          "term": "NNDSS",
+          "def": [
+            "El Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria de los CDC, de donde vienen las cifras de casos de este sitio. Los CDC dicen que el NNDSS “reúne datos de vigilancia de casos de todo EE. UU.”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "travel-health-notice",
+      "sources": [
+        "cdc-travel-notices"
+      ],
+      "match": {
+        "en": [
+          "Travel Health Notices?"
+        ],
+        "es": [
+          "avisos? de salud para viajeros"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Travel Health Notice levels 1–4",
+          "def": [
+            "CDC's notices about health risks for travelers, from Level 1 to Level 4. Level 1 – Practice Usual Precautions; Level 2 – Practice Enhanced Precautions; Level 3 – Reconsider Nonessential Travel; Level 4 – Avoid All Travel. CDC uses Travel Health Notices “to inform travelers about global health risks during outbreaks, special events or gatherings, and natural disasters.”"
+          ]
+        },
+        "es": {
+          "term": "Niveles 1 a 4 de los avisos de salud para viajeros",
+          "def": [
+            "Los avisos de los CDC sobre riesgos de salud para viajeros, del Nivel 1 al Nivel 4. Nivel 1 – Toma las precauciones habituales; Nivel 2 – Toma precauciones adicionales; Nivel 3 – Reconsidera los viajes que no sean esenciales; Nivel 4 – Evita todos los viajes. Los CDC usan estos avisos “para informar a los viajeros sobre riesgos de salud en el mundo durante brotes, eventos especiales o reuniones, y desastres naturales”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "zika-past",
+      "sources": [
+        "cdc-zika-geo"
+      ],
+      "match": {
+        "en": [
+          "current or past Zika transmission"
+        ],
+        "es": [
+          "transmisión actual o pasada del zika"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "“Current or past Zika transmission”",
+          "def": [
+            "A CDC category for places where Zika has spread through mosquitoes at some point. CDC: “Current or past transmission is defined as having had locally acquired, mosquito-borne Zika cases.” “These countries have a potential risk of Zika transmission, but CDC may not have accurate information on the current level of risk.”"
+          ]
+        },
+        "es": {
+          "term": "“Transmisión actual o pasada del zika”",
+          "def": [
+            "Una categoría de los CDC para lugares donde el zika se ha transmitido por mosquitos en algún momento. Los CDC la definen como “haber tenido casos de zika adquiridos localmente y transmitidos por mosquitos” y dicen que esos países “tienen un riesgo potencial de transmisión del zika, pero los CDC pueden no tener información exacta sobre el nivel de riesgo actual”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "outbreak",
+      "sources": [
+        "cdc-epi-outbreak"
+      ],
+      "match": {
+        "en": [
+          "outbreaks?"
+        ],
+        "es": [
+          "brotes?"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Outbreak",
+          "def": [
+            "More cases than usual in one place. CDC: an epidemic is “an increase, often sudden, in the number of cases of a disease above what is normally expected in that population in that area,” and “Outbreak carries the same definition of epidemic, but is often used for a more limited geographic area.”"
+          ]
+        },
+        "es": {
+          "term": "Brote",
+          "def": [
+            "Más casos de lo normal en un lugar. Los CDC dicen que una epidemia es “un aumento, a menudo repentino, en el número de casos de una enfermedad por encima de lo que normalmente se espera en esa población en esa zona”, y que un brote “tiene la misma definición que una epidemia, pero a menudo se usa para una zona geográfica más limitada”."
+          ]
+        }
+      }
+    },
+    {
+      "id": "sporadic-uncertain",
+      "sources": [
+        "cdc-dengue-areas"
+      ],
+      "match": {
+        "en": [
+          "Sporadic or uncertain"
+        ],
+        "es": [
+          "Esporádico o incierto"
+        ]
+      },
+      "text": {
+        "en": {
+          "term": "Sporadic or uncertain (dengue risk)",
+          "def": [
+            "One of CDC's dengue risk categories for a country: dengue has spread there from local mosquitoes at least once in the last 10 years. CDC: places with “evidence of at least 1 locally acquired dengue case during the last 10 years.”"
+          ]
+        },
+        "es": {
+          "term": "Esporádico o incierto (riesgo de dengue)",
+          "def": [
+            "Una de las categorías de riesgo de dengue de los CDC para un país: el dengue se ha transmitido allí por mosquitos locales al menos una vez en los últimos 10 años. Los CDC hablan de lugares con “evidencia de al menos 1 caso de dengue adquirido localmente durante los últimos 10 años”."
+          ]
+        }
+      }
+    }
+  ]
+}

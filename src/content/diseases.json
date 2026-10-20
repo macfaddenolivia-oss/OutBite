@@ -1,0 +1,455 @@
+{
+  "id": "diseases",
+  "lastReviewed": "2026-10-20",
+  "vaccineAsOf": "2026-10",
+  "vaccineSource": {
+    "dengue": "cdc-dengue-vaccines",
+    "zika": "cdc-zika-about",
+    "chikungunya": "cdc-chik-vaccines"
+  },
+  "cite": {
+    "dengue-glance": [
+      "cdc-dengue-transmission",
+      "cdc-dengue-about",
+      "cdc-dengue-clinical-signs",
+      "cdc-dengue-symptoms",
+      "cdc-dengue-vaccines"
+    ],
+    "dengue-symptoms": [
+      "cdc-dengue-symptoms",
+      "cdc-dengue-about",
+      "cdc-dengue-manage",
+      "cdc-zika-treatment"
+    ],
+    "dengue-risk": [
+      "cdc-han-dengue-2025",
+      "cdc-dengue-clinical-care"
+    ],
+    "dengue-where": [
+      "cdc-dengue-areas",
+      "cdc-dengue-facts-stats",
+      "cdc-dengue-current-data"
+    ],
+    "zika-glance": [
+      "cdc-zika-about",
+      "cdc-zika-transmission",
+      "cdc-zika-clinical"
+    ],
+    "zika-symptoms": [
+      "cdc-zika-about",
+      "cdc-zika-symptoms",
+      "cdc-zika-testing",
+      "cdc-dengue-manage",
+      "cdc-zika-treatment"
+    ],
+    "zika-risk": [
+      "cdc-zika-about",
+      "cdc-zika-symptoms",
+      "cdc-zika-transmission"
+    ],
+    "zika-where": [
+      "cdc-zika-cases-us",
+      "cdc-zika-geo"
+    ],
+    "chikungunya-glance": [
+      "cdc-chik-spread",
+      "cdc-chik-symptoms",
+      "cdc-chik-vaccines"
+    ],
+    "chikungunya-symptoms": [
+      "cdc-chik-symptoms",
+      "cdc-dengue-manage",
+      "cdc-zika-treatment"
+    ],
+    "chikungunya-risk": [
+      "cdc-chik-symptoms"
+    ],
+    "chikungunya-where": [
+      "cdc-chik-cases-us"
+    ],
+    "comparison": [
+      "cdc-dengue-transmission",
+      "cdc-dengue-symptoms",
+      "cdc-dengue-vaccines",
+      "cdc-zika-about",
+      "cdc-zika-transmission",
+      "cdc-chik-spread",
+      "cdc-chik-symptoms",
+      "cdc-chik-vaccines"
+    ],
+    "zika-pregnancy": [
+      "cdc-zika-travel",
+      "cdc-zika-prevention",
+      "cdc-zika-testing",
+      "cdc-zika-geo"
+    ],
+    "travel": [
+      "cdc-before-travel",
+      "cdc-travel-notices",
+      "cdc-prevent-dengue"
+    ]
+  },
+  "text": {
+    "en": {
+      "diseases": {
+        "dengue": {
+          "intro": "Dengue is a virus spread by Aedes mosquitoes. Most people who get it feel fine or only mildly sick, but some become very sick.",
+          "glance": {
+            "spreadBy": "Infected Aedes mosquitoes spread it. It can also pass from mother to baby, or rarely through blood or organs.",
+            "symptomsStart": "Usually within 2 weeks of a bite, often after 5–7 days.",
+            "howManySick": "About 1 in 4 infected people get sick. About 1 in 20 of those become very sick.",
+            "vaccine": "No dengue vaccine is available in the U.S. right now."
+          },
+          "symptoms": [
+            "Fever is the most common symptom. It often comes with eye pain, body aches (muscles, joints or bones), headache, nausea, vomiting or a rash.",
+            "Symptoms usually last 2–7 days. Most people get better after about a week."
+          ],
+          "higherRisk": [
+            "Babies 1 year old or younger",
+            "Pregnant people and adults 65 and older",
+            "People with some health conditions",
+            "People who had dengue before"
+          ],
+          "whereSpreads": [
+            "Dengue is common in {places}.",
+            "Limited local spread has also been reported in Florida, Hawaii, Texas, Arizona and California."
+          ],
+          "compare": {
+            "mosquitoes": "Yes, mainly",
+            "other": "Mother to baby; rarely blood or organs",
+            "symptoms": "Fever, aches, rash",
+            "risk": "Severe dengue: bleeding, shock",
+            "vaccine": "None available in the U.S."
+          }
+        },
+        "zika": {
+          "intro": "Zika is a virus spread mostly by Aedes mosquitoes. Many people have no symptoms or only mild ones, but Zika during pregnancy can cause serious birth defects.",
+          "glance": {
+            "spreadBy": "Infected Aedes mosquitoes spread it. It can also spread through sex, from mother to baby, and through blood or tissues.",
+            "symptomsStart": "Within 3–14 days after a bite.",
+            "howManySick": "About 4 in 5 infected people have no symptoms. Others are usually mildly sick.",
+            "vaccine": "No vaccine is available to prevent Zika."
+          },
+          "symptoms": [
+            "Common symptoms are fever, rash, headache, joint and muscle pain, and red eyes.",
+            "Symptoms usually last several days to a week. Most people don’t get sick enough to need a hospital."
+          ],
+          "warningHeading": "See a doctor or clinic if:",
+          "warningSigns": [
+            "You have symptoms after being around mosquitoes in a place where Zika spreads",
+            "You are pregnant and have symptoms after travel to a place with Zika, or after sex with a partner who lives in or traveled to one"
+          ],
+          "warningWhen": "Testing works best as soon as possible, while you still have symptoms.",
+          "higherRisk": [
+            "Pregnant people, because Zika can cause birth defects",
+            "Sex partners of someone who has Zika",
+            "People who live in or travel to tropical and subtropical areas where Zika spreads"
+          ],
+          "whereSpreads": [
+            "CDC says: “There is no current local transmission of Zika virus in the continental United States.” The last local cases in states were in Florida and Texas in 2016–2017.",
+            "Zika caused a large outbreak in Puerto Rico in 2016. Since 2019, CDC has reported no confirmed locally acquired Zika cases in U.S. territories. CDC still lists Puerto Rico, the U.S. Virgin Islands and American Samoa as places with current or past Zika transmission, because Zika spread there in the past."
+          ],
+          "compare": {
+            "mosquitoes": "Yes, mostly",
+            "other": "Sex, pregnancy, blood",
+            "symptoms": "Fever, rash, red eyes, joint pain",
+            "risk": "Birth defects if infected while pregnant",
+            "vaccine": "None"
+          }
+        },
+        "chikungunya": {
+          "intro": "Chikungunya is a virus spread by Aedes mosquitoes. Its most common symptoms are fever and joint pain, and the joint pain can be severe and last for months.",
+          "glance": {
+            "spreadBy": "Infected Aedes mosquitoes spread it. Rarely, it passes from mother to baby, and it likely can spread through blood.",
+            "symptomsStart": "Usually 3–7 days after a bite.",
+            "howManySick": "Most infected people get some symptoms. Death from chikungunya is rare.",
+            "vaccine": "One vaccine, VIMKUNYA, is available for people 12 and older. CDC: “Vaccination is recommended for travelers visiting an area with an outbreak.” It “may be considered” for longer stays in places with elevated risk."
+          },
+          "symptoms": [
+            "Fever and joint pain are the most common symptoms. Headache, muscle pain, joint swelling or a rash can also happen.",
+            "Most people feel better within a week. Joint pain can be severe and can last for months."
+          ],
+          "warningHeading": "See a doctor or clinic if:",
+          "warningSigns": [
+            "You have fever, joint pain or other symptoms after visiting a place where chikungunya is found"
+          ],
+          "warningWhen": "Symptoms usually start 3–7 days after a bite. Tell your doctor or clinic where and when you traveled.",
+          "higherRisk": [
+            "Newborns infected around the time of birth",
+            "Adults 65 and older",
+            "People with high blood pressure, diabetes or heart disease"
+          ],
+          "whereSpreads": [
+            "Local spread in the U.S. is rare. CDC reported local cases in Florida and New York in 2025, and one local case in a U.S. state in 2026.",
+            "Chikungunya caused a large outbreak in Puerto Rico in 2014. Since 2019, CDC has reported no confirmed locally acquired chikungunya cases in U.S. territories."
+          ],
+          "compare": {
+            "mosquitoes": "Yes, mostly",
+            "other": "Rarely mother to baby; likely blood",
+            "symptoms": "Fever, joint pain",
+            "risk": "Long-lasting joint pain; newborns at risk",
+            "vaccine": "Yes, for some travelers"
+          }
+        }
+      },
+      "zikaSpread": {
+        "heading": "How Zika spreads",
+        "paths": [
+          {
+            "title": "Mosquito to person",
+            "text": "An infected mosquito spreads Zika through a bite."
+          },
+          {
+            "title": "Person to mosquito",
+            "text": "A mosquito can pick up Zika by biting an infected person."
+          },
+          {
+            "title": "Through sex",
+            "text": "Zika can spread to a partner through sex. Condoms can reduce the chance."
+          },
+          {
+            "title": "During pregnancy",
+            "text": "Zika can pass to the baby during pregnancy and can cause birth defects."
+          }
+        ]
+      },
+      "extras": {
+        "sexLink": "Condoms can reduce the chance of getting Zika from sex",
+        "pregnancyHeading": "Pregnant or planning a pregnancy?",
+        "pregnancy": [
+          {
+            "key": "everyone",
+            "label": "Everyone pregnant or planning a pregnancy",
+            "summary": "Talk with your doctor or clinic about Zika.",
+            "quote": "“If you are pregnant or planning pregnancy, talk to your healthcare provider about your potential risk of Zika infection, the possible health effects of Zika virus infection on a baby, and ways to protect yourself from Zika.”"
+          },
+          {
+            "key": "noticeTravel",
+            "label": "Pregnant travelers: places with an active Zika Travel Health Notice",
+            "summary": "CDC advises pregnant people not to travel to these places.",
+            "quote": "“You should avoid travel to areas with an active Zika Travel Health Notice.” “If travel is unavoidable, strictly follow recommendations to prevent mosquito bites and sexual transmission during and after travel.”"
+          },
+          {
+            "key": "pastTravel",
+            "label": "Pregnant travelers: places with current or past Zika transmission",
+            "summary": "Talk with your doctor or clinic before the trip.",
+            "quote": "“Discuss travel plans, reasons for travel, ability to prevent mosquito bites, and potential risks with your healthcare provider.” “If you choose to travel, prevent mosquito bites during and after travel.” “If you are concerned about the risks of Zika, you should also prevent sexual transmission during and after travel.”"
+          },
+          {
+            "key": "planning",
+            "label": "Planning a pregnancy after travel",
+            "summary": "Wait to get pregnant after the trip.",
+            "quote": "After travel to an area with an active Zika Travel Health Notice: “Delay pregnancy following travel using the timeframes to prevent sexual transmission.” After travel to an area with current or past Zika transmission: “If you are concerned about the risks of Zika, you should prevent sexual transmission during and after travel and consider delaying pregnancy using the timeframes to prevent sexual transmission.” The timeframes: After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms."
+          },
+          {
+            "key": "testing",
+            "label": "Testing during pregnancy",
+            "summary": "Testing is for pregnant people with symptoms.",
+            "quote": "CDC recommends testing if “you are pregnant, experiencing symptoms of Zika, and traveled to an area with current or past Zika virus transmission.” “Testing is no longer routinely recommended if you are pregnant and are not experiencing symptoms of Zika.”"
+          }
+        ],
+        "pregnancyNote": "Quoted from CDC.",
+        "vaccineTipLink": "Chikungunya vaccine for some travelers",
+        "riskLink": "CDC map: where {disease} spreads around the world",
+        "travelHeading": "Before you travel",
+        "travelVisit": "See a travel clinic or your doctor at least 4–6 weeks before you leave.",
+        "travelNotices": "CDC Travel Health Notices for where you’re going",
+        "travelPacking": "CDC: “Pack acetaminophen (also known as paracetamol outside the United States) in your first aid kit. These medications can be used to manage fever and body pain in case you get dengue.”",
+        "tipLink": "See this tip",
+        "travelPage": "Traveling soon? See what CDC lists for where you’re going",
+        "noNsaid": "Don't take ibuprofen or aspirin until a doctor has ruled out dengue. They can raise the risk of bleeding.",
+        "zikaPast": "“Current or past Zika transmission” means Zika has spread there through mosquitoes at some point. CDC: “These countries have a potential risk of Zika transmission, but CDC may not have accurate information on the current level of risk.”",
+        "condoms": "After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms.",
+        "condomAreas": "CDC advises this after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission.",
+        "zikaConcerned": "CDC: “If you are concerned about the risks of Zika, you should also prevent sexual transmission during and after travel.” The timeframes:",
+        "chikSummary": {
+          "recommended": "CDC recommends this vaccine for a trip to a place with an outbreak.",
+          "considered": "If you’ll stay a long time in a place with higher risk, ask your doctor whether this vaccine is right for you."
+        }
+      }
+    },
+    "es": {
+      "diseases": {
+        "dengue": {
+          "intro": "El dengue es un virus que transmiten los mosquitos Aedes. La mayoría de las personas que lo contraen se sienten bien o solo un poco enfermas, pero algunas se enferman gravemente.",
+          "glance": {
+            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. También puede pasar de la madre al bebé y, en raras ocasiones, por la sangre o los órganos.",
+            "symptomsStart": "Por lo general, dentro de las 2 semanas después de una picada, a menudo a los 5–7 días.",
+            "howManySick": "Alrededor de 1 de cada 4 personas infectadas se enferma. Alrededor de 1 de cada 20 de ellas se enferma gravemente.",
+            "vaccine": "Por ahora no hay ninguna vacuna contra el dengue disponible en EE. UU."
+          },
+          "symptoms": [
+            "La fiebre es el síntoma más común. A menudo viene con dolor de ojos, dolores en el cuerpo (músculos, articulaciones o huesos), dolor de cabeza, náuseas, vómitos o sarpullido.",
+            "Los síntomas suelen durar de 2 a 7 días. La mayoría de las personas se mejora en alrededor de una semana."
+          ],
+          "higherRisk": [
+            "Bebés de 1 año o menos",
+            "Personas embarazadas y adultos de 65 años o más",
+            "Personas con algunos problemas de salud",
+            "Personas que ya tuvieron dengue antes"
+          ],
+          "whereSpreads": [
+            "El dengue es común en {places}.",
+            "También se ha reportado una propagación local limitada en Florida, Hawái, Texas, Arizona y California."
+          ],
+          "compare": {
+            "mosquitoes": "Sí, principalmente",
+            "other": "De madre a bebé; rara vez sangre u órganos",
+            "symptoms": "Fiebre, dolores, sarpullido",
+            "risk": "Dengue grave: sangrado, choque",
+            "vaccine": "Ninguna disponible en EE. UU."
+          }
+        },
+        "zika": {
+          "intro": "El zika es un virus que transmiten sobre todo los mosquitos Aedes. Muchas personas no tienen síntomas o solo síntomas leves, pero el zika durante el embarazo puede causar defectos de nacimiento graves.",
+          "glance": {
+            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. También se puede transmitir por relaciones sexuales, de la madre al bebé y por la sangre o los tejidos.",
+            "symptomsStart": "Entre 3 y 14 días después de una picada.",
+            "howManySick": "Alrededor de 4 de cada 5 personas infectadas no tienen síntomas. Las demás suelen enfermarse levemente.",
+            "vaccine": "No hay ninguna vacuna para prevenir el zika."
+          },
+          "symptoms": [
+            "Los síntomas comunes son fiebre, sarpullido, dolor de cabeza, dolor en las articulaciones y los músculos, y ojos rojos.",
+            "Los síntomas suelen durar de varios días a una semana. La mayoría de las personas no se enferma tanto como para ir al hospital."
+          ],
+          "warningHeading": "Consulta a un médico o profesional de la salud si:",
+          "warningSigns": [
+            "Tienes síntomas después de estar cerca de mosquitos en un lugar donde se transmite el zika",
+            "Estás embarazada y tienes síntomas después de viajar a un lugar con zika, o después de tener relaciones sexuales con una pareja que vive en uno de esos lugares o viajó a uno"
+          ],
+          "warningWhen": "La prueba funciona mejor cuanto antes, mientras todavía tienes síntomas.",
+          "higherRisk": [
+            "Las personas embarazadas, porque el zika puede causar defectos de nacimiento",
+            "Las parejas sexuales de alguien que tiene zika",
+            "Las personas que viven en zonas tropicales y subtropicales donde se transmite el zika, o que viajan a ellas"
+          ],
+          "whereSpreads": [
+            "Los CDC dicen que no hay transmisión local actual del virus del Zika en la parte continental de Estados Unidos. Los últimos casos locales en los estados fueron en Florida y Texas en 2016–2017.",
+            "El zika causó un gran brote en Puerto Rico en 2016. Desde 2019, los CDC no han reportado casos confirmados de zika adquiridos localmente en los territorios de EE. UU. Los CDC siguen incluyendo a Puerto Rico, las Islas Vírgenes de EE. UU. y Samoa Estadounidense entre los lugares con transmisión actual o pasada del zika, porque el zika se transmitió allí en el pasado."
+          ],
+          "compare": {
+            "mosquitoes": "Sí, sobre todo",
+            "other": "Sexo, embarazo, sangre",
+            "symptoms": "Fiebre, sarpullido, ojos rojos, dolor en las articulaciones",
+            "risk": "Defectos de nacimiento si hay infección en el embarazo",
+            "vaccine": "Ninguna"
+          }
+        },
+        "chikungunya": {
+          "intro": "El chikungunya es un virus que transmiten los mosquitos Aedes. Sus síntomas más comunes son la fiebre y el dolor en las articulaciones, y ese dolor puede ser fuerte y durar meses.",
+          "glance": {
+            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. En raras ocasiones pasa de la madre al bebé, y es probable que se transmita por la sangre.",
+            "symptomsStart": "Por lo general, de 3 a 7 días después de una picada.",
+            "howManySick": "La mayoría de las personas infectadas tiene algunos síntomas. La muerte por chikungunya es rara.",
+            "vaccine": "Hay una vacuna, VIMKUNYA, para personas de 12 años o más. Los CDC dicen que “la vacunación se recomienda para los viajeros que visitan una zona con un brote”. También “se puede considerar” para estadías largas en lugares con riesgo elevado."
+          },
+          "symptoms": [
+            "La fiebre y el dolor en las articulaciones son los síntomas más comunes. También puede haber dolor de cabeza, dolor muscular, hinchazón de las articulaciones o sarpullido.",
+            "La mayoría de las personas se siente mejor en una semana. El dolor en las articulaciones puede ser fuerte y durar meses."
+          ],
+          "warningHeading": "Consulta a un médico o profesional de la salud si:",
+          "warningSigns": [
+            "Tienes fiebre, dolor en las articulaciones u otros síntomas después de visitar un lugar donde hay chikungunya"
+          ],
+          "warningWhen": "Los síntomas suelen empezar de 3 a 7 días después de una picada. Dile a tu médico dónde y cuándo viajaste.",
+          "higherRisk": [
+            "Los recién nacidos que se infectan alrededor del momento del parto",
+            "Los adultos de 65 años o más",
+            "Las personas con presión alta, diabetes o enfermedades del corazón"
+          ],
+          "whereSpreads": [
+            "La propagación local en EE. UU. es rara. Los CDC reportaron casos locales en Florida y Nueva York en 2025, y un caso local en un estado de EE. UU. en 2026.",
+            "El chikungunya causó un gran brote en Puerto Rico en 2014. Desde 2019, los CDC no han reportado casos confirmados de chikungunya adquiridos localmente en los territorios de EE. UU."
+          ],
+          "compare": {
+            "mosquitoes": "Sí, sobre todo",
+            "other": "Rara vez de madre a bebé; probablemente sangre",
+            "symptoms": "Fiebre, dolor en las articulaciones",
+            "risk": "Dolor de articulaciones duradero; riesgo para recién nacidos",
+            "vaccine": "Sí, para algunos viajeros"
+          }
+        }
+      },
+      "zikaSpread": {
+        "heading": "Cómo se transmite el zika",
+        "paths": [
+          {
+            "title": "De mosquito a persona",
+            "text": "Un mosquito infectado transmite el zika con una picada."
+          },
+          {
+            "title": "De persona a mosquito",
+            "text": "Un mosquito puede contraer el zika al picar a una persona infectada."
+          },
+          {
+            "title": "Por vía sexual",
+            "text": "El zika puede pasar a una pareja por vía sexual. Los condones pueden reducir la probabilidad."
+          },
+          {
+            "title": "Durante el embarazo",
+            "text": "El zika puede pasar al bebé durante el embarazo y puede causar defectos de nacimiento."
+          }
+        ]
+      },
+      "extras": {
+        "sexLink": "Los condones pueden reducir la probabilidad de contraer el zika por vía sexual",
+        "pregnancyHeading": "¿Estás embarazada o planeas un embarazo?",
+        "pregnancy": [
+          {
+            "key": "everyone",
+            "label": "Si estás embarazada o planeas un embarazo",
+            "summary": "Habla con tu médico o clínica sobre el zika.",
+            "quote": "“Si estás embarazada o planeas un embarazo, habla con tu médico o profesional de la salud sobre tu posible riesgo de infección por el zika, los posibles efectos de la infección por el virus del Zika en un bebé y las formas de protegerte del zika.”"
+          },
+          {
+            "key": "noticeTravel",
+            "label": "Si estás embarazada y vas a viajar: lugares con un aviso de salud para viajeros por el zika activo",
+            "summary": "Los CDC recomiendan que las personas embarazadas no viajen a estos lugares.",
+            "quote": "“Debes evitar viajar a zonas con un aviso de salud para viajeros por el zika activo.” “Si no puedes evitar el viaje, sigue estrictamente las recomendaciones para prevenir las picadas de mosquito y la transmisión sexual durante y después del viaje.”"
+          },
+          {
+            "key": "pastTravel",
+            "label": "Si estás embarazada y vas a viajar: lugares con transmisión actual o pasada del zika",
+            "summary": "Habla con tu médico o clínica antes del viaje.",
+            "quote": "“Habla con tu médico o profesional de la salud sobre tus planes de viaje, las razones del viaje, si puedes prevenir las picadas de mosquito y los posibles riesgos.” “Si decides viajar, previene las picadas de mosquito durante y después del viaje.” “Si te preocupan los riesgos del zika, también debes prevenir la transmisión sexual durante y después del viaje.”"
+          },
+          {
+            "key": "planning",
+            "label": "Si planeas un embarazo después de viajar",
+            "summary": "Espera para quedar embarazada después del viaje.",
+            "quote": "Después de viajar a una zona con un aviso de salud para viajeros por el zika activo: “Retrasa el embarazo después del viaje según los plazos para prevenir la transmisión sexual.” Después de viajar a una zona con transmisión actual o pasada del zika: “Si te preocupan los riesgos del zika, debes prevenir la transmisión sexual durante y después del viaje y considerar retrasar el embarazo según los plazos para prevenir la transmisión sexual.” Los plazos: después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas."
+          },
+          {
+            "key": "testing",
+            "label": "Pruebas durante el embarazo",
+            "summary": "La prueba es para personas embarazadas con síntomas.",
+            "quote": "Los CDC recomiendan hacerse la prueba si “estás embarazada, tienes síntomas del zika y viajaste a una zona con transmisión actual o pasada del virus del Zika”. “Ya no se recomienda hacer la prueba de rutina si estás embarazada y no tienes síntomas del zika.”"
+          }
+        ],
+        "pregnancyNote": "Citas de los CDC, traducidas al español.",
+        "vaccineTipLink": "Vacuna contra el chikungunya para algunos viajeros",
+        "riskLink": "Mapa de los CDC: dónde se transmite el {disease} en el mundo",
+        "travelHeading": "Antes de viajar",
+        "travelVisit": "Ve a una clínica de viajeros o a tu médico al menos 4 a 6 semanas antes de salir.",
+        "travelNotices": "Avisos de salud para viajeros de los CDC para tu destino",
+        "travelPacking": "CDC: “Lleva acetaminofén (también llamado paracetamol fuera de Estados Unidos) en tu botiquín de primeros auxilios. Estos medicamentos se pueden usar para controlar la fiebre y el dolor en el cuerpo en caso de que te dé dengue.”",
+        "tipLink": "Ver este consejo",
+        "travelPage": "¿Vas a viajar pronto? Mira lo que indican los CDC para tu destino",
+        "noNsaid": "No tomes ibuprofeno ni aspirina hasta que un médico descarte el dengue. Estos medicamentos pueden aumentar el riesgo de sangrado.",
+        "zikaPast": "“Transmisión actual o pasada del zika” quiere decir que el zika se ha transmitido allí por mosquitos en algún momento. Los CDC dicen que estos países “tienen un riesgo potencial de transmisión del zika, pero los CDC pueden no tener información exacta sobre el nivel de riesgo actual”.",
+        "condoms": "Después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas.",
+        "condomAreas": "Los CDC lo aconsejan después de viajar a una zona con un aviso de salud para viajeros por el zika activo y, “si te preocupan los riesgos del zika”, después de viajar a una zona con transmisión actual o pasada del zika.",
+        "zikaConcerned": "Los CDC dicen: “Si te preocupan los riesgos del zika, también debes prevenir la transmisión sexual durante y después del viaje”. Los plazos:",
+        "chikSummary": {
+          "recommended": "Los CDC recomiendan esta vacuna para viajar a un lugar con un brote.",
+          "considered": "Si vas a quedarte mucho tiempo en un lugar con más riesgo, pregúntale a tu médico si esta vacuna es adecuada para ti."
+        }
+      }
+    }
+  },
+  "riskSource": {
+    "dengue": "cdc-dengue-areas",
+    "zika": "cdc-zika-geo",
+    "chikungunya": "cdc-chik-areas"
+  }
+}

@@ -1,0 +1,639 @@
+---
+// Questions and answers (FAQ). Text, Spanish and sources: src/content/faq.json
+// (health answers from CDC pages only, EPA for repellent; checked by a second pass).
+// - Search box: filters questions and answers as you type, entirely in this browser
+//   (nothing is sent), ignoring accents and capital letters; matching questions open
+//   and the matched words are highlighted. Hidden without JavaScript.
+// - Four groups of rows that open in place (same style as the Protect page), each
+//   with "Open all / Close all". Each question has its own address (#vaccine) and a
+//   "Copy link" button that only writes to the clipboard.
+// Without JavaScript: no search, and every answer shows open.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Genus from '../../components/Genus.astro';
+import Mosquito from '../../components/story/Mosquito.astro';
+import ZikaSpread from '../../components/ZikaSpread.astro';
+import diseases from '../../content/diseases.json';
+import { cardText, getSuggestion } from '../../lib/suggestions';
+import faq from '../../content/faq.json';
+import { caseData, formatDate } from '../../lib/cases';
+import { sources } from '../../lib/suggestions';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = lang === 'es' ? 'es' : 'en';
+const text = faq.text[L];
+const htmlLang = getLocale(lang).meta.htmlLang;
+const cite = faq.cite as Record<string, string[]>;
+const groups = faq.groups as { id: string; questions: string[] }[];
+const qText = text.questions as Record<string, { q: string; a: string[]; items?: { label: string; text: string; source: string }[] }>;
+const meta = faq.questionMeta as Record<string, { page?: string; pages?: string[]; figure?: string; diseases?: string[]; tips?: string[]; links?: string[] }>;
+const zikaSpread = (diseases.text as Record<string, typeof diseases.text.en>)[lang === 'es' ? 'es' : 'en'].zikaSpread;
+const tipTitle = (id: string) => cardText(getSuggestion(id), lang).title;
+const pageLinkText = text.pageLinks as Record<string, string>;
+const dataThrough = formatDate(caseData.weekEnding, htmlLang);
+const asOf = new Intl.DateTimeFormat(htmlLang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${faq.vaccineAsOf}-01T00:00:00Z`));
+const fill = (s: string) => s.replace('{date}', dataThrough).replace('{asOf}', asOf);
+const readMore = (id: string) => {
+  const s = sources[id];
+  return s ? { url: s.url, label: s.publisher === 'EPA' ? text.readMoreEpa : text.readMoreCdc } : null;
+};
+let n = 0;
+const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) => [id, ++n]));
+---
+
+<BaseLayout lang={lang} title={text.title} description={text.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{text.title}</h1>
+      <p class="page-intro__lead">{text.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container faq" data-faq data-count-one={text.countOne} data-count={text.count} data-copied={text.copied}>
+    <div class="faq-search" data-faq-search hidden>
+      <label for="faq-q" class="faq-search__label">{text.searchLabel}</label>
+      <div class="faq-search__row">
+        <input id="faq-q" type="search" class="faq-search__input" autocomplete="off" spellcheck="false" data-faq-input />
+        <button type="button" class="faq-search__clear" data-faq-clear hidden aria-label={text.clear}>×</button>
+      </div>
+      <p class="faq-search__status" role="status" data-faq-status></p>
+      <p class="faq-search__none" data-faq-none hidden>{text.none}</p>
+    </div>
+
+    <nav class="faq-jumps" aria-label={text.jumpLabel}>
+      <ul>
+        {groups.map((g) => (
+          <li><a href={`#group-${g.id}`}>{text.groups[g.id as keyof typeof text.groups].heading}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    {
+      groups.map((g) => {
+        const gt = text.groups[g.id as keyof typeof text.groups];
+        return (
+          <section class="faq-group" id={`group-${g.id}`} aria-labelledby={`group-${g.id}-heading`} data-faq-group>
+            <h2 id={`group-${g.id}-heading`} class="faq-group__heading">{gt.heading}</h2>
+            <p class="faq-group__subtitle"><Genus text={gt.subtitle} /></p>
+            <p class="faq-tools">
+              <button type="button" class="faq-tools__btn" data-open-all>{text.openAll}</button>
+              <button type="button" class="faq-tools__btn" data-close-all>{text.closeAll}</button>
+            </p>
+            <ul class="faq-list">
+              {g.questions.map((id) => {
+                const q = qText[id];
+                const more = cite[id]?.[0] && !qText[id].items ? readMore(cite[id][0]) : null;
+                const m = meta[id] ?? {};
+                return (
+                  <li class="faq-item" id={id} data-faq-item>
+                    <h3 class="faq-item__q">
+                      <button type="button" class="faq-item__toggle" aria-expanded="true" aria-controls={`${id}-answer`} data-faq-toggle disabled>
+                        <span class="faq-item__marker" aria-hidden="true">
+                          <span class="faq-item__closed">▸</span>
+                          <span class="faq-item__open">▾</span>
+                        </span>
+                        <span data-faq-text>
+                          <span class="visually-hidden">{numbers[id]}. </span>
+                          <Genus text={q.q} />
+                        </span>
+                      </button>
+                    </h3>
+                    <div class="faq-item__a" id={`${id}-answer`} data-faq-answer>
+                      {m.figure === 'aedes-culex' && (
+                        <div class="faq-figure" aria-hidden="true" data-no-glossary>
+                          <figure>
+                            <svg viewBox="0 4 64 66"><Mosquito x={31} y={37} /></svg>
+                            <figcaption><em>Aedes</em></figcaption>
+                          </figure>
+                          <figure>
+                            <svg viewBox="0 4 64 66"><Mosquito kind="culex" x={31} y={37} /></svg>
+                            <figcaption><em>Culex</em></figcaption>
+                          </figure>
+                        </div>
+                      )}
+                      {m.figure === 'zika-spread' && (
+                        <div class="faq-spread">
+                          <ZikaSpread text={zikaSpread} headingLevel={3} id={`${id}-spread`} />
+                        </div>
+                      )}
+                      <div data-faq-text>
+                        {q.a.map((p) => (
+                          <p><Genus text={fill(p)} /></p>
+                        ))}
+                        {q.items && (
+                          <ul class="faq-items">
+                            {q.items.map((it) => (
+                              <li>
+                                <strong>{it.label}:</strong> <Genus text={fill(it.text)} />{' '}
+                                {readMore(it.source) && (
+                                  <a href={readMore(it.source)!.url}>
+                                    {readMore(it.source)!.label} <span aria-hidden="true">→</span>
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <p class="faq-item__links">
+                        {more && (
+                          <a href={more.url}>
+                            {more.label} <span aria-hidden="true">→</span>
+                          </a>
+                        )}
+                        {m.page && (
+                          <a href={localizePath(lang, getPage(m.page).path)}>
+                            {pageLinkText[m.page]} <span aria-hidden="true">→</span>
+                          </a>
+                        )}
+                        {m.pages?.map((key) => (
+                          <a href={localizePath(lang, getPage(key).path)}>
+                            {pageLinkText[key]} <span aria-hidden="true">→</span>
+                          </a>
+                        ))}
+                        {m.tips?.map((tip) => (
+                          <a href={`${localizePath(lang, getPage('protect').path)}#card-${tip}`}>
+                            {text.tipLabel}: {tipTitle(tip)} <span aria-hidden="true">→</span>
+                          </a>
+                        ))}
+                        {m.links?.map((l) => (
+                          <a href={sources[l]?.url}>
+                            {sources[l]?.short}: {sources[l]?.title} <span aria-hidden="true">→</span>
+                          </a>
+                        ))}
+                        {m.diseases?.map((d) => (
+                          <a href={localizePath(lang, getPage(d).path)}>
+                            {t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) })} <span aria-hidden="true">→</span>
+                          </a>
+                        ))}
+                        <button type="button" class="faq-copy" data-faq-copy={id} hidden>
+                          {text.copyLink}
+                        </button>
+                        <span class="faq-copy__status" role="status" data-faq-copy-status />
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })
+    }
+
+    <p class="faq-sick">
+      <a href={localizePath(lang, getPage('sick').path)}>{text.sickLink} <span aria-hidden="true">→</span></a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Everything here runs in this browser only: nothing is sent anywhere.
+  const root = document.querySelector<HTMLElement>('[data-faq]');
+  if (root) {
+    const items = [...root.querySelectorAll<HTMLElement>('[data-faq-item]')];
+    const setOpen = (item: HTMLElement, open: boolean) => {
+      item.querySelector('[data-faq-toggle]')?.setAttribute('aria-expanded', String(open));
+      const answer = item.querySelector<HTMLElement>('[data-faq-answer]');
+      if (answer) answer.hidden = !open;
+    };
+    const isOpen = (item: HTMLElement) => item.querySelector('[data-faq-toggle]')?.getAttribute('aria-expanded') === 'true';
+
+    // Rows start closed; the question button opens and closes its answer.
+    for (const item of items) {
+      setOpen(item, false);
+      const toggle = item.querySelector<HTMLButtonElement>('[data-faq-toggle]');
+      if (toggle) toggle.disabled = false;
+      toggle?.addEventListener('click', () => setOpen(item, !isOpen(item)));
+    }
+    for (const group of root.querySelectorAll<HTMLElement>('[data-faq-group]')) {
+      const groupItems = [...group.querySelectorAll<HTMLElement>('[data-faq-item]')];
+      group.querySelector('[data-open-all]')?.addEventListener('click', () => groupItems.forEach((i) => setOpen(i, true)));
+      group.querySelector('[data-close-all]')?.addEventListener('click', () => groupItems.forEach((i) => setOpen(i, false)));
+    }
+
+    // Each question's own address (#vaccine) opens it.
+    const openFromHash = () => {
+      const target = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+      if (target?.matches('[data-faq-item]')) {
+        setOpen(target, true);
+        target.scrollIntoView();
+      }
+    };
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
+
+    // "Copy link": clipboard only.
+    for (const button of root.querySelectorAll<HTMLButtonElement>('[data-faq-copy]')) {
+      if (!navigator.clipboard) continue;
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const status = button.parentElement?.querySelector<HTMLElement>('[data-faq-copy-status]');
+        const url = `${location.origin}${location.pathname}#${button.dataset.faqCopy}`;
+        try {
+          await navigator.clipboard.writeText(url);
+          if (status) status.textContent = root.dataset.copied ?? '';
+        } catch {
+          if (status) status.textContent = '';
+        }
+      });
+    }
+
+    // ---- Search: as you type, ignoring accents and capital letters ----
+    const search = root.querySelector<HTMLElement>('[data-faq-search]')!;
+    const input = root.querySelector<HTMLInputElement>('[data-faq-input]')!;
+    const clear = root.querySelector<HTMLButtonElement>('[data-faq-clear]')!;
+    const status = root.querySelector<HTMLElement>('[data-faq-status]')!;
+    const none = root.querySelector<HTMLElement>('[data-faq-none]')!;
+    search.hidden = false;
+    const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+    // Original markup of each searchable block, so highlights can be removed.
+    const blocks = items.flatMap((item) => [...item.querySelectorAll<HTMLElement>('[data-faq-text]')].map((el) => ({ item, el, html: el.innerHTML })));
+    const restore = () => blocks.forEach((b) => (b.el.innerHTML = b.html));
+
+    // Wrap every match of the folded query in <mark>, text node by text node.
+    const highlight = (el: HTMLElement, q: string) => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      const nodes: Text[] = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+      for (const node of nodes) {
+        const raw = node.data;
+        const folded = fold(raw);
+        if (!folded.includes(q)) continue;
+        const frag = document.createDocumentFragment();
+        let i = 0;
+        let at = folded.indexOf(q);
+        while (at !== -1) {
+          frag.append(raw.slice(i, at));
+          const mark = document.createElement('mark');
+          mark.textContent = raw.slice(at, at + q.length);
+          frag.append(mark);
+          i = at + q.length;
+          at = folded.indexOf(q, i);
+        }
+        frag.append(raw.slice(i));
+        node.replaceWith(frag);
+      }
+    };
+
+    const run = () => {
+      const q = fold(input.value.trim());
+      restore();
+      clear.hidden = q === '';
+      if (!q) {
+        items.forEach((item) => {
+          item.hidden = false;
+          setOpen(item, false);
+        });
+        root.querySelectorAll<HTMLElement>('[data-faq-group]').forEach((g) => (g.hidden = false));
+        status.textContent = '';
+        none.hidden = true;
+        return;
+      }
+      let count = 0;
+      for (const item of items) {
+        const match = fold(item.textContent ?? '').includes(q);
+        item.hidden = !match;
+        setOpen(item, match);
+        if (match) {
+          count++;
+          item.querySelectorAll<HTMLElement>('[data-faq-text]').forEach((el) => highlight(el, q));
+        }
+      }
+      for (const g of root.querySelectorAll<HTMLElement>('[data-faq-group]')) {
+        g.hidden = ![...g.querySelectorAll<HTMLElement>('[data-faq-item]')].some((i) => !i.hidden);
+      }
+      status.textContent = (count === 1 ? root.dataset.countOne : root.dataset.count)?.replace('{n}', String(count)) ?? '';
+      none.hidden = count > 0;
+      if (count === 0) root.querySelectorAll<HTMLElement>('[data-faq-group]').forEach((g) => (g.hidden = false));
+      if (count === 0) items.forEach((item) => (item.hidden = false));
+    };
+    input.addEventListener('input', run);
+    clear.addEventListener('click', () => {
+      input.value = '';
+      run();
+      input.focus();
+    });
+  }
+</script>
+
+<style>
+  .faq {
+    max-width: 52rem;
+    padding-block: var(--section-gap);
+  }
+
+  /* ---- Search ---- */
+  .faq-search[hidden] {
+    display: none;
+  }
+
+  .faq-search__label {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-weight: var(--weight-strong);
+  }
+
+  .faq-search__row {
+    position: relative;
+    display: flex;
+  }
+
+  .faq-search__input {
+    flex: 1;
+    min-height: var(--tap-target);
+    padding: var(--space-1) 3rem var(--space-1) var(--space-3);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: var(--color-field-bg);
+    color: var(--color-field-text);
+    font: inherit;
+  }
+
+  /* Our own × button replaces the browser's search-field clear icon. */
+  .faq-search__input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .faq-search__clear {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--tap-target);
+    height: 100%;
+    border: 0;
+    background: none;
+    color: var(--color-field-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .faq-search__clear[hidden] {
+    display: none;
+  }
+
+  .faq-search__status {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .faq-search__status:empty {
+    display: none;
+  }
+
+  .faq-search__none {
+    margin: var(--space-1) 0 0;
+  }
+
+  .faq-search__none[hidden] {
+    display: none;
+  }
+
+  .faq :global(mark) {
+    padding: 0 0.1em;
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+  }
+
+  /* ---- Jump links ---- */
+  .faq-jumps ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq-jumps a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-strong);
+  }
+
+  /* ---- Groups ---- */
+  .faq-group {
+    margin-top: var(--section-gap);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .faq-group[hidden] {
+    display: none;
+  }
+
+  .faq-group__heading {
+    margin-bottom: var(--space-1);
+  }
+
+  .faq-group__subtitle {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .faq-group__subtitle :global(em) {
+    font-style: normal;
+  }
+
+  .faq-tools {
+    display: none;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+  }
+
+  :global(.js) .faq-tools {
+    display: flex;
+  }
+
+  .faq-tools__btn {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-1);
+    border: 0;
+    background: none;
+    color: var(--color-link);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* Rows (same style as the Protect page tips). */
+  .faq-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .faq-item[hidden] {
+    display: none;
+  }
+
+  .faq-item__q {
+    margin: 0;
+    font-size: var(--text-lg);
+  }
+
+  .faq-item__toggle {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-2) 0;
+    border: 0;
+    background: none;
+    color: var(--color-heading);
+    font: inherit;
+    font-weight: var(--weight-heading);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  /* Without JavaScript the toggle does nothing: it stays disabled (the page script turns
+     it on), reads as the plain question and shows no ▾. */
+  .faq-item__toggle:disabled {
+    color: inherit;
+    cursor: default;
+  }
+
+  .faq-item__toggle:disabled .faq-item__open,
+  .faq-item__toggle:disabled .faq-item__closed {
+    display: none;
+  }
+
+  .faq-item__toggle:not(:disabled):hover [data-faq-text] {
+    text-decoration: underline;
+  }
+
+  .faq-item__marker {
+    flex: none;
+    width: 1em;
+    color: var(--color-text-muted);
+  }
+
+  .faq-item__closed {
+    display: none;
+  }
+
+  .faq-item__toggle[aria-expanded='false'] .faq-item__open {
+    display: none;
+  }
+
+  .faq-item__toggle[aria-expanded='false'] .faq-item__closed {
+    display: inline;
+  }
+
+  .faq-item__a {
+    padding: 0 0 var(--space-3) calc(1em + var(--space-2));
+  }
+
+  .faq-item__a[hidden] {
+    display: none;
+  }
+
+  .faq-item__a p {
+    margin: 0 0 var(--space-2);
+  }
+
+  .faq-items {
+    margin: 0 0 var(--space-2);
+    padding-inline-start: 1.2em;
+  }
+
+  .faq-items li + li {
+    margin-top: var(--space-1);
+  }
+
+  .faq-item__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-4);
+    margin: 0 !important;
+  }
+
+  /* Flex drops the spaces between the link's pieces ("CDC", "(en inglés)", "→"), so
+     the gap puts them back. */
+  .faq-item__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-strong);
+  }
+
+  .faq-copy {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-2);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .faq-copy[hidden] {
+    display: none;
+  }
+
+  .faq-copy__status {
+    font-size: var(--text-sm);
+  }
+
+  /* The Aedes and Culex drawings, side by side (decorative; the answer describes them). */
+  .faq-spread {
+    margin-bottom: var(--space-3);
+  }
+
+  .faq-figure {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .faq-figure figure {
+    margin: 0;
+    padding: var(--space-1) var(--space-2);
+    background: #cbdcec;
+    color: #17306a;
+    text-align: center;
+  }
+
+  .faq-figure svg {
+    display: block;
+    width: 96px;
+    height: auto;
+  }
+
+  .faq-figure figcaption {
+    font-weight: var(--weight-strong);
+  }
+
+  .faq-sick {
+    margin-top: var(--section-gap);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-heading);
+  }
+</style>

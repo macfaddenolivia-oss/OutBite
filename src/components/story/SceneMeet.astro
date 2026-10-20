@@ -1,0 +1,52 @@
+---
+// Step 1, "Meet the Aedes mosquito" (both openings): two mosquitoes side by side, the
+// same size, standing on the light-blue ground. Left: the Aedes drawing (Mosquito.astro,
+// black and white); right: the plain brown house mosquito (Mosquito.astro, kind="culex"). No virus dots.
+// Their names sit on the ground below them (genus names in italics); the page adds a
+// peach callout over the Aedes mosquito.
+// Background (Oct 19): one light blue (#CBDCEC) over the whole picture, top to bottom,
+// like step 5 (the page fills the rest of the panel the same color); no separate ground
+// band. Fixed colors in both modes, with navy names.
+import Mosquito from './Mosquito.astro';
+import { GROUND, MEET, NAME_Y, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+  aedesName: string;
+  culexName: string;
+}
+const { label, aedesName, culexName } = Astro.props;
+// The longest leg reaches 30 units below the body point (y = 67 in the 64-unit box),
+// so the feet touch the ground.
+const y = GROUND - 30 * MEET.scale;
+// Genus names ("Aedes", "Culex") in italics.
+const parts = (name: string) => name.split(/(Aedes|Culex)/);
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label}>
+  <rect x="-4000" y="-4000" width="8480" height="8360" fill="#CBDCEC"></rect>
+  <Mosquito x={MEET.aedesX} y={y} scale={MEET.scale} />
+  <Mosquito kind="culex" x={MEET.culexX} y={y} scale={MEET.scale} />
+  {
+    [
+      [MEET.aedesX, aedesName],
+      [MEET.culexX, culexName],
+    ].map(([x, name]) => {
+      // "Culex (house mosquito)": the genus on the name line, the common name on a
+      // smaller second line, so it fits phone widths.
+      const [genus, common] = String(name).split(/ (?=\()/);
+      return (
+        <>
+          <text x={x} y={NAME_Y} text-anchor="middle" class="story-name meet-name">
+            {parts(genus).map((p) => (p === 'Aedes' || p === 'Culex' ? <tspan font-style="italic">{p}</tspan> : p))}
+          </text>
+          {common && (
+            <text x={x} y={NAME_Y + 12} text-anchor="middle" class="story-label story-note meet-name">
+              {common}
+            </text>
+          )}
+        </>
+      );
+    })
+  }
+</svg>

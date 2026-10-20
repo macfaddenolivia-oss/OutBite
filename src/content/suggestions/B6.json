@@ -1,0 +1,63 @@
+{
+  "id": "B6",
+  "layer": "body",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "not-rated",
+  "cost": [
+    "ask"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "traveler"
+  ],
+  "safetyContacts": false,
+  "travelSource": "cdc-chik-vaccines",
+  "related": [],
+  "sources": [
+    "cdc-chik-areas",
+    "cdc-chik-vaccines",
+    "cdc-chik-vaccines-hcp"
+  ],
+  "links": [
+    "cdc-chik-vaccines"
+  ],
+  "asOf": "2026-10",
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Chikungunya vaccine for some travelers",
+      "summary": "One vaccine, VIMKUNYA, is available in the United States for people 12 and older. CDC recommends it for travel to a place with a chikungunya outbreak.",
+      "canDo": [
+        "CDC recommends this vaccine for a trip to a place with an outbreak. CDC: “Vaccination is recommended for travelers visiting an area with an outbreak.”",
+        "If you’ll stay a long time in a place with higher risk, ask your doctor whether this vaccine is right for you. CDC: “Vaccination may be considered for travelers visiting or moving to an area without an outbreak but with elevated risk for U.S. travelers if planning to stay for an extended period of time.”",
+        "It’s a single dose."
+      ],
+      "cantDo": [
+        "It protects against chikungunya only. No vaccine is available for Zika, and no dengue vaccine is available in the United States."
+      ],
+      "research": [],
+      "tips": [
+        "CDC advises pregnant people to talk with a doctor or clinic about the risks and benefits of the vaccine."
+      ],
+      "travel": "If you’re traveling to a place with a chikungunya outbreak, ask a doctor or clinic about the vaccine."
+    },
+    "es": {
+      "title": "Vacuna contra el chikungunya para algunos viajeros",
+      "summary": "Hay una vacuna, VIMKUNYA, disponible en Estados Unidos para personas de 12 años o más. Los CDC la recomiendan para viajar a un lugar con un brote de chikungunya.",
+      "canDo": [
+        "Los CDC recomiendan esta vacuna para viajar a un lugar con un brote. CDC: “La vacunación se recomienda para los viajeros que visitan una zona con un brote.”",
+        "Si vas a quedarte mucho tiempo en un lugar con más riesgo, pregúntale a tu médico si esta vacuna es adecuada para ti. CDC: “Se puede considerar la vacunación para los viajeros que visitan una zona sin brote, pero con un riesgo elevado para los viajeros de EE. UU., o que se mudan a ella, si piensan quedarse por un período largo.”",
+        "Es una sola dosis."
+      ],
+      "cantDo": [
+        "Solo protege contra el chikungunya. No hay vacuna contra el zika, y no hay vacuna contra el dengue disponible en Estados Unidos."
+      ],
+      "research": [],
+      "tips": [
+        "Los CDC aconsejan a las personas embarazadas hablar con un médico o profesional de la salud sobre los riesgos y los beneficios de la vacuna."
+      ],
+      "travel": "Si vas a viajar a un lugar con un brote de chikungunya, pregúntale a un médico o profesional de la salud sobre la vacuna."
+    }
+  }
+}

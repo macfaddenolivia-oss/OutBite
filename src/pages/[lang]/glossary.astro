@@ -1,0 +1,93 @@
+---
+// Words to know / Palabras clave: one plain definition per word, each from CDC or EPA
+// wording, with its source. Each word has its own anchor (#larvicide …), and the first
+// use of each word on other pages links here (src/middleware.ts).
+// Text: src/content/glossary.json.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Genus from '../../components/Genus.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import content from '../../content/glossary.json';
+import { langStaticPaths, useTranslations } from '../../i18n';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const intro = content.text[L].intro;
+---
+
+<BaseLayout lang={lang} title={t('pages.glossary.title')} description={t('pages.glossary.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.glossary.title')}</h1>
+      <p class="page-intro__lead">{intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container gloss-page">
+    <dl class="gloss-list">
+      {
+        content.terms.map((term) => (
+          <div class="gloss-item" id={term.id}>
+            <dt>
+              <Genus text={term.text[L].term} />
+            </dt>
+            <dd>
+              {term.text[L].def.map((p: string) => (
+                <p>
+                  <Genus text={p} />
+                </p>
+              ))}
+              <SourceLine lang={lang} ids={term.sources} compact />
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</BaseLayout>
+
+<style>
+  .gloss-page {
+    padding-block: var(--section-gap);
+  }
+
+  .gloss-list {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 52rem;
+    margin: 0;
+  }
+
+  .gloss-item {
+    padding: var(--space-3) var(--pad-box);
+    border-left: 4px solid var(--color-rule);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .gloss-item:target {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .gloss-item dt {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 900;
+  }
+
+  .gloss-item dd {
+    margin: 0;
+  }
+
+  .gloss-item dd p {
+    margin: 0 0 var(--space-1);
+  }
+</style>

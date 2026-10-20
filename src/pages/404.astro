@@ -1,0 +1,37 @@
+---
+// One 404 page for the whole site. It is shown for any language, so it uses
+// the default language with links to every language's home page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { defaultLocale, locales, localizePath, useTranslations } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+
+<BaseLayout lang={defaultLocale} title={t('notFound.title')} countPath="/404" langLinksHome>
+  <div class="container not-found">
+    {
+      locales.map((l) => {
+        const tl = useTranslations(l.code);
+        return (
+          <section lang={l.meta.htmlLang}>
+            <h1>{tl('notFound.title')}</h1>
+            <p>{tl('notFound.body')}</p>
+            <p>
+              <a href={localizePath(l.code)}>{tl('notFound.home')}</a>
+            </p>
+          </section>
+        );
+      })
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: var(--section-gap);
+  }
+
+  .not-found section + section {
+    margin-top: var(--section-gap);
+  }
+</style>

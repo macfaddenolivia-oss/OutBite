@@ -1,0 +1,7 @@
+{
+  "reviews": [
+    { "id": "clinician", "status": "planned", "doneDate": null },
+    { "id": "entomologist", "status": "planned", "doneDate": null },
+    { "id": "spanish", "status": "planned", "doneDate": null }
+  ]
+}

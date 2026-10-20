@@ -1,0 +1,156 @@
+---
+// "How does Ana's story start?" choice band above the story frame: two large,
+// equal-size buttons (house = Caught nearby, suitcase = After a trip). The page
+// script sets aria-pressed; the selected one is navy with white text and a ✓.
+// Colors are fixed (peach band, navy and white buttons) so it reads the same in
+// dark mode. Shown only with JavaScript; without it, both openings are shown.
+interface Props {
+  heading: string;
+  local: string;
+  travel: string;
+}
+const { heading, local, travel } = Astro.props;
+---
+
+<section class="choice" aria-labelledby="choice-heading">
+  <h2 id="choice-heading" class="choice__heading">{heading}</h2>
+  <div class="choice__buttons">
+    <button type="button" class="choice__btn" data-opening-choice="local" aria-pressed="false">
+      <svg class="choice__icon" viewBox="0 0 48 48" width="32" height="32" aria-hidden="true">
+        <polygon points="4,22 24,6 44,22" fill="#E07034" stroke="currentColor" stroke-width="3" stroke-linejoin="round"></polygon>
+        <rect x="9" y="21" width="30" height="22" fill="#FFFFFF" stroke="currentColor" stroke-width="3"></rect>
+        <rect x="27" y="29" width="7" height="14" fill="#F0AF74" stroke="currentColor" stroke-width="2.5"></rect>
+        <rect x="14" y="26" width="8" height="8" fill="#CBDCEC" stroke="currentColor" stroke-width="2.5"></rect>
+      </svg>
+      <span class="choice__label">{local}</span>
+      <span class="choice__check" aria-hidden="true">✓</span>
+    </button>
+    <button type="button" class="choice__btn" data-opening-choice="travel" aria-pressed="true">
+      <svg class="choice__icon" viewBox="0 0 48 48" width="32" height="32" aria-hidden="true">
+        <path d="M18 14 V8 H30 V14" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"></path>
+        <rect x="8" y="14" width="32" height="28" rx="2" fill="#F0AF74" stroke="currentColor" stroke-width="3"></rect>
+        <path d="M18 14 V42 M30 14 V42" stroke="currentColor" stroke-width="2.5"></path>
+      </svg>
+      <span class="choice__label">{travel}</span>
+      <span class="choice__check" aria-hidden="true">✓</span>
+    </button>
+  </div>
+</section>
+
+<style>
+  /* Slim band: question and both buttons on one row on desktop, stacked on phones. */
+  .choice {
+    display: none;
+    --color-focus: #17306a;
+    margin-bottom: var(--space-3);
+    padding: 7px var(--space-4); /* 44px buttons + 2×7px + 2×3px border = 64px band */
+    background: #f4d1a8;
+    border: 3px solid #17306a;
+    color: #17306a;
+  }
+
+  :global(.js) .choice {
+    display: grid;
+    gap: var(--space-2) var(--space-5);
+    align-items: center;
+  }
+
+  @media (min-width: 56rem) {
+    :global(.js) .choice {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+  }
+
+  .choice__heading {
+    margin: 0;
+    color: #17306a;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+  }
+
+  /* Two equal columns; stacked on phones. */
+  .choice__buttons {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 1fr;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 36rem) {
+    .choice__buttons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* One line each from here up, so a fixed 44px keeps the band at 64px. */
+    .choice__btn {
+      height: var(--tap-target);
+    }
+  }
+
+  .choice__check,
+  .choice__icon {
+    line-height: 1;
+  }
+
+  .choice__btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: var(--tap-target); /* 44px; grows only if the text wraps */
+    padding: 0 var(--space-4);
+    line-height: 1.2;
+    background: #ffffff;
+    color: #17306a;
+    border: 3px solid #17306a;
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-heading);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  /* Phones: keep each choice on one line at 52px (Spanish "Después de un viaje"). */
+  @media (max-width: 35.99rem) {
+    .choice__btn {
+      gap: var(--space-2);
+      padding: 0 var(--space-3);
+      font-size: 1.0625rem;
+    }
+  }
+
+  .choice__btn:hover .choice__label {
+    text-decoration: underline;
+  }
+
+  .choice__btn[aria-pressed='true'] {
+    background: #17306a;
+    color: #ffffff;
+  }
+
+  .choice__btn:focus-visible {
+    outline: 3px solid #17306a;
+    outline-offset: 3px;
+  }
+
+  .choice__icon {
+    flex: none;
+  }
+
+  /* On the navy (selected) button the icon outlines turn white too (currentColor). */
+  .choice__label {
+    flex: 1;
+  }
+
+  .choice__check {
+    flex: none;
+    visibility: hidden;
+    font-size: 1.3em;
+  }
+
+  .choice__btn[aria-pressed='true'] .choice__check {
+    visibility: visible;
+  }
+</style>

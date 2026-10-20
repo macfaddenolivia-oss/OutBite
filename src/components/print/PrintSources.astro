@@ -1,0 +1,27 @@
+---
+// Small source line for a printable: "Sources: CDC, Title; Title. EPA, Title."
+// In Spanish, official sources use their Spanish title (sources.json titleEs) with
+// "(en inglés)", since the pages themselves are in English.
+import { sources } from '../../lib/suggestions';
+import Genus from '../Genus.astro';
+interface Props {
+  ids: string[];
+  label: string; // "Sources"
+  lang?: string;
+}
+const { ids, label, lang = 'en' } = Astro.props;
+const groups = new Map<string, string[]>();
+for (const id of ids) {
+  const s = sources[id];
+  if (s) groups.set(s.short, [...(groups.get(s.short) ?? []), lang === 'es' && (s as any).titleEs ? (s as any).titleEs : s.title]);
+}
+---
+
+<p class="print-sources">{label}: <Genus text={[...groups].map(([pub, titles]) => `${pub}, ${titles.join('; ')}`).join('. ')} />.{lang === 'es' && ' (Páginas en inglés.)'}</p>
+
+<style>
+  .print-sources {
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+</style>

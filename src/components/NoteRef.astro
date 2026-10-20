@@ -1,0 +1,30 @@
+---
+// The asterisk after "reported": a link to the reported-cases note, with screen-reader
+// text ("see note") and a tap area of at least 24px (padding, cancelled by negative
+// margins so the line doesn't move).
+interface Props {
+  href: string;
+  label: string;
+}
+const { href, label } = Astro.props;
+---
+
+<a class="note-ref" href={href}>*<span class="visually-hidden"> ({label})</span></a>
+
+<style>
+  .note-ref {
+    display: inline-block;
+    min-width: 24px;
+    min-height: 24px;
+    margin: -6px -8px -6px -6px;
+    padding: 6px 8px 6px 6px;
+    font-weight: var(--weight-heading);
+    line-height: 12px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .note-ref:hover {
+    text-decoration: underline;
+  }
+</style>

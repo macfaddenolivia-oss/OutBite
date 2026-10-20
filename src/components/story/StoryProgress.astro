@@ -1,0 +1,132 @@
+---
+// Clickable progress segments for the How it spreads story (one per step). Each is a
+// button that jumps to its step: a 44px-tall tap area with a thin visible line, an
+// aria-label "Step N: heading", aria-current="step" on the current step, and the
+// heading as a tooltip on hover and keyboard focus. One step's heading depends on the
+// opening (`variantStep`, step 3); the page script swaps it using data-heading-local /
+// data-heading-travel.
+interface Props {
+  current: number; // 0-based
+  headings: string[]; // one per step; [variantStep] is the "After a trip" heading (the default)
+  localHeading: string; // that step's heading for "Caught nearby"
+  template: string; // "Step {n}: {heading}"
+  groupLabel: string;
+}
+const { current, headings, localHeading, template, groupLabel } = Astro.props;
+const variantStep = 2; // 0-based: step 3, "Ana feels fine" / "Coming home"
+const label = (n: number, heading: string) => template.replace('{n}', String(n)).replace('{heading}', heading);
+---
+
+<div class="progress js-only" role="group" aria-label={groupLabel}>
+  {
+    headings.map((heading, i) => (
+      <button
+        type="button"
+        class:list={['progress__step', { 'is-done': i <= current }]}
+        data-goto={i}
+        aria-label={label(i + 1, heading)}
+        aria-current={i === current ? 'step' : undefined}
+        data-tip={heading}
+        data-heading-local={i === variantStep ? label(i + 1, localHeading) : undefined}
+        data-heading-travel={i === variantStep ? label(i + 1, heading) : undefined}
+        data-tip-local={i === variantStep ? localHeading : undefined}
+        data-tip-travel={i === variantStep ? heading : undefined}
+      >
+        <span class="progress__line" aria-hidden="true" />
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  /* Without JavaScript the steps can't be chosen, so the dashes stay hidden. */
+  .progress {
+    display: none;
+    gap: 6px;
+    max-width: 16rem;
+    margin-bottom: 0;
+  }
+
+  :global(.js) .progress.js-only {
+    display: flex !important;
+  }
+
+  /* The thin line sits at the top of each 44px tap area, so the "Step N of 6"
+     label above keeps an exact 8px gap to the visible dashes. */
+  .progress__step {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    min-height: var(--tap-target);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .progress__line {
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--color-border);
+    transition: height 0.12s;
+  }
+
+  .progress__step.is-done .progress__line {
+    background: var(--color-rule);
+  }
+
+  .progress__step:hover .progress__line,
+  .progress__step:focus-visible .progress__line {
+    height: 12px;
+  }
+
+  .progress__step[aria-current='step'] .progress__line {
+    box-shadow: 0 0 0 2px var(--color-rule);
+  }
+
+  .progress__step:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Tooltip: the step heading, on hover and keyboard focus. Out of the layout until it
+     shows (an invisible tooltip still widens a phone page at larger text sizes), and it
+     wraps rather than running past the screen edge. */
+  .progress__step::after {
+    content: attr(data-tip);
+    display: none;
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    z-index: 5;
+    transform: translateX(-50%);
+    padding: 0.25em 0.6em;
+    background: var(--color-badge-bg);
+    color: var(--color-badge-text);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    width: max-content;
+    max-width: min(18rem, 80vw);
+    white-space: normal;
+    pointer-events: none;
+  }
+
+  .progress__step:first-child::after {
+    left: 0;
+    transform: none;
+  }
+
+  .progress__step:last-child::after {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  .progress__step:hover::after,
+  .progress__step:focus-visible::after {
+    display: block;
+  }
+</style>

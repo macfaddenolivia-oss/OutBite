@@ -1,0 +1,68 @@
+{
+  "id": "B2",
+  "layer": "body",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free",
+    "$"
+  ],
+  "effort": "daily",
+  "audiences": [
+    "all",
+    "pregnant",
+    "kids"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-prevent-bites",
+    "who-dengue",
+    "dangelo-2017",
+    "kortsmit-2020"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Wear loose long sleeves and pants",
+      "summary": "Covered skin is skin mosquitoes can't bite.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "Long sleeves and pants block bites on covered skin, with no chemicals."
+      ],
+      "cantDo": [
+        "Long sleeves and pants don't feel comfortable in the heat for many people. That's the most common reason people stop."
+      ],
+      "research": [
+        {
+          "text": "In surveys of pregnant women in Puerto Rico, heat was the main reason they gave for not wearing long sleeves and pants.",
+          "cite": [
+            "dangelo-2017",
+            "kortsmit-2020"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Usa camisas de manga larga y pantalones largos y holgados",
+      "summary": "La piel cubierta es piel que los mosquitos no pueden picar.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Las mangas y los pantalones largos bloquean las picadas en la piel cubierta, sin químicos."
+      ],
+      "cantDo": [
+        "La ropa larga no es cómoda en el calor para mucha gente. Esa es la razón más común por la que la gente deja de usarla."
+      ],
+      "research": [
+        {
+          "text": "En encuestas a mujeres embarazadas en Puerto Rico, el calor fue la razón principal que dieron para no usar mangas largas y pantalones largos.",
+          "cite": [
+            "dangelo-2017",
+            "kortsmit-2020"
+          ]
+        }
+      ]
+    }
+  }
+}

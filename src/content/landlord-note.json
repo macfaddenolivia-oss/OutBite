@@ -1,0 +1,22 @@
+{
+  "id": "landlord-note",
+  "lastReviewed": "2026-10-19",
+  "text": {
+    "en": {
+      "title": "Sample note to a landlord",
+      "note": "Hi [name], I’m writing about [address]. The window screen in the [room] has a tear, and water is collecting in [place]. Mosquitoes that can spread dengue, Zika and chikungunya lay eggs in standing water, so could these be fixed by [date]? Thank you, [your name]",
+      "copy": "Copy note",
+      "copied": "Copied",
+      "copyFailed": "Select the note and copy it by hand.",
+      "neverSends": "Outbite never sends anything. You copy it and send it yourself."
+    },
+    "es": {
+      "title": "Nota de ejemplo para el dueño de la vivienda",
+      "note": "Hola [nombre], le escribo sobre [dirección]. La malla de la ventana de [cuarto] está rota y se acumula agua en [lugar]. Los mosquitos que pueden transmitir el dengue, el zika y el chikungunya ponen huevos en agua estancada. ¿Se podrían arreglar estas cosas antes del [fecha]? Gracias, [tu nombre]",
+      "copy": "Copiar nota",
+      "copied": "Copiada",
+      "copyFailed": "Selecciona la nota y cópiala a mano.",
+      "neverSends": "Outbite nunca envía nada. Tú la copias y la envías."
+    }
+  }
+}

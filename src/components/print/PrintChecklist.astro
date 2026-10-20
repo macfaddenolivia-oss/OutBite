@@ -1,0 +1,219 @@
+---
+// Printable 1: the monthly weekly-check sheet. One US Letter
+// page: logo and label, title, intro, bucket, a "Month: ____" line and five week columns
+// of tick boxes for each item, grouped by layer (a small color square and the section
+// name in words, so it reads in black and white), then sources, disclaimer and QR.
+import PrintSheet from './PrintSheet.astro';
+import PrintLogo from './PrintLogo.astro';
+import PrintQr from './PrintQr.astro';
+import PrintSources from './PrintSources.astro';
+import Genus from '../Genus.astro';
+import Bucket from '../story/Bucket.astro';
+import content from '../../content/printables.json';
+import { localizePath } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+interface Props {
+  lang: 'en' | 'es';
+  id: string;
+}
+const { lang, id } = Astro.props;
+const text = content.text[lang];
+const c = text.checklist;
+const sections = ['yard', 'home', 'body', 'community'] as const;
+const itemsBy = (section: string) => c.items.map((item, i) => ({ item, i })).filter(({ i }) => content.itemLayers[i] === section);
+const weeks = [1, 2, 3, 4, 5];
+---
+
+<PrintSheet id={id} lang={lang} label={c.printTitle}>
+  <div class="pc">
+    <header class="pc__head">
+      <PrintLogo size={24} />
+      <span class="pc__label">{c.headerLabel}</span>
+    </header>
+    <div class="pc__intro">
+      <div>
+        <h2 class="pc__title">{c.printTitle}</h2>
+        <p class="pc__lead"><Genus text={c.intro} /> {c.printTick}</p>
+      </div>
+      <svg class="pc__bucket" viewBox="0 0 100 110" aria-hidden="true"><Bucket x={50} y={106} scale={0.85} /></svg>
+    </div>
+    <table class="pc__table">
+      <thead>
+        <tr>
+          <th scope="col" class="pc__month">{c.month} ______________</th>
+          {weeks.map((w) => <th scope="col" class="pc__week">{c.week}<br />{w}</th>)}
+        </tr>
+      </thead>
+      {
+        sections.map((section) => (
+          <tbody>
+            <tr class="pc__section">
+              <th colspan="6" scope="colgroup">
+                <span class={`pc__mark pc__mark--${section}`} aria-hidden="true" />
+                {c.sections[section]}
+              </th>
+            </tr>
+            {itemsBy(section).map(({ item }) => (
+              <tr class="pc__row">
+                <td class="pc__item">{item}</td>
+                {weeks.map(() => (
+                  <td class="pc__box">
+                    <span aria-hidden="true" />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        ))
+      }
+    </table>
+    <footer class="pc__foot">
+      <div class="pc__fine">
+        <PrintSources ids={content.cite.checklist} label={text.common.sources} lang={lang} />
+        <p>{text.common.disclaimer}</p>
+      </div>
+      <PrintQr path={localizePath(lang, getPage('checklist').path)} text={c.qrText} placeholder={text.common.siteAddress} />
+    </footer>
+  </div>
+</PrintSheet>
+
+<style>
+  .pc {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .pc__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #17306a;
+  }
+
+  .pc__label {
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .pc__intro {
+    display: grid;
+    grid-template-columns: 1fr 70px;
+    align-items: end;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .pc__title {
+    font-family: var(--font-heading);
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    max-width: 480px;
+  }
+
+  .pc__lead {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.45;
+  }
+
+  .pc__bucket {
+    width: 64px;
+    height: auto;
+    margin-bottom: 18px;
+  }
+
+  .pc__table {
+    width: 100%;
+    margin-top: 14px;
+    border-collapse: collapse;
+  }
+
+  .pc__table th,
+  .pc__table td {
+    padding: 0;
+    text-align: start;
+  }
+
+  .pc__month {
+    font-size: 11.5px;
+    font-weight: 700;
+    vertical-align: bottom;
+    padding-bottom: 6px !important;
+  }
+
+  .pc__week {
+    width: 50px;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center !important;
+    vertical-align: bottom;
+    padding-bottom: 6px !important;
+  }
+
+  .pc__section th {
+    padding: 9px 0 4px !important;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pc__mark {
+    display: inline-block;
+    width: 10px;
+    height: 13px;
+    margin-inline-end: 8px;
+    vertical-align: -1px;
+    border: 1px solid #17306a;
+  }
+
+  .pc__mark--yard { background: #f0af74; }
+  .pc__mark--home { background: #cbdcec; }
+  .pc__mark--body { background: #f4d1a8; }
+  .pc__mark--community { background: #a9c8e0; }
+
+  .pc__row td {
+    border-bottom: 1px solid #a9c8e0;
+  }
+
+  .pc__item {
+    padding: 8px 12px 8px 0 !important;
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+
+  .pc__box {
+    text-align: center !important;
+    vertical-align: middle;
+  }
+
+  .pc__box span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #17306a;
+    border-radius: 3px;
+  }
+
+  .pc__foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 2px solid #a9c8e0;
+  }
+
+  .pc__fine {
+    max-width: 420px;
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+// One box in the "What CDC recommends for this trip" flow chart (travel page): a short
+// bold title (travel.json flowTitles), the one-line plain summary first where there's a
+// long CDC quote, CDC's exact wording, then the tip link ("See this tip →") and any
+// source links. White box, navy border (site tokens, both modes).
+import type { TripItem } from '../lib/trip-items';
+
+interface Props {
+  item: TripItem;
+  title: string;
+  tipHref?: string;
+  tipLink: string;
+  sources: Record<string, { url: string; short: string; title: string }>;
+}
+const { item, title, tipHref, tipLink, sources } = Astro.props;
+---
+
+<div class="flow-box">
+  <p class="flow-box__title">{title}</p>
+  {item.summary && <p class="flow-box__summary">{item.summary}</p>}
+  <p>{item.text}</p>
+  {
+    (item.links || item.tip) && (
+      <p class="flow-box__links">
+        {item.links?.map((id) => (
+          <a href={sources[id].url}>
+            {sources[id].short}: {sources[id].title} <span aria-hidden="true">→</span>
+          </a>
+        ))}
+        {item.tip && tipHref && (
+          <a href={tipHref}>
+            {tipLink} <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .flow-box {
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  .flow-box p {
+    margin: 0;
+  }
+
+  .flow-box p + p {
+    margin-top: var(--space-1);
+  }
+
+  .flow-box__title {
+    color: var(--color-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-display);
+    line-height: 1.25;
+  }
+
+  .flow-box__summary {
+    font-weight: var(--weight-strong);
+  }
+
+  .flow-box__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+  }
+
+  .flow-box__links a {
+    font-weight: var(--weight-strong);
+  }
+</style>

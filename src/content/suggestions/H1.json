@@ -1,0 +1,80 @@
+{
+  "id": "H1",
+  "layer": "home",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "strong",
+  "cost": [
+    "$",
+    "$$"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "all",
+    "renter",
+    "homeowner"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "C5"
+  ],
+  "sources": [
+    "cdc-control-home",
+    "who-dengue",
+    "rosenberg-2019",
+    "phillips-2023"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Install or repair window and door screens",
+      "summary": "Screens keep mosquitoes outside all day, without anyone having to remember.",
+      "evidenceMeasures": "lower infection in people",
+      "canDo": [
+        "Screens keep mosquitoes outside all day, without anyone having to remember."
+      ],
+      "cantDo": [
+        "Screens can't help when windows are left open without them, or when they have holes."
+      ],
+      "research": [
+        {
+          "text": "In Puerto Rico, among people living with someone who had Zika, open windows or doors without screens were linked to about 2.5 times more Zika infection. Open windows with screens were linked to about 2.1 times more.",
+          "cite": [
+            "rosenberg-2019"
+          ]
+        },
+        {
+          "text": "People who spent time in indoor places with air conditioning or screens had about 32% lower rates of past infection with these viruses.",
+          "cite": [
+            "phillips-2023"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Instala o repara las mallas de ventanas y puertas",
+      "summary": "Las mallas mantienen a los mosquitos afuera todo el día, sin que nadie tenga que acordarse.",
+      "evidenceMeasures": "menos infección en personas",
+      "canDo": [
+        "Las mallas mantienen a los mosquitos afuera todo el día, sin que nadie tenga que acordarse."
+      ],
+      "cantDo": [
+        "Las mallas no ayudan si las ventanas se quedan abiertas sin ellas, o si tienen hoyos."
+      ],
+      "research": [
+        {
+          "text": "En Puerto Rico, entre personas que vivían con alguien que tuvo zika, las ventanas o puertas abiertas sin mallas se asociaron con unas 2.5 veces más infección por zika. Las ventanas abiertas con mallas se asociaron con unas 2.1 veces más.",
+          "cite": [
+            "rosenberg-2019"
+          ]
+        },
+        {
+          "text": "Las personas que pasaban tiempo en lugares cerrados con aire acondicionado o mallas tenían cerca de un 32% menos de infecciones pasadas por estos virus.",
+          "cite": [
+            "phillips-2023"
+          ]
+        }
+      ]
+    }
+  }
+}

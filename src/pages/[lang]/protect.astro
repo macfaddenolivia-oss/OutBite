@@ -1,0 +1,594 @@
+---
+// Protect yourself and your home: the suggestion cards, grouped by layer.
+// The layers graphic and its four rows (LayersPicker, shared with the home page) pick a
+// layer; that layer's suggestion cards show in one panel below (Oct 16 redesign).
+// With JavaScript: the rows become a tab list (arrow keys move, Enter or Space selects),
+// the graphic's squares are extra click and tap targets, only the chosen layer's
+// section shows, and the address is /protect/#body, #home, #yard or #community.
+// Without JavaScript: all four layer sections show one after another (01–04).
+// "Highlight tips for" moves matching cards to the top of each layer (kept in this
+// browser only).
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SuggestionCard from '../../components/SuggestionCard.astro';
+import LayersPicker from '../../components/LayersPicker.astro';
+import printables from '../../content/printables.json';
+import { langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+import { audienceFilters, layers, suggestions } from '../../lib/suggestions';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const title = t('pages.protect.title');
+const printText = printables.text[lang === 'es' ? 'es' : 'en'];
+const ratingHref = `${localizePath(lang, getPage('sources').path)}#how-we-rate-evidence`;
+---
+
+<BaseLayout lang={lang} title={title} description={t('pages.protect.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{title}</h1>
+      <p class="page-intro__lead">{t('protect.intro')}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <!-- Layer picker: the same graphic and rows as the home page -->
+  <section class="picker" aria-labelledby="picker-heading">
+    <div class="container">
+      <!-- Small link to the protection quiz, above the graphic. -->
+      <div class="quiz-nudge">
+        <p>
+          {t('protect.quizNudge')}{' '}
+          <a href={localizePath(lang, getPage('quiz').path)}>{t('protect.quizLink')} <span aria-hidden="true">→</span></a>
+        </p>
+        <a class="quiz-nudge__travel" href={localizePath(lang, getPage('travel').path)}>{t('pages.travel.title')} <span aria-hidden="true">→</span></a>
+      </div>
+      <h2 id="picker-heading" class="visually-hidden">{t('protect.pickerHeading')}</h2>
+      <LayersPicker lang={lang} picker label={t('protect.pickerHeading')} />
+    </div>
+  </section>
+
+  <section
+    class="controls"
+    aria-labelledby="controls-heading"
+    data-controls
+    data-status-none={t('protect.statusNone')}
+    data-status-some={t('protect.statusSome')}
+    hidden
+  >
+    <div class="container controls__inner">
+      <h2 id="controls-heading" class="visually-hidden">{t('protect.controlsHeading')}</h2>
+      <div class="controls__line" role="group" aria-labelledby="audience-label" aria-describedby="audience-hint">
+        <span id="audience-label" class="controls__label">{t('protect.audienceLabel')}</span>
+        {
+          audienceFilters.map((a) => (
+            <button type="button" class="filter" data-audience={a} aria-pressed="false">
+              <span class="filter__check" aria-hidden="true" />
+              {t(`card.audience.${a}`)}
+            </button>
+          ))
+        }
+        <button type="button" class="filter-clear" data-clear>{t('protect.clear')}</button>
+        <span id="audience-hint" class="controls__hint">{t('protect.audienceHint')}</span>
+      </div>
+      <p class="controls__key">
+        {t('protect.keyLine')} <a href={ratingHref}>{t('protect.labelsLink')} <span aria-hidden="true">→</span></a>
+      </p>
+      <p class="visually-hidden" role="status" data-status></p>
+    </div>
+  </section>
+
+  <!-- One section per layer. With JavaScript only the chosen one shows (as its tab
+       panel); without it, all four show in order. -->
+  <div class="layer-panels" data-layer-panels>
+    {
+      layers.map((layer) => (
+        <section class="layer-panel" id={`layer-${layer}`} aria-labelledby={`${layer}-heading`} data-layer-panel={layer}>
+          <div class="container">
+            <h2 id={`${layer}-heading`} class="layer-panel__heading">
+              {t(`home.layersGraphic.rows.${layer}.name`)}: <span class="layer-panel__desc">{t(`home.layersGraphic.rows.${layer}.desc`)}</span>
+            </h2>
+            <p class="tip-tools">
+              <button type="button" class="tip-tools__btn" data-open-all>{t('protect.openAll')}</button>
+              <button type="button" class="tip-tools__btn" data-close-all>{t('protect.closeAll')}</button>
+            </p>
+            <ul class="tip-list" data-slot={`layer-${layer}`}>
+              {suggestions
+                .filter((s) => s.layer === layer)
+                .map((card) => (
+                  <SuggestionCard lang={lang} card={card} />
+                ))}
+            </ul>
+            {/* Product safety: once, at the bottom of Body (it used to repeat on each tip). */}
+            {layer === 'body' && (
+              <div class="safety">
+                <p class="safety__heading">{t('card.safety.heading')}</p>
+                <ul>
+                  <li>
+                    {t('card.safety.poison')}: <a href="tel:+18002221222">1-800-222-1222</a>
+                  </li>
+                  <li>
+                    {t('card.safety.npic')}: <a href="tel:+18008587378">1-800-858-7378</a>
+                  </li>
+                </ul>
+              </div>
+            )}
+            {layer === 'body' && (
+              <p class="faq-links">
+                <span>{t('faqLinks.faqLabel')}:</span>
+                <a href={`${localizePath(lang, getPage('faq').path)}#repellents`}>{t('faqLinks.faqRepellents')} <span aria-hidden="true">→</span></a>
+                <a href={`${localizePath(lang, getPage('faq').path)}#repellent-safety`}>{t('faqLinks.faqRepellentSafety')} <span aria-hidden="true">→</span></a>
+              </p>
+            )}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <!-- Print this week's checklist -->
+  <div class="container protect-print">
+    <p>
+      <a href={localizePath(lang, getPage('checklist').path)}>{printText.page.printChecklistLink} <span aria-hidden="true">→</span></a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  import { STORAGE } from '../../lib/storage';
+
+  // The tip toggles start disabled (they do nothing without JavaScript); turn them on.
+  for (const b of document.querySelectorAll<HTMLButtonElement>('[data-tip-toggle]')) b.disabled = false;
+
+  // Everything here stays in this browser: the audience highlights are saved in
+  // localStorage only, and nothing is sent anywhere.
+  const LAYERS = ['body', 'home', 'yard', 'community'];
+  const AUDIENCE_KEY = STORAGE.protectAudiences;
+
+  const controls = document.querySelector<HTMLElement>('[data-controls]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-card]')];
+  const audienceButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-audience]')];
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-clear]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+  const tabList = document.querySelector<HTMLElement>('[data-layers-picker] [data-layer-tabs]');
+  const tabs = [...document.querySelectorAll<HTMLAnchorElement>('[data-layers-picker] [data-layer-tab]')];
+  const graphic = document.querySelector<SVGElement>('[data-layers-picker] [data-layers-graphic]');
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-layer-panel]')];
+
+  const load = (key: string) => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+  const save = (key: string, value: string) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      /* storage blocked: the page still works, it just won't remember */
+    }
+  };
+
+  // ---- Layer tabs ----
+  // The rows become tabs (they are plain links to each section without JavaScript).
+  tabList?.setAttribute('role', 'tablist');
+  tabList?.setAttribute('aria-orientation', 'vertical');
+  for (const li of tabList?.querySelectorAll('li') ?? []) li.setAttribute('role', 'presentation');
+  for (const tab of tabs) {
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', `layer-${tab.dataset.layerTab}`);
+  }
+  for (const panel of panels) panel.setAttribute('role', 'tabpanel');
+
+  let layer = 'body';
+  const layerFromHash = () => {
+    const h = location.hash.slice(1).replace(/^layer-/, '');
+    return LAYERS.includes(h) ? h : null;
+  };
+
+  // Show one layer: tabs, panel and graphic together. Never scrolls the page; the
+  // address changes without adding a history step.
+  function select(next: string, updateAddress: boolean) {
+    layer = next;
+    for (const tab of tabs) {
+      const on = tab.dataset.layerTab === layer;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+    }
+    for (const panel of panels) panel.hidden = panel.dataset.layerPanel !== layer;
+    graphic?.setAttribute('data-selected', layer);
+    if (updateAddress && location.hash !== `#${layer}`) history.replaceState(null, '', `#${layer}`);
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', (event) => {
+      event.preventDefault();
+      select(tab.dataset.layerTab!, true);
+    });
+  }
+
+  // Arrow keys move between the tabs; Enter or Space selects (Enter is the link's click).
+  tabList?.addEventListener('keydown', (event) => {
+    const i = tabs.indexOf(document.activeElement as HTMLAnchorElement);
+    if (i < 0) return;
+    let to = -1;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') to = (i + 1) % tabs.length;
+    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') to = (i - 1 + tabs.length) % tabs.length;
+    else if (event.key === 'Home') to = 0;
+    else if (event.key === 'End') to = tabs.length - 1;
+    else if (event.key === ' ') {
+      event.preventDefault();
+      select(tabs[i].dataset.layerTab!, true);
+      return;
+    } else return;
+    event.preventDefault();
+    tabs[to].focus();
+  });
+
+  // The squares in the graphic: extra mouse and touch targets for the same tabs.
+  graphic?.addEventListener('click', (event) => {
+    const target = (event.target as Element).closest<SVGElement>('[data-layer-pick]');
+    if (target?.dataset.layerPick) select(target.dataset.layerPick, true);
+  });
+
+  // Links to a layer, or to a card (e.g. "related" links between cards), open its layer.
+  window.addEventListener('hashchange', () => {
+    const fromHash = layerFromHash();
+    if (fromHash) return select(fromHash, false);
+    const target = location.hash.startsWith('#card-') ? document.getElementById(location.hash.slice(1)) : null;
+    const targetLayer = target?.closest<HTMLElement>('[data-layer-panel]')?.dataset.layerPanel;
+    if (target && targetLayer) {
+      select(targetLayer, false);
+      openCard(target);
+      target.scrollIntoView();
+    }
+  });
+
+  // ---- Audience highlights ----
+  let selected = new Set(
+    (load(AUDIENCE_KEY) ?? '').split(' ').filter((a) => audienceButtons.some((b) => b.dataset.audience === a)),
+  );
+
+  const matches = (card: HTMLElement) =>
+    (card.dataset.audiences ?? '').split(' ').some((a) => selected.has(a));
+
+  function render(announce: boolean) {
+    // Matching cards first in each layer, then the usual order.
+    const sorted = [...cards].sort(
+      (a, b) =>
+        Number(matches(b)) - Number(matches(a)) || Number(a.dataset.layerOrder) - Number(b.dataset.layerOrder),
+    );
+    for (const card of sorted) {
+      document.querySelector(`[data-slot="layer-${card.dataset.layer}"]`)?.append(card);
+      const isMatch = matches(card);
+      card.toggleAttribute('data-match', isMatch);
+      for (const tag of card.querySelectorAll<HTMLElement>('[data-audience]')) {
+        const on = selected.has(tag.dataset.audience ?? '');
+        tag.toggleAttribute('data-match', on);
+        tag.querySelector('[data-match-text]')?.toggleAttribute('hidden', !on);
+      }
+    }
+    for (const b of audienceButtons) b.setAttribute('aria-pressed', String(selected.has(b.dataset.audience ?? '')));
+    if (clearButton) clearButton.hidden = selected.size === 0;
+
+    if (announce && status && controls) {
+      const count = cards.filter(matches).length;
+      status.textContent = selected.size
+        ? (controls.dataset.statusSome ?? '').replace('{count}', String(count))
+        : (controls.dataset.statusNone ?? '');
+    }
+  }
+
+  for (const b of audienceButtons) {
+    b.addEventListener('click', () => {
+      const a = b.dataset.audience ?? '';
+      if (selected.has(a)) selected.delete(a);
+      else selected.add(a);
+      save(AUDIENCE_KEY, [...selected].join(' '));
+      render(true);
+    });
+  }
+
+  clearButton?.addEventListener('click', () => {
+    selected = new Set();
+    save(AUDIENCE_KEY, '');
+    render(true);
+    audienceButtons[0]?.focus();
+  });
+
+  // ---- Tips: rows that open in place ----
+  // With JavaScript the rows start closed; the title button (aria-expanded) and a tap
+  // anywhere else on the row open and close it. Links and the research panel inside an
+  // open row keep working normally.
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-tip-row]')];
+  const setOpen = (row: HTMLElement, open: boolean) => {
+    row.querySelector('[data-tip-toggle]')?.setAttribute('aria-expanded', String(open));
+    const body = row.querySelector<HTMLElement>('[data-tip-body]');
+    if (body) body.hidden = !open;
+  };
+  for (const row of rows) {
+    setOpen(row, false);
+    row.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.closest('[data-tip-body]') || target.closest('a')) return;
+      const toggle = row.querySelector('[data-tip-toggle]');
+      setOpen(row, toggle?.getAttribute('aria-expanded') !== 'true');
+    });
+  }
+  for (const panel of panels) {
+    const panelRows = [...panel.querySelectorAll<HTMLElement>('[data-tip-row]')];
+    panel.querySelector('[data-open-all]')?.addEventListener('click', () => panelRows.forEach((r) => setOpen(r, true)));
+    panel.querySelector('[data-close-all]')?.addEventListener('click', () => panelRows.forEach((r) => setOpen(r, false)));
+  }
+  const openCard = (card: HTMLElement | null) => {
+    const row = card?.querySelector<HTMLElement>('[data-tip-row]');
+    if (row) setOpen(row, true);
+  };
+
+  // Printing: every row (and research panel) open, then back as it was.
+  let beforePrint: { row: HTMLElement; open: boolean }[] = [];
+  let detailsClosed: HTMLDetailsElement[] = [];
+  window.addEventListener('beforeprint', () => {
+    beforePrint = rows.map((row) => ({ row, open: row.querySelector('[data-tip-toggle]')?.getAttribute('aria-expanded') === 'true' }));
+    rows.forEach((r) => setOpen(r, true));
+    detailsClosed = [...document.querySelectorAll<HTMLDetailsElement>('.card__details:not([open])')];
+    detailsClosed.forEach((d) => (d.open = true));
+  });
+  window.addEventListener('afterprint', () => {
+    beforePrint.forEach(({ row, open }) => setOpen(row, open));
+    detailsClosed.forEach((d) => (d.open = false));
+  });
+
+  if (controls) controls.hidden = false;
+  render(false);
+
+  // Start: the layer in the address (#body, #home, #yard, #community), or the layer of
+  // a card linked directly (#card-…, then scroll to it), or Body.
+  const card = location.hash.startsWith('#card-') ? document.getElementById(location.hash.slice(1)) : null;
+  const cardLayer = card?.closest<HTMLElement>('[data-layer-panel]')?.dataset.layerPanel;
+  select(layerFromHash() ?? cardLayer ?? 'body', false);
+  if (card) {
+    openCard(card);
+    card.scrollIntoView();
+  }
+</script>
+
+<style>
+  /* ---- Layer picker ---- */
+  .picker {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* Quiz link: light blue, navy text in both modes, no heavy border; one line on
+     desktop, wrapping on phones. */
+  .quiz-nudge {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-4);
+    padding: var(--space-2) var(--pad-box);
+    border-radius: var(--radius-sm);
+    background: #cbdcec;
+    color: #17306a;
+  }
+
+  .quiz-nudge p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 40rem) {
+    .quiz-nudge {
+      margin-bottom: var(--space-3);
+      font-size: var(--text-sm);
+    }
+  }
+
+  .quiz-nudge a {
+    color: #17306a;
+    font-weight: var(--weight-strong);
+    white-space: nowrap;
+  }
+
+  /* "Traveling soon?": a navy-outlined button on the light blue. */
+  .quiz-nudge .quiz-nudge__travel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    min-height: var(--tap-target);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid #17306a;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    text-decoration: none;
+  }
+
+  .quiz-nudge .quiz-nudge__travel:hover {
+    text-decoration: underline;
+  }
+
+  .quiz-nudge a:focus-visible {
+    outline-color: #17306a;
+  }
+
+  /* ---- "Show first" line and key ---- */
+  .controls {
+    padding-block: var(--space-2);
+    background: var(--color-surface);
+    border-block: 4px solid var(--color-rule);
+  }
+
+  .controls__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .controls__label {
+    font-weight: var(--weight-heading);
+    font-size: var(--text-sm);
+  }
+
+  .controls__hint {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .controls__key {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .controls__key a {
+    font-weight: var(--weight-strong);
+    white-space: nowrap;
+  }
+
+  /* Small toggles, still 44px tall to tap. */
+  .filter,
+  .filter-clear {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-2);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .filter[aria-pressed='true'] {
+    background: var(--color-badge-bg);
+    color: var(--color-badge-text);
+  }
+
+  /* A visible check mark, so "on" doesn't rely on color alone. */
+  .filter__check {
+    width: 0.85em;
+    height: 0.85em;
+    border: 2px solid currentColor;
+    border-radius: var(--radius-sm);
+  }
+
+  .filter[aria-pressed='true'] .filter__check {
+    background: currentColor;
+    box-shadow: inset 0 0 0 2px var(--color-badge-bg);
+  }
+
+  .filter-clear {
+    border: 0;
+    background: none;
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+
+  /* ---- Layer panel(s): full width under the picker ---- */
+  .layer-panel {
+    padding-block: var(--section-gap) var(--space-3);
+  }
+
+  /* Without JavaScript all four show, one after another. */
+  .layer-panel + .layer-panel {
+    border-top: 4px solid var(--color-rule);
+  }
+
+  .layer-panel[hidden] {
+    display: none;
+  }
+
+  .layer-panel__heading {
+    margin-bottom: var(--space-3);
+  }
+
+  .layer-panel__desc {
+    font-weight: var(--weight-strong);
+  }
+
+  /* Tips: one column of rows separated by thin light-blue lines. */
+  .tip-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .tip-tools {
+    display: none;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-1);
+  }
+
+  :global(.js) .tip-tools {
+    display: flex;
+  }
+
+  .tip-tools__btn {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-1);
+    border: 0;
+    background: none;
+    color: var(--color-link);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .faq-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-4);
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .faq-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-strong);
+  }
+
+  /* Product safety, once at the bottom of Body. */
+  .safety {
+    margin-top: var(--space-4);
+    padding: var(--space-2) var(--pad-box);
+    border-inline-start: 4px solid var(--color-warning-accent);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+  }
+
+  .safety__heading {
+    margin: 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .safety ul {
+    margin: 0;
+    padding-inline-start: 1.1em;
+  }
+
+  .safety a {
+    font-weight: var(--weight-strong);
+    white-space: nowrap;
+  }
+</style>

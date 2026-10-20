@@ -1,0 +1,740 @@
+{
+  "cdc-prevent-bites": {
+    "short": "CDC",
+    "title": "Preventing Mosquito Bites",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/prevention/index.html",
+    "kind": "official",
+    "titleEs": "Cómo prevenir las picadas de mosquito"
+  },
+  "cdc-control-home": {
+    "short": "CDC",
+    "title": "Mosquito Control at Home",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/mosquito-control-at-home.html",
+    "kind": "official",
+    "titleEs": "Control de mosquitos en el hogar"
+  },
+  "cdc-prevent-dengue": {
+    "short": "CDC",
+    "title": "Preventing Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/prevention/index.html",
+    "kind": "official",
+    "titleEs": "Cómo prevenir el dengue"
+  },
+  "cdc-bti": {
+    "short": "CDC",
+    "title": "Larvicides",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/larvicides.html",
+    "kind": "official",
+    "titleEs": "Larvicidas"
+  },
+  "cdc-hurricane": {
+    "short": "CDC",
+    "title": "What to Do After a Hurricane or Flood",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/response/index.html",
+    "kind": "official",
+    "titleEs": "Qué hacer después de un huracán o una inundación"
+  },
+  "cdc-travel-bites": {
+    "short": "CDC",
+    "title": "Avoid Bug Bites",
+    "publisher": "CDC Travelers' Health",
+    "url": "https://wwwnc.cdc.gov/travel/page/avoid-bug-bites",
+    "kind": "official",
+    "titleEs": "Evita las picadas de insectos"
+  },
+  "cdc-community": {
+    "short": "CDC",
+    "title": "Mosquito Control in a Community",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/mosquito-control-in-a-community.html",
+    "kind": "official",
+    "titleEs": "Control de mosquitos en una comunidad"
+  },
+  "cdc-permethrin": {
+    "short": "CDC",
+    "title": "About Permethrin-Treated Clothing and Gear",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/prevention/about-permethrin-treated-clothing-and-gear.html",
+    "kind": "official",
+    "titleEs": "Ropa y equipo tratados con permetrina"
+  },
+  "epa-repellents": {
+    "short": "EPA",
+    "title": "Repellents: Protection against Mosquitoes, Ticks and Other Arthropods",
+    "publisher": "U.S. EPA",
+    "url": "https://www.epa.gov/insect-repellents",
+    "kind": "official",
+    "titleEs": "Repelentes: protección contra mosquitos, garrapatas y otros artrópodos"
+  },
+  "epa-find-repellent": {
+    "short": "EPA",
+    "title": "Find the Repellent that is Right for You",
+    "publisher": "U.S. EPA",
+    "url": "https://www.epa.gov/insect-repellents/find-repellent-right-you",
+    "kind": "official",
+    "titleEs": "Busca el repelente adecuado para ti"
+  },
+  "who-dengue": {
+    "short": "WHO",
+    "title": "Dengue and severe dengue (fact sheet)",
+    "publisher": "World Health Organization",
+    "url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+    "kind": "official",
+    "titleEs": "Dengue y dengue grave (nota descriptiva)"
+  },
+  "who-wolbachia": {
+    "short": "WHO 2026",
+    "title": "WHO update on the assessment of Wolbachia population replacement for the control of Aedes-borne diseases",
+    "publisher": "World Health Organization",
+    "url": "https://www.who.int/news/item/11-06-2026-who-update-on-the-assessment-of-wolbachia-population-replacement-for-the-control-of-aedes-borne-diseases",
+    "kind": "official",
+    "date": "2026",
+    "titleEs": "Actualización de la OMS sobre la evaluación del reemplazo de poblaciones con Wolbachia para el control de enfermedades transmitidas por Aedes"
+  },
+  "npic": {
+    "short": "NPIC",
+    "title": "National Pesticide Information Center",
+    "publisher": "Oregon State University and U.S. EPA",
+    "url": "https://npic.orst.edu/",
+    "kind": "official",
+    "titleEs": "Centro Nacional de Información sobre Pesticidas"
+  },
+  "poison-control": {
+    "short": "Poison Control",
+    "title": "America's Poison Centers",
+    "publisher": "America's Poison Centers",
+    "url": "https://poisoncenters.org/",
+    "kind": "official",
+    "titleEs": "Centros de Control de Envenenamiento de EE. UU."
+  },
+  "usagov-tenant": {
+    "short": "USAGov",
+    "title": "How to file a complaint against a landlord",
+    "publisher": "USAGov",
+    "url": "https://www.usa.gov/tenant-rights",
+    "kind": "official",
+    "titleEs": "Cómo presentar una queja contra el dueño de la vivienda"
+  },
+  "cochrane-electronic": {
+    "short": "Enayati 2007",
+    "title": "Electronic mosquito repellents for preventing mosquito bites and malaria infection",
+    "publisher": "Enayati A, Hemingway J, Garner P. Cochrane Database of Systematic Reviews",
+    "url": "https://doi.org/10.1002/14651858.CD005434.pub2",
+    "kind": "study",
+    "date": "2007"
+  },
+  "bug-zapper": {
+    "short": "Frick 1996",
+    "title": "Density and diversity of nontarget insects killed by suburban electric insect traps",
+    "publisher": "Frick TB, Tallamy DW. Entomological News 107:77–82",
+    "url": "https://biostor.org/reference/76681",
+    "kind": "study",
+    "date": "1996"
+  },
+  "dangelo-2017": {
+    "short": "D'Angelo 2017",
+    "title": "Measures Taken to Prevent Zika Virus Infection During Pregnancy — Puerto Rico, 2016",
+    "publisher": "D'Angelo DV et al. MMWR 66(22):574–578",
+    "url": "https://doi.org/10.15585/mmwr.mm6622a2",
+    "kind": "study",
+    "date": "2017"
+  },
+  "kortsmit-2020": {
+    "short": "Kortsmit 2020",
+    "title": "Preventing Vector-Borne Transmission of Zika Virus Infection During Pregnancy, Puerto Rico, USA, 2016–2017",
+    "publisher": "Kortsmit K et al. Emerging Infectious Diseases 26(11):2717–2720",
+    "url": "https://doi.org/10.3201/eid2611.201614",
+    "kind": "study",
+    "date": "2020"
+  },
+  "rosenberg-2019": {
+    "short": "Rosenberg 2019",
+    "title": "Prevalence and Incidence of Zika Virus Infection Among Household Contacts of Patients With Zika Virus Disease, Puerto Rico, 2016–2017",
+    "publisher": "Rosenberg ES et al. Journal of Infectious Diseases 220(6):932–939",
+    "url": "https://doi.org/10.1093/infdis/jiy689",
+    "kind": "study",
+    "date": "2019"
+  },
+  "phillips-2023": {
+    "short": "Phillips 2023",
+    "title": "Quantifying the relationship between arboviral infection prevalence and human mobility patterns among participants of the Communities Organized to Prevent Arboviruses cohort (COPA) in southern Puerto Rico",
+    "publisher": "Phillips MT et al. PLOS Neglected Tropical Diseases 17(12):e0011840",
+    "url": "https://doi.org/10.1371/journal.pntd.0011840",
+    "kind": "study",
+    "date": "2023"
+  },
+  "bloch-2016": {
+    "short": "Bloch 2016",
+    "title": "Use of Household Cluster Investigations to Identify Factors Associated with Chikungunya Virus Infection and Frequency of Case Reporting in Puerto Rico",
+    "publisher": "Bloch D et al. PLOS Neglected Tropical Diseases 10(10):e0005075",
+    "url": "https://doi.org/10.1371/journal.pntd.0005075",
+    "kind": "study",
+    "date": "2016"
+  },
+  "earle-richardson-2018": {
+    "short": "Earle-Richardson 2018",
+    "title": "Influences of Community Interventions on Zika Prevention Behaviors of Pregnant Women, Puerto Rico, July 2016–June 2017",
+    "publisher": "Earle-Richardson G et al. Emerging Infectious Diseases 24(12):2251–2261",
+    "url": "https://doi.org/10.3201/eid2412.181056",
+    "kind": "study",
+    "date": "2018"
+  },
+  "barrera-2011": {
+    "short": "Barrera 2011",
+    "title": "Population dynamics of Aedes aegypti and dengue as influenced by weather and human behavior in San Juan, Puerto Rico",
+    "publisher": "Barrera R, Amador M, MacKay AJ. PLOS Neglected Tropical Diseases 5(12):e1378",
+    "url": "https://doi.org/10.1371/journal.pntd.0001378",
+    "kind": "study",
+    "date": "2011"
+  },
+  "barrera-2021": {
+    "short": "Barrera 2021",
+    "title": "Role of Abandoned and Vacant Houses on Aedes aegypti Productivity",
+    "publisher": "Barrera R, Acevedo V, Amador M. American Journal of Tropical Medicine and Hygiene 104(1):145–150",
+    "url": "https://doi.org/10.4269/ajtmh.20-0829",
+    "kind": "study",
+    "date": "2021"
+  },
+  "sharp-2019": {
+    "short": "Sharp 2019",
+    "title": "Autocidal gravid ovitraps protect humans from chikungunya virus infection by reducing Aedes aegypti mosquito populations",
+    "publisher": "Sharp TM et al. PLOS Neglected Tropical Diseases 13(7):e0007538",
+    "url": "https://doi.org/10.1371/journal.pntd.0007538",
+    "kind": "study",
+    "date": "2019"
+  },
+  "barrera-2019": {
+    "short": "Barrera 2019",
+    "title": "Impacts of Hurricanes Irma and Maria on Aedes aegypti Populations, Aquatic Habitats, and Mosquito Infections with Dengue, Chikungunya, and Zika Viruses in Puerto Rico",
+    "publisher": "Barrera R et al. American Journal of Tropical Medicine and Hygiene 100(6):1413–1420",
+    "url": "https://doi.org/10.4269/ajtmh.19-0015",
+    "kind": "study",
+    "date": "2019"
+  },
+  "dussault-2022": {
+    "short": "Dussault 2022",
+    "title": "Arbovirus risk perception as a predictor of mosquito-bite preventive behaviors in Ponce, Puerto Rico",
+    "publisher": "Dussault JM et al. PLOS Neglected Tropical Diseases 16(7):e0010653",
+    "url": "https://doi.org/10.1371/journal.pntd.0010653",
+    "kind": "study",
+    "date": "2022"
+  },
+  "winch-2002": {
+    "short": "Winch 2002",
+    "title": "Community-based dengue prevention programs in Puerto Rico: impact on knowledge, behavior, and residential mosquito infestation",
+    "publisher": "Winch PJ et al. American Journal of Tropical Medicine and Hygiene 67(4):363–370",
+    "url": "https://doi.org/10.4269/ajtmh.2002.67.363",
+    "kind": "study",
+    "date": "2002"
+  },
+  "sanchez-gonzalez-2021": {
+    "short": "Sánchez-González 2021",
+    "title": "Assessment of community support for Wolbachia-mediated population suppression as a control method for Aedes aegypti mosquitoes in a community cohort in Puerto Rico",
+    "publisher": "Sánchez-González L et al. PLOS Neglected Tropical Diseases 15(12):e0009966",
+    "url": "https://doi.org/10.1371/journal.pntd.0009966",
+    "kind": "study",
+    "date": "2021"
+  },
+  "cdc-dengue-symptoms": {
+    "short": "CDC",
+    "title": "Symptoms of Dengue and Testing",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/signs-symptoms/index.html",
+    "kind": "official",
+    "titleEs": "Síntomas del dengue y pruebas"
+  },
+  "cdc-dengue-manage": {
+    "short": "CDC",
+    "title": "Manage Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/treatment/index.html",
+    "kind": "official",
+    "titleEs": "Cómo manejar el dengue"
+  },
+  "cdc-dengue-testing": {
+    "short": "CDC",
+    "title": "Clinical Testing Guidance for Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/hcp/diagnosis-testing/index.html",
+    "kind": "official",
+    "titleEs": "Guía de pruebas clínicas para el dengue"
+  },
+  "cdc-dengue-pregnancy-pdf": {
+    "short": "CDC",
+    "title": "Dengue During Pregnancy (fact sheet, 2019)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/media/pdfs/prevent-dengue-during-pregnancy.pdf",
+    "kind": "official",
+    "date": "2019",
+    "titleEs": "El dengue durante el embarazo (hoja informativa, 2019)"
+  },
+  "cdc-zika-symptoms": {
+    "short": "CDC",
+    "title": "Zika Symptoms and Complications",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/signs-symptoms/index.html",
+    "kind": "official",
+    "titleEs": "Síntomas y complicaciones del zika"
+  },
+  "cdc-zika-treatment": {
+    "short": "CDC",
+    "title": "Treatment of Zika",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/treatment/index.html",
+    "kind": "official",
+    "titleEs": "Tratamiento del zika"
+  },
+  "cdc-zika-transmission": {
+    "short": "CDC",
+    "title": "How Zika Spreads",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/causes/index.html",
+    "kind": "official",
+    "titleEs": "Cómo se transmite el zika"
+  },
+  "cdc-chik-symptoms": {
+    "short": "CDC",
+    "title": "Symptoms of Chikungunya",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/signs-symptoms/index.html",
+    "kind": "official",
+    "titleEs": "Síntomas del chikungunya"
+  },
+  "cdc-chik-spread": {
+    "short": "CDC",
+    "title": "Chikungunya: Causes and How It Spreads",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/causes-and-spread/index.html",
+    "kind": "official",
+    "titleEs": "Chikungunya: causas y cómo se transmite"
+  },
+  "hrsa-find-health-center": {
+    "short": "HRSA",
+    "title": "Find a Health Center",
+    "publisher": "HRSA",
+    "url": "https://findahealthcenter.hrsa.gov/",
+    "kind": "official",
+    "titleEs": "Busca un centro de salud"
+  },
+  "hrsa-get-care": {
+    "short": "HRSA",
+    "title": "Get Health Care",
+    "publisher": "HRSA",
+    "url": "https://www.hrsa.gov/get-health-care",
+    "kind": "official",
+    "titleEs": "Obtén atención médica"
+  },
+  "cms-emtala": {
+    "short": "CMS",
+    "title": "Emergency Medical Treatment & Labor Act (EMTALA)",
+    "publisher": "CMS",
+    "url": "https://www.cms.gov/medicare/regulations-guidance/legislation/emergency-medical-treatment-labor-act",
+    "kind": "official",
+    "titleEs": "Ley de Tratamiento Médico de Emergencia y Parto Activo (EMTALA)"
+  },
+  "healthcare-gov-urgent-care": {
+    "short": "HealthCare.gov",
+    "title": "Urgent care (glossary)",
+    "publisher": "HealthCare.gov (CMS)",
+    "url": "https://www.healthcare.gov/glossary/urgent-care/",
+    "kind": "official",
+    "titleEs": "Atención de urgencia (glosario)"
+  },
+  "cdc-dengue-transmission": {
+    "short": "CDC",
+    "title": "How Dengue Spreads",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/transmission/index.html",
+    "kind": "official",
+    "titleEs": "Cómo se transmite el dengue"
+  },
+  "cdc-aedes-life-cycle": {
+    "short": "CDC",
+    "title": "Life Cycle of Aedes Mosquitoes",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/about/life-cycle-of-aedes-mosquitoes.html",
+    "kind": "official",
+    "titleEs": "Ciclo de vida de los mosquitos Aedes"
+  },
+  "cdc-travel-bites-3wk": {
+    "short": "CDC",
+    "title": "Preventing Mosquito Bites While Traveling",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/prevention/preventing-mosquito-bites-while-traveling.html",
+    "kind": "official",
+    "titleEs": "Cómo prevenir las picadas de mosquito durante un viaje"
+  },
+  "cdc-yellowbook-dengue": {
+    "short": "CDC",
+    "title": "Dengue (CDC Yellow Book)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/yellow-book/hcp/travel-associated-infections-diseases/dengue.html",
+    "kind": "official",
+    "titleEs": "Dengue (Libro Amarillo de los CDC)"
+  },
+  "cdc-zika-clinical": {
+    "short": "CDC",
+    "title": "Clinical Signs and Symptoms of Zika Virus Disease",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/hcp/clinical-signs/index.html",
+    "kind": "official",
+    "titleEs": "Signos y síntomas clínicos de la enfermedad por el virus del Zika"
+  },
+  "cdc-zika-about": {
+    "short": "CDC",
+    "title": "About Zika Virus",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/about/index.html",
+    "kind": "official",
+    "titleEs": "Acerca del virus del Zika"
+  },
+  "cdc-dengue-areas": {
+    "short": "CDC",
+    "title": "Areas with Risk of Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html",
+    "kind": "official",
+    "titleEs": "Zonas con riesgo de dengue"
+  },
+  "cdc-dengue-current-data": {
+    "short": "CDC",
+    "title": "Current Year Data (2026) | Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/data-research/facts-stats/current-data.html",
+    "kind": "official",
+    "titleEs": "Datos del año en curso: dengue"
+  },
+  "cdc-zika-cases-us": {
+    "short": "CDC",
+    "title": "Zika Cases in the United States",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/zika-cases-us/index.html",
+    "kind": "official",
+    "titleEs": "Casos de zika en Estados Unidos"
+  },
+  "cdc-chik-cases-us": {
+    "short": "CDC",
+    "title": "Chikungunya in the United States",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/data-maps/chikungunya-us.html",
+    "kind": "official",
+    "titleEs": "El chikungunya en Estados Unidos"
+  },
+  "cdc-unwanted-mosquitoes": {
+    "short": "CDC",
+    "title": "CDC's Most (un)Wanted Mosquitoes",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/stories/unwanted-mosquitoes.html",
+    "kind": "official",
+    "titleEs": "Los mosquitos (menos) deseados de los CDC"
+  },
+  "cdc-aedes-range": {
+    "short": "CDC",
+    "title": "Potential Range of Aedes Mosquitoes",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/php/toolkit/potential-range-of-aedes.html",
+    "kind": "official",
+    "titleEs": "Distribución posible de los mosquitos Aedes"
+  },
+  "cdc-culex-about": {
+    "short": "CDC",
+    "title": "About Culex Mosquitoes",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/about/culex-mosquitoes.html",
+    "kind": "official",
+    "titleEs": "Acerca de los mosquitos Culex"
+  },
+  "cdc-eid-culex": {
+    "short": "CDC",
+    "title": "Etymologia: Culex quinquefasciatus (Emerging Infectious Diseases)",
+    "publisher": "CDC",
+    "url": "https://wwwnc.cdc.gov/eid/article/27/8/et-2708_article",
+    "kind": "official",
+    "titleEs": "Etimología: Culex quinquefasciatus (Emerging Infectious Diseases)"
+  },
+  "cdc-dengue-php": {
+    "short": "CDC",
+    "title": "Public Health Considerations for Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/php/public-health-considerations/index.html",
+    "kind": "official",
+    "titleEs": "Consideraciones de salud pública sobre el dengue"
+  },
+  "cdc-hd-directories": {
+    "short": "CDC",
+    "title": "Health Department Directories",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/infrastructure/contact/index.html",
+    "kind": "official",
+    "titleEs": "Directorios de departamentos de salud"
+  },
+  "cdc-control-programs": {
+    "short": "CDC",
+    "title": "What Mosquito Control Programs Do",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/mosquito-control-programs.html",
+    "kind": "official",
+    "titleEs": "Qué hacen los programas de control de mosquitos"
+  },
+  "cdc-truck-spraying": {
+    "short": "CDC",
+    "title": "Truck Spraying",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/truck-spraying.html",
+    "kind": "official",
+    "titleEs": "Fumigación desde camiones"
+  },
+  "cdc-adulticides": {
+    "short": "CDC",
+    "title": "Adulticides",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/adulticides.html",
+    "kind": "official",
+    "titleEs": "Adulticidas"
+  },
+  "cdc-wolbachia": {
+    "short": "CDC",
+    "title": "Mosquitoes with Wolbachia",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mosquitoes/mosquito-control/mosquitoes-with-wolbachia.html",
+    "kind": "official",
+    "titleEs": "Mosquitos con Wolbachia"
+  },
+  "cdc-niosh-workers": {
+    "short": "CDC",
+    "title": "Mosquito-Borne Diseases in Workers (NIOSH)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/niosh/outdoor-workers/about/mosquito-borne-diseases.html",
+    "kind": "official",
+    "titleEs": "Enfermedades transmitidas por mosquitos en trabajadores (NIOSH)"
+  },
+  "epa-naled": {
+    "short": "EPA",
+    "title": "Naled for Mosquito Control",
+    "publisher": "EPA",
+    "url": "https://www.epa.gov/mosquitocontrol/naled-mosquito-control",
+    "kind": "official",
+    "titleEs": "El naled para el control de mosquitos"
+  },
+  "cdc-dengue-about": {
+    "short": "CDC",
+    "title": "About Dengue",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/about/index.html",
+    "kind": "official",
+    "titleEs": "Acerca del dengue"
+  },
+  "cdc-chik-about": {
+    "short": "CDC",
+    "title": "About Chikungunya",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/about/index.html",
+    "kind": "official",
+    "titleEs": "Acerca del chikungunya"
+  },
+  "cdc-yellowbook-chik": {
+    "short": "CDC",
+    "title": "Chikungunya (CDC Yellow Book)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/yellow-book/hcp/travel-associated-infections-diseases/chikungunya.html",
+    "kind": "official",
+    "titleEs": "Chikungunya (Libro Amarillo de los CDC)"
+  },
+  "cdc-han-dengue-2025": {
+    "short": "CDC",
+    "title": "Ongoing Risk of Dengue Virus Infections (Health Alert Network, March 2025)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/han/php/notices/han00523.html",
+    "kind": "official",
+    "titleEs": "Riesgo continuo de infecciones por el virus del dengue (Red de Alertas de Salud, marzo de 2025)"
+  },
+  "cdc-dengue-vaccines": {
+    "short": "CDC",
+    "title": "Dengue Vaccines",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/hcp/vaccine/index.html",
+    "kind": "official",
+    "titleEs": "Vacunas contra el dengue"
+  },
+  "cdc-chik-vaccines": {
+    "short": "CDC",
+    "title": "Chikungunya Vaccines",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/vaccines/index.html",
+    "kind": "official",
+    "titleEs": "Vacunas contra el chikungunya"
+  },
+  "epa-repellent-safely": {
+    "short": "EPA",
+    "title": "Using Insect Repellents Safely and Effectively",
+    "publisher": "EPA",
+    "url": "https://www.epa.gov/insect-repellents/using-insect-repellents-safely-and-effectively",
+    "kind": "official",
+    "titleEs": "Cómo usar los repelentes de insectos de forma segura y eficaz"
+  },
+  "cdc-travel-notices": {
+    "short": "CDC",
+    "title": "Travel Health Notices",
+    "publisher": "CDC",
+    "url": "https://wwwnc.cdc.gov/travel/notices",
+    "kind": "official",
+    "titleEs": "Avisos de salud para viajeros"
+  },
+  "cdc-dengue-clinical-signs": {
+    "short": "CDC",
+    "title": "Clinical Signs and Symptoms of Dengue (for healthcare providers)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/hcp/clinical-signs/index.html",
+    "kind": "official",
+    "titleEs": "Signos y síntomas clínicos del dengue (para profesionales de la salud)"
+  },
+  "cdc-dengue-clinical-care": {
+    "short": "CDC",
+    "title": "Clinical Care of Dengue (for healthcare providers)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/hcp/clinical-care/index.html",
+    "kind": "official",
+    "titleEs": "Atención clínica del dengue (para profesionales de la salud)"
+  },
+  "cdc-dengue-facts-stats": {
+    "short": "CDC",
+    "title": "Dengue Facts and Stats",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/dengue/data-research/facts-stats/index.html",
+    "kind": "official",
+    "titleEs": "Datos y estadísticas del dengue"
+  },
+  "cdc-zika-testing": {
+    "short": "CDC",
+    "title": "Testing for Zika",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/testing/index.html",
+    "kind": "official",
+    "titleEs": "Pruebas del zika"
+  },
+  "cdc-mmwr-pr-dengue-2024": {
+    "short": "CDC",
+    "title": "Dengue Outbreak and Response — Puerto Rico, 2024 (MMWR, February 2025)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mmwr/volumes/74/wr/mm7405a1.htm",
+    "kind": "official",
+    "titleEs": "Brote de dengue y respuesta en Puerto Rico, 2024 (MMWR, febrero de 2025)"
+  },
+  "cdc-zika-prevention": {
+    "short": "CDC",
+    "title": "Preventing Zika",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/prevention/index.html",
+    "kind": "official",
+    "titleEs": "Cómo prevenir el zika"
+  },
+  "cdc-zika-travel": {
+    "short": "CDC",
+    "title": "Zika: Recommendations for Travelers and People Living Abroad",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/travel/index.html",
+    "kind": "official",
+    "titleEs": "Zika: recomendaciones para viajeros y personas que viven en el extranjero"
+  },
+  "cdc-zika-geo": {
+    "short": "CDC",
+    "title": "Countries & Territories at Risk for Zika",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/zika/geo/index.html",
+    "kind": "official",
+    "titleEs": "Países y territorios con riesgo de zika"
+  },
+  "cdc-chik-areas": {
+    "short": "CDC",
+    "title": "Areas at Risk for Chikungunya",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/data-maps/index.html",
+    "kind": "official",
+    "titleEs": "Zonas con riesgo de chikungunya"
+  },
+  "cdc-chik-vaccines-hcp": {
+    "short": "CDC",
+    "title": "Chikungunya Vaccine Information for Healthcare Providers",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/hcp/vaccines/index.html",
+    "kind": "official",
+    "titleEs": "Información sobre la vacuna contra el chikungunya para profesionales de la salud"
+  },
+  "cdc-chik-testing": {
+    "short": "CDC",
+    "title": "Clinical Testing and Diagnosis for Chikungunya Virus Disease (for healthcare providers)",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/chikungunya/hcp/diagnosis-testing/index.html",
+    "kind": "official",
+    "titleEs": "Pruebas clínicas y diagnóstico del chikungunya (para profesionales de la salud)"
+  },
+  "cdc-before-travel": {
+    "short": "CDC",
+    "title": "Before You Travel",
+    "publisher": "CDC",
+    "url": "https://wwwnc.cdc.gov/travel/page/before-travel",
+    "kind": "official",
+    "titleEs": "Antes de viajar"
+  },
+  "cdc-yellowbook-arthropods": {
+    "short": "CDC",
+    "title": "Yellow Book: Mosquitoes, Ticks, and Other Arthropods",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/yellow-book/hcp/environmental-hazards-risks/mosquitoes-ticks-and-other-arthropods.html",
+    "kind": "official",
+    "titleEs": "Libro Amarillo: mosquitos, garrapatas y otros artrópodos"
+  },
+  "cdc-mmwr-ago-2016": {
+    "short": "CDC",
+    "title": "MMWR: Prevention of Chikungunya with Autocidal Gravid Ovitraps — Puerto Rico",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6518e3.htm",
+    "kind": "official",
+    "titleEs": "MMWR: prevención del chikungunya con ovitrampas autocidas para hembras grávidas en Puerto Rico"
+  },
+  "epa-registration": {
+    "short": "EPA",
+    "title": "Regulation of Skin-Applied Repellents",
+    "publisher": "U.S. EPA",
+    "url": "https://www.epa.gov/insect-repellents/regulation-skin-applied-repellents",
+    "kind": "official",
+    "titleEs": "Regulación de los repelentes que se aplican en la piel"
+  },
+  "cdc-epi-outbreak": {
+    "short": "CDC",
+    "title": "Principles of Epidemiology, Lesson 1, Section 11: Epidemic Disease Occurrence",
+    "publisher": "CDC",
+    "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson1/section11.html",
+    "kind": "official",
+    "titleEs": "Principios de epidemiología, lección 1, sección 11: aparición de epidemias"
+  },
+  "cdc-nndss-about": {
+    "short": "CDC",
+    "title": "About NNDSS",
+    "publisher": "CDC",
+    "url": "https://www.cdc.gov/nndss/about/index.html",
+    "kind": "official",
+    "titleEs": "Acerca del NNDSS"
+  },
+  "epa-ingredients": {
+    "short": "EPA",
+    "title": "Skin-Applied Repellent Ingredients",
+    "publisher": "U.S. EPA",
+    "url": "https://www.epa.gov/insect-repellents/skin-applied-repellent-ingredients",
+    "kind": "official",
+    "titleEs": "Ingredientes de repelentes que se aplican en la piel"
+  },
+  "epa-citronella": {
+    "short": "EPA",
+    "title": "Citronella (Oil of Citronella) (021901) Fact Sheet",
+    "publisher": "U.S. EPA",
+    "url": "https://www3.epa.gov/pesticides/chem_search/reg_actions/registration/fs_PC-021901_01-Nov-99.pdf",
+    "kind": "official",
+    "titleEs": "Hoja informativa sobre la citronela (aceite de citronela)"
+  }
+}

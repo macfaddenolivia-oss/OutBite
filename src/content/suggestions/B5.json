@@ -1,0 +1,66 @@
+{
+  "id": "B5",
+  "layer": "body",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "not-rated",
+  "cost": [
+    "$"
+  ],
+  "effort": "each-time",
+  "audiences": [
+    "all",
+    "pregnant",
+    "traveler"
+  ],
+  "safetyContacts": false,
+  "travelSource": "cdc-zika-prevention",
+  "related": [],
+  "sources": [
+    "cdc-zika-prevention",
+    "cdc-zika-transmission",
+    "cdc-zika-travel"
+  ],
+  "links": [
+    "cdc-zika-prevention"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Use condoms to reduce the chance of getting Zika from sex",
+      "summary": "Condoms can reduce the chance of getting Zika from sex, even when the infected person has no symptoms.",
+      "canDo": [
+        "Condoms can reduce the chance of getting Zika from sex.",
+        "Zika can spread through sex even when the infected person has no symptoms, and even in a committed relationship with one partner."
+      ],
+      "cantDo": [
+        "Condoms can reduce the chance but don’t remove it. Not having sex removes the risk of getting Zika from sex."
+      ],
+      "research": [],
+      "tips": [
+        "Use condoms during vaginal, anal and oral sex, and when sharing sex toys.",
+        "After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms.",
+        "When CDC advises this: after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission."
+      ],
+      "travel": "After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms."
+    },
+    "es": {
+      "title": "Usa condones para reducir la probabilidad de contraer el zika por vía sexual",
+      "summary": "Los condones pueden reducir la probabilidad de contraer el zika por vía sexual, aunque la persona infectada no tenga síntomas.",
+      "canDo": [
+        "Los condones pueden reducir la probabilidad de contraer el zika por vía sexual.",
+        "El zika se puede transmitir por vía sexual aunque la persona infectada no tenga síntomas, e incluso en una relación estable con una sola pareja."
+      ],
+      "cantDo": [
+        "Los condones pueden reducir la probabilidad, pero no la eliminan. No tener relaciones sexuales elimina el riesgo de contraer el zika por vía sexual."
+      ],
+      "research": [],
+      "tips": [
+        "Usa condones en el sexo vaginal, anal y oral, y al compartir juguetes sexuales.",
+        "Después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas.",
+        "Cuándo lo aconsejan los CDC: después de viajar a una zona con un aviso de salud para viajeros por el zika activo y, “si te preocupan los riesgos del zika”, después de viajar a una zona con transmisión actual o pasada del zika."
+      ],
+      "travel": "Después de un viaje, los hombres deben usar condones o no tener relaciones sexuales durante al menos 3 meses, y las mujeres durante al menos 2 meses, desde el día en que regresan, aunque no tengan síntomas."
+    }
+  }
+}

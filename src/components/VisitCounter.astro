@@ -1,0 +1,37 @@
+---
+// GoatCounter visit counting (privacy-friendly, cookie-free).
+// Added only when GOATCOUNTER_CODE is set in src/config/site.json AND this is a
+// production build (npm run build); never in npm run dev. The script loads async, so
+// the page never waits for it, and nothing on the site depends on it.
+// Only the page's path is sent: no query string in the path, no custom events.
+// (count.js also sends location.search on its own; Outbite never uses query strings,
+// so it is always empty for Outbite's own links.) The Privacy page's "Don't count my
+// visits" switch uses GoatCounter's opt-out: localStorage "skipgc" = "t".
+import site from '../config/site.json';
+
+interface Props {
+  /** A fixed path to report instead of the address (the 404 page reports "/404"). */
+  path?: string;
+}
+
+const code = (site.GOATCOUNTER_CODE ?? '').trim();
+const valid = /^[a-z0-9-]+$/.test(code);
+const enabled = import.meta.env.PROD && valid;
+const fixedPath = Astro.props.path ?? null;
+---
+
+{
+  enabled && (
+    <>
+      <script is:inline define:vars={{ fixedPath }}>
+        window.goatcounter = {
+          no_events: true,
+          path: function () {
+            return fixedPath || location.pathname;
+          },
+        };
+      </script>
+      <script is:inline async data-goatcounter={`https://${code}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
+    </>
+  )
+}

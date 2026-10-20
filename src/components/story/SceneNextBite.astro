@@ -1,0 +1,36 @@
+---
+// Step 5, "The next bite": Ana (left, no virus dots, "is no longer contagious") and
+// the neighbor. No bucket (the eggs are step 6, SceneMoreMosquitoes). The virus-carrying mosquito
+// (orange dots) bites the neighbor near the shoulder, and virus dots then pop in on
+// the neighbor one at a time (from 0.6s; the still picture shows them). Same in
+// both openings.
+import Backdrop from './Backdrop.astro';
+import Mosquito from './Mosquito.astro';
+import Person from './Person.astro';
+import { GROUND, NEXT, PERSON_X, PROBOSCIS, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+  names: { ana: string; neighbor: string };
+  virusGone: string;
+}
+const { label, names, virusGone } = Astro.props;
+// Bite point on the neighbor's right shoulder (Person body: circle r30 centered 42
+// above the feet), and the mosquito placed so its proboscis tip (27 drawing units
+// left of its center) touches it.
+const shoulder = { x: NEXT.neighborX + 25.4, y: GROUND - 58 };
+const mosquito = { x: shoulder.x + PROBOSCIS * NEXT.mosquitoScale, y: shoulder.y };
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label}>
+  <Backdrop
+    names={[
+      { x: PERSON_X, text: names.ana },
+      { x: NEXT.neighborX, text: names.neighbor },
+    ]}
+    notes={[{ x: PERSON_X, text: virusGone }]}
+  />
+  <Person x={PERSON_X} y={GROUND} />
+  <Person x={NEXT.neighborX} y={GROUND} color="#24539A" dots dotsClass="dots-appear dots-appear--after-bite" />
+  <Mosquito x={mosquito.x} y={mosquito.y} scale={NEXT.mosquitoScale} dots class="fly fly--next" />
+</svg>

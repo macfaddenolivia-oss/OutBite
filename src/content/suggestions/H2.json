@@ -1,0 +1,67 @@
+{
+  "id": "H2",
+  "layer": "home",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "strong",
+  "cost": [
+    "$$$"
+  ],
+  "effort": "daily",
+  "audiences": [
+    "all",
+    "homeowner"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "H1",
+    "H3"
+  ],
+  "sources": [
+    "cdc-control-home",
+    "bloch-2016"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Use air conditioning when you can",
+      "summary": "Cool, closed rooms keep mosquitoes out.",
+      "evidenceMeasures": "lower infection in people",
+      "canDo": [
+        "Air conditioning keeps mosquitoes out, because windows stay closed.",
+        "Air conditioning also makes it harder for mosquitoes to survive indoors."
+      ],
+      "cantDo": [
+        "Air conditioning isn't an option for everyone. It costs a lot, and it stops working in power outages, like after hurricanes. Screens and closed doors are lower-cost ways to keep mosquitoes out."
+      ],
+      "research": [
+        {
+          "text": "In a Puerto Rico household survey, people who used air conditioning had about half the odds of chikungunya infection.",
+          "cite": [
+            "bloch-2016"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Usa aire acondicionado cuando puedas",
+      "summary": "Los cuartos frescos y cerrados mantienen a los mosquitos afuera.",
+      "evidenceMeasures": "menos infección en personas",
+      "canDo": [
+        "El aire acondicionado mantiene a los mosquitos afuera, porque las ventanas se quedan cerradas.",
+        "El aire acondicionado también hace más difícil que los mosquitos sobrevivan adentro."
+      ],
+      "cantDo": [
+        "El aire acondicionado no es una opción para todos: cuesta mucho y deja de funcionar cuando se va la luz, como después de un huracán. Las mallas y las puertas cerradas son formas más baratas de mantener a los mosquitos afuera."
+      ],
+      "research": [
+        {
+          "text": "En una encuesta de hogares en Puerto Rico, las personas que usaban aire acondicionado tenían cerca de la mitad de probabilidad de infección por chikungunya.",
+          "cite": [
+            "bloch-2016"
+          ]
+        }
+      ]
+    }
+  }
+}

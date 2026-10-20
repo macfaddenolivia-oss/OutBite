@@ -1,0 +1,40 @@
+---
+// Scene 4: a large mosquito on pale blue; virus dots appear on its body one by one,
+// and a timeline bar fills. One label above the bar, in two balanced lines, with
+// "Aedes" in italics.
+import Mosquito from './Mosquito.astro';
+
+interface Props {
+  label: string;
+  timeline: string;
+}
+const { label, timeline } = Astro.props;
+// Split into two lines at the word break closest to the middle.
+const words = timeline.split(' ');
+let best = 1;
+for (let i = 1; i < words.length; i++) {
+  const a = words.slice(0, i).join(' ').length;
+  const b = words.slice(i).join(' ').length;
+  const bestA = words.slice(0, best).join(' ').length;
+  const bestB = words.slice(best).join(' ').length;
+  if (Math.abs(a - b) < Math.abs(bestA - bestB)) best = i;
+}
+const lines = [words.slice(0, best).join(' '), words.slice(best).join(' ')];
+const parts = (line: string) => line.split(/(Aedes)/).filter(Boolean);
+---
+
+<svg class="story-art" viewBox="0 0 480 360" role="img" aria-label={label}>
+  <rect width="480" height="360" fill="#CBDCEC"></rect>
+  <Mosquito x={236} y={120} scale={3.8} dots dotsClass="dots-appear" />
+  <text x="240" y="262" text-anchor="middle" class="story-label inside-label">
+    {
+      lines.map((line, i) => (
+        <tspan x="240" dy={i === 0 ? 0 : '1.25em'}>
+          {parts(line).map((p) => (p === 'Aedes' ? <tspan font-style="italic">{p}</tspan> : p))}
+        </tspan>
+      ))
+    }
+  </text>
+  <rect x="40" y="300" width="400" height="22" fill="#FFFFFF" stroke="#17306A" stroke-width="3"></rect>
+  <rect x="41.5" y="301.5" width="280" height="19" fill="#F0AF74" class="timeline-fill"></rect>
+</svg>

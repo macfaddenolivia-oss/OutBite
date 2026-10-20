@@ -1,0 +1,53 @@
+{
+  "id": "B3",
+  "layer": "body",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "$$"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "all",
+    "traveler"
+  ],
+  "safetyContacts": true,
+  "travelSource": "cdc-travel-bites",
+  "related": [],
+  "sources": [
+    "cdc-permethrin",
+    "cdc-travel-bites"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Use permethrin-treated clothing and gear",
+      "summary": "Treated clothes keep working through several washes.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "Permethrin-treated clothing kills or repels mosquitoes that land on it.",
+        "The treatment keeps working through several washes."
+      ],
+      "cantDo": [
+        "Permethrin can't be used on skin; it's for clothing and gear only."
+      ],
+      "research": [],
+      "travel": "Permethrin-treated clothing and gear are an option for travelers."
+    },
+    "es": {
+      "title": "Usa ropa y equipo tratados con permetrina",
+      "summary": "La ropa tratada sigue funcionando después de varios lavados.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "La ropa tratada con permetrina mata o repele a los mosquitos que se posan en ella.",
+        "El tratamiento sigue funcionando después de varios lavados."
+      ],
+      "cantDo": [
+        "La permetrina no se puede usar en la piel; solo es para ropa y equipo."
+      ],
+      "research": [],
+      "travel": "La ropa y el equipo tratados con permetrina son una opción para quienes viajan."
+    }
+  }
+}

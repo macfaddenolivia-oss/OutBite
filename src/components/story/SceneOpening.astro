@@ -1,0 +1,23 @@
+---
+// Scene 2: Ana (left, virus dots, already there from scene 1) and her house (right).
+// Travel version adds a suitcase.
+import Backdrop from './Backdrop.astro';
+import House from './House.astro';
+import Person from './Person.astro';
+import Suitcase from './Suitcase.astro';
+import { GROUND, PERSON_X, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+  travel: boolean;
+  names: { ana: string };
+}
+const { label, travel, names } = Astro.props;
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label}>
+  <Backdrop names={[{ x: PERSON_X, text: names.ana }]} />
+  <House x={290} y={GROUND} />
+  <Person x={PERSON_X} y={GROUND} dots />
+  {travel && <Suitcase x={PERSON_X + 70} y={GROUND} />}
+</svg>

@@ -1,0 +1,792 @@
+{
+  "_meta": {
+    "name": "Español",
+    "htmlLang": "es",
+    "ogLocale": "es_US",
+    "dir": "ltr"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido principal",
+    "mainNav": "Principal",
+    "footerNav": "Más páginas",
+    "languageNav": "Idioma",
+    "menu": "Menú",
+    "alertRegion": "Aviso"
+  },
+  "header": {
+    "sick": "Creo que me enfermé",
+    "diseases": "Enfermedades"
+  },
+  "footer": {
+    "disclaimer": "{siteName} comparte información general de salud, no consejo médico. Si te sientes mal, comunícate con un médico o una clínica. En una emergencia, llama al 911.",
+    "diseasesHeading": "Enfermedades",
+    "aboutHeading": "Sobre este sitio"
+  },
+  "alert": {
+    "label": "Aviso",
+    "dismiss": "Ocultar este aviso"
+  },
+  "disclaimer": {
+    "heading": "Esto no es consejo médico",
+    "body": "Esta página comparte información general. Esta página no puede darte un diagnóstico ni reemplazar a un médico. Si te sientes mal, comunícate con un médico o una clínica. Si crees que es una emergencia, llama al 911 o ve a una clínica o a la sala de emergencias de inmediato."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "No pudimos encontrar esa página. Es posible que la página se haya movido.",
+    "home": "Ir a la página principal"
+  },
+  "home": {
+    "cta": {
+      "protect": "Proteger donde vivo",
+      "nearMe": "¿Está cerca de mí?"
+    },
+    "cases": {
+      "asOf": "Datos al {date}"
+    },
+    "spread": {
+      "heading": "Cómo se transmite",
+      "intro": "Los mismos mosquitos Aedes transmiten los tres virus: de una persona a un mosquito y de ahí a otra persona.",
+      "step1": "Un mosquito pica a una persona que tiene el virus.",
+      "step2": "El virus se multiplica dentro del mosquito.",
+      "step3": "El mosquito pica a otra persona y le puede pasar el virus.",
+      "link": "Aprende cómo se transmite"
+    },
+    "layers": {
+      "heading": "Cuatro capas de protección",
+      "intro": "La protección funciona mejor cuando forma parte de tu casa y tu comunidad, porque sigue funcionando aunque tengas un día ocupado.",
+      "body": {
+        "title": "Tu cuerpo",
+        "summary": "Repelente y ropa que evitan las picadas."
+      },
+      "home": {
+        "title": "Tu casa",
+        "summary": "Las telas metálicas, las puertas cerradas y el aire acondicionado mantienen a los mosquitos afuera."
+      },
+      "yard": {
+        "title": "Tu patio",
+        "summary": "Vacía el agua estancada cada semana para que los mosquitos no se reproduzcan."
+      },
+      "community": {
+        "title": "Tu comunidad",
+        "summary": "Trabaja con tus vecinos y los programas locales para cubrir todo el vecindario."
+      },
+      "link": "Ver todos los pasos"
+    },
+    "hero": {
+      "tag": "Dengue · Zika · Chikungunya",
+      "line1": "Unos pasos sencillos en casa",
+      "line2": "mantienen alejados a los mosquitos.",
+      "subhead": "Estos mosquitos pueden transmitir el dengue, el zika y el chikungunya. Así puedes proteger a tu familia y a tus vecinos.",
+      "intro": "El dengue, el zika y el chikungunya se transmiten por picadas del mosquito Aedes. Aquí verás cómo se transmiten, cómo protegerte y dónde se reportan casos.",
+      "travelLink": "¿Vas a viajar pronto? Mira lo que dicen los CDC para tu viaje"
+    },
+    "near": {
+      "stateLabel": "Estado o territorio",
+      "allUS": "Todo EE. UU.",
+      "zipLabel": "Código postal",
+      "privacy": "No rastreamos tu ubicación.",
+      "unit": "casos",
+      "us": "EE. UU.",
+      "zipNotFound": "No encontramos ese código postal. Elige tu estado o territorio.",
+      "zipShort": "Escribe un código postal de 5 dígitos.",
+      "zipMulti": "Este código postal está en más de un estado. Elige uno:",
+      "zipFound": "Mostrando {place}.",
+      "zipGo": "Ir",
+      "zipNote": "Las cifras son por estado, así que tu código postal muestra las cifras de tu estado.",
+      "showing": "Estos números son de {place}.",
+      "seeState": "Ver tu estado o territorio",
+      "place": "En {place} este año",
+      "zipPlaceholder": "ej. 00901",
+      "prLine": "El dengue es común en Puerto Rico.",
+      "prLink": "Mira las cifras de Puerto Rico"
+    },
+    "spreadCta": "Cómo se propaga",
+    "layersGraphic": {
+      "text": "Cada capa que añades aleja a más mosquitos. Las capas de afuera protegen a más personas, incluyéndote a ti.",
+      "label": "Cuatro cuadrados, uno dentro del otro, con las etiquetas comunidad, patio, hogar y cuerpo, rodean a una persona; los mosquitos rebotan contra la capa exterior.",
+      "community": "COMUNIDAD",
+      "yard": "PATIO",
+      "home": "HOGAR",
+      "body": "CUERPO",
+      "rows": {
+        "body": {
+          "name": "Cuerpo",
+          "desc": "Repelente y ropa que evitan las picadas."
+        },
+        "home": {
+          "name": "Hogar",
+          "desc": "Las mallas y las puertas cerradas mantienen a los mosquitos afuera."
+        },
+        "yard": {
+          "name": "Patio",
+          "desc": "Vacía y friega todo lo que acumule agua una vez a la semana."
+        },
+        "community": {
+          "name": "Comunidad",
+          "desc": "Trabaja con tus vecinos y los programas locales."
+        }
+      }
+    },
+    "tiles": {
+      "story": {
+        "title": "Cómo se transmite",
+        "text": "Una historia corta sobre Ana muestra cómo se transmiten estos virus.",
+        "button": "Ver la historia"
+      },
+      "protect": {
+        "title": "Protégete",
+        "text": "Pasos sencillos para tu cuerpo, tu casa, tu patio y tu comunidad.",
+        "button": "Ver los pasos"
+      },
+      "nearMe": {
+        "title": "¿Está cerca de mí?",
+        "text": "Casos reportados en cada estado y territorio, según los CDC.",
+        "button": "Ver el mapa"
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Inicio",
+      "nav": "Inicio",
+      "summary": "Unos pasos sencillos en casa mantienen alejados a los mosquitos. Estos mosquitos pueden transmitir el dengue, el zika y el chikungunya."
+    },
+    "howItSpreads": {
+      "title": "Cómo se transmite",
+      "nav": "Cómo se transmite",
+      "summary": "Sigue el virus de una persona a un mosquito y de ahí a otra persona, y explora los lugares de tu casa donde se crían los mosquitos."
+    },
+    "protect": {
+      "title": "Protégete y protege tu hogar",
+      "nav": "Protégete",
+      "summary": "Pasos prácticos por capas: tu cuerpo, tu casa, tu patio y tu comunidad."
+    },
+    "community": {
+      "title": "Protege a tu comunidad",
+      "nav": "Comunidad",
+      "summary": "Los mosquitos no se detienen en los límites de una propiedad. Trabaja con tus vecinos, el dueño de tu vivienda y los programas locales."
+    },
+    "nearMe": {
+      "title": "¿Está cerca de mí?",
+      "nav": "¿Está cerca de mí?",
+      "summary": "Casos recientes en tu estado o territorio, según datos de los CDC y de los departamentos de salud."
+    },
+    "sick": {
+      "title": "¿Crees que te enfermaste?",
+      "nav": "Creo que me enfermé",
+      "summary": "Qué hacer primero y las señales de alarma que indican que necesitas atención de inmediato."
+    },
+    "tools": {
+      "title": "Herramientas",
+      "nav": "Herramientas",
+      "summary": "Listas de verificación, un cuestionario, recordatorios y materiales para imprimir que te ayudan a mantener el hábito."
+    },
+    "checklist": {
+      "title": "Revisión semanal de mosquitos",
+      "nav": "Revisión semanal de mosquitos",
+      "summary": "Una revisión rápida, una vez a la semana, de tu patio, tu casa y tu rutina, con una casilla para marcar cada paso."
+    },
+    "quiz": {
+      "title": "¿Cuántas capas tiene mi protección?",
+      "nav": "¿Cuántas capas tiene mi protección?",
+      "summary": "Contesta 8 preguntas rápidas y descubre tus tres próximos pasos más útiles. No se guarda ni se envía nada."
+    },
+    "reminders": {
+      "title": "Recordatorios de temporada",
+      "nav": "Recordatorios",
+      "summary": "Agrega una revisión semanal y un recordatorio de inicio de temporada a tu propio calendario. No necesitas cuenta y no se envía nada."
+    },
+    "printables": {
+      "title": "Para imprimir",
+      "nav": "Para imprimir",
+      "summary": "Lista semanal, volante para tus vecinos, volante para día de limpieza, cartel para identificar al mosquito Aedes, tarjeta de cuándo buscar atención y lista para el viaje, para imprimir o guardar como PDF."
+    },
+    "sources": {
+      "title": "Fuentes y métodos",
+      "nav": "Fuentes",
+      "summary": "De dónde viene nuestra información, cómo calificamos la evidencia y cómo la revisamos."
+    },
+    "dengue": {
+      "title": "Dengue",
+      "nav": "Dengue",
+      "summary": "Cómo se transmite el dengue, sus síntomas y cuándo buscar atención, el embarazo y los datos locales."
+    },
+    "zika": {
+      "title": "Zika",
+      "nav": "Zika",
+      "summary": "Cómo se transmite el zika, sus síntomas y cuándo buscar atención, el embarazo y los datos locales."
+    },
+    "chikungunya": {
+      "title": "Chikungunya",
+      "nav": "Chikungunya",
+      "summary": "Cómo se transmite el chikungunya, sus síntomas y cuándo buscar atención, el embarazo y los datos locales."
+    },
+    "faq": {
+      "title": "Preguntas y respuestas",
+      "nav": "Preguntas frecuentes",
+      "summary": "Respuestas cortas sobre el dengue, el zika y el chikungunya, los mosquitos que los transmiten, los viajes y este sitio. Cada respuesta tiene un enlace a la página de los CDC o de la EPA de donde viene."
+    },
+    "about": {
+      "title": "Sobre {siteName}",
+      "nav": "Sobre nosotros",
+      "summary": "Por qué existe Outbite, para quién es, cómo se hace y quién lo hizo."
+    },
+    "privacy": {
+      "title": "Privacidad",
+      "nav": "Privacidad",
+      "summary": "Outbite no te pide tu nombre, correo ni ubicación, y no usa cookies."
+    },
+    "travel": {
+      "title": "¿Vas a viajar pronto?",
+      "nav": "¿Vas a viajar pronto?",
+      "summary": "Mira lo que dicen los CDC sobre el dengue, el chikungunya y el zika en tu destino, y qué hacer antes, durante y después del viaje.",
+      "menu": "Viajes"
+    },
+    "glossary": {
+      "title": "Palabras clave",
+      "nav": "Palabras clave",
+      "summary": "Definiciones sencillas de palabras que se usan en este sitio, según los CDC y la EPA."
+    }
+  },
+  "protect": {
+    "intro": "Aquí tienes pasos prácticos, desde tu propia piel hasta todo tu vecindario. Estas son sugerencias, no órdenes: escoge los que se ajusten a tu hogar y a tu presupuesto.",
+    "labelsLink": "Cómo evaluamos la evidencia",
+    "controlsHeading": "Organiza las tarjetas",
+    "audienceLabel": "Mostrar primero:",
+    "audienceHint": "Los consejos que coinciden pasan arriba. No se oculta nada.",
+    "clear": "Borrar",
+    "statusNone": "Sin resaltar. Las tarjetas están en su orden de siempre.",
+    "statusSome": "{count} consejos coinciden. Esos consejos están al principio de cada sección.",
+    "pickerHeading": "Elige una capa de protección",
+    "keyLine": "✓ = los CDC o la EPA lo recomiendan. Toca un consejo para ver detalles y lo que dice la investigación.",
+    "openAll": "Abrir todo",
+    "closeAll": "Cerrar todo",
+    "quizNudge": "¿No sabes por dónde empezar? Responde 8 preguntas rápidas y recibe tus 3 pasos principales.",
+    "quizLink": "Hacer el cuestionario"
+  },
+  "card": {
+    "guidance": "Recomendación oficial",
+    "evidence": "Evidencia",
+    "cost": "Costo",
+    "effort": "Esfuerzo",
+    "for": "Para",
+    "chip": {
+      "cdc-epa": "Lo recomiendan los CDC/la EPA",
+      "who": "Lo recomienda la OMS",
+      "none": "Sin recomendación oficial",
+      "unknown": "Las agencias dicen que no se sabe si funciona"
+    },
+    "level": {
+      "strong": "Fuerte",
+      "moderate": "Moderada",
+      "limited": "Limitada",
+      "emerging": "Emergente",
+      "not-supported": "No respaldada",
+      "linked": "La misma de las tarjetas que apoya",
+      "not-rated": "Sin calificar (solo guía de los CDC)"
+    },
+    "costLabel": {
+      "free": "Gratis",
+      "program": "A cargo de un programa",
+      "ask": "Costo: pregunta en una clínica de viajeros o farmacia"
+    },
+    "costSr": {
+      "$": "costo bajo",
+      "$$": "costo medio",
+      "$$$": "costo alto"
+    },
+    "effortLabel": {
+      "one-time": "Una sola vez",
+      "each-time": "Cada vez",
+      "daily": "Diario",
+      "nightly": "Cada noche",
+      "weekly": "Semanal",
+      "as-needed": "Cuando haga falta",
+      "ongoing": "Continuo"
+    },
+    "audience": {
+      "all": "Todos",
+      "pregnant": "Embarazo",
+      "renter": "Inquilinos",
+      "homeowner": "Dueños de casa",
+      "kids": "Niños",
+      "traveler": "Viajeros"
+    },
+    "matches": "(coincide con tu selección)",
+    "research": "Lo que dicen los estudios",
+    "canDo": "Lo que sí puede hacer",
+    "cantDo": "Lo que no puede hacer",
+    "notes": "Notas de investigación",
+    "tips": "Es bueno saber",
+    "sources": "Fuentes",
+    "seeAlso": "Ver también",
+    "pending": "Verificación de fuentes pendiente",
+    "travel": "Cuando viajes",
+    "sourceCdc": "Fuente: CDC",
+    "safety": {
+      "heading": "Seguridad de los productos",
+      "poison": "Control de Envenenamiento (si alguien se traga un producto o tiene contacto con él)",
+      "npic": "Centro Nacional de Información sobre Pesticidas (preguntas sobre productos)"
+    },
+    "asOf": "Hasta {date}"
+  },
+  "sourcesPage": {
+    "intro": "De dónde viene nuestra información, cómo calificamos la evidencia y cómo la revisamos.",
+    "listen": {
+      "heading": "A quién escuchamos",
+      "lead": "Outbite sigue primero a las agencias de salud pública. Los estudios entran solo para explicar qué tan bien funciona algo.",
+      "steps": [
+        {
+          "title": "Primero, los CDC y la EPA",
+          "text": "Agencias de salud y de medio ambiente de EE. UU. Cada consejo se compara primero con lo que ellas recomiendan, y todas las cifras de casos vienen de los CDC."
+        },
+        {
+          "title": "Organización Mundial de la Salud (OMS) para cubrir vacíos",
+          "text": "Cuando los CDC y la EPA no cubren un tema, usamos las recomendaciones de la Organización Mundial de la Salud."
+        },
+        {
+          "title": "Estudios de investigación",
+          "text": "Los estudios publicados explican qué tan bien funciona un paso, en “Lo que dicen los estudios” de cada consejo."
+        }
+      ]
+    },
+    "rating": {
+      "heading": "Cómo etiquetamos los consejos",
+      "lead": "Cada consejo tiene dos etiquetas separadas: si las agencias lo recomiendan y qué tan sólida es la investigación.",
+      "guidanceHeading": "Recomendación oficial",
+      "evidenceHeading": "Evidencia",
+      "evidenceIntro": "La etiqueta siempre dice qué mide; por ejemplo, “Fuerte: menos picadas”.",
+      "guidance": {
+        "cdc-epa": "Aparece en la guía actual de los CDC o de la EPA.",
+        "who": "Aparece en la guía actual de la OMS, en un tema que los CDC y la EPA no cubren.",
+        "none": "Se basa en investigaciones o en un programa comunitario; las agencias no han dado una guía.",
+        "unknown": "Las agencias dicen que no se sabe si funciona, como los repelentes “naturales” no registrados."
+      },
+      "evidence": {
+        "strong": "Evidencia constante y bien diseñada.",
+        "moderate": "Evidencia constante para un paso intermedio (menos picadas o mosquitos), o un estudio bien diseñado sobre infección.",
+        "limited": "Resultados mixtos, o pocos estudios pequeños.",
+        "emerging": "Un método nuevo que todavía se está estudiando.",
+        "not-supported": "La evidencia muestra que no funciona.",
+        "not-rated": "El paso viene de las recomendaciones de los CDC o de la EPA; Outbite no ha calificado estudios sobre él."
+      }
+    },
+    "numbers": {
+      "heading": "Cómo se actualizan las cifras",
+      "lead": "Todas las cifras de casos y los avisos de viaje vienen directamente de los CDC. Nunca las escribimos a mano.",
+      "publishes": {
+        "title": "Los CDC publican",
+        "text": "Cifras semanales de casos por estado y territorio (NNDSS)."
+      },
+      "checks": {
+        "title": "Outbite revisa",
+        "text": "Cuando el sitio esté en línea, un programa revisará cada día si los CDC publicaron una semana nueva.",
+        "textScheduled": "Cada día, un programa revisa si los CDC publicaron una semana nueva."
+      },
+      "shows": {
+        "title": "El sitio muestra la fecha de los CDC",
+        "text": "“Datos hasta la semana que terminó el {date}.”"
+      },
+      "lastChecked": "Última revisión:",
+      "dataThrough": "Datos de los CDC hasta:",
+      "weekEnding": "la semana que terminó el {date}",
+      "listHeading": "Lista completa de fuentes de datos"
+    },
+    "reviews": {
+      "heading": "Cómo se revisa el contenido",
+      "lead": "Las revisiones de expertos están planeadas. Cada revisión aparecerá como terminada solo cuando esté lista.",
+      "items": {
+        "clinician": {
+          "name": "Revisión clínica",
+          "scope": "Contenido sobre salud y síntomas"
+        },
+        "entomologist": {
+          "name": "Revisión entomológica",
+          "scope": "Datos y dibujos de mosquitos"
+        },
+        "spanish": {
+          "name": "Revisión del español",
+          "scope": "Todo el texto en español"
+        }
+      },
+      "status": {
+        "planned": "Planificada",
+        "in-progress": "En curso",
+        "done": "Terminada, {date}"
+      }
+    },
+    "data": {
+      "items": [
+        {
+          "name": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales",
+          "note": "Casos reportados este año por estado y territorio, incluidos los relacionados con viajes.",
+          "url": "https://data.cdc.gov/NNDSS/NNDSS-Weekly-Data/x9gk-5huc",
+          "small": "Conjunto de datos: x9gk-5huc"
+        },
+        {
+          "name": "CDC: casos de zika en Estados Unidos",
+          "note": "Casos locales y asociados a viajes en todo el país.",
+          "url": "https://www.cdc.gov/zika/zika-cases-us/index.html"
+        },
+        {
+          "name": "CDC: datos actuales de dengue",
+          "note": "Casos de dengue locales y asociados a viajes (enlace; los números están en un gráfico).",
+          "url": "https://www.cdc.gov/dengue/data-research/facts-stats/current-data.html"
+        },
+        {
+          "name": "CDC: datos y mapas de chikungunya",
+          "note": "Casos de chikungunya locales y asociados a viajes (enlace).",
+          "url": "https://www.cdc.gov/chikungunya/data-maps/index.html"
+        },
+        {
+          "name": "Avisos de salud para viajeros de los CDC",
+          "note": "Avisos actuales sobre el dengue, el zika y el chikungunya.",
+          "url": "https://wwwnc.cdc.gov/travel/notices"
+        },
+        {
+          "name": "Archivos de límites cartográficos de la Oficina del Censo de EE. UU. (2017)",
+          "note": "Contornos del mapa de los estados, D.C. y los recuadros de los territorios (Puerto Rico, Islas Vírgenes de EE. UU., Guam, Islas Marianas del Norte, Samoa Estadounidense; recuadros sin escala); de dominio público, mediante el paquete us-atlas (licencia ISC).",
+          "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html"
+        },
+        {
+          "name": "Oficina del Censo de EE. UU.: archivo de relación entre ZCTA y condados (2020)",
+          "note": "La casilla del código postal en “¿Está cerca de mí?”: en qué estado o territorio está cada Área de Tabulación de Código Postal (ZCTA) (todos, si un código postal cruza la línea entre estados). Las ZCTA se parecen a los códigos postales del Servicio Postal (USPS), pero no son iguales, así que algunos códigos postales (como los de apartados postales) no aparecen. De dominio público. Un programa lo lee al crear el sitio; tu código postal se busca en tu navegador.",
+          "url": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html"
+        },
+        {
+          "name": "CDC: Áreas con riesgo de dengue",
+          "note": "La lista mundial de países según la categoría de riesgo de dengue de los CDC, para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad (se revisa a diario, con la fecha y las notas de los CDC).",
+          "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
+        },
+        {
+          "name": "CDC: Áreas con riesgo de chikungunya",
+          "note": "Brotes actuales y países con riesgo elevado para los viajeros de EE. UU., para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad.",
+          "url": "https://www.cdc.gov/chikungunya/data-maps/index.html"
+        },
+        {
+          "name": "CDC: Países y territorios con riesgo de zika",
+          "note": "Las clasificaciones de riesgo geográfico del zika de los CDC (el archivo de datos que usa el mapa de la página), para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad.",
+          "url": "https://www.cdc.gov/zika/geo/index.html"
+        },
+        {
+          "name": "Natural Earth (mediante world-atlas)",
+          "note": "Contornos del mapa del mundo; de dominio público (Natural Earth), mediante el paquete world-atlas (licencia ISC). Las islas pequeñas se muestran como puntos.",
+          "url": "https://www.naturalearthdata.com/"
+        }
+      ]
+    }
+  },
+  "places": {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "DC": "Distrito de Columbia",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawái",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Luisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Míchigan",
+    "MN": "Minnesota",
+    "MS": "Misisipi",
+    "MO": "Misuri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "Nuevo Hampshire",
+    "NJ": "Nueva Jersey",
+    "NM": "Nuevo México",
+    "NY": "Nueva York",
+    "NC": "Carolina del Norte",
+    "ND": "Dakota del Norte",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregón",
+    "PA": "Pensilvania",
+    "RI": "Rhode Island",
+    "SC": "Carolina del Sur",
+    "SD": "Dakota del Sur",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "Virginia Occidental",
+    "WI": "Wisconsin",
+    "WY": "Wyoming",
+    "PR": "Puerto Rico",
+    "VI": "Islas Vírgenes de EE. UU.",
+    "GU": "Guam",
+    "AS": "Samoa Estadounidense",
+    "MP": "Islas Marianas del Norte"
+  },
+  "sick": {
+    "source": "Fuente",
+    "call911": "Llama al 911",
+    "sources": "Fuentes",
+    "pageCountOne": "1 página",
+    "pageCount": "{count} páginas"
+  },
+  "dash": {
+    "numbersHeading": "Casos reportados este año",
+    "unitNote": "Casos reportados{ref} este año, incluidos los relacionados con viajes",
+    "cases": "casos",
+    "notReported": "sin datos",
+    "noCases": "ningún caso reportado",
+    "countLabel": "{count} casos",
+    "countLabelOne": "1 caso",
+    "seeMap": "Ver el mapa y los avisos de viaje de los CDC",
+    "intro": "Casos reportados de dengue, zika y chikungunya por estado y territorio, según los CDC.",
+    "pickHeading": "Escoge tu estado o territorio",
+    "meaningHeading": "Qué significan estos números",
+    "meaning1": "La mayoría de los casos en los estados de EE. UU. son de personas que se enfermaron mientras viajaban.",
+    "meaning2": "Un 0 no significa que no haya riesgo: protege tu casa de todos modos.",
+    "moreHeading": "Más sobre estos números",
+    "more": [
+      "Reportar toma tiempo. Los departamentos de salud a menudo añaden casos semanas después, así que los números de este año siguen subiendo.",
+      "Las cifras semanales son casos reportados a los CDC esa semana, no personas que se enfermaron esa semana. Los reportes pueden llegar con semanas de retraso, por eso muchas semanas no muestran ninguno.",
+      "Estos totales incluyen a personas que se contagiaron mientras viajaban. Los CDC publican la división entre casos locales y de viaje solo para todo el país (abajo), no para cada estado aquí.",
+      "Los CDC cuentan cada caso donde vive la persona, no donde la picó el mosquito.",
+      "Todos los números son conteos preliminares que pueden cambiar a medida que llegan más reportes.",
+      "Muchos casos leves nunca se analizan, así que el número real es mayor. No compares lugares ni años directamente."
+    ],
+    "protectLink": "Mira cómo proteger donde vives",
+    "placeHeading": "En {place} en {year}",
+    "splitHeading": "En todo EE. UU.: casos locales y de viaje",
+    "splitLine": "{local} adquiridos localmente y {travel} asociados a viajes en los estados de EE. UU.; {tlocal} adquiridos localmente y {ttravel} asociados a viajes en los territorios ({year}).",
+    "splitAsOf": "CDC, al {date}",
+    "splitLink": "Ver la división de casos locales y de viaje de los CDC",
+    "mapHeading": "Mapa de casos reportados",
+    "tabsLabel": "Escoge un virus",
+    "mapNote": "Más oscuro = más casos reportados, en su mayoría por viajes en los estados de EE. UU.",
+    "mapLabel": "Mapa de los estados de EE. UU., D.C. y los territorios, sombreado según los casos de {disease} reportados este año. Los mismos números están en la tabla.",
+    "legendHeading": "Casos reportados en {year}",
+    "bins": [
+      "1",
+      "2–9",
+      "10–49",
+      "50–199",
+      "200 o más"
+    ],
+    "legendNone": "Ningún caso reportado",
+    "legendNotReported": "Sin datos",
+    "legendLocal": "Propagación local continua (CDC)",
+    "viewTable": "Ver como tabla",
+    "viewMap": "Ver como mapa",
+    "tableCaption": "Casos reportados{ref} por estado y territorio (selecciona el encabezado de una columna para ordenar): este año, incluidos los relacionados con viajes, y la semana que terminó el {date}. 0 = ninguno reportado a los CDC hasta ahora este año; los reportes pueden llegar tarde.",
+    "colPlace": "Estado o territorio",
+    "noticesHeading": "Avisos de viaje de los CDC",
+    "noticesAsOf": "Según los CDC, al {date}",
+    "noticesIntro": "Avisos actuales sobre el dengue, el zika y el chikungunya en lugares que visitan los viajeros.",
+    "levelNames": {
+      "1": "Nivel 1 – Toma las precauciones habituales",
+      "2": "Nivel 2 – Toma precauciones adicionales",
+      "3": "Nivel 3 – Reconsidera los viajes que no sean esenciales",
+      "4": "Nivel 4 – Evita todos los viajes"
+    },
+    "posted": "Publicado el {date}",
+    "noNotices": "Los CDC no tienen avisos de viaje actuales para estos virus.",
+    "allNotices": "Ver todos los avisos de viaje de los CDC",
+    "prdhNote": "El Departamento de Salud de Puerto Rico puede tener cifras más recientes, desglosadas por municipio.",
+    "prdhLink": "Departamento de Salud de Puerto Rico: virus que transmiten los mosquitos (vigilancia de arbovirus)",
+    "worldwide": "Todo el mundo",
+    "sourceCdc": "Fuente: CDC",
+    "sourcesHeading": "Fuentes",
+    "sources": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales; avisos de salud para viajeros de los CDC; páginas de casos de dengue, zika y chikungunya de los CDC. Contornos del mapa y códigos postales: Oficina del Censo de EE. UU.",
+    "lastChecked": "Última revisión: {date} (el último día en que Outbite buscó datos nuevos de los CDC).",
+    "short": {
+      "DC": "D.C.",
+      "PR": "Puerto Rico",
+      "VI": "Islas Vírgenes",
+      "GU": "Guam",
+      "AS": "Samoa Am.",
+      "MP": "Marianas del N."
+    },
+    "selected": "Mostrando {place}",
+    "inSentence": {
+      "dengue": "dengue",
+      "zika": "zika",
+      "chikungunya": "chikungunya"
+    },
+    "sourceLabel": "Fuente:",
+    "sourceCdcName": "CDC",
+    "sourceRest": "Los conteos incluyen casos reportados hasta el {date}. Los CDC actualizan estas cifras cada semana.",
+    "mapHint": "Toca un estado o territorio en el mapa para ver sus números.",
+    "mapHintSr": "Selecciona un estado o territorio en el mapa para ver sus números.",
+    "notToScale": "Territorios sin escala",
+    "weekWith": "{n} reportados por primera vez{ref} a los CDC en la semana que terminó el {date}",
+    "weekWithOne": "{n} reportado por primera vez{ref} a los CDC en la semana que terminó el {date}",
+    "weekNone": "Ninguno reportado{ref} a los CDC en la semana que terminó el {date}",
+    "weekMissing": "Sin datos para esta semana",
+    "noteRefLabel": "ver nota",
+    "reportedNote": "*Los casos reportados son solo los que se diagnosticaron y se reportaron a los CDC. El número real de infecciones es mayor.",
+    "colYear": "este año",
+    "colWeek": "semana que terminó el {date}",
+    "allUSHeading": "todo EE. UU. (estados, D.C. y territorios)",
+    "backToUS": "Volver a todo EE. UU.",
+    "allUSMissing": "No incluye lugares que los CDC aún no han reportado.",
+    "casesIn": "Casos reportados en {year}",
+    "reportedThisYear": "reportados{ref} este año, incluidos los relacionados con viajes",
+    "localSpreadOf": "propagación local continua del {disease}",
+    "travelWorld": "¿Vas a viajar? Mira el riesgo en el mundo según los CDC",
+    "dataThrough": "Datos de los CDC hasta la semana que terminó el {date}.",
+    "lastCheckedExplain": "Última revisión: {date} (el último día en que Outbite buscó datos nuevos de los CDC).",
+    "splitExplain": "Adquiridos localmente: contraídos por la picada de un mosquito donde vive la persona. Asociados a viajes: contraídos durante un viaje."
+  },
+  "faqLinks": {
+    "faqNumbers": "¿De dónde vienen estas cifras?",
+    "faqReal": "¿Por qué el número real podría ser mayor?",
+    "faqRepellents": "¿Qué repelentes funcionan?",
+    "faqRepellentSafety": "¿Es seguro el repelente para niños y durante el embarazo?",
+    "faqSpot": "Cómo reconocer a un mosquito Aedes",
+    "faqLabel": "De nuestras preguntas y respuestas",
+    "faqSpotShort": "Cómo reconocerlo"
+  },
+  "diseasePage": {
+    "aboutLink": "Sobre el {disease}",
+    "inSentence": {
+      "dengue": "dengue",
+      "zika": "zika",
+      "chikungunya": "chikungunya"
+    },
+    "placeInSentence": {
+      "VI": "las Islas Vírgenes de EE. UU."
+    },
+    "switchLabel": "Páginas del dengue, el zika y el chikungunya",
+    "glanceHeading": "De un vistazo",
+    "glance": {
+      "spreadBy": "Se transmite por",
+      "symptomsStart": "Cuándo empiezan los síntomas",
+      "howManySick": "Cuántos se enferman",
+      "vaccine": "Vacuna"
+    },
+    "asOf": "Hasta {date}",
+    "vaccineLink": "página actual de vacunas de los CDC",
+    "symptomsHeading": "Síntomas y señales de alarma",
+    "sickButton": "Creo que me enfermé",
+    "riskHeading": "Quiénes tienen más riesgo",
+    "whereHeading": "Dónde se transmite",
+    "reportedAllUS": "casos reportados{ref} en todo EE. UU. en {year}, incluidos los relacionados con viajes",
+    "seeMap": "Ver el mapa del {disease}",
+    "compareHeading": "El dengue, el zika y el chikungunya comparados",
+    "compare": {
+      "mosquitoes": "Lo transmiten los mosquitos",
+      "other": "Otras formas de transmisión",
+      "symptoms": "Síntomas comunes",
+      "risk": "Riesgo más grave",
+      "vaccine": "Vacuna ({date})"
+    },
+    "protectAll": "Cómo protegerte de los tres",
+    "and": "y",
+    "zikaSplit": "Los CDC indican {travel} asociados a viajes y {local} adquiridos localmente (al {date})."
+  },
+  "worldRisk": {
+    "heading": "En el mundo",
+    "mapLabel": "Mapa del mundo: riesgo de {disease} por país, según los CDC. La misma información está en la lista.",
+    "viewList": "Ver como lista",
+    "viewListAz": "Ver el riesgo según los CDC de cada país, de la A a la Z",
+    "viewMap": "Ver como mapa",
+    "legendTitle": "Según los CDC",
+    "notListed": "No está en la lista de los CDC",
+    "part": "Solo una parte del país (ver la lista)",
+    "perCdc": "Según los CDC, última actualización: {date}",
+    "asOf": "clasificaciones al {date}",
+    "source": "Página de los CDC",
+    "notices": "Avisos de salud para viajeros de los CDC sobre el {disease}",
+    "noNotices": "No hay avisos de salud para viajeros de los CDC sobre el {disease} por ahora.",
+    "allNotices": "Todos los avisos de salud para viajeros de los CDC",
+    "noteFromCdc": "Nota de los CDC",
+    "tapHint": "Toca o pasa el cursor sobre un país para ver su nombre y su categoría.",
+    "categories": {
+      "dengue": {
+        "Frequent or continuous": "Frecuente o continuo",
+        "Sporadic or uncertain": "Esporádico o incierto",
+        "Risk varies based on region": "El riesgo varía por región",
+        "Risk varies by region": "El riesgo varía por región"
+      },
+      "chikungunya": {
+        "Current outbreaks": "Brotes actuales",
+        "Countries with elevated risk for U.S. travelers": "Países con riesgo elevado para los viajeros de EE. UU."
+      },
+      "zika": {
+        "Current or past Zika transmission": "Transmisión actual o pasada del zika",
+        "Known to have mosquito that spreads Zika, but no reported Zika cases": "Hay presencia conocida del mosquito que transmite el zika, pero no se han reportado casos de zika",
+        "Not known to have mosquito that spreads Zika": "No se conoce la presencia del mosquito que transmite el zika"
+      }
+    },
+    "regions": {
+      "Africa": "África",
+      "Americas": "Las Américas",
+      "Asia": "Asia",
+      "Europe": "Europa",
+      "Oceania/Pacific Islands": "Oceanía e islas del Pacífico"
+    },
+    "placeNames": {
+      "Bonaire": "Bonaire",
+      "Saba": "Saba",
+      "Saint Eustatius": "San Eustaquio",
+      "Saint Martin (French part)": "San Martín (parte francesa)",
+      "Chile (Easter Island only)": "Chile (solo la Isla de Pascua)",
+      "Easter Island": "Isla de Pascua",
+      "Jammu and Kashmir": "Jammu y Cachemira",
+      "Costa Rica (northwest region)": "Costa Rica (región noroeste)",
+      "Hawaii": "Hawái",
+      "Alaska": "Alaska",
+      "Madeira Islands": "Islas Madeira",
+      "Azores Islands": "Islas Azores",
+      "Canary Islands": "Islas Canarias",
+      "Corsica": "Córcega",
+      "Plazas de Soberania": "Plazas de soberanía",
+      "Saint Paul and New Amsterdamn Islands": "Islas San Pablo y Ámsterdam",
+      "Sardinia": "Cerdeña",
+      "Sicily": "Sicilia",
+      "Sovereign Base Areas of Akrotiri and Dhekelia": "Áreas de Bases Soberanas de Akrotiri y Dhekelia",
+      "American Samoa": "Samoa Estadounidense"
+    },
+    "chikFootnote": "*Los países de esta lista han tenido una mediana de uno o más casos reportados al año en viajeros de EE. UU. durante los últimos 5 años, con al menos un caso confirmado por laboratorio.",
+    "codeNames": {
+      "AS": "Samoa Estadounidense"
+    },
+    "notListedNote": "Que un lugar no esté en la lista de los CDC no quiere decir que no haya riesgo.",
+    "levels": "Los CDC clasifican los avisos de salud para viajeros del Nivel 1 al Nivel 4: Nivel 1 – Toma las precauciones habituales; Nivel 2 – Toma precauciones adicionales; Nivel 3 – Reconsidera los viajes que no sean esenciales; Nivel 4 – Evita todos los viajes."
+  },
+  "actions": {
+    "groupLabel": "Herramientas de la página",
+    "listen": "Escuchar",
+    "pause": "Pausar",
+    "resume": "Continuar",
+    "stop": "Detener",
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "Enlace copiado",
+    "copyFailed": "No se pudo copiar el enlace. Cópialo de la barra de direcciones.",
+    "textSize": "Tamaño del texto",
+    "sizes": {
+      "100": "Texto normal",
+      "115": "Texto más grande",
+      "130": "Texto aún más grande"
+    }
+  },
+  "lastReviewed": {
+    "label": "Última revisión",
+    "note": "La fecha en que una persona revisó esta página por última vez."
+  },
+  "social": {
+    "description": "Dengue, zika y chikungunya: cómo se transmiten y cómo proteger a tu familia.",
+    "imageAlt": "Outbite: Detén la picada antes de que empiece. Un mosquito Aedes sobre un suelo azul claro."
+  }
+}

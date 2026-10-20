@@ -1,0 +1,47 @@
+{
+  "id": "Y2",
+  "layer": "yard",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "$"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "homeowner"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-control-home",
+    "who-dengue"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Tightly cover water storage, and screen open containers",
+      "summary": "Cisterns, rain barrels, and tanks need tight lids or fine mesh.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "A tight cover protects stored water. This matters most in Puerto Rico, the territories, and after storms."
+      ],
+      "cantDo": [
+        "A loose lid doesn't keep mosquitoes out. Use mesh with holes smaller than a mosquito."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Tapa bien el agua almacenada y cubre con malla los recipientes abiertos",
+      "summary": "Las cisternas, los barriles de lluvia y los tanques necesitan tapas ajustadas o malla fina.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Una buena tapa protege el agua almacenada. Esto importa sobre todo en Puerto Rico, los territorios y después de las tormentas."
+      ],
+      "cantDo": [
+        "Una tapa floja no mantiene a los mosquitos afuera. Usa una malla con hoyos más pequeños que un mosquito."
+      ],
+      "research": []
+    }
+  }
+}

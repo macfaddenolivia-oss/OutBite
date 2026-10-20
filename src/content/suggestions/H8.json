@@ -1,0 +1,68 @@
+{
+  "id": "H8",
+  "layer": "home",
+  "effortGroup": "quick",
+  "guidance": "unknown",
+  "evidence": "limited",
+  "cost": [
+    "$"
+  ],
+  "effort": "each-time",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": true,
+  "related": [
+    "B1"
+  ],
+  "sources": [
+    "cdc-prevent-bites",
+    "bloch-2016",
+    "epa-find-repellent",
+    "epa-citronella"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Don't count on citronella candles or \"natural\" repellents",
+      "summary": "CDC says it's unknown whether repellents that aren't registered with EPA work.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "One small Puerto Rico study found that people who used citronella candles had less chikungunya. That is a single study."
+      ],
+      "cantDo": [
+        "Citronella candles and \"natural\" repellents can’t be relied on. EPA says citronella products, including candles, vary in how well they work. CDC says the effectiveness of repellents that aren’t registered with EPA is unknown."
+      ],
+      "research": [
+        {
+          "text": "A household survey in Puerto Rico linked citronella candles with lower chikungunya infection. One small study is not enough to count on them.",
+          "cite": [
+            "bloch-2016"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "No dependas de las velas de citronela ni de los repelentes \"naturales\"",
+      "summary": "Los CDC dicen que no se sabe si funcionan los repelentes que no están registrados por la EPA.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Un estudio pequeño en Puerto Rico encontró que quienes usaban velas de citronela tenían menos chikungunya. Ese es un solo estudio."
+      ],
+      "cantDo": [
+        "Las velas de citronela y los repelentes \"naturales\" no son confiables. La EPA dice que los productos de citronela, incluidas las velas, varían en qué tan bien funcionan. Los CDC dicen que no se sabe si funcionan los repelentes que no están registrados por la EPA."
+      ],
+      "research": [
+        {
+          "text": "Una encuesta de hogares en Puerto Rico asoció las velas de citronela con menos infección por chikungunya. Un solo estudio pequeño no basta para confiar en ellas.",
+          "cite": [
+            "bloch-2016"
+          ]
+        }
+      ]
+    }
+  },
+  "links": [
+    "epa-find-repellent"
+  ]
+}

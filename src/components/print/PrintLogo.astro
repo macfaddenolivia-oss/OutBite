@@ -1,0 +1,33 @@
+---
+// The Outbite logo for printables: the mark as the "O", then "utbite" (as in the header).
+import { assetPath, siteName } from '../../i18n';
+interface Props {
+  size?: number;
+}
+const { size = 24 } = Astro.props;
+---
+
+<span class="print-logo" style={`font-size:${size}px`}
+  ><img src={assetPath('brand/outbite-mark.svg')} alt="" width="64" height="64" /><span>{siteName.slice(1)}</span><span
+    class="visually-hidden">{siteName}</span
+  ></span
+>
+
+<style>
+  .print-logo {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    color: #17306a;
+  }
+
+  .print-logo img {
+    width: 1.07em;
+    height: 1.07em;
+    margin-inline-end: -0.06em;
+    align-self: center;
+  }
+</style>

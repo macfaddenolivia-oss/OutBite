@@ -1,0 +1,62 @@
+{
+  "id": "C2",
+  "layer": "community",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-community",
+    "who-dengue",
+    "winch-2002"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Organize or join a neighborhood cleanup",
+      "summary": "Clean up the whole block together, not just your own yard.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "A cleanup reaches every yard on the block, not just one."
+      ],
+      "cantDo": [
+        "A cleanup goes better with one person organizing it."
+      ],
+      "research": [
+        {
+          "text": "In Puerto Rico, community programs led to more tires being protected from rain and fewer water-storage containers with larvae, though overall change was limited.",
+          "cite": [
+            "winch-2002"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Organiza o únete a una limpieza del vecindario",
+      "summary": "Limpien toda la cuadra juntos, no solo su propio patio.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Una limpieza llega a todos los patios de la cuadra, no solo a uno."
+      ],
+      "cantDo": [
+        "Una limpieza sale mejor cuando una persona la organiza."
+      ],
+      "research": [
+        {
+          "text": "En Puerto Rico, los programas comunitarios lograron que más gomas se protegieran de la lluvia y que menos recipientes de agua tuvieran larvas, aunque el cambio general fue limitado.",
+          "cite": [
+            "winch-2002"
+          ]
+        }
+      ]
+    }
+  }
+}

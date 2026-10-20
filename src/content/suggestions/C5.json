@@ -1,0 +1,53 @@
+{
+  "id": "C5",
+  "layer": "community",
+  "effortGroup": "quick",
+  "guidance": "none",
+  "evidence": "linked",
+  "evidenceLinked": [
+    "H1",
+    "Y1"
+  ],
+  "cost": [
+    "free"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "renter"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "H1",
+    "Y1"
+  ],
+  "sources": [
+    "usagov-tenant"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Renting? Ask your landlord about screens and standing water",
+      "summary": "A short, polite note can help get screens fixed and water drained.",
+      "guidanceNote": "this step helps you act on CDC advice about screens and standing water",
+      "canDo": [
+        "The Community page has a short, polite note you can copy and send to your landlord yourself."
+      ],
+      "cantDo": [
+        "Asking can't guarantee your landlord will act. Tenant rights vary by state, so we link to official resources instead of giving legal advice."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "¿Alquilas? Pregúntale al dueño de la vivienda sobre las mallas y el agua estancada",
+      "summary": "Una nota corta y amable puede ayudar a que arreglen las mallas y saquen el agua.",
+      "guidanceNote": "este paso te ayuda a seguir los consejos de los CDC sobre mallas y agua estancada",
+      "canDo": [
+        "La página de Comunidad tiene una nota corta y amable que puedes copiar y enviarle tú al dueño de la vivienda."
+      ],
+      "cantDo": [
+        "Pedirlo no garantiza que el dueño de la vivienda actúe. Los derechos de los inquilinos varían según el estado, así que enlazamos a recursos oficiales en vez de dar consejos legales."
+      ],
+      "research": []
+    }
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "id": "printables",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "checklist": [
+      "cdc-control-home",
+      "cdc-aedes-life-cycle",
+      "cdc-dengue-transmission",
+      "cdc-bti",
+      "cdc-prevent-bites",
+      "epa-find-repellent",
+      "cdc-community"
+    ],
+    "flyer": [
+      "cdc-dengue-transmission",
+      "cdc-aedes-life-cycle",
+      "cdc-control-home",
+      "cdc-community",
+      "cdc-prevent-bites"
+    ],
+    "poster": [
+      "cdc-unwanted-mosquitoes",
+      "cdc-dengue-transmission",
+      "cdc-aedes-life-cycle",
+      "cdc-control-home"
+    ],
+    "cleanup": [
+      "cdc-dengue-transmission",
+      "cdc-aedes-life-cycle",
+      "cdc-control-home",
+      "cdc-community",
+      "cdc-prevent-bites"
+    ]
+  },
+  "itemLayers": [
+    "yard",
+    "yard",
+    "yard",
+    "yard",
+    "yard",
+    "home",
+    "home",
+    "body",
+    "body",
+    "community",
+    "community"
+  ],
+  "itemLinks": [
+    "card-Y1",
+    "card-Y1",
+    "card-Y1",
+    "card-Y2",
+    "card-Y1",
+    "card-H4",
+    "card-H1",
+    "card-B1",
+    "card-B2",
+    "community",
+    "card-C1"
+  ],
+  "text": {
+    "en": {
+      "checklist": {
+        "title": "Weekly mosquito check",
+        "printTitle": "Our weekly mosquito check",
+        "headerLabel": "Weekly mosquito check",
+        "intro": "Aedes mosquitoes can grow from egg to adult in about a week, so a quick check once a week stops new ones.",
+        "printTick": "Tick each box when it's done.",
+        "sections": {
+          "yard": "Outside · Yard",
+          "home": "Inside · Home",
+          "body": "Me · Body",
+          "community": "Neighbors · Community"
+        },
+        "items": [
+          "I emptied and scrubbed buckets, planters, toys, birdbaths and pet bowls.",
+          "I turned over or covered anything that can hold water, like kiddie pools and trash containers.",
+          "I threw out old tires and other things that hold water.",
+          "I tightly covered rain barrels and other water storage (or used wire mesh with holes smaller than a mosquito).",
+          "I checked that gutters are not holding water.",
+          "I emptied and scrubbed vases and plant saucers.",
+          "I checked window and door screens for holes.",
+          "I used an EPA-registered insect repellent when outdoors.",
+          "I wore long sleeves and pants when I could.",
+          "I shared a tip or a flyer with a neighbor.",
+          "I told local mosquito control or the health department about standing water that worried me."
+        ],
+        "how": "How?",
+        "thisWeek": "This week: {dates}",
+        "thisWeekShort": "This week",
+        "lastWeek": "Last week: {done} of {total} done",
+        "clear": "Clear my ticks",
+        "savedNote": "Your ticks are saved only on this device.",
+        "cleared": "Your ticks are cleared.",
+        "printMonthly": "Print the monthly sheet",
+        "month": "Month:",
+        "week": "Week",
+        "qrText": "More ways to protect your home",
+        "noJs": "To print the monthly sheet, use your browser's print menu.",
+        "epaLink": "Find a repellent (EPA)"
+      },
+      "flyer": {
+        "title": "Let's keep mosquitoes off our street",
+        "body": "Aedes mosquitoes can spread dengue, Zika and chikungunya. They lay eggs in small amounts of water around homes. When neighbors work together, we can reduce mosquitoes around all our homes.",
+        "steps": [
+          "We empty and scrub anything that holds water, once a week.",
+          "We use screens on windows and doors and fix any holes.",
+          "We use insect repellent when we're outside."
+        ],
+        "from": "From your neighbor, with Outbite",
+        "scan": "Scan to learn more",
+        "cut": "✂ cut here · corta aquí"
+      },
+      "poster": {
+        "title": "Spot the Aedes mosquito",
+        "aedesLook": "Black or dark brown, with white bands on the legs and white markings on the body",
+        "aedesSpread": "Can spread dengue, Zika and chikungunya",
+        "culexCommon": "house mosquito",
+        "facts": [
+          "Bites during the day and at night.",
+          "Lays eggs on the walls of containers, just above the water.",
+          "Lives close to people, indoors and outdoors."
+        ],
+        "whereTitle": "Where it lays eggs",
+        "items": {
+          "tire": "Tire",
+          "plantSaucer": "Plant saucer",
+          "petBowl": "Pet bowl",
+          "birdbath": "Birdbath",
+          "bucket": "Bucket"
+        },
+        "bar": "Empty and scrub standing water containers once a week.",
+        "learnMore": "Learn more",
+        "languages": "English · Español"
+      },
+      "page": {
+        "intro": "Print these at home or at a library, or save them as a PDF to share. Each one fits on one US Letter page and reads clearly in black and white.",
+        "language": "Language",
+        "english": "English",
+        "spanish": "Español",
+        "both": "Both (English and Spanish)",
+        "bothPoster": "Both (English with Spanish)",
+        "bothFlyer": "Both (English top, Spanish bottom)",
+        "print": "Print or save as PDF",
+        "preview": "Preview",
+        "checklistWhat": "A month of weekly checks on one page: tick each box as you go.",
+        "flyerWhat": "Two half-page flyers to share with neighbors. Cut along the dashed line.",
+        "posterWhat": "A one-page poster that shows how to tell the Aedes mosquito apart, and where it lays eggs.",
+        "printChecklistLink": "Print this week's checklist",
+        "careWhat": "Warning signs and what to do, for the fridge or your bag.",
+        "bothCare": "Both (English top, Spanish bottom)",
+        "cleanupWhat": "Two half-page flyers for a school or group clean-up, with blanks for the date, time, place and organizer.",
+        "bothCleanup": "Both (English top, Spanish bottom)",
+        "cleanupTitle": "Clean-up day flyer"
+      },
+      "common": {
+        "source": "Source",
+        "sources": "Sources",
+        "disclaimer": "Outbite shares general health information, not medical advice.",
+        "siteAddress": "[site address]"
+      },
+      "care": {
+        "scan": "Scan for the full “{title}” page"
+      },
+      "cleanup": {
+        "title": "Join our clean-up day",
+        "body": "Aedes mosquitoes can spread dengue, Zika and chikungunya. They lay eggs in small amounts of water. Together we can empty and scrub the places where mosquitoes grow.",
+        "fields": [
+          "Date",
+          "Time",
+          "Place",
+          "Organized by"
+        ],
+        "scan": "Scan to learn more"
+      }
+    },
+    "es": {
+      "checklist": {
+        "title": "Revisión semanal de mosquitos",
+        "printTitle": "Nuestra revisión semanal de mosquitos",
+        "headerLabel": "Revisión semanal de mosquitos",
+        "intro": "Los mosquitos Aedes pueden pasar de huevo a adulto en más o menos una semana, así que revisar una vez a la semana evita que nazcan nuevos.",
+        "printTick": "Marca cada casilla cuando termines.",
+        "sections": {
+          "yard": "Afuera · Patio",
+          "home": "Adentro · Casa",
+          "body": "Yo · Cuerpo",
+          "community": "Vecinos · Comunidad"
+        },
+        "items": [
+          "Vacié y fregué baldes, macetas, juguetes, bebederos de pájaros y platos de mascotas.",
+          "Volteé o tapé todo lo que puede acumular agua, como piscinas inflables y zafacones.",
+          "Boté gomas viejas y otras cosas que acumulan agua.",
+          "Tapé bien los barriles de lluvia y otros recipientes para guardar agua (o usé malla de alambre con hoyos más pequeños que un mosquito).",
+          "Revisé que las canaletas no acumulen agua.",
+          "Vacié y fregué floreros y platos de macetas.",
+          "Revisé que las mallas de puertas y ventanas no tengan hoyos.",
+          "Usé un repelente registrado por la EPA cuando estuve afuera.",
+          "Usé manga larga y pantalón largo cuando pude.",
+          "Compartí un consejo o un volante con un vecino.",
+          "Avisé al control de mosquitos local o al departamento de salud sobre agua estancada que me preocupaba."
+        ],
+        "how": "¿Cómo?",
+        "thisWeek": "Esta semana: {dates}",
+        "thisWeekShort": "Esta semana",
+        "lastWeek": "La semana pasada: {done} de {total} hechas",
+        "clear": "Borrar mis marcas",
+        "savedNote": "Tus marcas se guardan solo en este dispositivo.",
+        "cleared": "Se borraron tus marcas.",
+        "printMonthly": "Imprimir la hoja del mes",
+        "month": "Mes:",
+        "week": "Semana",
+        "qrText": "Más formas de proteger tu casa",
+        "noJs": "Para imprimir la hoja del mes, usa el menú de impresión de tu navegador.",
+        "epaLink": "Busca un repelente (EPA)"
+      },
+      "flyer": {
+        "title": "Mantengamos los mosquitos lejos de nuestra calle",
+        "body": "Los mosquitos Aedes pueden transmitir el dengue, el zika y el chikungunya. Ponen huevos en poquita agua alrededor de las casas. Cuando los vecinos trabajamos juntos, podemos reducir los mosquitos alrededor de todas nuestras casas.",
+        "steps": [
+          "Vaciamos y fregamos todo lo que acumule agua, una vez a la semana.",
+          "Usamos mallas en puertas y ventanas y arreglamos los hoyos.",
+          "Usamos repelente cuando estamos afuera."
+        ],
+        "from": "De tu vecino o vecina, con Outbite",
+        "scan": "Escanea para saber más",
+        "cut": "✂ cut here · corta aquí"
+      },
+      "poster": {
+        "title": "Identifica al mosquito Aedes",
+        "aedesLook": "Negro o café oscuro, con bandas blancas en las patas y marcas blancas en el cuerpo",
+        "aedesSpread": "Puede transmitir dengue, zika y chikungunya",
+        "culexCommon": "mosquito común",
+        "facts": [
+          "Pica de día y de noche.",
+          "Pone huevos en las paredes de recipientes, justo encima del agua.",
+          "Vive cerca de la gente, dentro y fuera de la casa."
+        ],
+        "whereTitle": "Dónde pone huevos",
+        "items": {
+          "tire": "Goma",
+          "plantSaucer": "Plato de maceta",
+          "petBowl": "Plato de mascota",
+          "birdbath": "Bebedero de pájaros",
+          "bucket": "Balde"
+        },
+        "bar": "Vacía y friega lo que acumule agua una vez a la semana.",
+        "learnMore": "Aprende más",
+        "languages": "English · Español"
+      },
+      "page": {
+        "intro": "Imprímelos en casa o en una biblioteca, o guárdalos como PDF para compartir. Cada uno cabe en una página tamaño carta y se lee bien en blanco y negro.",
+        "language": "Idioma",
+        "english": "English",
+        "spanish": "Español",
+        "both": "Ambos (inglés y español)",
+        "bothPoster": "Ambos (inglés con español)",
+        "bothFlyer": "Ambos (inglés arriba, español abajo)",
+        "print": "Imprimir o guardar como PDF",
+        "preview": "Vista previa",
+        "checklistWhat": "Un mes de revisiones semanales en una página: marca cada casilla al terminar.",
+        "flyerWhat": "Dos volantes de media página para compartir con tus vecinos. Corta por la línea punteada.",
+        "posterWhat": "Un cartel de una página que muestra cómo reconocer al mosquito Aedes y dónde pone huevos.",
+        "printChecklistLink": "Imprimir la lista de esta semana",
+        "careWhat": "Señales de alarma y qué hacer, para el refrigerador o tu bolso.",
+        "bothCare": "Ambos (inglés arriba, español abajo)",
+        "cleanupWhat": "Dos volantes de media página para un día de limpieza en una escuela o un grupo, con espacios para la fecha, la hora, el lugar y quién organiza.",
+        "bothCleanup": "Ambos (inglés arriba, español abajo)",
+        "cleanupTitle": "Volante para día de limpieza"
+      },
+      "common": {
+        "source": "Fuente",
+        "sources": "Fuentes",
+        "disclaimer": "Outbite comparte información general de salud, no consejo médico.",
+        "siteAddress": "[dirección del sitio]"
+      },
+      "care": {
+        "scan": "Escanea para ver la página completa “{title}”"
+      },
+      "cleanup": {
+        "title": "Únete a nuestro día de limpieza",
+        "body": "Los mosquitos Aedes pueden transmitir el dengue, el zika y el chikungunya. Ponen huevos en poquita agua. Juntos podemos vaciar y fregar los lugares donde se crían los mosquitos.",
+        "fields": [
+          "Fecha",
+          "Hora",
+          "Lugar",
+          "Organizado por"
+        ],
+        "scan": "Escanea para saber más"
+      }
+    }
+  },
+  "itemExtraLinks": {
+    "7": "epa-find-repellent"
+  }
+}

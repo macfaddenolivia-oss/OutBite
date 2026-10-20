@@ -1,0 +1,212 @@
+---
+// About Outbite. Text and Spanish: src/content/about.json ("Why" facts checked against
+// CDC only, with sources). Sections: Why Outbite exists, Who it's for, How it's built
+// (a short version of the Sources page, with the real review statuses from
+// src/content/reviews.json), Who made it (Northeastern University named in text only:
+// no logos, colors or other branding), Independent; then the
+// links to Sources, Privacy and FAQ, and the license line. The site disclaimer comes first,
+// under the intro.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import Genus from '../../components/Genus.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import content from '../../content/about.json';
+import reviewData from '../../content/reviews.json';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const text = (content.text as Record<string, typeof content.text.en>)[lang] ?? content.text.en;
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const title = t('pages.about.title');
+
+// Review statuses: the same file and wording as the Sources page.
+const monthYear = (ym: string) =>
+  new Intl.DateTimeFormat(htmlLang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${ym}-01T00:00:00Z`));
+const reviews = reviewData.reviews.map((r) => ({
+  ...r,
+  name: t(`sourcesPage.reviews.items.${r.id}.name`),
+  scope: t(`sourcesPage.reviews.items.${r.id}.scope`),
+  statusText:
+    r.status === 'done' && r.doneDate
+      ? t('sourcesPage.reviews.status.done', { date: monthYear(r.doneDate) })
+      : t(`sourcesPage.reviews.status.${r.status}`),
+}));
+
+// "Michael Johansson, PhD" becomes a link (text only, no branding).
+const [madeBefore, madeAfter] = text.made.text.split(text.made.linkText);
+---
+
+<BaseLayout lang={lang} title={title} description={text.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{title}</h1>
+      <p class="page-intro__lead">{text.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container about">
+    <!-- Not medical advice: first, right under the title and intro (slim line). -->
+    <Disclaimer lang={lang} slim />
+
+    <section class="asec" aria-labelledby="why-heading">
+      <h2 id="why-heading">{text.why.heading}</h2>
+      {text.why.paragraphs.map((p: string) => <p><Genus text={p} /></p>)}
+      <SourceLine lang={lang} ids={content.cite.why} compact />
+    </section>
+
+    <section class="asec" aria-labelledby="for-heading">
+      <h2 id="for-heading">{text.for.heading}</h2>
+      {text.for.paragraphs.map((p: string) => <p>{p}</p>)}
+    </section>
+
+    <section class="asec" aria-labelledby="built-heading">
+      <h2 id="built-heading">{text.built.heading}</h2>
+      {text.built.paragraphs.map((p: string) => <p>{p}</p>)}
+      <p>{text.built.reviewsIntro}</p>
+      <ul class="reviews">
+        {
+          reviews.map((r) => (
+            <li class="reviews__row">
+              <span class="reviews__what">
+                <strong>{r.name}</strong>
+                <span class="reviews__scope">{r.scope}</span>
+              </span>
+              <span class={`reviews__status reviews__status--${r.status}`}>{r.statusText}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="asec__more">
+        <a href={href('sources')}>{text.built.more} <span aria-hidden="true">→</span></a>
+      </p>
+    </section>
+
+    <section class="asec" aria-labelledby="made-heading">
+      <h2 id="made-heading">{text.made.heading}</h2>
+      <p>
+        {madeBefore}<a href={content.links.johansson}>{text.made.linkText}</a>{madeAfter}
+      </p>
+    </section>
+
+    <section class="asec" aria-labelledby="independent-heading">
+      <h2 id="independent-heading">{text.independent.heading}</h2>
+      <p>{text.independent.text}</p>
+    </section>
+
+    <nav class="about__links" aria-label={text.linksLabel}>
+      <ul>
+        {
+          ['sources', 'privacy', 'faq'].map((key) => (
+            <li>
+              <a href={href(key)}>
+                {t(`pages.${key}.title`)}{' '}
+                <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <p class="about__license">{text.license}</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-block: var(--space-2) var(--section-gap);
+  }
+
+  .asec {
+    max-width: var(--content-width);
+    margin-top: var(--space-5);
+    padding: var(--pad-box-lg);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .asec h2 {
+    margin-bottom: var(--space-2);
+  }
+
+  .asec p {
+    margin: 0;
+  }
+
+  .asec > * + * {
+    margin-top: var(--space-3);
+  }
+
+  .asec__more {
+    font-weight: var(--weight-strong);
+  }
+
+  .reviews {
+    margin-block: var(--space-2) 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reviews__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .reviews__what {
+    display: grid;
+  }
+
+  .reviews__scope {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .reviews__status {
+    flex: none;
+    padding: 0.15em 0.6em;
+    background: var(--color-tag-bg);
+    color: var(--color-tag-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+  }
+
+  .reviews__status--done {
+    background: var(--color-chip-bg);
+    color: var(--color-chip-text);
+  }
+
+  .about__links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__license {
+    margin: var(--space-4) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .about__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-strong);
+  }
+</style>

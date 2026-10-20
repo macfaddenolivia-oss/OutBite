@@ -1,0 +1,49 @@
+{
+  "id": "Y4",
+  "layer": "yard",
+  "effortGroup": "regular",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "$"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "homeowner"
+  ],
+  "safetyContacts": true,
+  "related": [],
+  "sources": [
+    "cdc-bti",
+    "who-dengue"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Use a larvicide like Bti in water you can't dump, cover, or drink",
+      "summary": "For ornamental ponds, unused pools, and other water you can't empty.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "A larvicide is a product that kills mosquito larvae (young mosquitoes) in water. Bti is a bacterium found in soil; CDC: “Bti is toxic to mosquito larvae, blackflies, and fungus gnats.”",
+        "Bti treats water you can't dump or cover, like ornamental ponds or unused pools."
+      ],
+      "cantDo": [
+        "Bti can't be used in drinking water. Always follow the label."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Usa un larvicida como Bti en agua que no puedes vaciar, tapar ni beber",
+      "summary": "Para estanques decorativos, piscinas sin uso y otra agua que no puedes vaciar.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Un larvicida es un producto que mata las larvas de mosquito (mosquitos jóvenes) en el agua. El Bti es una bacteria que se encuentra en la tierra; los CDC dicen que “el Bti es tóxico para las larvas de mosquito, las moscas negras y los mosquitos de los hongos”.",
+        "El Bti trata el agua que no puedes vaciar ni tapar, como estanques decorativos o piscinas sin uso."
+      ],
+      "cantDo": [
+        "El Bti no se puede usar en agua para beber. Sigue siempre la etiqueta."
+      ],
+      "research": []
+    }
+  }
+}

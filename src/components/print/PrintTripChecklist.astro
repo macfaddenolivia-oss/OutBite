@@ -1,0 +1,235 @@
+---
+// Printable 5: the trip checklist, one US Letter page in English, Spanish, or both side
+// by side. The items are the "Traveling soon?" page's (src/lib/trip-items.ts: wording
+// already on the site, checked against CDC/EPA), each with a box to check off.
+// Every item carries data-show (the CDC category it needs). With a destination chosen
+// (src/lib/trip-client.ts), only the items that apply show and the title names the
+// place; without one ("any destination", or no JavaScript) every item shows with a line
+// saying when CDC recommends it. QR code to the travel page in that language.
+import PrintSheet from './PrintSheet.astro';
+import PrintLogo from './PrintLogo.astro';
+import PrintQr from './PrintQr.astro';
+import PrintSources from './PrintSources.astro';
+import travel from '../../content/travel.json';
+import printables from '../../content/printables.json';
+import { tripItems } from '../../lib/trip-items';
+import { localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+interface Props {
+  mode: 'en' | 'es' | 'both';
+  id: string;
+}
+const { mode, id } = Astro.props;
+const langs: ('en' | 'es')[] = mode === 'both' ? ['en', 'es'] : [mode];
+const both = mode === 'both';
+const strip = (s: string) => s.replace(/^CDC: /, '');
+---
+
+<PrintSheet id={id} lang={langs[0]} label={travel.text[langs[0]].checkAny}>
+  <div class={`tc${both ? ' tc--both' : ''}`} data-trip-root>
+    {
+      langs.map((lang) => {
+        const x = travel.text[lang];
+        const t = useTranslations(lang);
+        const p = printables.text[lang];
+        return (
+          <article class="tc__col" lang={lang}>
+            <header class="tc__head">
+              <h2 class="tc__title">
+                <span data-trip-any>{x.checkAny}</span>
+                <span data-trip-one hidden>
+                  {x.checkFor.split('{place}')[0]}
+                  <span data-trip-place={lang} />
+                  {x.checkFor.split('{place}')[1]}
+                </span>
+              </h2>
+              {!both && <PrintLogo size={20} />}
+            </header>
+            <p class="tc__note" data-trip-any>
+              {x.checkAnyNote}
+            </p>
+            <p class="tc__norisk" data-trip-norisk hidden>
+              {x.noRisk.split('{place}')[0]}
+              <span data-trip-place={lang} />
+              {x.noRisk.split('{place}')[1]}
+            </p>
+            {tripItems(lang).map((part) => (
+              <section class="tc__part" data-trip-part>
+                <h3 class="tc__part-title">{x[part.key]}</h3>
+                <ul class="tc__items">
+                  {part.items.map((it) => (
+                    <li data-show={it.show}>
+                      <span class="tc__box" aria-hidden="true" />
+                      <span>
+                        {it.show !== 'always' && (
+                          <span class="tc__when" data-trip-any>
+                            {x.when[it.show as keyof typeof x.when]}:{' '}
+                          </span>
+                        )}
+                        {it.label && <strong>{it.label}: </strong>}
+                        {strip(it.text)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+            <div class="tc__foot">
+              <p class="tc__notices">
+                {x.notSure}: <strong>wwwnc.cdc.gov/travel/notices</strong>
+              </p>
+              {both && <PrintLogo size={16} />}
+              <PrintQr path={localizePath(lang, getPage('travel').path)} text={x.scan.replace('{title}', t('pages.travel.title'))} placeholder={p.common.siteAddress} size={both ? 48 : 58} />
+              <PrintSources ids={travel.cite.trip} label={p.common.sources} lang={lang} />
+              <p class="tc__fine">{t('disclaimer.body')}</p>
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</PrintSheet>
+
+<style>
+  .tc {
+    display: grid;
+    flex: 1;
+    min-height: 0;
+    padding: 18px 24px 14px;
+    border: 3px solid #17306a;
+  }
+
+  .tc--both {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    padding: 14px 16px 10px;
+  }
+
+  .tc--both .tc__col + .tc__col {
+    padding-left: 22px;
+    border-left: 1.5px dashed #6b7488;
+  }
+
+  .tc__col {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+  }
+
+  .tc__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid #17306a;
+  }
+
+  .tc__title {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .tc--both .tc__title {
+    font-size: 19px;
+  }
+
+  .tc__note {
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  .tc__norisk {
+    padding: 6px 10px;
+    border-left: 5px solid #17306a;
+    font-size: 13px;
+  }
+
+  .tc--both .tc__norisk {
+    font-size: 11px;
+  }
+
+  .tc__norisk[hidden] {
+    display: none;
+  }
+
+  .tc__part-title {
+    margin-bottom: 4px !important;
+    padding: 2px 8px;
+    background: #cbdcec;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .tc--both .tc__part-title {
+    font-size: 12px;
+  }
+
+  .tc__items {
+    display: grid;
+    gap: 3px;
+    padding: 0 !important;
+    list-style: none;
+    font-size: 11.3px;
+    line-height: 1.26;
+  }
+
+  .tc--both .tc__items {
+    gap: 3px;
+    font-size: 9.9px;
+    line-height: 1.23;
+  }
+
+  .tc__items li {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .tc__part[hidden],
+  .tc__items li[hidden] {
+    display: none;
+  }
+
+  .tc__box {
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    border: 2px solid #17306a;
+  }
+
+  .tc--both .tc__box {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tc__when {
+    font-style: italic;
+  }
+
+  .tc__foot {
+    display: grid;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1.5px solid #17306a;
+    font-size: 11.5px;
+  }
+
+  .tc--both .tc__foot {
+    font-size: 10px;
+  }
+
+  .tc__fine,
+  .tc__foot :global(.print-sources) {
+    font-size: 9.5px;
+    line-height: 1.35;
+  }
+</style>

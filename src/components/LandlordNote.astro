@@ -1,0 +1,95 @@
+---
+// The sample note to a landlord with a "Copy note" button, shared by the Community page
+// (Renters & shared spaces) and the Tools page (Ask for help). Text:
+// src/content/landlord-note.json, so both places always match.
+// "Copy note" writes the note to the clipboard only (nothing is sent anywhere) and says
+// "Copied"; it stays hidden without JavaScript or a clipboard, where the note can be
+// selected and copied by hand.
+import content from '../content/landlord-note.json';
+
+interface Props {
+  lang: string;
+  id?: string;
+}
+const { lang, id } = Astro.props;
+const text = content.text[lang === 'es' ? 'es' : 'en'];
+---
+
+<div class="note" id={id} data-note>
+  <p class="note__title">{text.title}</p>
+  <p class="note__text" data-note-text>{text.note}</p>
+  <div class="note__actions">
+    <button type="button" class="btn btn-primary note__copy" data-copy hidden>{text.copy}</button>
+    <p class="note__never">{text.neverSends}</p>
+  </div>
+  <p class="note__status" role="status" data-copy-status data-copied={text.copied} data-failed={text.copyFailed}></p>
+</div>
+
+<script>
+  // "Copy note": writes the note to the clipboard only. Nothing is sent anywhere.
+  for (const note of document.querySelectorAll<HTMLElement>('[data-note]')) {
+    const button = note.querySelector<HTMLButtonElement>('[data-copy]');
+    const status = note.querySelector<HTMLElement>('[data-copy-status]');
+    const textEl = note.querySelector<HTMLElement>('[data-note-text]');
+    if (!button || !status || !textEl || !navigator.clipboard) continue;
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(textEl.innerText.trim());
+        status.textContent = status.dataset.copied ?? '';
+      } catch {
+        status.textContent = status.dataset.failed ?? '';
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Sample note: peach box, navy text in both modes. */
+  .note {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--pad-box);
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+  }
+
+  .note__title {
+    margin: 0 0 var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .note__text {
+    margin: 0;
+  }
+
+  .note__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .note__copy[hidden] {
+    display: none;
+  }
+
+  .note__never {
+    flex: 1 1 14rem;
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .note__status {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .note__status:empty {
+    display: none;
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "expires": "2026-11-30T23:59:00-04:00",
+  "message": {
+    "en": "Heavy rain this week means more mosquitoes. Take 10 minutes to empty standing water around your home.",
+    "es": "Las lluvias fuertes de esta semana traen más mosquitos. Toma 10 minutos para vaciar el agua estancada alrededor de tu casa."
+  },
+  "link": {
+    "href": "/tools/checklist/",
+    "label": {
+      "en": "Use the weekly checklist",
+      "es": "Usa la lista semanal"
+    }
+  }
+}

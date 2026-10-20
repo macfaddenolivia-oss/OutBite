@@ -1,0 +1,762 @@
+---
+// World risk map for dengue, Zika and chikungunya, from CDC's own lists
+// (src/data/travel-risk.json, written by npm run update-data) on Natural Earth outlines
+// (src/data/world-map.json, public domain via world-atlas; credited on Sources).
+// - One SVG carries each country's CDC category for every virus in `viruses`; the
+//   figure's data-virus picks the one shaded (the "Is it near me?" page switches it).
+// - Palette blues for risk categories (darker = more risk), white with grey dots for
+//   "not known" / not on CDC's list; a striped fill marks a country where CDC lists only
+//   part of it. Never red or orange.
+// - Tap or hover a country: its name and category (with `pickable`, a click also
+//   fires a "wr-pick" event for the page). "View as list" shows CDC's lists
+//   grouped exactly as CDC groups them; that list is also what screen readers and
+//   visitors without JavaScript get. With `azList` (the travel page) the button reads
+//   "See every country's CDC risk, A to Z" and each virus's list is one A-to-Z list
+//   (sorted by the page language's names): every place CDC lists, with its category,
+//   and every other country on the map as "Not on CDC's list".
+// - Under the map: "Per CDC, last updated [date]", the CDC page, CDC's notes and the
+//   matching CDC Travel Health Notices.
+import worldMap from '../data/world-map.json';
+import risk from '../data/travel-risk.json';
+import noticeData from '../data/travel-notices.json';
+import { getLocale, useTranslations } from '../i18n';
+import { destinationName, formatDate } from '../lib/cases';
+import diseases from '../content/diseases.json';
+
+type Virus = 'dengue' | 'zika' | 'chikungunya';
+interface Props {
+  lang: string;
+  viruses: Virus[];
+  initial?: Virus;
+  id: string;
+  headingLevel?: 2 | 3;
+  hideHeading?: boolean;
+  /** Clicking or tapping a country also fires a "wr-pick" event (detail: { code }) on
+   *  the figure, so the page can choose that country (the travel page's picker). */
+  pickable?: boolean;
+  /** One A-to-Z list per virus instead of CDC's grouping (the travel page). */
+  azList?: boolean;
+}
+const { lang, viruses, initial = viruses[0], id, headingLevel = 2, hideHeading = false, pickable = false, azList = false } = Astro.props;
+const t = useTranslations(lang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const msg = (getLocale(lang).messages as Record<string, any>).worldRisk;
+const H = headingLevel === 2 ? 'h2' : 'h3';
+const Hs = headingLevel === 2 ? 'h3' : 'h4';
+const Hss = headingLevel === 2 ? 'h4' : 'h5';
+const R = risk as Record<string, any>;
+const diseaseIn = (v: Virus) => t(`diseasePage.inSentence.${v}`);
+// What CDC's "Current or past Zika transmission" means (shared with the Zika and travel pages).
+const zikaPast = (diseases.text as Record<string, any>)[lang === 'es' ? 'es' : 'en'].extras.zikaPast as string;
+const CHIK_STAR = 'Countries with elevated risk for U.S. travelers';
+
+// Each virus's categories in CDC's order, and how dark each is (3 = darkest; 0 = white
+// with grey dots). Dengue's "Risk varies…" has two spellings on CDC's page.
+const LEVEL: Record<Virus, Record<string, number>> = {
+  dengue: { 'Frequent or continuous': 3, 'Risk varies based on region': 2, 'Risk varies by region': 2, 'Sporadic or uncertain': 1 },
+  chikungunya: { 'Current outbreaks': 3, 'Countries with elevated risk for U.S. travelers': 1 },
+  zika: {
+    'Current or past Zika transmission': 3,
+    'Known to have mosquito that spreads Zika, but no reported Zika cases': 1,
+    'Not known to have mosquito that spreads Zika': 0,
+  },
+};
+const catLabel = (v: Virus, name: string) => msg.categories[v]?.[name] ?? name;
+const placeName = (p: { name: string; code: string | null; part?: boolean }) => {
+  if (lang !== 'es') return p.name;
+  if (msg.placeNames[p.name]) return msg.placeNames[p.name];
+  if (p.code && !p.part) {
+    if (msg.codeNames?.[p.code]) return msg.codeNames[p.code];
+    try {
+      return new Intl.DisplayNames([htmlLang], { type: 'region' }).of(p.code) ?? p.name;
+    } catch {
+      return p.name;
+    }
+  }
+  return p.name;
+};
+const regionName = (code: string) => {
+  if (msg.codeNames?.[code]) return msg.codeNames[code];
+  try {
+    return new Intl.DisplayNames([htmlLang], { type: 'region' }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+};
+
+// Per code and virus: "L" (level) or "pL" (only part of the country), or "" (not listed).
+const mark = (v: Virus, code: string) => {
+  const e = R[v]?.byCode?.[code];
+  if (!e) return '';
+  return `${e.part ? 'p' : ''}${LEVEL[v][e.category] ?? 1}`;
+};
+const codes = [...Object.keys(worldMap.shapes), ...Object.keys(worldMap.dots)];
+const attrs = (code: string) => Object.fromEntries(viruses.map((v) => [`data-${v}`, mark(v, code)]));
+
+// Legend items per virus: CDC's categories (no duplicates), not listed, part of a country.
+const legend = (v: Virus) => {
+  // One entry per shade; CDC's two spellings of dengue's "Risk varies…" share one.
+  const cats: { label: string; level: number }[] = [];
+  for (const [name, level] of Object.entries(LEVEL[v])) {
+    const used = Object.values(R[v]?.byCode ?? {}).some((e: any) => e.category === name) || v !== 'dengue';
+    if (!used) continue;
+    const same = cats.find((c) => c.level === level);
+    if (!same) cats.push({ label: catLabel(v, name), level });
+    else if (!same.label.split(' / ').includes(catLabel(v, name))) same.label += ` / ${catLabel(v, name)}`;
+  }
+  const hasPart = Object.values(R[v]?.byCode ?? {}).some((e: any) => e.part);
+  const hasWhite = cats.some((c) => c.level === 0);
+  return { cats, hasPart, notListed: !hasWhite };
+};
+
+// Lists grouped exactly as CDC groups them.
+const groupsFor = (v: Virus) => {
+  const d = R[v];
+  if (!d) return [];
+  const sortNames = (ps: any[]) => [...ps].sort((a, b) => placeName(a).localeCompare(placeName(b), htmlLang));
+  if (v === 'dengue')
+    return d.groups.map((g: any) => ({
+      region: msg.regions[g.region] ?? g.region,
+      categories: g.categories.map((c: any) => ({ name: catLabel(v, c.name), places: c.places })),
+    }));
+  // CDC's chikungunya footnote belongs to "Countries with elevated risk…": marked with *.
+  return [{ region: null, categories: d.groups.map((g: any) => ({ name: catLabel(v, g.name), star: v === 'chikungunya' && g.name === CHIK_STAR && Boolean(R.chikungunya?.footnote), places: v === 'zika' ? sortNames(g.places) : g.places })) }];
+};
+
+// A to Z: every place CDC lists with its category, then every other country on the map
+// as "Not on CDC's list", sorted by name in the page's language.
+const azFor = (v: Virus) => {
+  const rows: { name: string; cat: string; star: boolean }[] = [];
+  const listed = new Set<string>();
+  for (const g of R[v]?.groups ?? []) {
+    for (const c of g.categories ?? [g]) {
+      for (const p of c.places) {
+        const row = { name: placeName(p), cat: catLabel(v, c.name), star: v === 'chikungunya' && c.name === CHIK_STAR && Boolean(R.chikungunya?.footnote) };
+        if (!rows.some((r) => r.name === row.name && r.cat === row.cat)) rows.push(row);
+        if (p.code) listed.add(p.code);
+      }
+    }
+  }
+  for (const code of codes) if (!listed.has(code)) rows.push({ name: regionName(code), cat: msg.notListed, star: false });
+  return rows.sort((a, b) => a.name.localeCompare(b.name, htmlLang));
+};
+
+const notices = (v: Virus) => noticeData.notices.filter((n) => n.disease === v).sort((a, b) => b.level - a.level || b.date.localeCompare(a.date));
+const notes = (v: Virus) => (v === 'dengue' ? (lang === 'es' && R.dengue?.notesEs?.length ? R.dengue.notesEs : R.dengue?.notes ?? []) : []);
+const notesInEnglish = (v: Virus) => v === 'dengue' && lang === 'es' && !R.dengue?.notesEs?.length && (R.dengue?.notes ?? []).length > 0;
+
+// Fill colors (fixed: the map panel is white in both modes, like the U.S. map).
+const FILL: Record<number, string> = { 3: '#24539A', 2: '#5B91C2', 1: '#A9C8E0' };
+const css = viruses
+  .flatMap((v) =>
+    [1, 2, 3].flatMap((L) => [
+      `.wr[data-virus='${v}'] [data-${v}='${L}'] { fill: ${FILL[L]}; }`,
+      `.wr[data-virus='${v}'] [data-${v}='p${L}'] { fill: url(#wr-stripe-${L}); }`,
+    ]).concat([`.wr[data-virus='${v}'] [data-${v}='3'] { stroke: #ffffff; }`]),
+  )
+  .join('\n');
+const data = {
+  names: {},
+  cats: Object.fromEntries(
+    viruses.map((v) => [
+      v,
+      Object.fromEntries(Object.entries(R[v]?.byCode ?? {}).map(([code, e]: [string, any]) => [code, `${catLabel(v, e.category)}${e.part ? ` (${msg.part.split(' (')[0].toLowerCase()})` : ''}`])),
+    ]),
+  ),
+  notListed: msg.notListed,
+};
+const codeNames = Object.fromEntries(codes.map((c) => [c, regionName(c)]));
+---
+
+<figure class:list={['wr', { 'wr--pick': pickable }]} id={id} data-virus={initial} data-wr={JSON.stringify({ ...data, names: codeNames })} data-wr-pick={pickable ? '' : undefined}>
+  {!hideHeading && <H class="wr__heading">{msg.heading}</H>}
+  <Fragment set:html={`<style>${css}</style>`} />
+
+  <div class="wr__panel" data-wr-panel>
+    <svg class="wr__svg" viewBox={`0 0 ${worldMap.width} ${worldMap.height}`} role="img" aria-label={msg.mapLabel.replace('{disease}', diseaseIn(initial))} data-wr-svg>
+      <defs>
+        <pattern id="wr-dots" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#FFFFFF" />
+          <circle cx="3" cy="3" r="0.9" fill="#6B7488" />
+        </pattern>
+        {
+          [1, 2, 3].map((L) => (
+            <pattern id={`wr-stripe-${L}`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="5" height="5" fill="#FFFFFF" />
+              <rect width="2.5" height="5" fill={FILL[L]} />
+            </pattern>
+          ))
+        }
+      </defs>
+      {Object.entries(worldMap.shapes).map(([code, d]) => <path class="wr__c" d={d} data-code={code} {...attrs(code)} />)}
+      {
+        Object.entries(worldMap.dots).map(([code, [x, y]]) => (
+          <circle class="wr__c wr__dot" cx={x} cy={y} r="3" data-code={code} {...attrs(code)} />
+        ))
+      }
+      {pickable && <g class="wr__hl" data-wr-hl aria-hidden="true" />}
+    </svg>
+    <p class="wr__tip" data-wr-tip hidden></p>
+    {pickable && <p class="wr__chosen" data-wr-chosen hidden />}
+    <p class="wr__hint js-only">{msg.tapHint}</p>
+    {pickable && <p class="wr__summary" data-wr-summary aria-live="polite" hidden />}
+    {
+      viruses.map((v) => {
+        const l = legend(v);
+        return (
+          <div class="wr__legend" data-for={v}>
+            <p class="wr__legend-title">{msg.legendTitle}</p>
+            <ul>
+              {l.cats.map((c) => (
+                <li>
+                  <span class={`wr__sw wr__sw--${c.level}`} aria-hidden="true" />
+                  {c.label}
+                </li>
+              ))}
+              {l.notListed && (
+                <li>
+                  <span class="wr__sw wr__sw--0" aria-hidden="true" />
+                  {msg.notListed}
+                </li>
+              )}
+              {l.hasPart && (
+                <li>
+                  <span class="wr__sw wr__sw--part" aria-hidden="true" />
+                  {msg.part}
+                </li>
+              )}
+            </ul>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <p class="wr__toggle-row js-only">
+    <button type="button" class="btn btn-secondary wr__toggle" data-wr-toggle data-map={msg.viewMap} data-list={azList ? msg.viewListAz : msg.viewList} aria-expanded="false">
+      {azList ? msg.viewListAz : msg.viewList}
+    </button>
+  </p>
+
+  <div class="wr__lists" data-wr-lists>
+    {
+      viruses.map((v) => (
+        <section class="wr__list" data-for={v} aria-label={`${msg.heading}: ${t(`pages.${v}.title`)}`}>
+          {viruses.length > 1 && <Hs class="wr__list-virus">{t(`pages.${v}.title`)}</Hs>}
+          {azList && (
+            <ul class="wr__az">
+              {azFor(v).map((r) => (
+                <li>
+                  <span class="wr__az-name">{r.name}</span>
+                  <span class="wr__az-cat">
+                    <span class="visually-hidden">: </span>
+                    {r.cat}
+                    {r.star && <span aria-hidden="true">*</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {azList && azFor(v).some((r) => r.star) && <p class="wr__foot">* {lang === 'es' ? msg.chikFootnote : R.chikungunya.footnote}</p>}
+          {!azList && groupsFor(v).map((g: any) => (
+            <div class="wr__group">
+              {g.region && <Hss class="wr__region">{g.region}</Hss>}
+              {g.categories.map((c: any) => (
+                <div class="wr__cat">
+                  <p class="wr__cat-name">
+                    {c.name}
+                    {c.star && <span aria-hidden="true">*</span>}
+                  </p>
+                  <ul>{c.places.map((p: any) => <li>{placeName(p)}</li>)}</ul>
+                  {c.star && <p class="wr__foot">{lang === 'es' ? msg.chikFootnote : R.chikungunya.footnote}</p>}
+                </div>
+              ))}
+            </div>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+
+  {
+    viruses.map((v) => (
+      <div class="wr__meta" data-for={v}>
+        <p class="wr__date">
+          {msg.perCdc.replace('{date}', formatDate(R[v].updated, htmlLang))}
+          {R[v].asOf && <> ({msg.asOf.replace('{date}', formatDate(R[v].asOf, htmlLang))})</>} ·{' '}
+          <a href={R[v].source}>{msg.source} <span aria-hidden="true">→</span></a>
+        </p>
+        {v === 'zika' && <p class="wr__def">{zikaPast}</p>}
+        <p class="wr__def">{msg.notListedNote}</p>
+        {notes(v).length > 0 && (
+          <div class="wr__notes">
+            <p class="wr__notes-title">
+              {msg.noteFromCdc}
+              {notesInEnglish(v) && ' (en inglés)'}
+            </p>
+            {notes(v).map((n: string) => <p>{n}</p>)}
+          </div>
+        )}
+        <p class="wr__notices-title">{msg.notices.replace('{disease}', diseaseIn(v))}</p>
+        <p class="wr__def">{msg.levels}</p>
+        {notices(v).length ? (
+          <ul class="wr__notices">
+            {notices(v).map((n) => (
+              <li>
+                <a href={n.url}>{n.destination === 'Global' ? t('dash.worldwide') : destinationName(n.destination, htmlLang)}</a>{' '}
+                · {(getLocale(lang).messages as any).dash.levelNames[String(n.level)]} · {formatDate(n.date, htmlLang)}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="wr__none">{msg.noNotices.replace('{disease}', diseaseIn(v))}</p>
+        )}
+        <p class="wr__all">
+          <a href={noticeData.source.pageUrl}>{msg.allNotices} <span aria-hidden="true">→</span></a>
+        </p>
+      </div>
+    ))
+  }
+</figure>
+
+<script>
+  // Tooltip (name and category) on hover or tap, and the map / list toggle. Nothing is
+  // saved or sent.
+  for (const fig of document.querySelectorAll<HTMLElement>('[data-wr]')) {
+    const data = JSON.parse(fig.dataset.wr!);
+    const tip = fig.querySelector<HTMLElement>('[data-wr-tip]')!;
+    const panel = fig.querySelector<HTMLElement>('[data-wr-panel]')!;
+    const svg = fig.querySelector<SVGSVGElement>('[data-wr-svg]')!;
+    const show = (el: Element | null, x: number, y: number) => {
+      const code = (el as SVGElement | null)?.dataset?.code;
+      if (!code) return (tip.hidden = true);
+      const v = fig.dataset.virus!;
+      tip.textContent = `${data.names[code] ?? code}: ${data.cats[v]?.[code] ?? data.notListed}`;
+      const box = panel.getBoundingClientRect();
+      tip.hidden = false;
+      const left = Math.min(Math.max(x - box.left + 12, 4), box.width - tip.offsetWidth - 4);
+      tip.style.left = `${left}px`;
+      // Above the pointer, or below it near the top edge, never under it.
+      const above = y - box.top - tip.offsetHeight - 10;
+      tip.style.top = `${above >= 4 ? above : y - box.top + 18}px`;
+    };
+    svg.addEventListener('pointermove', (e) => show((e.target as Element).closest('.wr__c'), e.clientX, e.clientY));
+    svg.addEventListener('pointerleave', (e) => {
+      if ((e as PointerEvent).pointerType === 'mouse') tip.hidden = true;
+    });
+    svg.addEventListener('click', (e) => {
+      const el = (e.target as Element).closest<SVGElement>('.wr__c');
+      show(el, e.clientX, e.clientY);
+      // Pickable maps tell the page which country was chosen (an in-page event only).
+      if (el?.dataset.code && 'wrPick' in fig.dataset) fig.dispatchEvent(new CustomEvent('wr-pick', { bubbles: true, detail: { code: el.dataset.code } }));
+    });
+
+    // Pickable maps (the travel page): the page sends "wr-select" with a country code (or
+    // null) whenever its picker chooses a place. The country gets a thick navy outline
+    // (a ring for small-island dots), a label with its name and CDC category for the
+    // virus shown, and the map zooms gently to it (instantly with reduced motion).
+    if ('wrPick' in fig.dataset) {
+      const NS = 'http://www.w3.org/2000/svg';
+      const hl = svg.querySelector<SVGGElement>('[data-wr-hl]')!;
+      const chosenLabel = fig.querySelector<HTMLElement>('[data-wr-chosen]')!;
+      const full = svg.viewBox.baseVal;
+      const FULL = { x: full.x, y: full.y, w: full.width, h: full.height };
+      let view = { ...FULL };
+      let chosen: string | null = null;
+      let frame = 0;
+      const setView = (v: typeof view) => {
+        view = v;
+        svg.setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`);
+      };
+      const placeLabel = () => {
+        if (!chosen) return (chosenLabel.hidden = true);
+        const v = fig.dataset.virus!;
+        chosenLabel.textContent = `${data.names[chosen] ?? chosen}: ${data.cats[v]?.[chosen] ?? data.notListed}`;
+        chosenLabel.hidden = false;
+        const box = panel.getBoundingClientRect();
+        const shape = hl.getBoundingClientRect();
+        // Beside the country if it fits, otherwise below it (or above), never on top of it.
+        const lw = chosenLabel.offsetWidth;
+        const lh = chosenLabel.offsetHeight;
+        const sx = shape.left - box.left, sy = shape.top - box.top;
+        let left = sx + shape.width + 8;
+        let top = sy + shape.height / 2 - lh / 2;
+        if (left + lw > box.width - 4) {
+          const mapBottom = svg.getBoundingClientRect().bottom - box.top;
+          left = sx + shape.width / 2 - lw / 2;
+          top = sy + shape.height + 8 + lh <= mapBottom - 4 ? sy + shape.height + 8 : sy - lh - 8;
+        }
+        // Stay inside the map picture (not over the hint or legend under it).
+        const map = svg.getBoundingClientRect();
+        const minTop = map.top - box.top + 4, maxTop = map.bottom - box.top - lh - 4;
+        left = Math.min(Math.max(left, 4), box.width - lw - 4);
+        top = Math.min(Math.max(top, minTop), Math.max(minTop, maxTop));
+        chosenLabel.style.left = `${left}px`;
+        chosenLabel.style.top = `${top}px`;
+      };
+      const animateTo = (target: typeof view) => {
+        cancelAnimationFrame(frame);
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setView(target);
+          return placeLabel();
+        }
+        const from = { ...view };
+        const start = performance.now();
+        const step = (now: number) => {
+          const t = Math.min(1, (now - start) / 450);
+          const e = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+          setView({ x: from.x + (target.x - from.x) * e, y: from.y + (target.y - from.y) * e, w: from.w + (target.w - from.w) * e, h: from.h + (target.h - from.h) * e });
+          if (t < 1) frame = requestAnimationFrame(step);
+          else placeLabel();
+        };
+        chosenLabel.hidden = true;
+        frame = requestAnimationFrame(step);
+      };
+      const select = (code: string | null) => {
+        hl.replaceChildren();
+        chosen = null;
+        const els = code ? [...svg.querySelectorAll<SVGGraphicsElement>(`.wr__c[data-code="${code}"]`)] : [];
+        if (!els.length) {
+          animateTo({ ...FULL });
+          return placeLabel();
+        }
+        chosen = code;
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        for (const el of els) {
+          const b = el.getBBox();
+          minX = Math.min(minX, b.x); minY = Math.min(minY, b.y); maxX = Math.max(maxX, b.x + b.width); maxY = Math.max(maxY, b.y + b.height);
+          const copy = el.tagName === 'circle' ? document.createElementNS(NS, 'circle') : document.createElementNS(NS, 'path');
+          if (el.tagName === 'circle') {
+            copy.setAttribute('cx', el.getAttribute('cx')!);
+            copy.setAttribute('cy', el.getAttribute('cy')!);
+            copy.setAttribute('r', '6.5');
+          } else copy.setAttribute('d', el.getAttribute('d')!);
+          copy.setAttribute('class', 'wr__hl-shape');
+          hl.append(copy);
+        }
+        // Keep the map's shape; show the country with room around it (at most 4× zoom).
+        const ratio = FULL.w / FULL.h;
+        let w = Math.max((maxX - minX) * 2.4, FULL.w / 4);
+        let h = w / ratio;
+        if (h < (maxY - minY) * 1.8) {
+          h = (maxY - minY) * 1.8;
+          w = h * ratio;
+        }
+        w = Math.min(w, FULL.w);
+        h = Math.min(w / ratio, FULL.h);
+        const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+        animateTo({ x: Math.min(Math.max(cx - w / 2, FULL.x), FULL.x + FULL.w - w), y: Math.min(Math.max(cy - h / 2, FULL.y), FULL.y + FULL.h - h), w, h });
+      };
+      fig.addEventListener('wr-select', (e) => select((e as CustomEvent<{ code: string | null }>).detail.code));
+      // The virus buttons change data-virus: keep the country, update its category.
+      new MutationObserver(placeLabel).observe(fig, { attributes: true, attributeFilter: ['data-virus'] });
+      window.addEventListener('resize', placeLabel);
+    }
+
+    const toggle = fig.querySelector<HTMLButtonElement>('[data-wr-toggle]')!;
+    toggle.addEventListener('click', () => {
+      const list = !fig.classList.contains('is-list');
+      fig.classList.toggle('is-list', list);
+      toggle.textContent = (list ? toggle.dataset.map : toggle.dataset.list) ?? '';
+      toggle.setAttribute('aria-expanded', String(list));
+      tip.hidden = true;
+    });
+  }
+</script>
+
+<style>
+  .wr {
+    margin: 0;
+  }
+
+  .wr__heading {
+    margin-bottom: var(--space-2);
+  }
+
+  /* The map panel is white in both modes (fixed map colors), like the U.S. map. */
+  .wr__panel {
+    position: relative;
+    padding: var(--space-2);
+    border: 3px solid var(--color-rule);
+    background: #ffffff;
+    color: #17306a;
+  }
+
+  .wr__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .wr__c {
+    fill: url(#wr-dots);
+    stroke: #17306a;
+    stroke-width: 0.35;
+    stroke-linejoin: round;
+  }
+
+  .wr--pick .wr__c {
+    cursor: pointer;
+  }
+
+  .wr__dot {
+    stroke-width: 0.8;
+  }
+
+  .wr__c:hover {
+    stroke-width: 1.4;
+  }
+
+  .wr__hl :global(.wr__hl-shape) {
+    fill: none;
+    stroke: #17306a;
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+  }
+
+  .wr__chosen {
+    position: absolute;
+    z-index: 1;
+    max-width: 16rem;
+    margin: 0;
+    padding: var(--space-1) var(--space-2);
+    border: 2px solid #17306a;
+    background: #ffffff;
+    color: #17306a;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1.3;
+    pointer-events: none;
+  }
+
+  @media (max-width: 30rem) {
+    .wr__chosen {
+      max-width: 12rem;
+      font-size: 0.8125rem;
+    }
+  }
+
+  .wr__summary {
+    margin: var(--space-2) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  .wr__tip {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    max-width: 16rem;
+    margin: 0;
+    padding: var(--space-1) var(--space-2);
+    border: 2px solid #17306a;
+    background: #ffffff;
+    color: #17306a;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1.3;
+    pointer-events: none;
+  }
+
+  .wr__hint {
+    margin: var(--space-1) 0 var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  /* Legend: the U.S. map's style (pale-blue box, navy text and outline). */
+  .wr__legend {
+    display: none;
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-legend-border, #17306a);
+    background: var(--color-legend-bg, #cbdcec);
+    color: var(--color-legend-text, #17306a);
+    font-size: var(--text-sm);
+  }
+
+  .wr__legend-title {
+    margin: 0 0 var(--space-1);
+    font-weight: var(--weight-heading);
+  }
+
+  .wr__legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .wr__legend li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .wr__sw {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1.5px solid var(--color-legend-swatch-border, #17306a);
+    border-radius: 2px;
+  }
+
+  .wr__sw--3 { background: #24539a; }
+  .wr__sw--2 { background: #5b91c2; }
+  .wr__sw--1 { background: #a9c8e0; }
+  .wr__sw--0 {
+    background: radial-gradient(circle, #6b7488 1.2px, #ffffff 1.5px) 0 0 / 6px 6px;
+  }
+  .wr__sw--part {
+    background: repeating-linear-gradient(45deg, #24539a 0 3px, #ffffff 3px 6px);
+  }
+
+  .wr[data-virus='dengue'] .wr__legend[data-for='dengue'],
+  .wr[data-virus='zika'] .wr__legend[data-for='zika'],
+  .wr[data-virus='chikungunya'] .wr__legend[data-for='chikungunya'] {
+    display: block;
+  }
+
+  .wr__toggle-row {
+    margin: var(--space-2) 0;
+  }
+
+  /* Lists: shown without JavaScript (all of them); with it, only in list view and only
+     the virus shown. */
+  .wr__lists {
+    margin-top: var(--space-3);
+  }
+
+  :global(.js) .wr:not(.is-list) .wr__lists {
+    display: none;
+  }
+
+  :global(.js) .wr.is-list .wr__panel {
+    display: none;
+  }
+
+  :global(.js) .wr .wr__list {
+    display: none;
+  }
+
+  :global(.js) .wr[data-virus='dengue'] .wr__list[data-for='dengue'],
+  :global(.js) .wr[data-virus='zika'] .wr__list[data-for='zika'],
+  :global(.js) .wr[data-virus='chikungunya'] .wr__list[data-for='chikungunya'] {
+    display: block;
+  }
+
+  .wr__list + .wr__list {
+    margin-top: var(--space-4);
+  }
+
+  .wr__list-virus,
+  .wr__region {
+    margin: var(--space-3) 0 var(--space-1);
+  }
+
+  .wr__cat {
+    margin-bottom: var(--space-2);
+  }
+
+  .wr__cat-name {
+    margin: 0 0 var(--space-1);
+    font-weight: var(--weight-display);
+  }
+
+  .wr__cat ul {
+    columns: 3 11rem;
+    column-gap: var(--space-4);
+    margin: 0;
+    padding-inline-start: 1.1em;
+    font-size: var(--text-sm);
+  }
+
+  .wr__cat li {
+    break-inside: avoid;
+  }
+
+  /* A-to-Z list: name and CDC category on one row (two columns from 40rem; on phones
+     side by side when they fit, else the category wraps under), with a thin rule
+     between rows. */
+  .wr__az {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .wr__az li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-3);
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 40rem) {
+    .wr__az li {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      break-inside: avoid;
+    }
+  }
+
+  /* Desktop: two columns, read down the first, then the second. */
+  @media (min-width: 64rem) {
+    .wr__az {
+      columns: 2;
+      column-gap: var(--space-5);
+    }
+  }
+
+  .wr__az-name {
+    font-weight: var(--weight-strong);
+  }
+
+  .wr__foot,
+  .wr__def {
+    font-size: var(--text-sm);
+  }
+
+  .wr__meta {
+    display: none;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .wr[data-virus='dengue'] .wr__meta[data-for='dengue'],
+  .wr[data-virus='zika'] .wr__meta[data-for='zika'],
+  .wr[data-virus='chikungunya'] .wr__meta[data-for='chikungunya'] {
+    display: block;
+  }
+
+  .wr__meta p {
+    margin: 0 0 var(--space-1);
+  }
+
+  .wr__notes {
+    margin: var(--space-2) 0;
+    padding: var(--space-2) var(--space-3);
+    border-left: 4px solid var(--color-rule);
+    background: var(--color-surface-tint);
+  }
+
+  .wr__notes-title,
+  .wr__notices-title {
+    font-weight: var(--weight-strong);
+  }
+
+  .wr__notices {
+    margin: 0 0 var(--space-1);
+    padding-inline-start: 1.2em;
+  }
+
+  .js-only {
+    display: none;
+  }
+
+  :global(.js) .wr .js-only {
+    display: block;
+  }
+</style>

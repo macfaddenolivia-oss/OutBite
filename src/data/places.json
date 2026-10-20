@@ -1,0 +1,452 @@
+{
+ "places": [
+  {
+   "code": "AL",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "AK",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "AZ",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "AR",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "CA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "CO",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "CT",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "DE",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "DC",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "FL",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "GA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "HI",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "ID",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "IL",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "IN",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "IA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "KS",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "KY",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "LA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "ME",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MD",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MI",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MN",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MS",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MO",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MT",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NE",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NV",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NH",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NJ",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NM",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NY",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "NC",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "ND",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "OH",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "OK",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "OR",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "PA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "RI",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "SC",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "SD",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "TN",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "TX",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "UT",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "VT",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "VA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "WA",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "WV",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "WI",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "WY",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "PR",
+   "localSpread": {
+    "dengue": true,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "VI",
+   "localSpread": {
+    "dengue": true,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "GU",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "AS",
+   "localSpread": {
+    "dengue": true,
+    "zika": false,
+    "chikungunya": false
+   }
+  },
+  {
+   "code": "MP",
+   "localSpread": {
+    "dengue": false,
+    "zika": false,
+    "chikungunya": false
+   }
+  }
+ ]
+}

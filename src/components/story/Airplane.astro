@@ -1,0 +1,25 @@
+---
+// Small flat airplane in the story style (navy outline, white body, light-blue wing
+// and windows), flying right. (x, y) is the middle of the body.
+interface Props {
+  x: number;
+  y: number;
+  scale?: number;
+}
+const { x, y, scale = 1 } = Astro.props;
+const navy = '#17306A';
+---
+
+<g transform={`translate(${x} ${y}) scale(${scale})`} stroke={navy} stroke-width="3.5" stroke-linejoin="round" class="airplane">
+  <path d="M-46 -8 L-56 -34 L-42 -34 L-26 -10 Z" fill="#A9C8E0"></path>
+  <path d="M-52 0 Q-52 -11 -38 -11 H36 Q56 -11 62 0 Q56 9 36 9 H-38 Q-52 9 -52 0 Z" fill="#FFFFFF"></path>
+  <path d="M-4 3 L-24 30 L-10 30 L20 4 Z" fill="#A9C8E0"></path>
+  <g fill="#A9C8E0" stroke="none">
+    <circle cx="-26" cy="-3" r="3"></circle>
+    <circle cx="-14" cy="-3" r="3"></circle>
+    <circle cx="-2" cy="-3" r="3"></circle>
+    <circle cx="10" cy="-3" r="3"></circle>
+    <circle cx="22" cy="-3" r="3"></circle>
+  </g>
+  <path d="M44 -9 Q54 -8 58 -2 H46 Z" fill="#A9C8E0"></path>
+</g>

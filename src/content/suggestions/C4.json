@@ -1,0 +1,64 @@
+{
+  "id": "C4",
+  "layer": "community",
+  "effortGroup": "project",
+  "guidance": "none",
+  "evidence": "emerging",
+  "cost": [
+    "program"
+  ],
+  "effort": "none",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "who-wolbachia",
+    "sanchez-gonzalez-2021",
+    "cdc-wolbachia"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Learn about Wolbachia and other new mosquito-release methods",
+      "summary": "Some programs release male Aedes aegypti mosquitoes that carry Wolbachia, a common type of bacteria. Their eggs don’t hatch, so the number of these mosquitoes goes down. Here is what the evidence says so far.",
+      "guidanceNote": "WHO review underway",
+      "evidenceMeasures": "lower disease in communities",
+      "canDo": [
+        "In 2020, WHO's advisory group found that one Wolbachia method had shown an effect on disease. WHO has not made a formal recommendation yet and expects to publish one in late 2027."
+      ],
+      "cantDo": [
+        "One person can't do this. It's a decision for a community or health program."
+      ],
+      "research": [
+        {
+          "text": "In Ponce, support for a different Wolbachia method, which releases male mosquitoes to shrink the mosquito population, rose from 68% to 86% after an education campaign.",
+          "cite": [
+            "sanchez-gonzalez-2021"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Conoce Wolbachia y otros métodos nuevos de liberación de mosquitos",
+      "summary": "Algunos programas liberan mosquitos Aedes aegypti machos que llevan Wolbachia, un tipo común de bacteria. Sus huevos no nacen, así que la cantidad de estos mosquitos baja. Esto es lo que dice la evidencia hasta ahora.",
+      "guidanceNote": "la OMS lo está evaluando",
+      "evidenceMeasures": "menos enfermedad en las comunidades",
+      "canDo": [
+        "En 2020, el grupo asesor de la OMS encontró que un método de Wolbachia había mostrado un efecto sobre la enfermedad. La OMS todavía no ha hecho una recomendación formal y espera publicarla a finales de 2027."
+      ],
+      "cantDo": [
+        "Una sola persona no puede hacerlo. Esta es una decisión de una comunidad o de un programa de salud."
+      ],
+      "research": [
+        {
+          "text": "En Ponce, el apoyo a otro método de Wolbachia, que libera mosquitos machos para reducir la población de mosquitos, subió de 68% a 86% después de una campaña educativa.",
+          "cite": [
+            "sanchez-gonzalez-2021"
+          ]
+        }
+      ]
+    }
+  }
+}

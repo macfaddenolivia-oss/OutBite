@@ -1,0 +1,48 @@
+{
+  "id": "H3",
+  "layer": "home",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "daily",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "H1"
+  ],
+  "sources": [
+    "cdc-control-home"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Keep doors closed; don't prop them open",
+      "summary": "It's free, and it closes off a common way in.",
+      "evidenceMeasures": "fewer mosquitoes indoors",
+      "canDo": [
+        "A closed door shuts a common way mosquitoes get inside, at no cost."
+      ],
+      "cantDo": [
+        "Closed doors don't replace screens."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Mantén las puertas cerradas; no las dejes abiertas",
+      "summary": "Mantener la puerta cerrada no cuesta nada y cierra una entrada común.",
+      "evidenceMeasures": "menos mosquitos adentro",
+      "canDo": [
+        "Una puerta cerrada bloquea una entrada común de los mosquitos, sin costo."
+      ],
+      "cantDo": [
+        "Las puertas cerradas no reemplazan las mallas."
+      ],
+      "research": []
+    }
+  }
+}

@@ -1,0 +1,14 @@
+---
+// Text with a "{ref}" marker: renders it with the asterisk link (NoteRef) in its place.
+import NoteRef from './NoteRef.astro';
+
+interface Props {
+  text: string;
+  href: string;
+  label: string;
+}
+const { text, href, label } = Astro.props;
+const [before, after] = text.split('{ref}');
+---
+
+{before}{after !== undefined && <><NoteRef href={href} label={label} />{after}</>}

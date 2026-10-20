@@ -1,0 +1,64 @@
+{
+  "id": "C1",
+  "layer": "community",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "all",
+    "renter"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-community",
+    "barrera-2021"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Find your local mosquito control program, and report problem spots",
+      "summary": "Report standing water, abandoned pools, and vacant properties.",
+      "guidanceNote": "community steps",
+      "evidenceMeasures": "treatment of top breeding sites",
+      "canDo": [
+        "Your local program can get abandoned pools, vacant houses, and dumping sites treated. These are places one household can't reach."
+      ],
+      "cantDo": [
+        "Local programs aren't the same everywhere: they vary a lot by county, and some areas don't have one."
+      ],
+      "research": [
+        {
+          "text": "In Puerto Rico, abandoned houses and areas with fewer city services produced the most young mosquitoes, which is why community programs matter.",
+          "cite": [
+            "barrera-2021"
+          ]
+        }
+      ]
+    },
+    "es": {
+      "title": "Busca el programa de control de mosquitos de tu área y reporta los lugares con problemas",
+      "summary": "Reporta agua estancada, piscinas abandonadas y propiedades vacías.",
+      "guidanceNote": "medidas comunitarias",
+      "evidenceMeasures": "tratamiento de los principales criaderos",
+      "canDo": [
+        "El programa local puede lograr que traten piscinas abandonadas, casas vacías y vertederos. Esos son lugares a los que un solo hogar no puede llegar."
+      ],
+      "cantDo": [
+        "Los programas locales no son iguales en todas partes: varían mucho según el condado, y algunas áreas no tienen uno."
+      ],
+      "research": [
+        {
+          "text": "En Puerto Rico, las casas abandonadas y las áreas con menos servicios municipales produjeron la mayor cantidad de mosquitos jóvenes; por eso importan los programas comunitarios.",
+          "cite": [
+            "barrera-2021"
+          ]
+        }
+      ]
+    }
+  }
+}

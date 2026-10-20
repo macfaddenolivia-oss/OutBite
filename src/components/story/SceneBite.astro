@@ -1,0 +1,65 @@
+---
+// Scene 2: a mosquito (no virus dots) flies from the bucket (right) to Ana (left)
+// and bites her.
+// One path is both the dotted flight line and the mosquito's route. The page script
+// drives both from one requestAnimationFrame timeline: the mosquito follows the path
+// (getPointAtLength; nearly level, tilting at most ±20°) and the dotted line is revealed
+// by a mask up to exactly the mosquito's position, so it trails behind it. The mosquito
+// emerges from the water small and transparent and grows to full size. The curve ends
+// level, so the mosquito arrives facing left, matching this finished picture (what
+// reduced motion and no-JavaScript visitors see).
+import Backdrop from './Backdrop.astro';
+import Bucket from './Bucket.astro';
+import Mosquito from './Mosquito.astro';
+import Person from './Person.astro';
+import { BITE, BUCKET_WATER_Y, BUCKET_X, GROUND, MOSQUITO_SCALE, PERSON_X, PROBOSCIS, STORY_BUCKET_SINK, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+  name: string;
+  /** Unique per scene, for the path and mask ids. */
+  id: string;
+}
+const { label, name, id } = Astro.props;
+// The flight starts at the water surface in the middle of the bucket's opening,
+// rises straight up inside the handle, then arcs over and ends exactly level at the
+// bite. The dotted line covers the whole route, so the finished picture shows it
+// from the water to the mosquito.
+const water = { x: BUCKET_X, y: GROUND + STORY_BUCKET_SINK + BUCKET_WATER_Y }; // middle of the water surface, inside the handle (the bucket stands on the ground)
+// The mosquito lands with its proboscis on the bite point.
+const end = { x: BITE.x + PROBOSCIS * MOSQUITO_SCALE, y: BITE.y };
+const flight = `M${water.x} ${water.y} C ${water.x - 2} ${water.y - 120}, ${end.x + 90} ${end.y}, ${end.x} ${end.y}`;
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label} data-flight>
+  <defs>
+    <mask id={`${id}-reveal`} maskUnits="userSpaceOnUse" x="0" y="0" width={VIEW_W} height={VIEW_H}>
+      <path
+        data-flight-reveal
+        d={flight}
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="12"
+        pathLength="1"
+        stroke-dasharray="1 1"
+        stroke-dashoffset="0"></path>
+    </mask>
+  </defs>
+  <Backdrop names={[{ x: PERSON_X, text: name }]} />
+  <Bucket x={BUCKET_X} y={GROUND} onGround sink={STORY_BUCKET_SINK} />
+  <path
+    id={id}
+    data-flight-path
+    d={flight}
+    fill="none"
+    stroke="#17306A"
+    stroke-width="3"
+    stroke-dasharray="3 9"
+    stroke-linecap="round"
+    mask={`url(#${id}-reveal)`}></path>
+  <Person x={PERSON_X} y={GROUND} dots />
+  <!-- Finished position = end of the path, facing left. -->
+  <g data-flyer transform={`translate(${end.x} ${end.y})`}>
+    <Mosquito x={0} y={0} scale={MOSQUITO_SCALE} />
+  </g>
+</svg>

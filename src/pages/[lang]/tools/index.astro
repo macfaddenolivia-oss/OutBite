@@ -1,0 +1,331 @@
+---
+// Tools: the page title and intro, then three groups of
+// cards: "Check where you stand" (quiz, weekly check), "Keep up the habit" (reminders,
+// printables) and "Planning a trip?" (Traveling soon?). Each card is one link: a small
+// flat icon (ToolIcon), the title, one line and a light-orange button. Two columns on
+// desktop, one on phones. The groups list every tool in the same order as the footer
+// (toolKeys in src/config/pages.ts; the content checks keep them in step). "Ask for help" holds
+// the landlord-note card, which opens the shared note in place.
+// Groups with a single card ("Planning a trip?", "Ask for help") share one row on
+// desktop (64rem and up): each keeps its heading above its card, in the same 2-column
+// grid as the groups above (subgrid, so the headings and the cards line up). When the
+// landlord note is open only its card grows; the travel card keeps its height at the
+// top. Below 64rem they stack, trip first.
+// Text: src/content/tools.json.
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Genus from '../../../components/Genus.astro';
+import ToolIcon from '../../../components/ToolIcon.astro';
+import LandlordNote from '../../../components/LandlordNote.astro';
+import { communityIcons } from '../../../lib/community-icons';
+import content from '../../../content/tools.json';
+import { langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = content.text[L];
+const cards = text.cards as Record<string, { title: string; line: string; button: string }>;
+const groups = text.groups as Record<string, string>;
+// Rows: a group with two cards on its own, consecutive single-card groups in pairs.
+type Group = (typeof content.groups)[number] & { notes?: string[] };
+const size = (g: Group) => g.tools.length + (g.notes?.length ?? 0);
+const rows: Group[][] = [];
+for (const g of content.groups as Group[]) {
+  const last = rows.at(-1);
+  if (size(g) === 1 && last && last.length === 1 && size(last[0]) === 1) last.push(g);
+  else rows.push([g]);
+}
+---
+
+<BaseLayout lang={lang} title={t('pages.tools.title')} description={t('pages.tools.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.tools.title')}</h1>
+      <p class="page-intro__lead">{t('pages.tools.summary')}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container tools">
+    {
+      rows.map((row) => (
+        <div class={row.length > 1 ? 'tools__pair' : 'tools__row'}>
+          {row.map((group) => (
+            <section class="tools__group" aria-labelledby={`tools-${group.key}`}>
+              <h2 id={`tools-${group.key}`} class="tools__heading">
+                {groups[group.key]}
+              </h2>
+              <ul class="tools__grid">
+                {group.tools.map((key) => (
+                  <li>
+                    <a class="tool-card" href={localizePath(lang, getPage(key).path)}>
+                      <ToolIcon tool={key} />
+                      <span class="tool-card__body">
+                        <span class="tool-card__title">{cards[key].title}</span>{' '}
+                        <span class="tool-card__line">
+                          <Genus text={cards[key].line} />
+                        </span>{' '}
+                        <span class="tool-card__button">
+                          {cards[key].button} <span aria-hidden="true">→</span>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+                {group.notes?.map((key) => (
+                  <li>
+                    {/* Ask for help: the landlord note opens inside the card (shared
+                        LandlordNote, same text as the Community page). Without JavaScript
+                        it is simply open. */}
+                    <div class="tool-card tool-card--note" id="landlord-note" data-note-card>
+                      <div class="tool-card__row">
+                        <span class="tool-icon tool-icon--html" aria-hidden="true" set:html={communityIcons.renters} />
+                        <span class="tool-card__body">
+                          <span class="tool-card__title">{cards[key].title}</span>{' '}
+                          <span class="tool-card__line">{cards[key].line}</span>
+                          <button
+                            type="button"
+                            class="tool-card__button tool-card__toggle"
+                            aria-expanded="true"
+                            aria-controls="landlord-note-panel"
+                            data-note-toggle
+                            data-show={cards[key].button}
+                            data-hide={(cards[key] as { hide?: string }).hide}
+                            hidden
+                          >
+                            <span data-note-toggle-text>{cards[key].button}</span> <span class="tool-card__arrow" aria-hidden="true">↓</span>
+                          </button>
+                        </span>
+                      </div>
+                      <div class="tool-card__panel" id="landlord-note-panel" data-note-panel>
+                        <LandlordNote lang={lang} />
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<script>
+  // "Show the note": opens the landlord note inside its card (no page change).
+  for (const card of document.querySelectorAll<HTMLElement>('[data-note-card]')) {
+    const toggle = card.querySelector<HTMLButtonElement>('[data-note-toggle]')!;
+    const panel = card.querySelector<HTMLElement>('[data-note-panel]')!;
+    const label = toggle.querySelector<HTMLElement>('[data-note-toggle-text]')!;
+    const set = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      label.textContent = (open ? toggle.dataset.hide : toggle.dataset.show) ?? '';
+    };
+    toggle.hidden = false;
+    // The footer's "Landlord note" link (#landlord-note) opens it.
+    set(location.hash === '#landlord-note');
+    toggle.addEventListener('click', () => set(toggle.getAttribute('aria-expanded') !== 'true'));
+    window.addEventListener('hashchange', () => {
+      if (location.hash === '#landlord-note') set(true);
+    });
+  }
+</script>
+
+<style>
+  .tools {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--section-gap) calc(var(--section-gap) * 2);
+  }
+
+  /* Two single-card groups: stacked below 64rem; side by side above, in the same
+     columns and gap as .tools__grid. */
+  .tools__pair {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 64rem) {
+    .tools__pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto auto;
+      gap: 0 var(--space-4);
+    }
+
+    .tools__pair .tools__group {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+    }
+
+    .tools__pair .tools__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Note open: only its card grows; the other card keeps its height at the top. */
+    .tools__pair:has([data-note-panel]:not([hidden])) .tools__grid {
+      align-self: start;
+    }
+  }
+
+  .tools__heading {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .tools__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 47.99rem) {
+    .tools__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+  }
+
+  .tools__grid li {
+    display: flex;
+  }
+
+  /* The whole card is one link. Hover: a thicker border (drawn inside, so nothing
+     moves). Keyboard focus: the site's focus outline around the card. */
+  .tool-card {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--pad-box-lg);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .tool-card:hover {
+    box-shadow: inset 0 0 0 2px var(--color-rule);
+  }
+
+  .tool-card:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .tool-card__body {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .tool-card__title {
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-size: 1.3125rem; /* 21px */
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .tool-card__line {
+    line-height: 1.4;
+  }
+
+  .tool-card__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    margin-top: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-primary-border);
+    background: var(--color-primary-bg);
+    color: var(--color-primary-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+  }
+
+  .tool-card:hover .tool-card__button {
+    background: var(--color-primary-bg-hover);
+    text-decoration: underline;
+  }
+
+  /* Landlord note card: same look, but a card with a button (not one big link). */
+  .tool-card--note {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tool-card--note:hover {
+    box-shadow: none;
+  }
+
+  .tool-card__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .tool-icon--html {
+    display: block;
+    flex: none;
+    width: 72px;
+    height: 72px;
+    color: var(--color-rule);
+  }
+
+  .tool-icon--html :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tool-card__toggle {
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    cursor: pointer;
+  }
+
+  .tool-card__toggle[aria-expanded='true'] .tool-card__arrow {
+    display: inline-block;
+    transform: rotate(180deg);
+  }
+
+  .tool-card__toggle[hidden] {
+    display: none;
+  }
+
+  .tool-card__toggle:hover {
+    background: var(--color-primary-bg-hover);
+    text-decoration: underline;
+  }
+
+  .tool-card__toggle:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .tool-card__panel[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 30rem) {
+    .tool-card {
+      align-items: start;
+      gap: var(--space-3);
+      padding: var(--space-3);
+    }
+  }
+</style>

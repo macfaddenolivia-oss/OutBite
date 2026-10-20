@@ -1,0 +1,339 @@
+{
+  "id": "how-it-spreads",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "meet": [
+      "cdc-unwanted-mosquitoes",
+      "cdc-aedes-range",
+      "cdc-culex-about",
+      "cdc-eid-culex",
+      "cdc-dengue-php",
+      "cdc-zika-cases-us",
+      "cdc-chik-cases-us"
+    ],
+    "firstBite": [
+      "cdc-dengue-transmission",
+      "cdc-zika-transmission",
+      "cdc-chik-spread",
+      "who-dengue"
+    ],
+    "openingLocal": [
+      "cdc-dengue-symptoms",
+      "cdc-zika-about",
+      "cdc-dengue-areas"
+    ],
+    "openingTravel": [
+      "cdc-dengue-symptoms",
+      "cdc-zika-about",
+      "cdc-travel-bites-3wk"
+    ],
+    "bite": [
+      "who-dengue",
+      "cdc-dengue-transmission"
+    ],
+    "inside": [
+      "who-dengue"
+    ],
+    "nextBite": [
+      "who-dengue",
+      "cdc-dengue-transmission"
+    ],
+    "moreMosquitoes": [
+      "cdc-aedes-life-cycle",
+      "cdc-control-home",
+      "cdc-dengue-transmission"
+    ],
+    "newInfection": [
+      "cdc-yellowbook-dengue",
+      "cdc-chik-symptoms",
+      "cdc-zika-clinical",
+      "cdc-zika-transmission"
+    ],
+    "bodyTravel": [
+      "cdc-travel-bites-3wk",
+      "cdc-prevent-bites"
+    ],
+    "bodyLocal": [
+      "cdc-prevent-bites",
+      "who-dengue"
+    ],
+    "home": [
+      "cdc-control-home"
+    ],
+    "yard": [
+      "cdc-control-home",
+      "cdc-aedes-life-cycle"
+    ],
+    "community": [
+      "cdc-community",
+      "winch-2002",
+      "sharp-2019"
+    ]
+  },
+  "text": {
+    "en": {
+      "intro": "The same Aedes mosquitoes spread dengue, Zika and chikungunya: follow the virus from person to person, then see where each layer of protection stops it.",
+      "choiceHeading": "How does Ana’s story start?",
+      "openingLocalLabel": "Caught nearby",
+      "openingTravelLabel": "After a trip",
+      "stepOf": "Step {n} of {total}",
+      "stepButton": "Step {n}: {heading}",
+      "stepsGroup": "Story steps",
+      "back": "Back",
+      "next": "Next",
+      "restart": "Start from the beginning",
+      "protectCard": "See how to protect where you live",
+      "noJsOpening": "Opening: {name}",
+      "scenes": {
+        "meet": {
+          "heading": "Meet the Aedes mosquito",
+          "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). The Aedes mosquito looks different: it is black or dark brown, with white bands on its legs and white markings on its body. Aedes mosquitoes can spread dengue, Zika and chikungunya.",
+          "note": "You don’t have to travel to get sick. Aedes mosquitoes can live in many parts of the U.S. Dengue spreads in Puerto Rico, and CDC has reported locally acquired cases in these states:",
+          "states": {
+            "lines": [
+              "Dengue: Florida, Texas, California, Hawaii and Arizona",
+              "Zika: Florida and Texas (2016–2017)",
+              "Chikungunya: Florida (2014, 2025), Texas (2015) and New York (2025)"
+            ]
+          },
+          "label": "Two mosquitoes side by side on the ground. Left: the Aedes mosquito, black with white bands on its legs and white markings on its body. Right: the Culex house mosquito, brown, with no white markings in this drawing.",
+          "aedesName": "Aedes",
+          "culexName": "Culex (house mosquito)",
+          "calloutAedes": "White bands on its legs"
+        },
+        "firstBite": {
+          "heading": "The first bite",
+          "captionLocal": "An Aedes mosquito carrying the virus bites Ana near her home. Mosquitoes pick up the virus by biting someone who already has it.",
+          "captionTravel": "While traveling somewhere these viruses are common, an Aedes mosquito carrying the virus bites Ana.",
+          "labelLocal": "An Aedes mosquito with orange virus dots bites Ana in front of her house. Then orange dots appear inside Ana: now the virus is in her blood.",
+          "labelTravel": "Ana is traveling, with an airplane in the sky; an Aedes mosquito with orange virus dots bites Ana. Then orange dots appear inside Ana: now the virus is in her blood."
+        },
+        "openingLocal": {
+          "heading": "Ana caught the virus nearby",
+          "caption": "Ana caught the virus from a mosquito near her home. She feels fine, but the virus is already in her blood.",
+          "callout": "Ana feels fine, but the virus is in her blood.",
+          "label": "Ana stands in front of her house. Three orange dots inside her show the virus in her blood."
+        },
+        "openingTravel": {
+          "heading": "Ana comes home",
+          "caption": "Ana comes home from a trip somewhere dengue, Zika or chikungunya are common. She did nothing wrong, and she feels fine, but the virus is already in her blood. That's why the days after a trip matter.",
+          "callout": "Ana feels fine, but the virus is in her blood.",
+          "label": "Ana stands in front of her house with her suitcase. Three orange dots inside her show the virus in her blood."
+        },
+        "bite": {
+          "heading": "The bite",
+          "caption": "An Aedes mosquito from standing water in her yard, like this bucket, bites her. People can pass the virus to mosquitoes from about 2 days before they feel sick to about 2 days after their fever ends, even if they never feel sick at all.",
+          "callout": "The Aedes mosquito is a daytime biter, but may bite at night too.",
+          "label": "A mosquito flies from an orange bucket of water in the yard to Ana and bites her."
+        },
+        "inside": {
+          "heading": "Inside the mosquito",
+          "caption": "For about 1 to 2 weeks, the virus grows inside the mosquito and moves to its saliva. After that, the mosquito can spread the virus for the rest of its life.",
+          "timeline": "In about 1 to 2 weeks, the Aedes mosquito can spread the virus.",
+          "label": "A large mosquito with orange virus dots appearing on its body, above a timeline bar that fills up: in about 1 to 2 weeks, the Aedes mosquito can spread the virus."
+        },
+        "nextBite": {
+          "heading": "The next bite",
+          "caption": "The Aedes mosquito, now carrying the virus, bites Ana's neighbor.",
+          "label": "Ana, with no virus dots, labeled is no longer contagious. The Aedes mosquito, with orange virus dots, bites Ana's neighbor near the shoulder, and orange dots appear inside the neighbor: the neighbor now carries the virus.",
+          "callout": "The Aedes mosquito bites the neighbor.",
+          "virusGone": "By now, the virus is usually gone from Ana’s blood, so she can’t pass it to mosquitoes anymore. But the mosquito that bit her still carries it."
+        },
+        "moreMosquitoes": {
+          "heading": "More mosquitoes",
+          "caption": "The mosquito also lays eggs in containers that hold water nearby, like this bucket. The eggs hatch into new mosquitoes.",
+          "label": "A bucket of water on the ground with a row of tiny eggs at the waterline. The mosquito, with orange virus dots, stands on the bucket's rim laying eggs. Below, small pictures of other places mosquitoes lay eggs: a tire, a plant saucer, a pet bowl, a birdbath, a bottle cap and an upturned lid.",
+          "callout": "The Aedes mosquito lays eggs in water nearby.",
+          "containers": "Mosquitoes can lay eggs in anything that holds even a little water: buckets, tires, plant saucers, pet bowls, birdbaths.",
+          "eggSpots": {
+            "title": "Where mosquitoes lay eggs:",
+            "items": {
+              "tire": "tire",
+              "plantSaucer": "plant saucer",
+              "petBowl": "pet bowl",
+              "birdbath": "birdbath",
+              "bottleCap": "bottle cap",
+              "upturnedLid": "upturned lid"
+            },
+            "more": "…and any other standing water."
+          }
+        },
+        "newInfection": {
+          "heading": "A new infection",
+          "caption": "3 to 14 days later, the neighbor may get sick, or may never notice. Either way, a new mosquito from standing water, like the bucket, can bite the neighbor, and the cycle can start again.",
+          "note": "Zika can also spread through sex and from a pregnant person to their baby.",
+          "label": "The neighbor now has orange virus dots. Beside them, a calendar reads 3 to 14 days.",
+          "callout": "3 to 14 days later, the neighbor may get sick, or may never notice.",
+          "calendar": "3–14 days"
+        },
+        "cycle": {
+          "heading": "Break the cycle",
+          "caption": "Tap a layer to block the virus",
+          "closing": "Each layer stops the virus at a different step. Use more than one, and it has fewer ways through.",
+          "label": "A cycle diagram. A mosquito bites Ana and picks up the virus, then bites her neighbor and passes it on. A dashed arrow arcs over the top from the neighbor back to Ana: the cycle repeats. Below, a two-way arrow links the mosquito and standing water: mosquitoes lay eggs in standing water, and the eggs hatch into more mosquitoes."
+        }
+      },
+      "diagram": {
+        "ana": "Ana",
+        "mosquito": "Mosquito",
+        "neighbor": "Neighbor",
+        "virusGone": "is no longer contagious",
+        "standingWater": "Standing water",
+        "waterNote": "Mosquitoes lay eggs here, and the eggs hatch into more mosquitoes.",
+        "pickUp": "picks up virus",
+        "passOn": "passes it on",
+        "repeats": "and the cycle repeats",
+        "blocked": "Blocked"
+      },
+      "layers": {
+        "groupLabel": "Choose a layer of protection",
+        "body": "Body",
+        "home": "Home",
+        "yard": "Yard",
+        "community": "Community",
+        "bodyTravel": "Ana uses EPA-registered repellent for 3 weeks after her trip, so local mosquitoes can't pick up the virus.",
+        "bodyLocal": "Wearing repellent, even when you feel fine, keeps mosquitoes from picking up a virus you might not know you have.",
+        "homeText": "Screens and closed doors keep the mosquito out.",
+        "yardText": "Empty and scrub anything that holds water, every week, so no new mosquitoes hatch.",
+        "communityText": "Neighborhood cleanups and traps cut mosquitoes for everyone.",
+        "blockedSr": "Blocked: {step}.",
+        "stepAnaMosquito": "Ana to the mosquito",
+        "stepMosquitoNeighbor": "the mosquito to the neighbor",
+        "stepBucketMosquito": "more mosquitoes hatching from standing water",
+        "stepCommunity": "the cycle starting again"
+      }
+    },
+    "es": {
+      "intro": "Los mismos mosquitos Aedes transmiten el dengue, el zika y el chikungunya: sigue el virus de persona a persona y mira dónde lo detiene cada capa de protección.",
+      "choiceHeading": "¿Cómo empieza la historia de Ana?",
+      "openingLocalLabel": "Contagio cercano",
+      "openingTravelLabel": "Después de un viaje",
+      "stepOf": "Paso {n} de {total}",
+      "stepButton": "Paso {n}: {heading}",
+      "stepsGroup": "Pasos de la historia",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "restart": "Empezar desde el principio",
+      "protectCard": "Mira cómo proteger donde vives",
+      "noJsOpening": "Inicio: {name}",
+      "scenes": {
+        "meet": {
+          "heading": "Conoce al mosquito Aedes",
+          "caption": "Muchos mosquitos en los estados de EE. UU. son mosquitos comunes (Culex). El mosquito Aedes es diferente: es negro o café oscuro, con bandas blancas en las patas y marcas blancas en el cuerpo. Los mosquitos Aedes pueden transmitir el dengue, el zika y el chikungunya.",
+          "note": "No hace falta viajar para enfermarse. Los mosquitos Aedes pueden vivir en muchas partes de EE. UU. El dengue se transmite en Puerto Rico, y los CDC han reportado casos locales en estos estados:",
+          "states": {
+            "lines": [
+              "Dengue: Florida, Texas, California, Hawái y Arizona",
+              "Zika: Florida y Texas (2016–2017)",
+              "Chikungunya: Florida (2014, 2025), Texas (2015) y Nueva York (2025)"
+            ]
+          },
+          "label": "Dos mosquitos uno al lado del otro sobre el suelo. A la izquierda, el mosquito Aedes, negro con bandas blancas en las patas y marcas blancas en el cuerpo. A la derecha, el mosquito común Culex, de color café, sin marcas blancas en este dibujo.",
+          "aedesName": "Aedes",
+          "culexName": "Culex (mosquito común)",
+          "calloutAedes": "Bandas blancas en las patas"
+        },
+        "firstBite": {
+          "heading": "La primera picada",
+          "captionLocal": "Un mosquito Aedes que lleva el virus pica a Ana cerca de su casa. Los mosquitos recogen el virus al picar a alguien que ya lo tiene.",
+          "captionTravel": "Mientras viaja a un lugar donde estos virus son comunes, un mosquito Aedes que lleva el virus pica a Ana.",
+          "labelLocal": "Un mosquito Aedes con puntos anaranjados de virus pica a Ana frente a su casa. Luego aparecen puntos anaranjados dentro de Ana: ahora el virus está en su sangre.",
+          "labelTravel": "Ana está de viaje, con un avión en el cielo; un mosquito Aedes con puntos anaranjados de virus pica a Ana. Luego aparecen puntos anaranjados dentro de Ana: ahora el virus está en su sangre."
+        },
+        "openingLocal": {
+          "heading": "Contagio cercano",
+          "caption": "Ana se contagió por un mosquito cerca de su casa. Ana se siente bien, pero el virus ya está en su sangre.",
+          "callout": "Ana se siente bien, pero el virus está en su sangre.",
+          "label": "Ana está frente a su casa. Tres puntos anaranjados dentro de ella muestran el virus en su sangre."
+        },
+        "openingTravel": {
+          "heading": "De regreso a casa",
+          "caption": "Ana regresa a casa después de un viaje a un lugar donde el dengue, el zika o el chikungunya son comunes. Ana no hizo nada malo y se siente bien, pero el virus ya está en su sangre. Por eso importan los días después de un viaje.",
+          "callout": "Ana se siente bien, pero el virus está en su sangre.",
+          "label": "Ana está frente a su casa con su maleta. Tres puntos anaranjados dentro de ella muestran el virus en su sangre."
+        },
+        "bite": {
+          "heading": "La picada",
+          "caption": "Un mosquito Aedes de agua estancada en su patio, como este balde, la pica. Las personas pueden pasarles el virus a los mosquitos desde unos 2 días antes de sentirse enfermas hasta unos 2 días después de que se les quita la fiebre, aunque nunca se sientan enfermas.",
+          "callout": "El mosquito Aedes pica sobre todo de día, pero también puede picar de noche.",
+          "label": "Un mosquito vuela desde un balde anaranjado con agua en el patio hasta Ana y la pica."
+        },
+        "inside": {
+          "heading": "Dentro del mosquito",
+          "caption": "Durante 1 a 2 semanas, más o menos, el virus crece dentro del mosquito y llega a su saliva. Después, el mosquito puede transmitir el virus por el resto de su vida.",
+          "timeline": "En 1 a 2 semanas aproximadamente, el mosquito Aedes puede transmitir el virus.",
+          "label": "Un mosquito grande con puntos anaranjados de virus que aparecen en su cuerpo, sobre una barra de tiempo que se llena: en 1 a 2 semanas aproximadamente, el mosquito Aedes puede transmitir el virus."
+        },
+        "nextBite": {
+          "heading": "La siguiente picada",
+          "caption": "El mosquito Aedes, que ahora lleva el virus, pica a la vecina de Ana.",
+          "label": "Ana, sin puntos de virus, con la etiqueta ya no contagia. El mosquito Aedes, con puntos anaranjados de virus, pica a la vecina de Ana cerca del hombro, y aparecen puntos anaranjados dentro de la vecina: ahora la vecina lleva el virus.",
+          "callout": "El mosquito Aedes pica a la vecina.",
+          "virusGone": "Para este momento, el virus suele haber salido de la sangre de Ana, así que ya no puede pasárselo a los mosquitos. Pero el mosquito que la picó todavía lo lleva."
+        },
+        "moreMosquitoes": {
+          "heading": "Más mosquitos",
+          "caption": "El mosquito también pone huevos en recipientes con agua cerca, como este balde. De los huevos salen nuevos mosquitos.",
+          "label": "Un balde con agua en el suelo, con una fila de huevos diminutos en la línea del agua. El mosquito, con puntos anaranjados de virus, está en el borde del balde poniendo huevos. Abajo, dibujos pequeños de otros lugares donde los mosquitos ponen huevos: una goma, un plato de maceta, un plato de mascota, un bebedero de pájaros, una tapa de botella y una tapa volteada.",
+          "callout": "El mosquito Aedes pone huevos en agua cercana.",
+          "containers": "Los mosquitos pueden poner huevos en cualquier cosa que acumule un poco de agua: baldes, gomas, platos de macetas, platos de mascotas, bebederos de pájaros.",
+          "eggSpots": {
+            "title": "Dónde ponen huevos los mosquitos:",
+            "items": {
+              "tire": "goma",
+              "plantSaucer": "plato de maceta",
+              "petBowl": "plato de mascota",
+              "birdbath": "bebedero de pájaros",
+              "bottleCap": "tapa de botella",
+              "upturnedLid": "tapa volteada"
+            },
+            "more": "…y cualquier otra agua estancada."
+          }
+        },
+        "newInfection": {
+          "heading": "Una nueva infección",
+          "caption": "De 3 a 14 días después, la vecina puede enfermarse, o puede que nunca lo note. De cualquier forma, un mosquito nuevo de agua estancada, como la del balde, puede picarla y el ciclo puede empezar otra vez.",
+          "note": "El zika también se puede transmitir por vía sexual y de una persona embarazada a su bebé.",
+          "label": "La vecina ahora tiene puntos anaranjados de virus. A su lado, un calendario dice de 3 a 14 días.",
+          "callout": "De 3 a 14 días después, la vecina puede enfermarse, o quizás nunca lo note.",
+          "calendar": "3–14 días"
+        },
+        "cycle": {
+          "heading": "Rompe el ciclo",
+          "caption": "Toca una capa para bloquear el virus",
+          "closing": "Cada capa detiene el virus en un paso distinto. Usa más de una y el virus tendrá menos caminos para pasar.",
+          "label": "Un diagrama del ciclo. Un mosquito pica a Ana y recoge el virus, luego pica a su vecina y se lo pasa. Una flecha punteada en arco por arriba va de la vecina de vuelta a Ana: el ciclo se repite. Abajo, una flecha de dos puntas une al mosquito con el agua estancada: los mosquitos ponen huevos en el agua estancada, y los huevos se convierten en más mosquitos."
+        }
+      },
+      "diagram": {
+        "ana": "Ana",
+        "mosquito": "Mosquito",
+        "neighbor": "Vecina",
+        "virusGone": "ya no contagia",
+        "standingWater": "Agua estancada",
+        "waterNote": "Los mosquitos ponen huevos aquí, y los huevos se convierten en más mosquitos.",
+        "pickUp": "recoge el virus",
+        "passOn": "lo pasa",
+        "repeats": "y el ciclo se repite",
+        "blocked": "Bloqueado"
+      },
+      "layers": {
+        "groupLabel": "Escoge una capa de protección",
+        "body": "Cuerpo",
+        "home": "Hogar",
+        "yard": "Patio",
+        "community": "Comunidad",
+        "bodyTravel": "Ana usa repelente registrado por la EPA durante 3 semanas después de su viaje, así los mosquitos de aquí no pueden recoger el virus.",
+        "bodyLocal": "Usar repelente, aunque te sientas bien, evita que los mosquitos recojan un virus que quizás no sabes que tienes.",
+        "homeText": "Las mallas y las puertas cerradas mantienen al mosquito afuera.",
+        "yardText": "Vacía y friega todo lo que acumule agua, cada semana, para que no nazcan mosquitos nuevos.",
+        "communityText": "Las limpiezas del vecindario y las trampas reducen los mosquitos para todos.",
+        "blockedSr": "Bloqueado: {step}.",
+        "stepAnaMosquito": "de Ana al mosquito",
+        "stepMosquitoNeighbor": "del mosquito a la vecina",
+        "stepBucketMosquito": "que nazcan más mosquitos del agua estancada",
+        "stepCommunity": "que el ciclo vuelva a empezar"
+      }
+    }
+  }
+}

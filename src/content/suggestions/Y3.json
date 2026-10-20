@@ -1,0 +1,46 @@
+{
+  "id": "Y3",
+  "layer": "yard",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "$"
+  ],
+  "effort": "one-time",
+  "audiences": [
+    "homeowner"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-control-home"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Fill tree holes, seal septic tank cracks, and screen vent pipes",
+      "summary": "Close off hidden spots where mosquitoes breed.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "Filling and sealing closes off hidden breeding spots."
+      ],
+      "cantDo": [
+        "Most renters can't do these repairs themselves."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Rellena los hoyos de los árboles, sella las grietas del pozo séptico y pon malla en los tubos de ventilación",
+      "summary": "Cierra los lugares escondidos donde se crían los mosquitos.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Rellenar y sellar cierra los lugares escondidos donde se crían mosquitos."
+      ],
+      "cantDo": [
+        "La mayoría de las personas que alquilan no pueden hacer estos arreglos."
+      ],
+      "research": []
+    }
+  }
+}

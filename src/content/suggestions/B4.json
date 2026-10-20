@@ -1,0 +1,65 @@
+{
+  "id": "B4",
+  "layer": "body",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "not-rated",
+  "cost": [
+    "$"
+  ],
+  "effort": "each-time",
+  "audiences": [
+    "kids",
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-prevent-bites",
+    "cdc-travel-bites",
+    "cdc-yellowbook-arthropods",
+    "epa-repellent-safely"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Babies and young children",
+      "summary": "No oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) under age 3. Never on a child's hands, eyes or mouth: adults put repellent on their own hands first. Netting covers strollers and baby carriers.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "CDC: “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old.”",
+        "CDC: repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.”",
+        "CDC: “Do not apply insect repellent to a child's hands, eyes, mouth, cuts, or irritated skin.” “Adults: Spray insect repellent onto your hands and then apply to a child's face.”",
+        "CDC: “Children should not handle repellents.”",
+        "EPA: “After returning indoors, wash your child's treated skin and clothes with soap and water or bathe.”",
+        "For babies, CDC says: “Dress your child in clothing that covers arms and legs.” “Cover strollers and baby carriers with mosquito netting.”"
+      ],
+      "cantDo": [
+        "Netting can't protect a baby once they're out of the stroller or carrier."
+      ],
+      "research": [],
+      "travel": "Children: no OLE or PMD under age 3, and never on a child's hands, eyes or mouth. Adults put repellent on their own hands first, then on the child's face."
+    },
+    "es": {
+      "title": "Bebés y niños pequeños",
+      "summary": "Nada de aceite de eucalipto de limón (OLE) ni para-mentano-diol (PMD) en menores de 3 años. Nunca en las manos, los ojos ni la boca de un niño: los adultos se ponen el repelente primero en sus propias manos. El mosquitero cubre coches de bebé y portabebés.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Los CDC dicen: “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”.",
+        "Los CDC dicen que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”.",
+        "Los CDC dicen: “No le pongas repelente en las manos, los ojos, la boca, cortaduras ni piel irritada a un niño”. “Adultos: rocíen el repelente en sus manos y luego aplíquenlo en la cara del niño”.",
+        "Los CDC dicen: “Los niños no deben manejar los repelentes”.",
+        "La EPA dice: “Al regresar adentro, lava la piel tratada y la ropa de tu niño con agua y jabón, o báñalo”.",
+        "Para los bebés, los CDC dicen: “Viste a tu niño con ropa que cubra los brazos y las piernas”. “Cubre los coches de bebé y los portabebés con un mosquitero”."
+      ],
+      "cantDo": [
+        "El mosquitero no protege al bebé cuando sale del coche o del portabebés."
+      ],
+      "research": [],
+      "travel": "Niños: nada de OLE ni PMD en menores de 3 años, y nunca en las manos, los ojos ni la boca de un niño. Los adultos se ponen el repelente primero en sus propias manos y luego en la cara del niño."
+    }
+  },
+  "links": [
+    "epa-repellent-safely"
+  ]
+}

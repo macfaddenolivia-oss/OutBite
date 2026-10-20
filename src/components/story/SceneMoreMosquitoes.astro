@@ -1,0 +1,35 @@
+---
+// Step 6, "More mosquitoes": the bucket with eggs at the waterline, larger and centered
+// on the ground, and the same virus-carrying mosquito as step 5 (same size, orange
+// dots) perched on the bucket's right rim: its feet on the rim just outside the
+// handle, its body tilted slightly down toward the water, and most of it out over the
+// white background (clear of the water and the handle) so it stays easy to see. The
+// page adds the "Where mosquitoes lay eggs:" strip on the ground below. Same in both
+// openings.
+import Backdrop from './Backdrop.astro';
+import Bucket from './Bucket.astro';
+import Mosquito from './Mosquito.astro';
+import { BUCKET_CORNER, BUCKET_K, GROUND, MORE, NEXT, STORY_BUCKET_SINK, VIEW_H, VIEW_W } from './layout';
+
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+// Right end of the rim, in the bucket's drawing units (rim ellipse centre (50, 40),
+// half-width 34; the handle joins it at x = 81), converted to the scene.
+const k = MORE.bucketScale * BUCKET_K;
+const toScene = (dx: number, dy: number) => ({ x: MORE.bucketX + (dx - 50) * k, y: GROUND + STORY_BUCKET_SINK + (dy - BUCKET_CORNER) * k });
+const rimRight = toScene(MORE.perch.rimX, 40);
+// The mosquito sits just right of the handle with its legs reaching down onto the rim
+// (they hang over the outside of the bucket's wall), tilted head-down toward the water
+// around its own centre.
+const mosquito = { x: rimRight.x + MORE.perch.dx, y: rimRight.y + MORE.perch.dy };
+---
+
+<svg class="story-art story-art--ground" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} role="img" aria-label={label}>
+  <Backdrop />
+  <Bucket x={MORE.bucketX} y={GROUND} scale={MORE.bucketScale} eggs onGround sink={STORY_BUCKET_SINK} />
+  <g transform={`rotate(${MORE.perch.tilt} ${mosquito.x} ${mosquito.y})`}>
+    <Mosquito x={mosquito.x} y={mosquito.y} scale={NEXT.mosquitoScale} dots />
+  </g>
+</svg>

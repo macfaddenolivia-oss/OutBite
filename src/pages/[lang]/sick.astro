@@ -1,0 +1,667 @@
+---
+// "Think you might be sick?". One page for all three
+// viruses. Order: title and intro; the not-medical-advice note (one slim line); the
+// emergency box (CDC's severe dengue warning signs, Call 911, pregnancy line) beside
+// "Keep this handy" (the when-to-get-care card); common symptoms; "If you feel sick" (three step
+// cards); "No regular doctor?" (health centers, urgent care, EMTALA); "Learn more about
+// each virus"; one "Sources for this page" list (open without JavaScript and in print).
+// Deep red only for the emergency box and the Call 911 button.
+// Text and sources: src/content/sick-page.json.
+// No symptom checker, no doses, nothing that reads as a diagnosis.
+// "Print a when-to-get-care card" links to the card on Printables; with JavaScript it
+// prints the card here, in this page's language. The browser's own Print prints the page.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrintCareCard from '../../components/print/PrintCareCard.astro';
+import page from '../../content/sick-page.json';
+import warningSigns from '../../content/warning-signs.json';
+import { defaultLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+import { sources } from '../../lib/suggestions';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = (page.text as Record<string, (typeof page.text)['en']>)[lang] ?? page.text[defaultLocale as 'en'];
+const cite = page.cite as Record<string, string[]>;
+// CDC's severe-dengue warning signs: one shared item (also the card and the dengue page).
+const ws = warningSigns.text[L];
+const title = t('pages.sick.title');
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const step = (n: number) => text.stepLabel.replace('{n}', String(n));
+const learn = [
+  ['dengue', text.dengue],
+  ['zika', text.zikaDiffer],
+  ['chikungunya', text.chikungunya],
+] as const;
+
+// "Pregnant? Contact…": the question in bold.
+const qEnd = text.emergencyPregnant.indexOf('?') + 1;
+const pregnantQ = text.emergencyPregnant.slice(0, qEnd);
+const pregnantRest = text.emergencyPregnant.slice(qEnd);
+
+// One sources list, grouped by section; every current source kept.
+const noColon = (s: string) => s.replace(/:\s*$/, '');
+const groups = [
+  [ws.heading, [...new Set([...warningSigns.cite.signs, ...cite.emergency])]],
+  [text.symptomsHeading, cite.symptoms],
+  [`${step(1)}: ${text.step1Heading}`, [...cite.step1, ...cite.testing]],
+  [`${step(2)}: ${text.step2Heading}`, cite.step2],
+  [`${step(3)}: ${text.step3Heading}`, cite.step3],
+  [text.accessHeading, [...cite.healthCenters, page.healthCenterTool, ...cite.urgentCare, ...cite.emergencyRooms]],
+  [text.learnHeading, [...cite.dengue, ...cite.zikaDiffer, ...cite.chikungunya]],
+] as const;
+const sourceGroups = groups.map(([label, ids]) => ({
+  label,
+  items: [...new Set(ids)].map((id) => sources[id]).filter(Boolean),
+}));
+const publishers = [...new Set(sourceGroups.flatMap((g) => g.items.map((s) => s.short)))];
+const printHref = `${href('printables')}#printable-care`;
+---
+
+<BaseLayout lang={lang} title={title} description={t('pages.sick.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{title}</h1>
+      <p class="page-intro__lead">{text.intro}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container sick">
+    <!-- 0. Not medical advice: one slim line at the very top. -->
+    <aside class="note" aria-label={t('disclaimer.heading')}>
+      <p><strong>{t('disclaimer.heading')}.</strong> {text.disclaimer}</p>
+    </aside>
+
+    <!-- 1. Emergency box, with "Keep this handy" beside it -->
+    <div class="sick__top">
+      <section class="emergency" aria-labelledby="emergency-heading">
+        <h2 id="emergency-heading" class="emergency__heading">{ws.heading}</h2>
+        <p class="emergency__intro">{ws.lead}</p>
+        <ul class="emergency__signs">{ws.signs.map((s) => <li>{s}</li>)}</ul>
+        <p class="emergency__intro">{ws.timing}</p>
+        <div class="emergency__call">
+          <a class="call-911" href="tel:911">{t('sick.call911')}</a>
+          <p class="emergency__action">{text.emergencyAction}</p>
+        </div>
+        <p class="emergency__pregnant"><strong>{pregnantQ}</strong>{pregnantRest}</p>
+      </section>
+
+      <div class="sick__side">
+        <section class="handy" aria-labelledby="handy-heading">
+          <h2 id="handy-heading" class="handy__heading">{text.handyHeading}</h2>
+          <p>{text.handyText}</p>
+          <a class="btn btn-primary handy__btn" href={printHref} data-print-card>{text.print}</a>
+        </section>
+      </div>
+    </div>
+
+    <!-- 2. Common symptoms -->
+    <section class="sick__section" aria-labelledby="symptoms-heading">
+      <h2 id="symptoms-heading">{text.symptomsHeading}</h2>
+      <p>{text.symptomsIntro}</p>
+      <ul class="symptoms">{text.symptoms.map((s) => <li>{s}</li>)}</ul>
+    </section>
+
+    <!-- 3. If you feel sick: three step cards -->
+    <section class="sick__section" aria-labelledby="steps-heading">
+      <h2 id="steps-heading">{text.stepsHeading}</h2>
+      <ol class="steps">
+        <li class="step">
+          <p class="step__label">{step(1)}</p>
+          <h3 class="step__heading">{text.step1Heading}</h3>
+          {text.step1.map((p) => <p>{p}</p>)}
+          <p class="step__testing">{text.testingLine}</p>
+          <details class="testing">
+            <summary><span class="testing__marker" aria-hidden="true"></span>{text.testingHeading}</summary>
+            <dl>
+              {text.testing.map((x) => (
+                <div>
+                  <dt>{x.label}</dt>
+                  <dd>{x.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </details>
+        </li>
+        <li class="step">
+          <p class="step__label">{step(2)}</p>
+          <h3 class="step__heading">{text.step2Heading}</h3>
+          <ul>{text.step2.map((p) => <li>{p}</li>)}</ul>
+        </li>
+        <li class="step">
+          <p class="step__label">{step(3)}</p>
+          <h3 class="step__heading">{text.step3Heading}</h3>
+          {text.step3.map((p) => <p>{p}</p>)}
+          <p class="step__more">
+            <a href={`${href('protect')}#card-B5`}>{text.condomLink} <span aria-hidden="true">→</span></a>
+            <a href={href('zika')}>{text.zikaLink} <span aria-hidden="true">→</span></a>
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 4. No regular doctor? -->
+    <section class="access" aria-labelledby="access-heading">
+      <div class="access__col">
+        <h2 id="access-heading" class="access__heading">{text.accessHeading}</h2>
+        <p>
+          {text.healthCenters}{' '}
+          <a href={sources[page.healthCenterTool]?.url}>{text.healthCentersLink} <span aria-hidden="true">→</span></a>
+        </p>
+      </div>
+      <div class="access__col">
+        <h3 class="access__heading">{text.urgentCareHeading}</h3>
+        <p>{text.urgentCare}</p>
+      </div>
+      <div class="access__col">
+        <h3 class="access__heading">{text.emergencyRoomsHeading}</h3>
+        <p>{text.emergency}</p>
+      </div>
+    </section>
+
+    <!-- 5. Learn more about each virus -->
+    <section class="sick__section" aria-labelledby="learn-heading">
+      <h2 id="learn-heading">{text.learnHeading}</h2>
+      <ul class="learn">
+        {
+          learn.map(([disease, line]) => (
+            <li class="learn__tile">
+              <h3 class="learn__name">
+                <a href={href(disease)}>
+                  {t(`pages.${disease}.title`)} <span aria-hidden="true">→</span>
+                </a>
+              </h3>
+              <p>{line}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- 6. One sources list (open without JavaScript and when printing) -->
+    <details class="sources" open data-sources>
+      <summary>
+        <span class="sources__marker" aria-hidden="true"></span>{text.sourcesHeading} ({publishers.join(', ')})
+      </summary>
+      <div class="sources__groups">
+        {
+          sourceGroups.map((g) => (
+            <div class="sources__group">
+              <h3>{g.label}</h3>
+              <ul>
+                {g.items.map((s) => (
+                  <li>
+                    {s.short} · <a href={s.url}>{s.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+
+  <!-- The when-to-get-care card, printed by the "Print" button in this page's language. -->
+  <div class="care-print" aria-hidden="true">
+    <PrintCareCard langs={[L, L]} id="care-print" />
+  </div>
+</BaseLayout>
+
+<script>
+  // Sources: closed with JavaScript (open without it), and always open when printing.
+  const details = document.querySelector<HTMLDetailsElement>('[data-sources]');
+  let wasOpen = false;
+  if (details) details.open = false;
+  window.addEventListener('beforeprint', () => {
+    if (!details || document.body.dataset.printing) return;
+    wasOpen = details.open;
+    details.open = true;
+  });
+  window.addEventListener('afterprint', () => {
+    if (details && !document.body.dataset.printing) details.open = wasOpen;
+    delete document.body.dataset.printing;
+  });
+
+  // "Print a when-to-get-care card": print the card here, in this page's language.
+  // (Without JavaScript the link opens the card on the Printables page.)
+  const printLink = document.querySelector<HTMLAnchorElement>('[data-print-card]');
+  if (printLink && typeof window.print === 'function') {
+    printLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.dataset.printing = 'care';
+      window.print();
+    });
+  }
+</script>
+
+<style>
+  .sick {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* ---- 1. Emergency box | Keep this handy ---- */
+  .sick__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4) var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 64rem) {
+    .sick__top {
+      grid-template-columns: minmax(0, 1fr) 18.75rem;
+    }
+  }
+
+  .emergency {
+    padding: var(--pad-box-lg) var(--space-5);
+    border: 4px solid var(--color-urgent-border);
+    background: var(--color-surface);
+  }
+
+  .emergency__heading {
+    margin-bottom: var(--space-1);
+    color: var(--color-warning-text);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+  }
+
+  .emergency__intro {
+    margin: 0 0 var(--space-3);
+    color: var(--color-warning-text);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .emergency__signs {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: 1.2em;
+    font-weight: var(--weight-strong);
+  }
+
+  @media (min-width: 48rem) {
+    .emergency__signs {
+      columns: 2;
+      column-gap: var(--space-6);
+    }
+  }
+
+  .emergency__signs li {
+    break-inside: avoid;
+    margin-bottom: var(--space-1);
+  }
+
+  .emergency__call {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .call-911 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-sm);
+    background: var(--color-urgent-bg);
+    color: var(--color-urgent-text);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    text-decoration: none;
+  }
+
+  .call-911:hover {
+    text-decoration: underline;
+  }
+
+  .emergency__action {
+    flex: 1 1 18rem;
+    margin: 0;
+    font-weight: var(--weight-strong);
+    line-height: 1.35;
+  }
+
+  .emergency__pregnant {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .sick__side {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .handy {
+    padding: var(--pad-box-lg);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .handy__heading {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-lg);
+  }
+
+  .handy p {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .handy__btn {
+    font-size: var(--text-sm);
+  }
+
+  /* Not-medical-advice note: one slim line at the top, with the orange left bar. */
+  .note {
+    margin-bottom: var(--space-3);
+    padding: var(--space-2) var(--pad-box);
+    border-inline-start: 6px solid var(--color-warning-accent);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .note p {
+    margin: 0;
+  }
+
+  /* ---- Sections ---- */
+  .sick__section {
+    margin-top: var(--section-gap);
+  }
+
+  .sick__section > h2 {
+    margin-bottom: var(--space-2);
+  }
+
+  .sick__section > p {
+    margin: 0 0 var(--space-3);
+  }
+
+  .symptoms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .symptoms li {
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface);
+    font-weight: var(--weight-strong);
+  }
+
+  /* ---- 3. Step cards: three across, stacked on phones ---- */
+  .steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .step {
+    padding: var(--pad-box-lg) var(--space-5);
+    border-top: 5px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .step p,
+  .step ul {
+    margin: 0 0 var(--space-2);
+  }
+
+  .step ul {
+    padding-inline-start: 1.2em;
+    list-style: disc;
+  }
+
+  .step__label {
+    margin-bottom: var(--space-1) !important;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .step__heading {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .step__more {
+    font-weight: var(--weight-strong);
+  }
+
+  .step__more a {
+    display: block;
+  }
+
+  .step__more a + a {
+    margin-top: var(--space-1);
+  }
+
+  .step__testing {
+    font-weight: var(--weight-strong);
+  }
+
+  .testing summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    color: var(--color-link);
+    font-weight: var(--weight-strong);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .testing summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .testing__marker::before {
+    content: '▸';
+  }
+
+  .testing[open] .testing__marker::before {
+    content: '▾';
+  }
+
+  .testing dl {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .testing dt {
+    font-weight: var(--weight-display);
+  }
+
+  .testing dd {
+    margin: 0;
+  }
+
+  @media print {
+    .testing::details-content {
+      display: block;
+      content-visibility: visible;
+    }
+  }
+
+  /* ---- 4. No regular doctor? one box, three columns ---- */
+  .access {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--section-gap);
+    padding: var(--pad-box-lg) var(--space-5);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  @media (min-width: 48rem) {
+    .access {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .access__heading {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--weight-display);
+  }
+
+  .access p {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  /* ---- 5. Learn more: three link tiles ---- */
+  .learn {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .learn {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .learn__tile {
+    padding: var(--pad-box-lg) var(--space-5);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .learn__name {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-lg);
+  }
+
+  .learn__name a {
+    color: var(--color-heading);
+  }
+
+  .learn__tile p {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  /* ---- 6. Sources ---- */
+  .sources {
+    margin-top: var(--section-gap);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border-strong);
+  }
+
+  .sources summary {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    cursor: pointer;
+  }
+
+  .sources summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sources summary {
+    list-style: none;
+    gap: var(--space-2);
+  }
+
+  .sources__marker::before {
+    content: '▸';
+  }
+
+  .sources[open] .sources__marker::before {
+    content: '▾';
+  }
+
+  .sources__groups {
+    display: grid;
+    gap: var(--space-3);
+    padding-bottom: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .sources__group h3 {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+  }
+
+  .sources__group ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  /* The card is for printing only. */
+  .care-print {
+    display: none;
+  }
+
+  @media print {
+    /* Printing the page: everything, sources open. */
+    .sources::details-content {
+      display: block;
+      content-visibility: visible;
+    }
+
+    .handy__btn {
+      display: none;
+    }
+
+    /* The "Print a when-to-get-care card" button: only the card, one US Letter page. */
+    @page {
+      size: letter;
+      margin: 0.5in;
+    }
+
+    :global(body[data-printing='care'] > :not(main)),
+    :global(body[data-printing='care'] main > :not(.care-print)) {
+      display: none !important;
+    }
+
+    :global(body[data-printing='care']) .care-print {
+      display: block;
+    }
+
+    :global(body[data-printing='care']) {
+      padding: 0 !important;
+      background: #ffffff !important;
+    }
+  }
+</style>

@@ -1,0 +1,54 @@
+{
+  "id": "H5",
+  "layer": "home",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "$"
+  ],
+  "effort": "nightly",
+  "audiences": [
+    "all",
+    "kids",
+    "traveler"
+  ],
+  "safetyContacts": false,
+  "travelSource": "cdc-travel-bites",
+  "related": [],
+  "sources": [
+    "cdc-travel-bites",
+    "who-dengue"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Sleep under a bed net when you need to",
+      "summary": "Use one when there's no air conditioning or screens, for daytime naps, or when someone is sick.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "A bed net protects people while they sleep, including daytime naps. Aedes mosquitoes bite mainly during the day.",
+        "A bed net also helps keep a sick person from passing the virus to mosquitoes."
+      ],
+      "cantDo": [
+        "A bed net can't protect anyone outside it."
+      ],
+      "research": [],
+      "travel": "When you travel, sleep under a bed net if you're outdoors or if rooms with screens aren't available."
+    },
+    "es": {
+      "title": "Duerme bajo un mosquitero cuando lo necesites",
+      "summary": "Úsalo cuando no hay aire acondicionado ni mallas, para las siestas de día, o cuando alguien se siente mal.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Un mosquitero protege a las personas mientras duermen, incluso en siestas de día. Los mosquitos Aedes pican sobre todo durante el día.",
+        "Un mosquitero también ayuda a que una persona enferma no les pase el virus a los mosquitos."
+      ],
+      "cantDo": [
+        "Un mosquitero no protege a nadie que esté fuera de él."
+      ],
+      "research": [],
+      "travel": "Cuando viajes, duerme bajo un mosquitero si estás al aire libre o si no hay cuartos con mallas."
+    }
+  }
+}

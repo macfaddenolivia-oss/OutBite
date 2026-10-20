@@ -1,0 +1,13 @@
+---
+// Text with scientific names in italics: the genera "Aedes", "Culex" and "Wolbachia", and
+// the species, written out or abbreviated ("Aedes aegypti", "Ae. albopictus",
+// "Culex quinquefasciatus", "Cx. quinquefasciatus"). Plain text otherwise; use wherever
+// a translated string might mention them.
+interface Props {
+  text: string;
+}
+const NAMES = /((?:Aedes|Ae\.) (?:aegypti|albopictus)|(?:Culex|Cx\.) quinquefasciatus|Aedes|Culex|Wolbachia)/;
+const parts = Astro.props.text.split(NAMES);
+---
+
+{parts.map((part, i) => (i % 2 === 1 ? <em>{part}</em> : part))}

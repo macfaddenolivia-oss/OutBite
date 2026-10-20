@@ -1,0 +1,374 @@
+---
+// U.S. map for the "Is it near me?" dashboard (outlines from the U.S. Census Bureau via
+// us-atlas, see src/data/us-map.json and scripts/build-map.mjs):
+// - the 50 states (Albers USA, Alaska and Hawaii inset as usual);
+// - D.C. as a small square off the East Coast with a leader line to its real location;
+// - the five territories as framed insets of their real outlines (not to scale), stacked
+//   down the left side on desktop and in one row under the map on phones.
+// Keyboard focus on a state or D.C.: a two-tone ring traced on its outline (a 3px
+// deep-blue line, the site's focus ring, over a white halo), drawn on top of the map so
+// no neighbor covers it and visible on every fill; the insets get a 3px outline.
+// Each place is a keyboard-focusable button; the page script shades them for the chosen
+// virus, updates their labels and handles selection. Shading: five blue steps
+// (bin-1…bin-5), "no cases reported" (bin-0, dotted) and "not reported" (bin--1,
+// hatched); navy outlines, white on the two darkest steps. Never red or orange for
+// counts; orange outlines mark CDC's ongoing local spread of the virus shown (the
+// page's script switches them with the virus tab).
+import map from '../data/us-map.json';
+
+interface Props {
+  label: string;
+  names: Record<string, string>;
+  short: Record<string, string>;
+  /** Places with ongoing local spread of the initial virus (dengue). */
+  localSpread: string[];
+  /** Initial shading and labels (dengue), so the map is right before the script runs. */
+  initial: Record<string, { bin: number; label: string }>;
+}
+const { label, names, short, localSpread, initial } = Astro.props;
+
+const states = Object.entries(map.states as Record<string, string>).filter(([code]) => code !== 'DC');
+const territories = map.territories as Record<string, { d: string; width: number; height: number }>;
+// Inset order, top to bottom (left to right on phones).
+const INSETS = ['PR', 'VI', 'GU', 'MP', 'AS'];
+const CODES: Record<string, string> = { PR: 'PR', VI: 'USVI', GU: 'GU', AS: 'AS', MP: 'MP' };
+const binClass = (code: string) => `bin-${initial[code]?.bin ?? -1}`;
+const local = (code: string) => localSpread.includes(code);
+
+// D.C.: real location (centre of its outline) and a square in the Atlantic beside
+// Maryland and Delaware.
+const [dcX, dcY] = map.centers.DC as [number, number];
+const DC_BOX = { x: 888, y: 272, size: 32 };
+const PAD = 8; // inset padding, in outline units, so edges aren't clipped
+---
+
+<div class="us-map" role="group" aria-label={label} data-map>
+  <svg class="us-map__main" viewBox={`0 0 ${map.width} ${map.height}`}>
+    <defs>
+      <pattern id="map-dots" width="8" height="8" patternUnits="userSpaceOnUse">
+        <rect width="8" height="8" fill="#FFFFFF"></rect>
+        <circle cx="4" cy="4" r="1.3" class="map-pattern-ink"></circle>
+      </pattern>
+      <pattern id="map-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="8" height="8" fill="#FFFFFF"></rect>
+        <line x1="0" y1="0" x2="0" y2="8" class="map-pattern-line" stroke-width="2.5"></line>
+      </pattern>
+    </defs>
+    {
+      states.map(([code, d]) => (
+        <g
+          class:list={['place place--state', { 'is-local': local(code) }]}
+          data-code={code}
+          tabindex="0"
+          role="button"
+          aria-pressed="false"
+          aria-label={initial[code]?.label ?? names[code]}>
+          <path class={`shape ${binClass(code)}`} d={d} data-focus-shape />
+        </g>
+      ))
+    }
+    <g
+      class:list={['place place--dc', { 'is-local': local('DC') }]}
+      data-code="DC"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label={initial.DC?.label ?? names.DC}>
+      <line class="dc-leader" x1={dcX} y1={dcY} x2={DC_BOX.x} y2={DC_BOX.y + DC_BOX.size / 2}></line>
+      <circle class="dc-dot" cx={dcX} cy={dcY} r="2.5"></circle>
+      <rect class={`shape ${binClass('DC')}`} x={DC_BOX.x} y={DC_BOX.y} width={DC_BOX.size} height={DC_BOX.size} rx="2" data-focus-shape />
+      <text class="dc-label" x={DC_BOX.x + DC_BOX.size / 2} y={DC_BOX.y + DC_BOX.size + 24} text-anchor="middle" aria-hidden="true">
+        {short.DC}
+      </text>
+    </g>
+    <!-- Focus ring: copies of the focused place's outline, filled in by the script below. -->
+    <g class="focus-ring" aria-hidden="true" data-focus-ring></g>
+  </svg>
+
+  <div class="us-map__insets">
+    {
+      INSETS.map((code) => {
+        const tr = territories[code];
+        return (
+          <div
+            class:list={['place place--inset', { 'is-local': local(code) }]}
+            data-code={code}
+            tabindex="0"
+            role="button"
+            aria-pressed="false"
+            aria-label={initial[code]?.label ?? names[code]}>
+            <svg
+              class="inset__shape"
+              viewBox={`${-PAD} ${-PAD} ${tr.width + PAD * 2} ${tr.height + PAD * 2}`}
+              aria-hidden="true"
+              focusable="false">
+              <path class={`shape ${binClass(code)}`} d={tr.d} />
+            </svg>
+            <span class="inset__name" aria-hidden="true">{short[code]}</span>
+            <span class="inset__code" aria-hidden="true">{CODES[code]}</span>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <!-- Legend (passed in by the page), under the states map and beside the insets. -->
+  <div class="us-map__legend"><slot /></div>
+</div>
+
+<script>
+  // Keyboard focus ring for states and D.C. (see the comment at the top).
+  for (const svg of document.querySelectorAll<SVGSVGElement>('.us-map__main')) {
+    const ring = svg.querySelector<SVGGElement>('[data-focus-ring]')!;
+    svg.addEventListener('focusin', (e) => {
+      const place = (e.target as Element).closest('.place');
+      const shape = place?.querySelector('[data-focus-shape]');
+      if (!place || !shape || !place.matches(':focus-visible')) return ring.replaceChildren();
+      const copy = (cls: string) => {
+        const c = shape.cloneNode() as SVGElement;
+        c.removeAttribute('data-focus-shape');
+        c.setAttribute('class', cls);
+        c.setAttribute('vector-effect', 'non-scaling-stroke');
+        return c;
+      };
+      ring.replaceChildren(copy('focus-ring__halo'), copy('focus-ring__line'));
+    });
+    svg.addEventListener('focusout', () => ring.replaceChildren());
+  }
+</script>
+
+<style>
+  /* Desktop and tablets: territory insets in a column on the left (the Pacific side),
+     the states map on the right. Phones: insets in one row under the map. */
+  .us-map {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 18%) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'insets main'
+      'insets legend';
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .us-map__legend {
+    grid-area: legend;
+    min-width: 0;
+  }
+
+  .us-map__main {
+    grid-area: main;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .us-map__insets {
+    grid-area: insets;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-height: 0;
+  }
+
+  .place--inset {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    padding: 2px var(--space-1) 1px;
+    border: 1.5px solid var(--color-map-outline);
+    border-radius: 2px;
+    background: #ffffff;
+  }
+
+  .inset__shape {
+    display: block;
+    flex: 1 1 0;
+    width: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .inset__name,
+  .inset__code {
+    color: var(--color-callout-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  .inset__code {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .us-map {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto;
+      grid-template-areas: 'main' 'insets' 'legend';
+    }
+
+    .us-map__insets {
+      flex-flow: row wrap;
+    }
+
+    .place--inset {
+      min-width: 0;
+    }
+
+    .inset__shape {
+      flex: none;
+      height: 2.5rem;
+    }
+
+    .inset__name {
+      display: none;
+    }
+
+    .inset__code {
+      display: block;
+    }
+
+  }
+
+  .shape {
+    stroke: var(--color-map-outline);
+    stroke-width: 0.8;
+    stroke-linejoin: round;
+    transition: none;
+  }
+
+  /* The two darkest steps get white outlines, so borders between neighboring dark
+     places stay visible (navy on navy would disappear). */
+  .shape.bin-4,
+  .shape.bin-5 {
+    stroke: var(--color-map-outline-on-dark);
+  }
+
+  .bin-1 { fill: var(--color-map-1); }
+  .bin-2 { fill: var(--color-map-2); }
+  .bin-3 { fill: var(--color-map-3); }
+  .bin-4 { fill: var(--color-map-4); }
+  .bin-5 { fill: var(--color-map-5); }
+  .bin-0 { fill: url(#map-dots); }
+  .bin--1 { fill: url(#map-hatch); }
+
+  .map-pattern-ink {
+    fill: var(--color-map-pattern);
+  }
+
+  .map-pattern-line {
+    stroke: var(--color-map-pattern);
+  }
+
+  /* CDC: ongoing local spread. */
+  .is-local .shape {
+    stroke: var(--color-map-local);
+    stroke-width: 6;
+  }
+
+  .place {
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Selected place: white edge with a navy glow, visible on every fill. */
+  .place[aria-pressed='true'] .shape {
+    stroke: #ffffff;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 2px #17306a) drop-shadow(0 0 1px #17306a);
+  }
+
+  .place.is-local[aria-pressed='true'] .shape {
+    stroke: var(--color-map-local);
+    stroke-width: 6;
+  }
+
+  /* Keyboard focus on states and D.C.: the ring is drawn by .focus-ring (the map panel
+     is white in both modes, so it doesn't use the dark-mode focus color). */
+  .place:focus-visible {
+    outline: none;
+  }
+
+  .focus-ring {
+    pointer-events: none;
+  }
+
+  .focus-ring > * {
+    fill: none;
+    stroke-linejoin: round;
+  }
+
+  .focus-ring__halo {
+    stroke: #ffffff;
+    stroke-width: 7px;
+  }
+
+  .focus-ring__line {
+    stroke: var(--color-map-focus);
+    stroke-width: 3px;
+  }
+
+  /* D.C. square and leader line. */
+  .place--dc .shape {
+    stroke-width: 1.5;
+  }
+
+  .dc-leader {
+    stroke: var(--color-map-outline);
+    stroke-width: 1.2;
+  }
+
+  .dc-dot {
+    fill: var(--color-map-outline);
+  }
+
+  .dc-label {
+    fill: var(--color-callout-text);
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  /* Insets: outline widths in screen pixels (the outlines are scaled up a lot). */
+  .place--inset .shape {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 1;
+  }
+
+  .place--inset.is-local .shape {
+    stroke-width: 2;
+  }
+
+  .place--inset[aria-pressed='true'] {
+    box-shadow: 0 0 0 2px var(--color-map-outline);
+  }
+
+  .place--inset[aria-pressed='true'] .shape {
+    stroke-width: 2;
+  }
+
+  .place--inset.is-local[aria-pressed='true'] .shape {
+    stroke-width: 2.5;
+  }
+
+  .place--inset:focus-visible {
+    outline: 3px solid var(--color-map-focus);
+    outline-offset: 2px;
+  }
+
+  .place--inset:focus-visible .shape {
+    stroke-width: 2;
+  }
+
+  /* Printing / PDF: keep the fills and frames in color. */
+  @media print {
+    .us-map,
+    .us-map * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs and env
+npm-debug.log*
+*.log
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# scratch and tool leftovers
+.Rhistory
+.Rproj.user/
+*.tmp
+scratch/

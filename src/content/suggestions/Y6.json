@@ -1,0 +1,48 @@
+{
+  "id": "Y6",
+  "layer": "yard",
+  "effortGroup": "regular",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [
+    "Y1"
+  ],
+  "sources": [
+    "cdc-hurricane"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Check your yard and water again after hurricanes and floods",
+      "summary": "Heavy rain leaves many new places for mosquitoes to breed.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "A second check catches the many new breeding spots that heavy rain leaves behind."
+      ],
+      "cantDo": [
+        "A storm check doesn't replace your regular weekly check."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Revisa otra vez tu patio y el agua después de huracanes e inundaciones",
+      "summary": "Las lluvias fuertes dejan muchos lugares nuevos donde se crían los mosquitos.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Una segunda revisión encuentra los muchos criaderos nuevos que dejan las lluvias fuertes."
+      ],
+      "cantDo": [
+        "Revisar después de una tormenta no reemplaza tu revisión semanal de siempre."
+      ],
+      "research": []
+    }
+  }
+}

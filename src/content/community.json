@@ -1,0 +1,177 @@
+{
+  "id": "community",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "find": [
+      "cdc-community",
+      "cdc-hd-directories"
+    ],
+    "organize": [
+      "cdc-control-home",
+      "cdc-aedes-life-cycle"
+    ],
+    "renters": [
+      "cdc-control-home",
+      "cdc-dengue-transmission",
+      "cdc-bti",
+      "cdc-niosh-workers"
+    ],
+    "spraying": [
+      "cdc-control-programs",
+      "cdc-adulticides",
+      "cdc-truck-spraying",
+      "cdc-wolbachia",
+      "epa-naled"
+    ]
+  },
+  "links": {
+    "find": "https://www.naccho.org/membership/meet-our-members/lhd-directory",
+    "spraying": "https://www.cdc.gov/mosquitoes/mosquito-control/mosquitoes-with-wolbachia.html"
+  },
+  "text": {
+    "en": {
+      "title": "Protect your community",
+      "intro": "Aedes mosquitoes fly only a few blocks, so they don’t stop at property lines. Working with neighbors, landlords and local programs protects more people, including you.",
+      "sections": {
+        "find": {
+          "heading": "Find & report",
+          "intro": "You can call your local health department or mosquito control program about lots of mosquitoes or standing water that worries you.",
+          "points": [
+            {
+              "label": "What to report",
+              "text": "unused or abandoned swimming pools, discarded tires, trash and drainage ditches."
+            },
+            {
+              "label": "Who to tell",
+              "text": "you can find your local health department in a national directory, or look online for your local mosquito control program."
+            }
+          ],
+          "prLabel": "In Puerto Rico",
+          "prText": "the Puerto Rico Department of Health’s page that tracks viruses spread by mosquitoes (arbovirus surveillance).",
+          "link": "Find your local health department"
+        },
+        "organize": {
+          "heading": "Organize your block",
+          "intro": "Aedes mosquitoes fly only a few blocks, so the ones biting you probably grew nearby. You, your neighbors and your community can work together to reduce mosquitoes.",
+          "points": [
+            {
+              "label": "A clean-up day",
+              "text": "neighbors choose a date and share the flyer a week ahead."
+            },
+            {
+              "label": "A walk together",
+              "text": "everyone uses the weekly checklist to tip out, scrub and cover containers."
+            }
+          ],
+          "link": "Get the neighbor flyer and checklist"
+        },
+        "renters": {
+          "heading": "Renters & shared spaces",
+          "intro": "Some fixes belong to a landlord, school or building manager.",
+          "points": [
+            {
+              "label": "Renters",
+              "text": "you can ask your landlord to install or repair window and door screens. A sample note you can copy and send yourself is below."
+            },
+            {
+              "label": "Schools, churches, workplaces",
+              "text": "one person can check flowerpot saucers, buckets, gutters and outdoor equipment once a week, and empty, scrub, turn over or cover anything that holds water."
+            }
+          ]
+        },
+        "spraying": {
+          "heading": "What’s that spraying?",
+          "intro": "Local programs may treat water where mosquitoes grow or spray to kill adult mosquitoes. Here’s what that means for you.",
+          "points": [
+            {
+              "label": "What they use",
+              "text": "EPA-registered products (products EPA has evaluated for safety and effectiveness), applied by licensed mosquito control professionals."
+            },
+            {
+              "label": "What you can do",
+              "text": "local programs usually announce spraying dates and times. CDC says staying inside with windows closed is your choice, not a must; EPA suggests it to reduce your exposure."
+            },
+            {
+              "label": "Newer methods",
+              "text": "some programs release male Aedes aegypti mosquitoes that carry Wolbachia, a common type of bacteria. Their eggs don’t hatch, so the number of these mosquitoes goes down."
+            }
+          ],
+          "link": "Read CDC’s explainer"
+        }
+      },
+      "moreLink": "More on the Community page"
+    },
+    "es": {
+      "title": "Protege a tu comunidad",
+      "intro": "Los mosquitos Aedes vuelan solo unas cuadras, así que no se detienen en los límites de una propiedad. Trabajar con vecinos, dueños de vivienda y programas locales protege a más personas, incluyéndote a ti.",
+      "sections": {
+        "find": {
+          "heading": "Encuentra y reporta",
+          "intro": "Puedes llamar a tu departamento de salud local o al programa de control de mosquitos si ves muchos mosquitos o agua estancada que te preocupa.",
+          "points": [
+            {
+              "label": "Qué reportar",
+              "text": "piscinas abandonadas o sin uso, gomas abandonadas, basura y zanjas de drenaje."
+            },
+            {
+              "label": "A quién avisar",
+              "text": "puedes encontrar tu departamento de salud local en un directorio nacional, o buscar en internet el programa de control de mosquitos de tu área."
+            }
+          ],
+          "prLabel": "En Puerto Rico",
+          "prText": "la página del Departamento de Salud de Puerto Rico que da seguimiento a los virus que transmiten los mosquitos (vigilancia de arbovirus).",
+          "link": "Encuentra tu departamento de salud local"
+        },
+        "organize": {
+          "heading": "Organiza tu cuadra",
+          "intro": "Los mosquitos Aedes vuelan solo unas cuadras, así que los que te pican probablemente crecieron cerca. Tú, tus vecinos y tu comunidad pueden trabajar juntos para reducir los mosquitos.",
+          "points": [
+            {
+              "label": "Un día de limpieza",
+              "text": "los vecinos escogen una fecha y comparten el volante una semana antes."
+            },
+            {
+              "label": "Una caminata juntos",
+              "text": "todos usan la lista semanal para vaciar, fregar y tapar recipientes."
+            }
+          ],
+          "link": "Consigue el volante y la lista para tus vecinos"
+        },
+        "renters": {
+          "heading": "Inquilinos y espacios compartidos",
+          "intro": "Algunos arreglos le tocan al dueño de la vivienda, a la escuela o al administrador del edificio.",
+          "points": [
+            {
+              "label": "Inquilinos",
+              "text": "puedes pedirle al dueño de la vivienda que ponga o arregle las mallas de puertas y ventanas. Abajo hay una nota de ejemplo que puedes copiar y enviar tú."
+            },
+            {
+              "label": "Escuelas, iglesias, lugares de trabajo",
+              "text": "una persona puede revisar platos de macetas, baldes, canaletas y equipo de afuera una vez a la semana, y vaciar, fregar, voltear o tapar todo lo que acumule agua."
+            }
+          ]
+        },
+        "spraying": {
+          "heading": "¿Qué están fumigando?",
+          "intro": "Los programas locales pueden tratar el agua donde crecen los mosquitos o fumigar para matar mosquitos adultos. Esto es lo que significa para ti.",
+          "points": [
+            {
+              "label": "Qué usan",
+              "text": "productos registrados por la EPA (productos cuya seguridad y eficacia evaluó la EPA), aplicados por profesionales con licencia en control de mosquitos."
+            },
+            {
+              "label": "Qué puedes hacer",
+              "text": "los programas locales suelen anunciar las fechas y horas de fumigación. Los CDC dicen que quedarte adentro con las ventanas cerradas es tu decisión, no una obligación; la EPA lo sugiere para reducir tu exposición."
+            },
+            {
+              "label": "Métodos nuevos",
+              "text": "algunos programas liberan mosquitos Aedes aegypti machos que llevan Wolbachia, un tipo común de bacteria. Sus huevos no nacen, así que la cantidad de estos mosquitos baja."
+            }
+          ],
+          "link": "Lee la explicación de los CDC"
+        }
+      },
+      "moreLink": "Más en la página de Comunidad"
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "id": "privacy",
+  "lastReviewed": "2026-10-20",
+  "lastUpdated": "2026-10-19",
+  "claims": {
+    "noCookies": true
+  },
+  "goatcounterPrivacyUrl": "https://www.goatcounter.com/help/privacy",
+  "storageKeys": [
+    {
+      "key": "outbite.checklist.",
+      "prefix": true
+    },
+    {
+      "key": "outbite.protect.audiences"
+    },
+    {
+      "key": "skipgc"
+    },
+    {
+      "key": "outbite.textSize"
+    },
+    {
+      "key": "outbite.alertDismissed"
+    }
+  ],
+  "text": {
+    "en": {
+      "title": "Privacy",
+      "intro": "What Outbite collects, what stays in your browser, and what we never do.",
+      "jumpLabel": "On this page",
+      "short": {
+        "heading": "The short version",
+        "text": "Outbite doesn’t ask for your name, email or location, and doesn’t use cookies. We count visits in a way that doesn’t identify you."
+      },
+      "counting": {
+        "heading": "Counting visits",
+        "points": [
+          "Outbite uses GoatCounter to count page views.",
+          "GoatCounter keeps only totals, counted by day or hour: the page visited, the site or page you came from, your browser and operating system type, your approximate country, your language and your screen width.",
+          "GoatCounter doesn’t store IP addresses. It doesn’t use cookies or store anything in your browser, and it doesn’t share data with third parties.",
+          "To avoid counting the same visit twice, GoatCounter links your IP address and browser details to a random ID. It keeps that link only in memory, for up to 8 hours, and your IP address is never saved.",
+          "GoatCounter stores its data in Finland and Germany."
+        ],
+        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a ZIP code or a place.",
+        "noJs": "With JavaScript turned off, visits aren’t counted at all.",
+        "link": "GoatCounter’s privacy page",
+        "switchLabel": "Don’t count my visits",
+        "stateOff": "Your visits are not counted on this device.",
+        "stateOn": "Your visits are counted on this device, as described above.",
+        "blocked": "This browser doesn’t allow saving this choice, so it can’t be turned on here."
+      },
+      "storage": {
+        "heading": "What stays in your browser",
+        "intro": "A few tools remember your choices with your browser’s storage (localStorage). Here is everything Outbite saves:",
+        "items": {
+          "outbite.checklist.": "Weekly checklist: which items you ticked, one entry per week.",
+          "outbite.protect.audiences": "Protect page: your “Show first” choices.",
+          "skipgc": "The “Don’t count my visits” choice on this page.",
+          "outbite.textSize": "Text size: the size you chose with the “Text size” buttons.",
+          "outbite.alertDismissed": "Alert banner: that you closed the current alert with ✕ (a new alert shows again)."
+        },
+        "outro": "These never leave this device. To remove them, clear this site’s data in your browser’s settings. The checklist and the Protect page also have their own Clear buttons."
+      },
+      "never": {
+        "heading": "What we never do",
+        "points": [
+          "Outbite has no accounts and no forms.",
+          "Outbite doesn’t track your location. The ZIP code box looks up your state in your browser, and nothing is sent or saved. The place picker also works only in your browser, and nothing you pick is saved or sent.",
+          "Outbite has no ads and never sells data.",
+          "Copy buttons only copy text to your clipboard.",
+          "Outbite never sends messages for you.",
+          "Calendar files from the Reminders tool are made in your browser and saved only where you choose. Nothing about them is sent or stored by Outbite."
+        ]
+      },
+      "links": {
+        "heading": "Links to other sites",
+        "text": "Outbite links to CDC, EPA, WHO and other sites. Those sites have their own privacy policies."
+      },
+      "qr": {
+        "heading": "Printables and QR codes",
+        "text": "The QR codes on printables contain only the address of an Outbite page. Scanning one just opens that page."
+      },
+      "updated": "Last updated: {date}"
+    },
+    "es": {
+      "title": "Privacidad",
+      "intro": "Lo que Outbite recoge, lo que se queda en tu navegador y lo que nunca hacemos.",
+      "jumpLabel": "En esta página",
+      "short": {
+        "heading": "En resumen",
+        "text": "Outbite no te pide tu nombre, correo ni ubicación, y no usa cookies. Contamos las visitas de una forma que no te identifica."
+      },
+      "counting": {
+        "heading": "Cómo contamos las visitas",
+        "points": [
+          "Outbite usa GoatCounter para contar las visitas a cada página.",
+          "GoatCounter guarda solo totales, por día o por hora: la página visitada, el sitio o la página de donde vienes, el tipo de navegador y de sistema operativo, tu país aproximado, tu idioma y el ancho de tu pantalla.",
+          "GoatCounter no guarda direcciones IP. No usa cookies ni guarda nada en tu navegador, y no comparte datos con terceros.",
+          "Para no contar la misma visita dos veces, GoatCounter vincula tu dirección IP y los datos de tu navegador con un identificador al azar. Guarda ese vínculo solo en la memoria, por hasta 8 horas, y tu dirección IP nunca se guarda.",
+          "GoatCounter guarda los datos en Finlandia y Alemania."
+        ],
+        "sends": "Outbite le envía a GoatCounter solo la dirección de la página, el título de la página, el sitio de donde vienes y el ancho de tu pantalla, además de un número al azar que evita que el navegador reutilice una solicitud anterior y, en los navegadores automatizados, una señal que los marca como bots. Nunca envía nada que escribas o elijas en el sitio, como un código postal o un lugar.",
+        "noJs": "Con JavaScript desactivado, las visitas no se cuentan.",
+        "link": "Página de privacidad de GoatCounter",
+        "switchLabel": "No contar mis visitas",
+        "stateOff": "Tus visitas no se cuentan en este dispositivo.",
+        "stateOn": "Tus visitas se cuentan en este dispositivo, como se explica arriba.",
+        "blocked": "Este navegador no permite guardar esta opción, así que no se puede activar aquí."
+      },
+      "storage": {
+        "heading": "Lo que se queda en tu navegador",
+        "intro": "Algunas herramientas recuerdan tus opciones con el almacenamiento de tu navegador (localStorage). Esto es todo lo que guarda Outbite:",
+        "items": {
+          "outbite.checklist.": "Lista semanal: qué puntos marcaste, una entrada por semana.",
+          "outbite.protect.audiences": "Página Protégete: tus opciones de “Mostrar primero”.",
+          "skipgc": "La opción “No contar mis visitas” de esta página.",
+          "outbite.textSize": "Tamaño del texto: el tamaño que escogiste con los botones de “Tamaño del texto”.",
+          "outbite.alertDismissed": "Aviso: que cerraste el aviso actual con ✕ (un aviso nuevo se vuelve a mostrar)."
+        },
+        "outro": "Estos datos nunca salen de este dispositivo. Para borrarlos, borra los datos de este sitio en la configuración de tu navegador. La lista semanal y la página Protégete también tienen su propio botón para borrar."
+      },
+      "never": {
+        "heading": "Lo que nunca hacemos",
+        "points": [
+          "Outbite no tiene cuentas ni formularios.",
+          "Outbite no rastrea tu ubicación. La casilla del código postal busca tu estado en tu navegador, y no se envía ni se guarda nada. El selector de lugar también funciona solo en tu navegador, y nada de lo que eliges se guarda ni se envía.",
+          "Outbite no tiene anuncios y nunca vende datos.",
+          "Los botones de copiar solo copian texto a tu portapapeles.",
+          "Outbite nunca envía mensajes por ti.",
+          "Los archivos de calendario de la herramienta de recordatorios se crean en tu navegador y se guardan solo donde tú elijas. Outbite no envía ni guarda nada sobre ellos."
+        ]
+      },
+      "links": {
+        "heading": "Enlaces a otros sitios",
+        "text": "Outbite tiene enlaces a los CDC, la EPA, la OMS y otros sitios. Esos sitios tienen sus propias políticas de privacidad."
+      },
+      "qr": {
+        "heading": "Materiales para imprimir y códigos QR",
+        "text": "Los códigos QR de los materiales para imprimir contienen solo la dirección de una página de Outbite. Al escanear uno, solo se abre esa página."
+      },
+      "updated": "Última actualización: {date}"
+    }
+  }
+}

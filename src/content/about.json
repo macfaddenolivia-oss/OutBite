@@ -1,0 +1,97 @@
+{
+  "id": "about",
+  "lastReviewed": "2026-10-20",
+  "cite": {
+    "why": [
+      "cdc-dengue-transmission",
+      "cdc-zika-transmission",
+      "cdc-chik-spread",
+      "cdc-aedes-range",
+      "cdc-dengue-facts-stats",
+      "cdc-dengue-areas",
+      "cdc-zika-cases-us",
+      "cdc-chik-cases-us"
+    ]
+  },
+  "links": {
+    "johansson": "https://bouve.northeastern.edu/directory/michael-johansson/"
+  },
+  "text": {
+    "en": {
+      "intro": "Why Outbite exists, who it’s for, how it’s built and who made it.",
+      "why": {
+        "heading": "Why Outbite exists",
+        "paragraphs": [
+          "Dengue, Zika and chikungunya are viruses. They spread to people mainly through the bites of infected Aedes mosquitoes.",
+          "Aedes mosquitoes can live in many parts of the United States, and in U.S. territories such as Puerto Rico.",
+          "Dengue is common in Puerto Rico, and CDC lists the risk there as frequent or continuous. Chikungunya (2014) and Zika (2016) caused large outbreaks in Puerto Rico, but since 2019 CDC has reported no confirmed locally acquired cases of either virus in U.S. territories.",
+          "Clear, bilingual information about preventing these viruses can be hard to find. Outbite puts it in one place, in plain English and Spanish."
+        ]
+      },
+      "for": {
+        "heading": "Who it’s for",
+        "paragraphs": [
+          "Outbite is for families, renters, homeowners, travelers and communities across the U.S., including Puerto Rico. Every page is in English and Spanish."
+        ]
+      },
+      "built": {
+        "heading": "How it’s built",
+        "paragraphs": [
+          "Outbite follows CDC and EPA first. When CDC and EPA don’t cover a topic, we use guidance from the World Health Organization. Published research only explains how well a step works.",
+          "Every case number comes straight from CDC’s data. We never type them in by hand."
+        ],
+        "reviewsIntro": "Expert reviews are planned. Each review is marked done only when it’s finished:",
+        "more": "Read more about our sources and methods"
+      },
+      "made": {
+        "heading": "Who made it",
+        "text": "Outbite was created by Olivia Macfadden, a PhD student at Northeastern University, with help from Michael Johansson, PhD, a research professor at Northeastern University.",
+        "linkText": "Michael Johansson, PhD"
+      },
+      "independent": {
+        "heading": "Independent",
+        "text": "Outbite is an independent project. It is not an official project of CDC, any government agency or Northeastern University. It has no ads and no outside funding."
+      },
+      "linksLabel": "More about Outbite",
+      "license": "Text and drawings: CC BY 4.0. Code: MIT."
+    },
+    "es": {
+      "intro": "Por qué existe Outbite, para quién es, cómo se hace y quién lo hizo.",
+      "why": {
+        "heading": "Por qué existe Outbite",
+        "paragraphs": [
+          "El dengue, el zika y el chikungunya son virus. Estos virus se transmiten a las personas principalmente por las picadas de mosquitos Aedes infectados.",
+          "Los mosquitos Aedes pueden vivir en muchas partes de Estados Unidos y en territorios de EE. UU. como Puerto Rico.",
+          "El dengue es común en Puerto Rico, y los CDC consideran que el riesgo allí es frecuente o continuo. El chikungunya (2014) y el zika (2016) causaron grandes brotes en Puerto Rico, pero desde 2019 los CDC no han reportado casos confirmados adquiridos localmente de ninguno de los dos en los territorios de EE. UU.",
+          "La información clara y bilingüe sobre cómo prevenir estos virus puede ser difícil de encontrar. Outbite la reúne en un solo lugar, en inglés y en español sencillos."
+        ]
+      },
+      "for": {
+        "heading": "Para quién es",
+        "paragraphs": [
+          "Outbite es para familias, inquilinos, dueños de casa, viajeros y comunidades de todo EE. UU., incluido Puerto Rico. Cada página está en inglés y en español."
+        ]
+      },
+      "built": {
+        "heading": "Cómo se hace",
+        "paragraphs": [
+          "Outbite sigue primero a los CDC y a la EPA. Cuando los CDC y la EPA no cubren un tema, usamos las recomendaciones de la Organización Mundial de la Salud. Los estudios publicados solo explican qué tan bien funciona un paso.",
+          "Todas las cifras de casos vienen directamente de los datos de los CDC. Nunca las escribimos a mano."
+        ],
+        "reviewsIntro": "Las revisiones de expertos están planeadas. Cada revisión aparece como terminada solo cuando está lista:",
+        "more": "Lee más sobre nuestras fuentes y métodos"
+      },
+      "made": {
+        "heading": "Quién lo hizo",
+        "text": "Outbite fue creado por Olivia Macfadden, estudiante de doctorado en Northeastern University, con la ayuda de Michael Johansson, PhD, profesor investigador en Northeastern University.",
+        "linkText": "Michael Johansson, PhD"
+      },
+      "independent": {
+        "heading": "Independiente",
+        "text": "Outbite es un proyecto independiente. No es un proyecto oficial de los CDC, de ninguna agencia del gobierno ni de Northeastern University. No tiene anuncios ni financiamiento externo."
+      },
+      "linksLabel": "Más sobre Outbite",
+      "license": "Textos y dibujos: CC BY 4.0. Código: MIT."
+    }
+  }
+}

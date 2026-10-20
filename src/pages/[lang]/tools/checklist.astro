@@ -1,0 +1,415 @@
+---
+// Weekly mosquito check (Printable 1 is the paper version).
+// Online: the items in walk-through order, grouped by layer, each with a large tick
+// box for this week (Monday to Sunday) and a "How?" link to the matching Protect card.
+// Ticks are saved in this browser only (localStorage, one entry per week); nothing is
+// sent anywhere. "Print the monthly sheet" prints the one-page monthly version.
+// Without JavaScript: the same list (boxes can still be ticked, just not saved), and
+// printing from the browser menu prints the monthly sheet.
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Genus from '../../../components/Genus.astro';
+import PrintChecklist from '../../../components/print/PrintChecklist.astro';
+import content from '../../../content/printables.json';
+import { langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+import { sources } from '../../../lib/suggestions';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const text = content.text[lang as 'en' | 'es'] ?? content.text.en;
+const c = text.checklist;
+const sections = ['yard', 'home', 'body', 'community'] as const;
+const protect = localizePath(lang, getPage('protect').path);
+// A whole layer links to its section (#layer-community), which works with or without
+// JavaScript; Protect's script opens that layer either way.
+// Extra links on some items (the repellent item: EPA's repellent finder).
+const extraLink = (i: number) => {
+  const id = (content.itemExtraLinks as Record<string, string>)[String(i)];
+  return id ? sources[id]?.url : undefined;
+};
+const layerAnchor = (link: string) => (/^(body|home|yard|community)$/.test(link) ? `layer-${link}` : link);
+const itemsBy = (section: string) =>
+  c.items.map((item, i) => ({ item, i, link: content.itemLinks[i] })).filter(({ i }) => content.itemLayers[i] === section);
+const pageData = {
+  locale: lang === 'es' ? 'es' : 'en-US',
+  total: c.items.length,
+  thisWeek: c.thisWeek,
+  lastWeek: c.lastWeek,
+  cleared: c.cleared,
+};
+---
+
+<BaseLayout lang={lang} title={c.title} description={t('pages.checklist.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{c.title}</h1>
+      <p class="page-intro__lead"><Genus text={c.intro} /></p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container checklist" data-checklist={JSON.stringify(pageData)}>
+    <div class="checklist__bar">
+      <p class="checklist__week" data-week-label>{c.thisWeekShort}</p>
+      <p class="checklist__last" data-last-week hidden></p>
+    </div>
+
+    <form class="checklist__list" onsubmit="return false">
+      {
+        sections.map((section) => (
+          <section class="ck-section" aria-labelledby={`ck-${section}`}>
+            <h2 id={`ck-${section}`} class="ck-section__heading">
+              <span class={`ck-mark ck-mark--${section}`} aria-hidden="true" />
+              {c.sections[section]}
+            </h2>
+            <ul class="ck-items">
+              {itemsBy(section).map(({ item, i, link }) => (
+                <li class="ck-item">
+                  <label class="ck-check">
+                    <input type="checkbox" data-item={i} />
+                    <span class="ck-box" aria-hidden="true" />
+                    <span class="ck-text">{item}</span>
+                  </label>
+                  <span class="ck-links">
+                    <a class="ck-how" href={`${protect}#${layerAnchor(link)}`}>
+                      {c.how}
+                      <span aria-hidden="true"> →</span>
+                    </a>
+                    {extraLink(i) && (
+                      <a class="ck-how" href={extraLink(i)}>
+                        {c.epaLink}
+                        <span aria-hidden="true"> →</span>
+                      </a>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </form>
+
+    <div class="checklist__actions">
+      <button type="button" class="btn btn-primary js-only" data-print>{c.printMonthly}</button>
+      <button type="button" class="btn btn-secondary js-only" data-clear>{c.clear}</button>
+    </div>
+    <p class="checklist__note js-only">{c.savedNote}</p>
+    <p class="checklist__note no-js">{c.noJs}</p>
+    <p class="visually-hidden" role="status" data-status></p>
+    <p class="checklist__more">
+      <a href={localizePath(lang, getPage('printables').path)}>{t('pages.printables.title')} <span aria-hidden="true">→</span></a>
+    </p>
+  </div>
+
+  <!-- Paper version: shown only when printing -->
+  <div class="print-only">
+    <PrintChecklist lang={lang as 'en' | 'es'} id={`checklist-${lang}`} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { STORAGE } from '../../../lib/storage';
+
+  // Saved in this browser only. One entry per week, keyed by that week's Monday.
+  const PREFIX = STORAGE.checklistPrefix;
+  const root = document.querySelector<HTMLElement>('[data-checklist]');
+  if (root?.dataset.checklist) {
+    const data = JSON.parse(root.dataset.checklist) as {
+      locale: string;
+      total: number;
+      thisWeek: string;
+      lastWeek: string;
+      cleared: string;
+    };
+    const boxes = [...root.querySelectorAll<HTMLInputElement>('[data-item]')];
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+
+    // Monday of the week that contains `d` (weeks run Monday to Sunday, local time).
+    const monday = (d: Date) => {
+      const m = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      m.setDate(m.getDate() - ((m.getDay() + 6) % 7));
+      return m;
+    };
+    const iso = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const thisMonday = monday(new Date());
+    const lastMonday = new Date(thisMonday);
+    lastMonday.setDate(lastMonday.getDate() - 7);
+    const sunday = new Date(thisMonday);
+    sunday.setDate(sunday.getDate() + 6);
+
+    // "Oct 19–25" / "19–25 de oct." (or across months: "Oct 26 – Nov 1").
+    const range = (a: Date, b: Date) => {
+      const sameMonth = a.getMonth() === b.getMonth();
+      if (data.locale.startsWith('es')) {
+        const mon = (d: Date) => {
+          const short = new Intl.DateTimeFormat('es', { month: 'short' }).format(d).replace(/\.$/, '');
+          return `${short}${short !== new Intl.DateTimeFormat('es', { month: 'long' }).format(d) ? '.' : ''}`;
+        };
+        return sameMonth ? `${a.getDate()}–${b.getDate()} de ${mon(b)}` : `${a.getDate()} de ${mon(a)} – ${b.getDate()} de ${mon(b)}`;
+      }
+      const md = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+      return sameMonth ? `${md.format(a)}–${b.getDate()}` : `${md.format(a)} – ${md.format(b)}`;
+    };
+
+    const read = (key: string): number[] | null => {
+      try {
+        const v = localStorage.getItem(PREFIX + key);
+        return v === null ? null : (JSON.parse(v) as number[]);
+      } catch {
+        return null;
+      }
+    };
+    const write = (key: string, ticks: number[]) => {
+      try {
+        localStorage.setItem(PREFIX + key, JSON.stringify(ticks));
+      } catch {
+        /* storage blocked: ticks still work on the page, they just aren't saved */
+      }
+    };
+
+    const weekKey = iso(thisMonday);
+    root.querySelector('[data-week-label]')!.textContent = data.thisWeek.replace('{dates}', range(thisMonday, sunday));
+    for (const i of read(weekKey) ?? []) {
+      const box = boxes.find((b) => Number(b.dataset.item) === i);
+      if (box) box.checked = true;
+    }
+    const last = read(iso(lastMonday));
+    const lastEl = root.querySelector<HTMLElement>('[data-last-week]')!;
+    if (last) {
+      lastEl.textContent = data.lastWeek.replace('{done}', String(last.length)).replace('{total}', String(data.total));
+      lastEl.hidden = false;
+    }
+
+    for (const box of boxes) {
+      box.addEventListener('change', () => {
+        write(weekKey, boxes.filter((b) => b.checked).map((b) => Number(b.dataset.item)));
+      });
+    }
+
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      for (const b of boxes) b.checked = false;
+      try {
+        for (const key of Object.keys(localStorage)) if (key.startsWith(PREFIX)) localStorage.removeItem(key);
+      } catch {
+        /* nothing saved */
+      }
+      lastEl.hidden = true;
+      status.textContent = data.cleared;
+    });
+
+    root.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+  }
+</script>
+
+<style>
+  .checklist {
+    max-width: 52rem;
+    padding-block: var(--section-gap);
+  }
+
+  .checklist__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 3px solid var(--color-rule);
+  }
+
+  .checklist__week {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-heading);
+  }
+
+  .checklist__last {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .ck-section {
+    margin-top: var(--space-4);
+  }
+
+  .ck-section__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-heading);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Layer color marks, with the section name in words beside them. */
+  .ck-mark {
+    width: 12px;
+    height: 16px;
+    border: 1.5px solid var(--color-rule);
+  }
+
+  .ck-mark--yard { background: var(--color-layer-yard-bg); }
+  .ck-mark--home { background: var(--color-layer-home-bg); }
+  .ck-mark--body { background: var(--color-layer-body-bg); }
+  .ck-mark--community { background: var(--color-layer-community-bg); }
+
+  .ck-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ck-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* The whole row (box and text) is the tap target: at least 44px tall. */
+  .ck-check {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    padding-block: var(--space-2);
+    cursor: pointer;
+  }
+
+  .ck-check input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .ck-box {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .ck-check input:checked + .ck-box {
+    background: var(--color-layer-tab-selected-bg);
+    border-color: var(--color-layer-tab-selected-bg);
+  }
+
+  .ck-check input:checked + .ck-box::after {
+    content: '';
+    width: 9px;
+    height: 16px;
+    margin-top: -3px;
+    border: solid var(--color-layer-tab-selected-text);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+
+  .ck-check input:focus-visible + .ck-box {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .ck-text {
+    font-size: var(--text-base);
+  }
+
+  /* The links may wrap (the Spanish "Busca un repelente (EPA) (en inglés)" is long), so
+     the row never runs past a phone's edge. */
+  .ck-links {
+    flex: 0 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .ck-how {
+    flex: 0 1 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: end;
+    min-height: var(--tap-target);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .checklist__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--section-gap);
+  }
+
+  .checklist__note {
+    margin: var(--space-2) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .checklist__more {
+    margin-top: var(--space-4);
+    font-weight: var(--weight-strong);
+  }
+
+  .js-only {
+    display: none;
+  }
+
+  :global(.js) .checklist .js-only {
+    display: inline-flex;
+  }
+
+  :global(.js) .checklist p.js-only {
+    display: block;
+  }
+
+  :global(.js) .checklist .no-js {
+    display: none;
+  }
+
+  /* Screen: the paper version stays hidden. */
+  .print-only {
+    display: none;
+  }
+
+  /* Print: only the monthly sheet, on one US Letter page. */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0.5in;
+    }
+
+    :global(body > :not(main)),
+    :global(main > :not(.print-only)) {
+      display: none !important;
+    }
+
+    :global(body) {
+      padding: 0 !important;
+      background: #ffffff !important;
+    }
+
+    .print-only {
+      display: block;
+    }
+  }
+</style>

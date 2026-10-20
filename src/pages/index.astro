@@ -1,0 +1,42 @@
+---
+// The bare root URL ("/"). Sends visitors to their browser's language if we
+// have it, otherwise the default language. Without JavaScript, the meta
+// refresh and the visible links still work.
+import { assetPath, defaultLocale, locales, localizePath, siteName } from '../i18n';
+
+const defaultHref = localizePath(defaultLocale);
+const available = Object.fromEntries(locales.map((l) => [l.code, localizePath(l.code)]));
+---
+
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{siteName}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={assetPath('brand/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={assetPath('brand/outbite-mark-180.png')} sizes="180x180" />
+    <link rel="manifest" href={assetPath('manifest.webmanifest')} />
+    <script is:inline define:vars={{ available, defaultHref }}>
+      var target = defaultHref;
+      var prefs = navigator.languages || [navigator.language || ''];
+      for (var i = 0; i < prefs.length; i++) {
+        var code = String(prefs[i]).toLowerCase().split('-')[0];
+        if (available[code]) { target = available[code]; break; }
+      }
+      location.replace(target);
+    </script>
+    <meta http-equiv="refresh" content={`2; url=${defaultHref}`} />
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem 1rem; }
+      @media (prefers-color-scheme: dark) { body { background: #0c1a36; color: #f6f6f6; } a { color: #a9c8e0; } }
+    </style>
+  </head>
+  <body>
+    <p><strong>{siteName}</strong></p>
+    <ul>
+      {locales.map((l) => <li><a href={localizePath(l.code)} lang={l.meta.htmlLang}>{l.meta.name}</a></li>)}
+    </ul>
+  </body>
+</html>

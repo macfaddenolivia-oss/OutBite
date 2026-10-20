@@ -1,0 +1,16 @@
+---
+// Simple flat house (orange roof, light-orange door). (x, y) is the ground: the
+// outer edge of the 4px outline sits exactly on it.
+interface Props {
+  x: number;
+  y: number;
+}
+const { x, y } = Astro.props;
+---
+
+<g transform={`translate(${x} ${y - 2})`} stroke="#17306A" stroke-width="4" stroke-linejoin="round">
+  <rect x="0" y="-122" width="150" height="122" fill="#FFFFFF"></rect>
+  <polygon points="-12,-120 75,-180 162,-120" fill="#E07034"></polygon>
+  <rect x="88" y="-70" width="34" height="70" fill="#F0AF74"></rect>
+  <rect x="22" y="-100" width="34" height="34" fill="#CBDCEC"></rect>
+</g>

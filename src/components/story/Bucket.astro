@@ -1,0 +1,59 @@
+---
+// The approved bucket (Oct 16 2026):
+// light-orange pail with a wire handle and visible water. `eggs` adds the row of
+// eight tiny eggs at the waterline; without it, it is the same
+// drawing minus the eggs (bucket.svg). Sized so the rim is as wide as the previous
+// bucket at the same scale (BUCKET_K in layout.ts).
+// Off the ground, (x, y) is where the lowest point of the base's outline sits.
+// `onGround`: (x, y) is the ground's top edge. The bucket stands on it, drawn in front
+// of it, with the outer edge of its base's bottom corners `sink` units below that edge
+// (about 3px at 1313; the base curves lower in the middle), so the whole base overlaps
+// the ground and no white shows between them. A soft contact shadow (light navy, 15%
+// opacity) lies on the ground behind the base, its top on the ground's edge, slightly
+// wider than the base so it peeks out on both sides.
+import { BUCKET_BASE, BUCKET_CORNER, BUCKET_K } from './layout';
+
+interface Props {
+  x: number;
+  y: number;
+  eggs?: boolean;
+  scale?: number;
+  onGround?: boolean;
+  /** With onGround: how far the base corners sit below the ground (scene units). */
+  sink?: number;
+}
+const { x, y, eggs = false, scale = 1, onGround = false, sink = 0 } = Astro.props;
+const k = scale * BUCKET_K;
+// Base outline: x 22–78 in the drawing (with its stroke), so half-width 28.
+const baseHalf = 28 * k;
+const shadowRy = 3.2;
+const anchor = onGround ? BUCKET_CORNER : BUCKET_BASE;
+---
+
+{onGround && <ellipse cx={x} cy={y + shadowRy} rx={baseHalf * 1.18} ry={shadowRy} fill="#17306A" opacity="0.15" />}
+<g transform={`translate(${x} ${y + (onGround ? sink : 0)}) scale(${k}) translate(-50 ${-anchor})`}>
+  <path d="M19 42 C19 2 81 2 81 42" fill="none" stroke="#17306A" stroke-width="3.5" stroke-linecap="round"></path>
+  <ellipse cx="50" cy="40" rx="34" ry="9" fill="#F0AF74" stroke="#17306A" stroke-width="4"></ellipse>
+  <ellipse cx="50" cy="43.5" rx="29" ry="6" fill="#5B91C2"></ellipse>
+  <path d="M36 43 Q44 41 52 43" fill="none" stroke="#A9C8E0" stroke-width="1.6" stroke-linecap="round"></path>
+  {
+    eggs && (
+      <g>
+        <ellipse cx="23.36" cy="42.61" rx="2.3" ry="1.25" transform="rotate(-38.9 23.36 42.61)" fill="#17306A"></ellipse>
+        <ellipse cx="27.75" cy="40.57" rx="2.3" ry="1.25" transform="rotate(-15.9 27.75 40.57)" fill="#17306A"></ellipse>
+        <ellipse cx="35.26" cy="39.03" rx="2.3" ry="1.25" transform="rotate(-7.5 35.26 39.03)" fill="#17306A"></ellipse>
+        <ellipse cx="44.85" cy="38.21" rx="2.3" ry="1.25" transform="rotate(-2.3 44.85 38.21)" fill="#17306A"></ellipse>
+        <ellipse cx="55.15" cy="38.21" rx="2.3" ry="1.25" transform="rotate(2.3 55.15 38.21)" fill="#17306A"></ellipse>
+        <ellipse cx="64.74" cy="39.03" rx="2.3" ry="1.25" transform="rotate(7.5 64.74 39.03)" fill="#17306A"></ellipse>
+        <ellipse cx="72.25" cy="40.57" rx="2.3" ry="1.25" transform="rotate(15.9 72.25 40.57)" fill="#17306A"></ellipse>
+        <ellipse cx="76.64" cy="42.61" rx="2.3" ry="1.25" transform="rotate(38.9 76.64 42.61)" fill="#17306A"></ellipse>
+      </g>
+    )
+  }
+  <path d="M16 40 L24 96 Q50 104 76 96 L84 40 Q50 58 16 40 Z" fill="#F0AF74" stroke="#17306A" stroke-width="4" stroke-linejoin="round"></path>
+  <path d="M17 46 Q50 64 83 46" fill="none" stroke="#17306A" stroke-width="2.5"></path>
+  <path d="M21.5 82 Q50 90 78.5 82" fill="none" stroke="#17306A" stroke-width="2.5"></path>
+  <path d="M24 54 L30 78" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.55"></path>
+  <circle cx="19" cy="42" r="3" fill="#17306A"></circle>
+  <circle cx="81" cy="42" r="3" fill="#17306A"></circle>
+</g>

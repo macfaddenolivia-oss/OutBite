@@ -1,0 +1,95 @@
+{
+  "id": "reminders",
+  "lastReviewed": "2026-10-20",
+  "defaults": {
+    "day": 6,
+    "time": "09:00",
+    "month": 5,
+    "remind": true
+  },
+  "cdcSeason": [
+    {
+      "place": {
+        "en": "Puerto Rico",
+        "es": "Puerto Rico"
+      },
+      "months": {
+        "en": "dengue cases usually peak July–November",
+        "es": "los casos de dengue suelen llegar a su punto más alto de julio a noviembre"
+      },
+      "source": "cdc-mmwr-pr-dengue-2024"
+    }
+  ],
+  "text": {
+    "en": {
+      "intro": "Add a weekly check and a start-of-season reminder to your own calendar. No account needed, and nothing is sent.",
+      "weeklyHeading": "Weekly water check",
+      "weeklyText": "Pick a day and a time for a quick walk around outside to empty standing water. The reminder repeats every week.",
+      "dayLabel": "Day",
+      "timeLabel": "Time",
+      "seasonHeading": "Start of mosquito season",
+      "seasonText": "Pick the month when mosquito season usually starts where you live. The reminder repeats every year on the 1st of that month.",
+      "monthLabel": "Month",
+      "localNote": "Your local health department can tell you when mosquito season starts where you live.",
+      "cdcSeasonHeading": "Typical season, per CDC:",
+      "remind": "Remind me",
+      "addWeekly": "Add weekly check to my calendar",
+      "addSeason": "Add season reminder to my calendar",
+      "addBoth": "Add both",
+      "madeHere": "The calendar file is made in your browser and saved only where you choose. Nothing is sent.",
+      "downloading": "Your calendar file is downloading. Open it to add the reminder.",
+      "howHeading": "How to add it",
+      "how": [
+        "On iPhone or Mac: open the downloaded file, and Calendar asks where to add it.",
+        "On Android with Google Calendar: open the downloaded file. On a computer, you can also import it at calendar.google.com (Settings, then Import & export).",
+        "In Outlook: open the file, and Outlook adds the event."
+      ],
+      "noJsWeekly": "Weekly check, Saturdays 9 AM",
+      "noJsSeason": "Season reminder, May 1",
+      "noJsNote": "You can change the day and time in your calendar after adding it.",
+      "event": {
+        "weeklyTitle": "Weekly mosquito check",
+        "weeklyIntro": "Walk around outside and check:",
+        "checklistLink": "Weekly checklist: {url}",
+        "seasonTitle": "Mosquito season: start weekly checks",
+        "seasonBody": "Mosquito season is starting where you live. Start your weekly checks for standing water.",
+        "protectLink": "Ways to protect yourself: {url}"
+      }
+    },
+    "es": {
+      "intro": "Agrega una revisión semanal y un recordatorio de inicio de temporada a tu propio calendario. No necesitas cuenta y no se envía nada.",
+      "weeklyHeading": "Revisión semanal del agua",
+      "weeklyText": "Elige un día y una hora para dar una vuelta rápida por afuera y vaciar el agua estancada. El recordatorio se repite cada semana.",
+      "dayLabel": "Día",
+      "timeLabel": "Hora",
+      "seasonHeading": "Inicio de la temporada de mosquitos",
+      "seasonText": "Elige el mes en que suele empezar la temporada de mosquitos donde vives. El recordatorio se repite cada año el día 1 de ese mes.",
+      "monthLabel": "Mes",
+      "localNote": "Tu departamento de salud local puede decirte cuándo empieza la temporada de mosquitos donde vives.",
+      "cdcSeasonHeading": "Temporada típica, según los CDC:",
+      "remind": "Recordarme",
+      "addWeekly": "Agregar la revisión semanal a mi calendario",
+      "addSeason": "Agregar el recordatorio de temporada a mi calendario",
+      "addBoth": "Agregar ambos",
+      "madeHere": "El archivo de calendario se crea en tu navegador y se guarda solo donde tú elijas. No se envía nada.",
+      "downloading": "Tu archivo de calendario se está descargando. Ábrelo para agregar el recordatorio.",
+      "howHeading": "Cómo agregarlo",
+      "how": [
+        "En iPhone o Mac: abre el archivo descargado y Calendario te pregunta dónde agregarlo.",
+        "En Android con Google Calendar: abre el archivo descargado. En una computadora, también puedes importarlo en calendar.google.com (Configuración, y luego Importar y exportar).",
+        "En Outlook: abre el archivo y Outlook agrega el evento."
+      ],
+      "noJsWeekly": "Revisión semanal, sábados 9 a. m.",
+      "noJsSeason": "Recordatorio de temporada, 1 de mayo",
+      "noJsNote": "Puedes cambiar el día y la hora en tu calendario después de agregarlo.",
+      "event": {
+        "weeklyTitle": "Revisión semanal de mosquitos",
+        "weeklyIntro": "Da una vuelta por afuera y revisa:",
+        "checklistLink": "Lista semanal: {url}",
+        "seasonTitle": "Temporada de mosquitos: empieza las revisiones semanales",
+        "seasonBody": "Empieza la temporada de mosquitos donde vives. Comienza tus revisiones semanales del agua estancada.",
+        "protectLink": "Formas de protegerte: {url}"
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+---
+// Compact footer on navy, two rows:
+// 1. Logo (light version) and tagline on one line; on the right, two short link lines
+//    ("Diseases: Dengue · Zika · Chikungunya", "Tools: …" with every tool in the Tools
+//    page's order, and "About · FAQ · Words to know · Sources · Privacy").
+// 2. A thin light-blue rule, then the disclaimer across the full width.
+// Phones: logo and tagline, then the link lines (wrapping), then the disclaimer.
+import { assetPath, getTagline, localizePath, siteName, useTranslations } from '../i18n';
+import { diseaseKeys, getPage, toolKeys } from '../config/pages';
+import tools from '../content/tools.json';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const link = (key: string) => ({ key, href: localizePath(lang, getPage(key).path), label: t(`pages.${key}.nav`) });
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+// After the tool pages, the Tools page's "Ask for help" card (same order as the page).
+const landlordNote = { key: 'landlordNote', href: `${localizePath(lang, getPage('tools').path)}#landlord-note`, label: tools.text[L].cards.landlordNote.footer };
+
+// The last line has no visible label (its links say what they are); screen readers
+// still hear the group name.
+const groups = [
+  { heading: t('footer.diseasesHeading'), visible: true, links: diseaseKeys.map(link) },
+  { heading: t('pages.tools.nav'), visible: true, links: [...toolKeys.map(link), landlordNote] },
+  { heading: t('footer.aboutHeading'), visible: false, links: ['about', 'faq', 'glossary', 'sources', 'privacy'].map(link) },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__top">
+      <p class="footer__brand">
+        <a class="footer__logo" href={localizePath(lang)}>
+          <span class="visually-hidden">{siteName}</span>
+          <span aria-hidden="true"
+            ><img class="footer__mark" src={assetPath('brand/outbite-mark-dark.svg')} alt="" width="32" height="32" /><span
+              >{siteName.slice(1)}</span
+            ></span
+          >
+        </a>
+        <span class="footer__tagline">{getTagline(lang)}</span>
+      </p>
+
+      <nav aria-label={t('a11y.footerNav')} class="footer__nav">
+        {
+          groups.map((group) => (
+            <p class="footer__line">
+              <strong class:list={['footer__label', { 'visually-hidden': !group.visible }]}>{group.heading}:</strong>{' '}
+              {group.links.map((l, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </p>
+          ))
+        }
+      </nav>
+    </div>
+
+    <p class="footer__disclaimer">{t('footer.disclaimer')}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    --color-focus: var(--color-focus-on-dark);
+    margin-top: var(--section-gap);
+    padding-block: var(--space-5);
+    background: var(--color-footer-bg);
+    color: var(--color-footer-text);
+  }
+
+  .site-footer a {
+    color: var(--color-footer-link);
+    text-decoration: underline;
+  }
+
+  .footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-6);
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+  }
+
+  .footer__logo {
+    color: var(--color-footer-text) !important;
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: var(--weight-heading);
+    line-height: 1.1;
+    text-decoration: none !important;
+    white-space: nowrap;
+  }
+
+  /* The mark is the "O", sitting on the baseline like a letter (as in the header). */
+  .footer__mark {
+    display: inline;
+    width: 1.07em;
+    height: 1.07em;
+    vertical-align: -0.1em;
+    margin-inline-end: -0.1em;
+  }
+
+  .footer__tagline {
+    font-size: 1rem;
+  }
+
+  .footer__nav {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .footer__line {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .footer__label {
+    font-weight: var(--weight-heading);
+  }
+
+  /* At least 24px tall tap areas, with room between links. */
+  .footer__line a {
+    display: inline-block;
+    min-height: 24px;
+    padding-block: 2px;
+  }
+
+  .footer__disclaimer {
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-footer-rule);
+    font-size: var(--text-sm);
+  }
+</style>

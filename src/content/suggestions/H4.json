@@ -1,0 +1,46 @@
+{
+  "id": "H4",
+  "layer": "home",
+  "effortGroup": "regular",
+  "guidance": "cdc-epa",
+  "evidence": "moderate",
+  "cost": [
+    "free"
+  ],
+  "effort": "weekly",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "cdc-control-home"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Empty and scrub indoor water-holders every week",
+      "summary": "Vases and plant saucers can breed mosquitoes inside your home.",
+      "evidenceMeasures": "fewer mosquitoes",
+      "canDo": [
+        "Emptying and scrubbing stops mosquitoes that got inside from breeding in vases and plant saucers."
+      ],
+      "cantDo": [
+        "Emptying indoor water doesn't stop mosquitoes coming in from outside."
+      ],
+      "research": []
+    },
+    "es": {
+      "title": "Vacía y friega cada semana lo que guarda agua dentro de la casa",
+      "summary": "Los floreros y los platitos de las macetas pueden criar mosquitos dentro de tu casa.",
+      "evidenceMeasures": "menos mosquitos",
+      "canDo": [
+        "Vaciar y fregar evita que los mosquitos que entraron se críen en floreros y platitos de macetas."
+      ],
+      "cantDo": [
+        "Vaciar el agua de adentro no evita que entren mosquitos de afuera."
+      ],
+      "research": []
+    }
+  }
+}

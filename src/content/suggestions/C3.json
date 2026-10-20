@@ -1,0 +1,87 @@
+{
+  "id": "C3",
+  "layer": "community",
+  "effortGroup": "project",
+  "guidance": "none",
+  "evidence": "moderate",
+  "cost": [
+    "free",
+    "program"
+  ],
+  "effort": "ongoing",
+  "audiences": [
+    "all"
+  ],
+  "safetyContacts": false,
+  "related": [],
+  "sources": [
+    "sharp-2019",
+    "barrera-2019",
+    "cdc-mmwr-ago-2016"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Support community mosquito-trap programs (AGO traps)",
+      "summary": "AGO traps (traps for egg-laying mosquitoes) catch female Aedes mosquitoes when they come to lay eggs, without pesticides. Traps placed across a whole neighborhood lowered infection in Puerto Rico.",
+      "guidanceNote": "research-based",
+      "evidenceMeasures": "lower infection in people (one well-designed study)",
+      "canDo": [
+        "In Puerto Rico, communities with AGO traps had about half as much chikungunya infection.",
+        "Mosquito numbers in trap communities didn't significantly rise after Hurricane María."
+      ],
+      "cantDo": [
+        "One household can't do this alone. Traps need to cover about 80% of the buildings in an area to work."
+      ],
+      "research": [
+        {
+          "text": "Communities with traps had about half the chikungunya infection of communities without them.",
+          "cite": [
+            "sharp-2019"
+          ]
+        },
+        {
+          "text": "After Hurricane María, mosquito numbers didn't significantly rise in the areas with traps.",
+          "cite": [
+            "barrera-2019"
+          ]
+        },
+        {
+          "text": "This comes from one study that compared neighborhoods with and without traps (not a randomized trial), so we rate it Moderate.",
+          "cite": []
+        }
+      ]
+    },
+    "es": {
+      "title": "Apoya los programas comunitarios de trampas para mosquitos (trampas AGO)",
+      "summary": "Las trampas AGO (trampas para mosquitos que van a poner huevos) atrapan a los mosquitos Aedes hembra cuando vienen a poner huevos, sin pesticidas. Las trampas colocadas en todo un vecindario redujeron la infección en Puerto Rico.",
+      "guidanceNote": "basado en investigación",
+      "evidenceMeasures": "menos infección en personas (un estudio bien diseñado)",
+      "canDo": [
+        "En Puerto Rico, las comunidades con trampas AGO tuvieron cerca de la mitad de infección por chikungunya.",
+        "La cantidad de mosquitos en las comunidades con trampas no subió de forma significativa después del huracán María."
+      ],
+      "cantDo": [
+        "Un solo hogar no puede hacerlo. Las trampas tienen que cubrir cerca del 80% de los edificios de un área para funcionar."
+      ],
+      "research": [
+        {
+          "text": "Las comunidades con trampas tuvieron cerca de la mitad de infección por chikungunya que las comunidades sin trampas.",
+          "cite": [
+            "sharp-2019"
+          ]
+        },
+        {
+          "text": "Después del huracán María, la cantidad de mosquitos no subió de forma significativa en las áreas con trampas.",
+          "cite": [
+            "barrera-2019"
+          ]
+        },
+        {
+          "text": "Esto viene de un solo estudio que comparó vecindarios con y sin trampas (no fue un ensayo aleatorizado); por eso lo calificamos como Moderado.",
+          "cite": []
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "id": "tools",
+  "lastReviewed": "2026-10-20",
+  "groups": [
+    {
+      "key": "stand",
+      "tools": [
+        "quiz",
+        "checklist"
+      ]
+    },
+    {
+      "key": "habit",
+      "tools": [
+        "reminders",
+        "printables"
+      ]
+    },
+    {
+      "key": "trip",
+      "tools": [
+        "travel"
+      ]
+    },
+    {
+      "key": "help",
+      "tools": [],
+      "notes": [
+        "landlordNote"
+      ]
+    }
+  ],
+  "text": {
+    "en": {
+      "groups": {
+        "stand": "Check where you stand",
+        "habit": "Keep up the habit",
+        "trip": "Planning a trip?",
+        "help": "Ask for help"
+      },
+      "cards": {
+        "quiz": {
+          "title": "How layered is my protection?",
+          "line": "Answer 8 quick questions and get your top 3 next steps.",
+          "button": "Take the quiz"
+        },
+        "checklist": {
+          "title": "Weekly mosquito check",
+          "line": "Tick off the steps around your home each week.",
+          "button": "Open the checklist"
+        },
+        "reminders": {
+          "title": "Seasonal reminders",
+          "line": "Add a weekly check and a start-of-season reminder to your calendar.",
+          "button": "Set reminders"
+        },
+        "printables": {
+          "title": "Printables",
+          "line": "Checklist, neighbor flyer, clean-up day flyer, Spot the Aedes poster, when-to-get-care card and trip checklist.",
+          "button": "See printables"
+        },
+        "travel": {
+          "title": "Traveling soon?",
+          "line": "See CDC’s advice for where you’re going, and what to pack.",
+          "button": "Plan your trip"
+        },
+        "landlordNote": {
+          "title": "Note to a landlord",
+          "line": "A ready-to-copy note asking your landlord to fix screens or standing water.",
+          "button": "Show the note",
+          "hide": "Hide the note",
+          "footer": "Landlord note"
+        }
+      }
+    },
+    "es": {
+      "groups": {
+        "stand": "Revisa cómo estás",
+        "habit": "Mantén el hábito",
+        "trip": "¿Planeas un viaje?",
+        "help": "Pide ayuda"
+      },
+      "cards": {
+        "quiz": {
+          "title": "¿Cuántas capas tiene mi protección?",
+          "line": "Contesta 8 preguntas rápidas y recibe tus 3 próximos pasos principales.",
+          "button": "Hacer el cuestionario"
+        },
+        "checklist": {
+          "title": "Revisión semanal de mosquitos",
+          "line": "Marca los pasos alrededor de tu casa cada semana.",
+          "button": "Abrir la lista"
+        },
+        "reminders": {
+          "title": "Recordatorios de temporada",
+          "line": "Agrega a tu calendario una revisión semanal y un recordatorio de inicio de temporada.",
+          "button": "Crear recordatorios"
+        },
+        "printables": {
+          "title": "Para imprimir",
+          "line": "Lista semanal, volante para vecinos, volante para día de limpieza, cartel para identificar al Aedes, tarjeta de cuándo buscar atención y lista para el viaje.",
+          "button": "Ver los materiales"
+        },
+        "travel": {
+          "title": "¿Vas a viajar pronto?",
+          "line": "Mira los consejos de los CDC para tu destino y qué llevar.",
+          "button": "Planea tu viaje"
+        },
+        "landlordNote": {
+          "title": "Nota para el dueño de la vivienda",
+          "line": "Una nota lista para copiar y pedirle al dueño que arregle las mallas o el agua estancada.",
+          "button": "Ver la nota",
+          "hide": "Ocultar la nota",
+          "footer": "Nota para el dueño"
+        }
+      }
+    }
+  }
+}

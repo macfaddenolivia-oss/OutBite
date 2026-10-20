@@ -1,0 +1,1593 @@
+---
+// How it spreads: a nine-step tap-through story (Oct 15 2026 decisions).
+// Text, Spanish and sources: src/content/how-it-spreads.json. Drawings:
+// src/components/story/.
+// With JavaScript: one scene at a time, Back/Next and arrow keys, opening toggle.
+// Without JavaScript: all scenes stacked, both openings shown and labeled.
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import Genus from '../../components/Genus.astro';
+import SceneMeet from '../../components/story/SceneMeet.astro';
+import SceneFirstBite from '../../components/story/SceneFirstBite.astro';
+import SceneOpening from '../../components/story/SceneOpening.astro';
+import SceneBite from '../../components/story/SceneBite.astro';
+import SceneInside from '../../components/story/SceneInside.astro';
+import SceneNextBite from '../../components/story/SceneNextBite.astro';
+import SceneMoreMosquitoes from '../../components/story/SceneMoreMosquitoes.astro';
+import SceneNewInfection from '../../components/story/SceneNewInfection.astro';
+import SceneCycle from '../../components/story/SceneCycle.astro';
+import OpeningChoice from '../../components/story/OpeningChoice.astro';
+import StoryProgress from '../../components/story/StoryProgress.astro';
+import story from '../../content/how-it-spreads.json';
+import { assetPath, defaultLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const text = (story.text as Record<string, (typeof story.text)['en']>)[lang] ?? story.text[defaultLocale as 'en'];
+const cite = story.cite as Record<string, string[]>;
+const s = text.scenes;
+const title = t('pages.howItSpreads.title');
+const total = 9;
+const stepOf = (n: number) => text.stepOf.replace('{n}', String(n)).replace('{total}', String(total));
+const layerKeys = ['body', 'home', 'yard', 'community'] as const;
+const layerStep = {
+  body: text.layers.stepAnaMosquito,
+  home: text.layers.stepMosquitoNeighbor,
+  yard: text.layers.stepBucketMosquito,
+  community: text.layers.stepCommunity,
+};
+const names = { ana: text.diagram.ana, neighbor: text.diagram.neighbor };
+// "More mosquitoes" strip, in this order (icons in public/story/water/).
+const eggSpots = [
+  ['tire', 'tire'],
+  ['plantSaucer', 'plant-saucer'],
+  ['petBowl', 'pet-bowl'],
+  ['birdbath', 'birdbath'],
+  ['bottleCap', 'bottle-cap'],
+  ['upturnedLid', 'upturned-lid'],
+] as const;
+const headings = [s.meet.heading, s.firstBite.heading, s.openingTravel.heading, s.bite.heading, s.inside.heading, s.nextBite.heading, s.moreMosquitoes.heading, s.newInfection.heading, s.cycle.heading];
+const openings = [
+  ['local', text.openingLocalLabel],
+  ['travel', text.openingTravelLabel],
+] as const;
+---
+
+<BaseLayout lang={lang} title={title} description={t('pages.howItSpreads.summary')}>
+  <div class="page-intro page-intro--story">
+    <div class="container">
+      <h1>{title}</h1>
+      <p class="page-intro__lead"><Genus text={text.intro} /></p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="story-band">
+  <div class="container story" data-story data-scroll-managed data-opening="travel">
+    <OpeningChoice heading={text.choiceHeading} local={text.openingLocalLabel} travel={text.openingTravelLabel} />
+
+    {/* One frame for all nine steps: the steps share one grid cell (inactive ones are
+        hidden with visibility), so the frame is always as tall as the tallest step and
+        the nav bar never moves. */}
+    <div class="story-frame">
+    <ol class="scenes">
+      {/* ---- Scene 1: meet the Aedes mosquito (both openings) ---- */}
+      <li class="scene is-active" data-scene="0">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(1)}</p>
+          <StoryProgress current={0} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1"><Genus text={s.meet.heading} /></h2>
+          <p class="scene__callout-text">{s.meet.calloutAedes}</p>
+          <p class="scene__meet-caption"><Genus text={s.meet.caption} /></p>
+          <div class="scene__notebox">
+            <p><Genus text={s.meet.note} /></p>
+            <p class="scene__states">
+              {s.meet.states.lines.map((line: string, i: number) => (
+                <>
+                  {i > 0 && <br />}
+                  {line}
+                </>
+              ))}
+            </p>
+          </div>
+          <div class="scene__meet-foot">
+            <SourceLine lang={lang} ids={cite.meet} collapsed />
+            <a class="scene__faq" href={`${localizePath(lang, getPage('faq').path)}#spot-aedes`}><Genus text={t('faqLinks.faqSpotShort')} /> <span aria-hidden="true">→</span><span class="visually-hidden"> (<Genus text={t('faqLinks.faqSpot')} />)</span></a>
+          </div>
+        </div>
+        <div class="scene__figure scene__figure--sky">
+          <div class="art">
+            <SceneMeet label={s.meet.label} aedesName={s.meet.aedesName} culexName={s.meet.culexName} />
+            <p class="callout callout--aedes" aria-hidden="true">{s.meet.calloutAedes}</p>
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 2: the first bite (two versions) ---- */}
+      <li class="scene" data-scene="1">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(2)}</p>
+          <StoryProgress current={1} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.firstBite.heading}</h2>
+          <div class="variant-stack">
+            {
+              openings.map(([key]) => (
+                <div class={`variant v-${key}`}>
+                  <p><Genus text={key === 'local' ? s.firstBite.captionLocal : s.firstBite.captionTravel} /></p>
+                </div>
+              ))
+            }
+          </div>
+          <SourceLine lang={lang} ids={cite.firstBite} />
+        </div>
+        <div class="scene__figure">
+          {
+            openings.map(([key, name]) => (
+              <div class={`variant v-${key}`}>
+                <p class="variant__label no-js-only">{text.noJsOpening.replace('{name}', name)}</p>
+                <div class="art">
+                  <SceneFirstBite
+                    label={key === 'local' ? s.firstBite.labelLocal : s.firstBite.labelTravel}
+                    travel={key === 'travel'}
+                    names={names}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </li>
+
+      {/* ---- Scene 3: opening (two versions) ---- */}
+      <li class="scene" data-scene="2">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(3)}</p>
+          <StoryProgress current={2} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <div class="variant-stack">
+          {
+            openings.map(([key]) => {
+              const sc = key === 'local' ? s.openingLocal : s.openingTravel;
+              return (
+                <div class={`variant v-${key}`}>
+                  <h2 class="scene__heading" tabindex="-1">{sc.heading}</h2>
+                  <p class="scene__callout-text">{sc.callout}</p>
+                  <p><Genus text={sc.caption} /></p>
+                  <SourceLine lang={lang} ids={key === 'local' ? cite.openingLocal : cite.openingTravel} />
+                </div>
+              );
+            })
+          }
+          </div>
+        </div>
+        <div class="scene__figure">
+          {
+            openings.map(([key, name]) => (
+              <div class={`variant v-${key}`}>
+                <p class="variant__label no-js-only">{text.noJsOpening.replace('{name}', name)}</p>
+                <div class="art">
+                  <SceneOpening
+                    label={key === 'local' ? s.openingLocal.label : s.openingTravel.label}
+                    travel={key === 'travel'}
+                    names={names}
+                  />
+                  <p class="callout callout--ana" aria-hidden="true">
+                    {s.openingLocal.callout}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </li>
+
+      {/* ---- Scene 4: the bite ---- */}
+      <li class="scene" data-scene="3">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(4)}</p>
+          <StoryProgress current={3} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.bite.heading}</h2>
+          <p class="scene__callout-text"><Genus text={s.bite.callout} /></p>
+          <p><Genus text={s.bite.caption} /></p>
+          <SourceLine lang={lang} ids={cite.bite} />
+        </div>
+        <div class="scene__figure">
+          <div class="art">
+            <SceneBite label={s.bite.label} name={names.ana} id="flight-bite" />
+            <p class="callout callout--mosquito" aria-hidden="true"><Genus text={s.bite.callout} /></p>
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 5: inside the mosquito ---- */}
+      <li class="scene" data-scene="4">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(5)}</p>
+          <StoryProgress current={4} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.inside.heading}</h2>
+          <p><Genus text={s.inside.caption} /></p>
+          <SourceLine lang={lang} ids={cite.inside} />
+        </div>
+        <div class="scene__figure scene__figure--sky">
+          <div class="art">
+            <SceneInside label={s.inside.label} timeline={s.inside.timeline} />
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 6: the next bite (same picture in both openings) ---- */}
+      <li class="scene" data-scene="5">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(6)}</p>
+          <StoryProgress current={5} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.nextBite.heading}</h2>
+          <p class="scene__callout-text"><Genus text={s.nextBite.callout} /></p>
+          <p><Genus text={s.nextBite.caption} /></p>
+          <p>{s.nextBite.virusGone}</p>
+          <SourceLine lang={lang} ids={cite.nextBite} compact />
+        </div>
+        <div class="scene__figure">
+          <div class="art">
+            <SceneNextBite label={s.nextBite.label} names={names} virusGone={text.diagram.virusGone} />
+            <p class="callout callout--next" aria-hidden="true"><Genus text={s.nextBite.callout} /></p>
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 7: more mosquitoes (same picture in both openings) ---- */}
+      <li class="scene" data-scene="6">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(7)}</p>
+          <StoryProgress current={6} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.moreMosquitoes.heading}</h2>
+          <p class="scene__callout-text"><Genus text={s.moreMosquitoes.callout} /></p>
+          <p>{s.moreMosquitoes.caption}</p>
+          <p>{s.moreMosquitoes.containers}</p>
+          <SourceLine lang={lang} ids={cite.moreMosquitoes} compact />
+        </div>
+        <div class="scene__figure">
+          <div class="art">
+            <SceneMoreMosquitoes label={s.moreMosquitoes.label} />
+            <p class="callout callout--more" aria-hidden="true"><Genus text={s.moreMosquitoes.callout} /></p>
+            {/* Other places mosquitoes lay eggs: a labeled strip on the ground, under the bucket. */}
+            <div class="egg-spots">
+              <p class="egg-spots__title">{s.moreMosquitoes.eggSpots.title}</p>
+              <ul class="egg-spots__list">
+                {
+                  eggSpots.map(([key, file]) => (
+                    <li>
+                      <img src={assetPath(`story/water/${file}.svg`)} alt="" width="40" height="40" />
+                      <span>{s.moreMosquitoes.eggSpots.items[key]}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+              <p class="egg-spots__title egg-spots__more">{s.moreMosquitoes.eggSpots.more}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 8: a new infection ---- */}
+      <li class="scene" data-scene="7">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(8)}</p>
+          <StoryProgress current={7} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.newInfection.heading}</h2>
+          <p class="scene__callout-text">{s.newInfection.callout}</p>
+          <p><Genus text={s.newInfection.caption} /></p>
+          <p class="scene__note">{s.newInfection.note}</p>
+          <SourceLine lang={lang} ids={cite.newInfection} />
+        </div>
+        <div class="scene__figure">
+          <div class="art">
+            <SceneNewInfection label={s.newInfection.label} name={names.neighbor} days={s.newInfection.calendar} />
+            <p class="callout callout--neighbor" aria-hidden="true">{s.newInfection.callout}</p>
+          </div>
+        </div>
+      </li>
+
+      {/* ---- Scene 9: break the cycle (interactive) ---- */}
+      <li class="scene" data-scene="8">
+        <div class="scene__text">
+          <p class="scene__step">{stepOf(9)}</p>
+          <StoryProgress current={8} headings={headings} localHeading={s.openingLocal.heading} template={text.stepButton} groupLabel={text.stepsGroup} />
+          <h2 class="scene__heading" tabindex="-1">{s.cycle.heading}</h2>
+          <p class="scene__closing">{s.cycle.closing}</p>
+          <p class="tap-callout js-only">
+            <svg class="tap-callout__arrow" viewBox="0 0 24 30" width="20" height="25" aria-hidden="true">
+              <path d="M12 2 V23" stroke="currentColor" stroke-width="5"></path>
+              <path d="M3 17 L12 27 L21 17" fill="none" stroke="currentColor" stroke-width="5"></path>
+            </svg>
+            <span>{s.cycle.caption}</span>
+          </p>
+
+          <div class="layer-buttons is-pulsing js-only" role="group" aria-label={text.layers.groupLabel} data-layer-buttons>
+            {
+              layerKeys.map((key) => (
+                <button type="button" class={`layer-btn layer-btn--${key}`} data-layer={key} aria-pressed="false">
+                  <span class="layer-btn__name">{text.layers[key]}</span>
+                  <span class="layer-btn__icon" aria-hidden="true">
+                    <span class="layer-btn__arrow">→</span>
+                    <span class="layer-btn__check">✓</span>
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+
+          {/* All eight explanations (4 layers × 2 openings) share one grid cell, so the
+              box is always as tall as the longest one and the layout never jumps. */}
+          <div class="layer-explain js-only" data-layer-explain>
+            {
+              layerKeys.flatMap((key) =>
+                (['travel', 'local'] as const).map((op) => (
+                  <div class="layer-explain__item" data-for={key} data-opening-text={op}>
+                    <p>
+                      <strong>{text.layers[key]}:</strong>{' '}
+                      {key === 'body' ? (op === 'travel' ? text.layers.bodyTravel : text.layers.bodyLocal) : text.layers[`${key}Text` as 'homeText']}
+                    </p>
+                    <SourceLine lang={lang} ids={key === 'body' ? (op === 'travel' ? cite.bodyTravel : cite.bodyLocal) : cite[key]} compact />
+                  </div>
+                )),
+              )
+            }
+          </div>
+          <p class="visually-hidden" aria-live="polite" data-layer-announce></p>
+          <template data-layer-sr>
+            {layerKeys.map((key) => <span data-for={key}>{text.layers.blockedSr.replace('{step}', layerStep[key])}</span>)}
+          </template>
+
+          <!-- Without JavaScript: all four layers as a list, with their sources -->
+          <ul class="layers-static no-js-only">
+            <li><strong>{text.layers.body}:</strong> {text.layers.bodyTravel} ({text.openingTravelLabel}) / {text.layers.bodyLocal} ({text.openingLocalLabel})</li>
+            <li><strong>{text.layers.home}:</strong> {text.layers.homeText}</li>
+            <li><strong>{text.layers.yard}:</strong> {text.layers.yardText}</li>
+            <li><strong>{text.layers.community}:</strong> {text.layers.communityText}</li>
+          </ul>
+          <div class="no-js-only">
+            <SourceLine lang={lang} ids={[...new Set([...cite.bodyTravel, ...cite.bodyLocal, ...cite.home, ...cite.yard, ...cite.community])]} />
+          </div>
+
+          {/* Without JavaScript there is no nav bar, so the Protect link sits here. */}
+          <p class="no-js-only">
+            <a href={`${localizePath(lang, getPage('protect').path)}#layer-yard`}>{text.protectCard} <span aria-hidden="true">→</span></a>
+          </p>
+        </div>
+        <div class="scene__figure">
+          <div class="art art--cycle">
+            <SceneCycle label={s.cycle.label} t={text.diagram} />
+          </div>
+        </div>
+      </li>
+    </ol>
+    {/* Last step: Back, "Start from the beginning" (middle) and the Protect link in
+        Next's place and style. */}
+    <div class="story-nav js-only" data-story-nav>
+      <button type="button" class="btn btn-secondary story-nav__back" data-go="-1" disabled><span aria-hidden="true">←</span> {text.back}</button>
+      <button type="button" class="btn btn-secondary story-nav__restart" data-restart hidden><span aria-hidden="true">↺</span> {text.restart}</button>
+      <button type="button" class="btn btn-primary story-nav__next" data-go="1">{text.next} <span aria-hidden="true">→</span></button>
+      <a class="btn btn-primary story-nav__protect" href={`${localizePath(lang, getPage('protect').path)}#layer-yard`} hidden data-protect-link>
+        {text.protectCard} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    </div>
+  </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-story]');
+  if (root) {
+    const scenes = [...root.querySelectorAll<HTMLElement>('.scene')];
+    const cycle = root.querySelector<SVGElement>('[data-cycle]');
+    const explain = root.querySelector<HTMLElement>('[data-layer-explain]');
+    const announce = root.querySelector<HTMLElement>('[data-layer-announce]');
+    const srTexts = root.querySelector<HTMLTemplateElement>('[data-layer-sr]');
+    const layerButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-layer]')];
+    const openingButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-opening-choice]')];
+    let current = 0;
+    let layer = '';
+
+    // The story opens with "After a trip"; the visitor can switch to "Caught nearby".
+    // (No place is remembered anywhere on the site.)
+    let opening = 'travel';
+
+    // The heading of the shown step and opening. Chosen from state, not computed
+    // visibility: under reduced motion every property gets a tiny transition, so
+    // visibility can still read "hidden" at this moment.
+    const visibleHeading = (scene: HTMLElement) =>
+      [...scene.querySelectorAll<HTMLElement>('.scene__heading')].find((h) => {
+        const variant = h.closest<HTMLElement>('.variant');
+        return !variant || variant.classList.contains(`v-${opening}`);
+      });
+    const back = root.querySelector<HTMLButtonElement>('[data-story-nav] [data-go="-1"]');
+    const next = root.querySelector<HTMLButtonElement>('[data-story-nav] [data-go="1"]');
+    const nav = root.querySelector<HTMLElement>('[data-story-nav]');
+    const restart = root.querySelector<HTMLButtonElement>('[data-restart]');
+    const protectLink = root.querySelector<HTMLElement>('[data-protect-link]');
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Scene 2: the mosquito flies along the dotted path while the line draws
+    // behind it. One requestAnimationFrame timeline drives both: the same progress
+    // places the mosquito (getPointAtLength, rotated along the curve) and reveals the
+    // line up to exactly that point (mask stroke-dashoffset, pathLength = 1).
+    // Reduced motion: the finished picture only.
+    const FLIGHT_MS = 1800;
+    // Quick lift-off out of the bucket (clear of the handle by the time it reaches
+    // full size), gentle landing: ease-out cubic.
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    // The mosquito emerges from the water: 40% size and transparent at the start,
+    // full size and opacity after the first 15% of the flight.
+    const EMERGE = 0.15;
+    const START_SIZE = 0.4;
+    const flights = new Map<SVGSVGElement, number>();
+
+    // Body stays nearly level: tilt follows the climb/descent but never more than
+    // ±20°, and the mosquito faces the way it travels (flipped horizontally if it
+    // ever heads right), so it is never upside down or vertical.
+    const MAX_TILT = 20;
+
+    function placeFlight(svg: SVGSVGElement, progress: number, grow = 1) {
+      const path = svg.querySelector<SVGPathElement>('[data-flight-path]');
+      const reveal = svg.querySelector<SVGPathElement>('[data-flight-reveal]');
+      const flyer = svg.querySelector<SVGGElement>('[data-flyer]');
+      if (!path || !reveal || !flyer) return;
+      const length = path.getTotalLength();
+      const at = progress * length;
+      const p = path.getPointAtLength(at);
+      const a = path.getPointAtLength(Math.max(0, at - 1));
+      const b = path.getPointAtLength(Math.min(length, at + 1));
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const facingLeft = dx <= 0; // the drawing faces left
+      const tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, (Math.atan2(dy, Math.abs(dx)) * 180) / Math.PI));
+      // Descending (dy > 0) dips the head: counter-clockwise when facing left.
+      const rotate = facingLeft ? -tilt : tilt;
+      const size = START_SIZE + (1 - START_SIZE) * grow;
+      // The path ends level; at the very end use the still picture's own transform
+      // so the last frame matches it exactly (no leftover fraction of a degree).
+      flyer.dataset.still ??= flyer.getAttribute('transform') ?? '';
+      flyer.setAttribute(
+        'transform',
+        progress >= 1
+          ? flyer.dataset.still
+          : `translate(${p.x} ${p.y}) rotate(${rotate.toFixed(2)}) scale(${(facingLeft ? size : -size).toFixed(3)} ${size.toFixed(3)})`,
+      );
+      flyer.style.opacity = String(grow);
+      reveal.style.strokeDashoffset = String(1 - progress);
+    }
+
+    function fly(scene: HTMLElement) {
+      for (const svg of scene.querySelectorAll<SVGSVGElement>('[data-flight]')) {
+        cancelAnimationFrame(flights.get(svg) ?? 0);
+        if (reduceMotion.matches) {
+          placeFlight(svg, 1);
+          continue;
+        }
+        const start = performance.now();
+        const frame = (now: number) => {
+          const t = Math.min(1, (now - start) / FLIGHT_MS);
+          placeFlight(svg, ease(t), Math.min(1, t / EMERGE));
+          if (t < 1) flights.set(svg, requestAnimationFrame(frame));
+        };
+        placeFlight(svg, 0, 0);
+        flights.set(svg, requestAnimationFrame(frame));
+      }
+    }
+
+    function show(index: number, focus: boolean) {
+      current = Math.max(0, Math.min(scenes.length - 1, index));
+      scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === current));
+      // Shared nav bar: Back disabled on step 1. Last step: Next is replaced by the
+      // Protect link, and "Start from the beginning" appears in the middle.
+      const last = current === scenes.length - 1;
+      if (back) back.disabled = current === 0;
+      if (next) next.hidden = last;
+      if (restart) restart.hidden = !last;
+      if (protectLink) protectLink.hidden = !last;
+      nav?.classList.toggle('is-last', last);
+      fly(scenes[current]);
+      if (focus) {
+        const heading = visibleHeading(scenes[current]);
+        if (heading) {
+          heading.toggleAttribute('data-focus-ring', keyboardNav);
+          // preventScroll: the page never moves on its own when the step changes.
+          heading.focus({ preventScroll: true });
+        }
+      }
+    }
+
+    function updateLayer() {
+      if (cycle) {
+        if (layer) cycle.setAttribute('data-block', layer);
+        else cycle.removeAttribute('data-block');
+      }
+      for (const b of layerButtons) b.setAttribute('aria-pressed', String(b.dataset.layer === layer));
+      if (explain) {
+        explain.dataset.layer = layer;
+        let shown: HTMLElement | undefined;
+        for (const item of explain.querySelectorAll<HTMLElement>('.layer-explain__item')) {
+          const match = item.dataset.for === layer && item.dataset.openingText === opening;
+          item.classList.toggle('is-shown', match);
+          if (match) shown = item;
+        }
+        if (announce) {
+          const sr = srTexts?.content.querySelector(`[data-for="${layer}"]`)?.textContent ?? '';
+          announce.textContent = shown ? `${sr} ${shown.querySelector('p')?.textContent ?? ''}` : '';
+        }
+      }
+    }
+
+    function setOpening(value: string) {
+      opening = value;
+      root!.dataset.opening = value;
+      for (const b of openingButtons) b.setAttribute('aria-pressed', String(b.dataset.openingChoice === value));
+      // Step 1's progress button names the heading of the chosen opening.
+      for (const b of root!.querySelectorAll<HTMLElement>('[data-heading-local]')) {
+        b.setAttribute('aria-label', (value === 'local' ? b.dataset.headingLocal : b.dataset.headingTravel) ?? '');
+        b.dataset.tip = (value === 'local' ? b.dataset.tipLocal : b.dataset.tipTravel) ?? '';
+      }
+      updateLayer();
+    }
+
+    root.addEventListener('click', (event) => {
+      const target = (event.target as HTMLElement).closest<HTMLElement>('button');
+      if (!target) return;
+      if (target.dataset.goto !== undefined) show(Number(target.dataset.goto), true);
+      else if (target.dataset.go) show(current + Number(target.dataset.go), true);
+      // Back to step 1, keeping the chosen opening; focus moves to its heading.
+      else if (target.dataset.restart !== undefined) show(0, true);
+      else if (target.dataset.openingChoice) setOpening(target.dataset.openingChoice);
+      else if (target.dataset.layer) {
+        root!.querySelector('[data-layer-buttons]')?.classList.remove('is-pulsing');
+        layer = layer === target.dataset.layer ? '' : target.dataset.layer;
+        updateLayer();
+      }
+    });
+
+    root.addEventListener('keydown', (event) => {
+      const el = event.target as HTMLElement;
+      if (el.matches('input, select, textarea')) return;
+      if (event.key === 'ArrowRight') show(current + 1, true);
+      else if (event.key === 'ArrowLeft') show(current - 1, true);
+      else return;
+      event.preventDefault();
+    });
+
+    setOpening(opening);
+    show(0, false);
+  }
+</script>
+
+<style>
+  /* This page only: no rule under the intro; the intro, choice band and story share
+     one continuous white band. Sizes and spacing come from the shared .page-intro. */
+  .page-intro--story {
+    border-bottom: 0;
+  }
+
+  .story-band {
+    background: var(--color-intro-bg);
+  }
+
+  .story {
+    padding-block: var(--space-3) var(--section-gap);
+  }
+
+  /* Cap the picture's height; the drawing stays proportional and centered. */
+  /* The picture box is exactly the drawing's size (at most 420px tall, centered),
+     so callouts positioned in % land on the right part of the drawing. */
+  .art {
+    container-type: inline-size; /* cqw units for callout tails */
+    width: 100%; /* needed: centered grid items would otherwise shrink to fit */
+    max-width: 540px; /* 405px × 480/360; leaves room for "The next bite" strip */
+    margin-inline: auto;
+  }
+
+  /* Steps 1 and 5: the whole picture panel is light blue, edge to edge (both modes). */
+  .scene__figure.scene__figure--sky,
+  .scene__figure--sky .art {
+    background: #cbdcec;
+  }
+
+  /* The panel itself fills its whole grid cell (down to the nav bar), so there is
+     no white gap below the drawing at any size or in either opening. */
+  .scene__figure.scene__figure--sky {
+    align-self: stretch;
+  }
+
+  /* Last step: the diagram fills the picture panel (610×478 at 1313×900): full width,
+     centered vertically (preserveAspectRatio meet); at most 478px tall. */
+  .art--cycle {
+    max-width: none;
+  }
+
+  .art--cycle :global(.story-art.cycle) {
+    aspect-ratio: 610 / 478;
+    max-height: 478px;
+  }
+
+  /* Drawn scenes are at most 405px tall (540 wide). */
+  .art :global(.story-art) {
+    max-height: 405px;
+  }
+
+  /* "More mosquitoes" (step 6): where mosquitoes lay eggs. A labeled row of six 40px
+     icons on the light-blue ground, inside the drawing's box, pulled up to start 16px
+     below the ground's top edge (GROUND in story/layout.ts: 262 of the drawing's 360
+     units; 1 unit = 100cqw / 480); there are no name labels in this step. Heading → icons 8px, icon → label 4px, then "…or any
+     other standing water." in bold italic. At least 12px of panel below it.
+     Phones: two rows of three. */
+  .egg-spots {
+    position: relative; /* above the drawing's ground, which overflows into this space */
+    z-index: 1;
+    margin-top: calc(16px - (360 - 262) * 100cqw / 480);
+    padding: 0 var(--space-2) var(--space-3);
+    color: var(--color-ground-text);
+    text-align: center;
+  }
+
+  .egg-spots__title {
+    margin: 0 0 8px;
+    font-size: 0.9375rem;
+    font-weight: var(--weight-strong);
+    line-height: 1.2;
+  }
+
+  .egg-spots__more {
+    margin: 8px 0 0;
+    font-style: italic;
+    font-weight: var(--weight-heading);
+  }
+
+  .egg-spots__list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0 var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .egg-spots__list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .egg-spots__list img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 4px;
+  }
+
+  /* Wide screens: the strip may run into the panel's bottom padding (still blue). */
+  @media (min-width: 56rem) {
+    .egg-spots {
+      margin-bottom: -20px; /* may use the panel's (blue) bottom padding */
+      padding-bottom: 12px;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .egg-spots__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-2) var(--space-2);
+    }
+  }
+
+  /* ---- JS / no-JS ---- */
+  .js-only {
+    display: none !important;
+  }
+  :global(.js) .story .js-only {
+    display: revert !important;
+  }
+  :global(.js) .story .no-js-only {
+    display: none !important;
+  }
+  /* Steps and openings are stacked and hidden with visibility (not display), so the
+     frame keeps the height of the tallest step and opening at every width. */
+  :global(.js) .scene:not(.is-active) {
+    visibility: hidden;
+  }
+  :global(.js) .story[data-opening='travel'] .v-local,
+  :global(.js) .story[data-opening='local'] .v-travel {
+    visibility: hidden;
+  }
+  /* The site-wide reduced-motion rule gives every property (visibility included,
+     on every element, since it inherits) a 0.01ms transition. That briefly delays
+     the step switches and blocks focusing the new heading, so inside the story
+     everything switches instantly instead. */
+  @media (prefers-reduced-motion: reduce) {
+    .story,
+    .story :global(*) {
+      transition: none !important;
+    }
+  }
+
+  :global(.js) .scenes {
+    display: grid;
+  }
+  :global(.js) .scenes > .scene {
+    grid-area: 1 / 1;
+  }
+  :global(.js) .variant-stack,
+  :global(.js) .scene__figure {
+    display: grid;
+  }
+  :global(.js) .variant-stack > .variant,
+  :global(.js) .scene__figure > .variant {
+    grid-area: 1 / 1;
+  }
+
+
+  /* ---- Scenes ---- */
+  .scenes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Picture and text share one navy frame. */
+  .scene {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    background: var(--color-surface);
+    border: 3px solid var(--color-rule);
+  }
+
+  /* With JavaScript the shared frame carries the 3px border; without it, each
+     stacked step keeps its own complete border. */
+  :global(.js) .story-frame {
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  :global(.js) .scenes > .scene {
+    border: 0;
+  }
+
+  /* The picture panel fills its whole grid cell (down to the nav bar), with the
+     drawing at the top; it clips the ground, which reaches its edges. The frame's
+     height comes from the tallest step. */
+  .scene__figure {
+    display: grid;
+    align-content: start;
+    align-self: stretch;
+    overflow: hidden;
+    border-bottom: 3px solid var(--color-rule);
+    background: #ffffff;
+  }
+
+  .scene__text {
+    padding: var(--pad-box-lg);
+  }
+
+  /* Stacked layout: the picture shows above the text (it comes second in the HTML,
+     so keyboard and screen-reader order match the side-by-side layout). */
+  .scene__figure {
+    order: -1;
+  }
+
+  /* Without JavaScript the scenes are stacked, each in its own complete frame. */
+  .scene + .scene {
+    margin-top: var(--section-gap);
+  }
+
+  :global(.js) .scene + .scene {
+    margin-top: 0;
+  }
+
+  /* Side by side: text on the left, picture on the right (same 1 : 1.25 proportions,
+     mirrored). */
+  @media (min-width: 56rem) {
+    .scene {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    }
+
+    /* Top padding = the text panel's, so the drawing lines up with the top of the text. */
+    .scene__figure {
+      order: 0;
+      padding-block: 20px;
+      border-bottom: 0;
+    }
+
+    /* The divider lives on the text panel so it always runs the frame's full height. */
+    .scene__text {
+      padding: 20px;
+      border-inline-end: 3px solid var(--color-rule);
+    }
+  }
+
+  .variant + .variant {
+    margin-top: var(--space-4);
+  }
+
+  /* With JavaScript only one opening is shown, so no gap above it. */
+  :global(.js) .variant + .variant {
+    margin-top: 0;
+  }
+
+  .variant__label {
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: var(--weight-strong);
+  }
+
+  .art {
+    position: relative;
+    background: #ffffff;
+  }
+
+  /* Scene callouts: peach box, 3px navy border, solid navy offset shadow, square
+     corners, 19px/800 navy text (two lines at most), and a tail pointing at the
+     subject. Fixed colors, so dark mode keeps the peach callout with navy text.
+     Each callout's left edge sits 32px left of its target, so the tail (32px in)
+     points straight at it. */
+  .callout {
+    --tail-x: 32px;
+    position: absolute;
+    z-index: 2;
+    top: 4%;
+    width: max-content;
+    max-width: min(52%, 19.5rem);
+    margin: 0;
+    padding: 6px 10px;
+    background: var(--color-callout-bg);
+    color: var(--color-callout-text);
+    border: 3px solid #17306a;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #17306a;
+    font-size: 1.1875rem;
+    font-weight: var(--weight-heading);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .callout::before,
+  .callout::after {
+    content: '';
+    position: absolute;
+    left: var(--tail-x);
+    border-style: solid;
+    border-color: transparent;
+    border-bottom: 0;
+  }
+
+  /* Tail: navy outline triangle with a peach triangle on top (covers the border). */
+  .callout::before {
+    top: calc(100% + 3px);
+    margin-left: -12px;
+    border-width: 13px 12px 0;
+    border-top-color: #17306a;
+  }
+
+  .callout::after {
+    top: 100%;
+    margin-left: -9px;
+    border-width: 12px 9px 0;
+    border-top-color: var(--color-callout-bg);
+  }
+
+  /* Targets (drawings are 480×360 units, positions in story/layout.ts): Ana's head
+     x=110 (23%), the landed mosquito x=182 (38%), the step 4 mosquito x=332 (69%;
+     tail near the callout's right end), the neighbor in step 5 x=110 (23%). */
+  .callout--ana {
+    left: calc(23% - var(--tail-x));
+  }
+
+  /* Step 1: the callout over the Aedes mosquito (x = 130 of 480 units, 27.1%), 16px
+     above its raised wing (about 114 of 360 units). */
+  .callout--aedes {
+    left: calc(27.1% - var(--tail-x));
+    top: calc(114 * 100cqw / 480 - 16px);
+    translate: 0 -100%;
+    max-width: min(60%, 18rem);
+  }
+
+  /* Step 2: on the left above Ana, clear of the mosquito's whole flight from the
+     bucket. The tail (35% of the picture's width in from the box's left edge, at 3%)
+     points at where the mosquito lands (x = 38%). */
+  .callout--mosquito {
+    --tail-x: 33cqw; /* the smaller mosquito lands at x = 172.8 (36%) */
+    left: 3%;
+    max-width: min(80%, 27rem); /* Spanish fits in two lines, clear of the landing mosquito */
+  }
+
+  /* Step 4: points down at the mosquito biting the neighbor, above everyone's heads. */
+  .callout--next {
+    --tail-x: calc(100% - 40px);
+    /* Tail at the mosquito (x = 324.8, 67.7%); 7px: the tail is measured inside the
+       3px border. The box sits 16px above the tallest figure (the heads' tops, 153 of
+       360 units; 1 unit = 100cqw / 480). */
+    right: calc(32.3% - 47px);
+    top: calc(153 * 100cqw / 480 - 16px);
+    translate: 0 -100%;
+  }
+
+  /* Step 6: points down at the mosquito perched on the bucket's right rim (centre
+     x ≈ 324 of 480 units, 67.4%; same tail geometry as step 5), 16px above the
+     mosquito's raised wing (about 88 of 360 units). */
+  .callout--more {
+    --tail-x: calc(100% - 40px);
+    right: calc(32.6% - 47px);
+    top: calc(88 * 100cqw / 480 - 16px);
+    translate: 0 -100%;
+  }
+
+  /* Longest text (Spanish step 7); there is open sky to its right, above the calendar,
+     so it may be wider. */
+  .callout--neighbor {
+    left: calc(23% - var(--tail-x));
+    max-width: min(70%, 24rem);
+  }
+
+  /* Short pop-in about 0.4s after the scene shows (never with reduced motion). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .scene.is-active .callout {
+      animation: callout-pop 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.3) 0.4s both;
+    }
+
+    /* Step 2: the callout pops in near the end of the flight, so it never covers
+       the mosquito while visible. */
+    :global(.js) .scene.is-active .callout--mosquito {
+      animation-delay: 1s;
+    }
+  }
+
+  @keyframes callout-pop {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.85);
+    }
+  }
+
+  /* The callout is also real text in the caption for screen readers; on phones the
+     picture is small, so show it there instead of over the picture. */
+  .scene__callout-text {
+    display: none;
+  }
+
+  @media (max-width: 30rem) {
+    .callout {
+      display: none;
+    }
+    .scene__callout-text {
+      display: block;
+      font-weight: var(--weight-heading);
+    }
+  }
+
+  /* "Step N of 8" sits above the progress dashes, 8px above them. */
+  .scene__step {
+    margin-bottom: 8px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .scene__heading {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-2);
+  }
+
+  /* Focus always moves to the heading (for screen readers); the outline shows only
+     after keyboard navigation (the script sets data-focus-ring). */
+  .scene__heading:focus {
+    outline: none;
+  }
+
+  .scene__heading[data-focus-ring]:focus {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .scene__text p {
+    font-size: 1.0625rem;
+    line-height: 1.45;
+  }
+
+  .scene__text :global(.source-line) {
+    font-size: var(--text-sm);
+  }
+
+  /* Step 1: the light-blue note box ("You don't have to travel to get sick…"). */
+  /* Step 1: the sources line and the FAQ link share one row when they fit. */
+  .scene__meet-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-4);
+  }
+
+  .scene__faq {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .scene__text .scene__meet-caption {
+    margin-bottom: var(--space-2);
+  }
+
+  .scene__text .scene__notebox {
+    margin-bottom: 0;
+    padding: 6px var(--pad-box);
+    border-inline-start: 4px solid var(--color-rule);
+    background: var(--color-surface-tint);
+  }
+
+  /* Note box text at 15px (the source-line size) so step 1 fits the same frame as
+     the other steps. */
+  .scene__text .scene__notebox p {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .scene__text .scene__notebox .scene__states {
+    margin-top: 2px;
+    font-size: 0.875rem;
+  }
+
+  .scene__note {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-strong);
+  }
+
+  /* ---- Shared nav bar along the bottom of the frame ---- */
+  :global(.js) .story .story-nav {
+    display: grid !important;
+    /* Fixed side columns so the buttons never shift when the middle label changes. */
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-areas: 'back middle forward';
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) 20px;
+    border-top: 3px solid var(--color-rule);
+    background: var(--color-surface);
+    /* Pinned to the bottom of the window whenever the frame's bottom is off-screen. */
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+  }
+
+  /* Phones: the "I think I'm sick" bar is fixed to the bottom, so pin just above it. */
+  @media (max-width: 47.99rem) {
+    :global(.js) .story .story-nav {
+      bottom: var(--sick-bar-height);
+    }
+  }
+
+  .story-nav__back {
+    grid-area: back;
+    justify-self: start;
+  }
+
+  .story-nav__restart {
+    grid-area: middle;
+  }
+
+  .story-nav__next,
+  .story-nav__protect {
+    grid-area: forward;
+    justify-self: end;
+  }
+
+  .story-nav [hidden] {
+    display: none;
+  }
+
+  /* Last step on tablets and phones: the three buttons don't fit in one row, so stack
+     them, full width (Protect link first, then restart, then Back). */
+  @media (max-width: 63.99rem) {
+    /* Not pinned on this step: three stacked buttons would cover too much of it. */
+    :global(.js) .story .story-nav.is-last {
+      position: static;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'forward' 'middle' 'back';
+      gap: var(--space-2);
+    }
+
+    .story-nav.is-last .btn {
+      justify-self: stretch;
+      justify-content: center;
+    }
+  }
+
+  .story-nav button[disabled] {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  @media (max-width: 30rem) {
+    :global(.js) .story .story-nav {
+      padding-inline: var(--space-3);
+      gap: var(--space-2);
+    }
+    .story-nav .btn {
+      padding-inline: var(--space-3);
+      font-size: 1rem;
+    }
+  }
+
+  /* ---- Scene 7 ----
+     Spacing: heading → closing line 12px, closing line → instruction 12px,
+     instruction → buttons 8px, buttons → explanation 8px, explanation → link card 8px
+     (tightened so step 6 fits a 1440×760 window). */
+  :global(.js) .story .tap-callout {
+    display: flex !important;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+    color: var(--color-heading);
+    font-size: 1.25rem;
+    font-weight: var(--weight-heading);
+    line-height: 1.25;
+  }
+
+  .tap-callout__arrow {
+    flex: none;
+    color: var(--color-rule);
+  }
+
+  /* Even 2×2 grid; every button keeps the same size in every state. */
+  :global(.js) .story .layer-buttons {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+  }
+
+  .layer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: 2px var(--space-3) 2px var(--space-4);
+    border: 3px solid var(--color-layers-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-layer-text);
+    font: inherit;
+    font-size: var(--text-base);
+    font-weight: var(--weight-heading);
+    line-height: 1.2;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  /* Fixed-width spot on the right: → normally, ✓ when selected. */
+  .layer-btn__icon {
+    flex: none;
+    width: 1.4em;
+    font-size: 1.25em;
+    text-align: center;
+  }
+
+  .layer-btn__check,
+  .layer-btn[aria-pressed='true'] .layer-btn__arrow {
+    display: none;
+  }
+
+  .layer-btn[aria-pressed='true'] .layer-btn__check {
+    display: inline;
+  }
+
+  .layer-btn--body {
+    background: var(--color-layer-body-bg);
+  }
+  .layer-btn--home {
+    background: var(--color-layer-home-bg);
+  }
+  .layer-btn--yard {
+    background: var(--color-layer-yard-bg);
+  }
+  .layer-btn--community {
+    background: var(--color-layer-community-bg);
+  }
+
+  /* Selected: navy fill, white text (no extra ring; same size). */
+  .layer-btn[aria-pressed='true'] {
+    background: var(--color-layer-pressed-bg);
+    color: var(--color-layer-pressed-text);
+  }
+
+  .layer-btn:focus {
+    outline: none;
+  }
+
+  .layer-btn:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  /* Phones: tighter buttons so the longest name (Spanish "Comunidad") fits beside its icon. */
+  @media (max-width: 30rem) {
+    .scene__text {
+      padding: var(--pad-box);
+    }
+
+    :global(.js) .story .layer-buttons {
+      gap: var(--space-2);
+    }
+
+    .layer-btn {
+      gap: var(--space-1);
+      padding-inline: var(--space-3) var(--space-1);
+      font-size: 1.0625rem;
+    }
+
+    /* Larger text size: one button per row, so each name fits beside its arrow. */
+    :global(html[data-text-size]) .story .layer-buttons {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Very small phones (320px). */
+  @media (max-width: 22rem) {
+    .scene__text {
+      padding: var(--space-3);
+    }
+
+    :global(.js) .story .layer-buttons {
+      gap: 6px;
+    }
+
+    .layer-btn {
+      padding-inline: var(--space-2) 2px;
+      font-size: 0.9375rem;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  /* Until the first tap, the buttons pulse gently (a fading ring, no size change;
+     never with reduced motion). */
+  @media (prefers-reduced-motion: no-preference) {
+    .layer-buttons.is-pulsing .layer-btn {
+      animation: layer-pulse 1.8s ease-in-out infinite;
+    }
+    .layer-buttons.is-pulsing .layer-btn:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+    .layer-buttons.is-pulsing .layer-btn:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    .layer-buttons.is-pulsing .layer-btn:nth-child(4) {
+      animation-delay: 0.45s;
+    }
+  }
+
+  @keyframes layer-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(23 48 106 / 0.45);
+    }
+    60% {
+      box-shadow: 0 0 0 7px rgb(23 48 106 / 0);
+    }
+  }
+
+  /* Explanation box: all versions stacked in one cell, only the chosen one visible,
+     so its height never changes. Tinted to match the chosen layer. */
+  :global(.js) .story .layer-explain {
+    display: grid !important;
+    margin: 0 0 var(--space-2);
+    border-inline-start: 5px solid transparent;
+    color: var(--color-layer-text);
+  }
+
+  .layer-explain[data-layer]:not([data-layer='']) {
+    border-inline-start-color: #17306a;
+  }
+
+  .layer-explain__item {
+    grid-area: 1 / 1;
+    padding: 6px var(--space-3);
+    visibility: hidden;
+  }
+
+  /* Only inside the active step: visibility: visible would otherwise override the
+     hidden (inactive) step and show through on other steps. */
+  .scene.is-active .layer-explain__item.is-shown {
+    visibility: visible;
+  }
+
+  .scene__text .layer-explain__item p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.3;
+  }
+
+  .layer-explain__item :global(.source-line) {
+    margin-top: 2px;
+    font-size: 0.9375rem;
+    line-height: 1.3;
+  }
+
+  .layer-explain__item :global(.source-line) {
+    color: var(--color-layer-text);
+  }
+
+  .layer-explain__item :global(.source-line a) {
+    color: var(--color-layer-text);
+  }
+
+  .layer-explain[data-layer='body'] {
+    background: var(--color-layer-body-bg);
+  }
+  .layer-explain[data-layer='home'] {
+    background: var(--color-layer-home-bg);
+  }
+  .layer-explain[data-layer='yard'] {
+    background: var(--color-layer-yard-bg);
+  }
+  .layer-explain[data-layer='community'] {
+    background: var(--color-layer-community-bg);
+  }
+
+  /* Under the heading, in regular step-text style; 12px before the instruction. */
+  .scene__text .scene__closing {
+    margin: 0 0 var(--space-3);
+  }
+
+  .layers-static {
+    padding-inline-start: 1.2em;
+  }
+</style>
+
+<style is:global>
+  /* SVG text and motion for the story drawings (src/components/story/). */
+  .story .story-label {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* A note under a name ("Ana / is no longer contagious"): one step smaller than the
+     labels, about 16px on screen at 1313×900. */
+  .story .story-note {
+    font-size: 14.5px;
+  }
+
+  /* Step 5 calendar label ("3–14 days"), navy on the white page in both modes. */
+  .story .calendar-label {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .story .story-name {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 800;
+  }
+
+  /* Ground in scenes 1, 2, 4 and 5 (Backdrop.astro): it overflows the drawing and
+     the picture panel clips it, so it fills the panel's whole bottom. Names and
+     notes sit on it (navy; off-white in dark mode). */
+  .story .story-art--ground {
+    overflow: visible;
+  }
+  .story .ground {
+    fill: var(--color-ground-bg);
+  }
+  /* Step 1's names sit on its fixed light-blue ground: navy in both modes. */
+  .story .meet-name {
+    fill: #17306a;
+  }
+
+  .story .on-ground {
+    fill: var(--color-ground-text);
+  }
+
+  /* "Blocked" X and label. The diagram panel stays white in dark mode too, so the
+     burnt orange is used in both modes (light orange would be 1.9:1 on white). */
+  .story .block-x {
+    fill: none;
+    stroke: var(--color-blocked);
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+
+  .story .block-label {
+    fill: var(--color-blocked);
+    font-family: var(--font-body);
+    font-size: 20px; /* 17px on screen at 1313×900 */
+    font-weight: 800;
+    /* Thin white outline (not a box) keeps it readable where it crosses the yard arrow. */
+    paint-order: stroke;
+    stroke: var(--color-diagram-bg);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+
+  /* Phones: the scene drawings shrink to about 70%, so names and notes get bigger
+     (names about 17px, Ana's "No longer contagious" note 15px on screen at 375px). */
+  @media (max-width: 30rem) {
+    .story .story-name {
+      font-size: 24px;
+    }
+    /* Bigger phone names: keep their capitals about 8px below the ground's top edge. */
+    .story .story-name.on-ground {
+      transform: translateY(7.7px);
+    }
+    .story .story-note {
+      font-size: 21.5px; /* 15px on screen at 375px; "No longer contagious" stays on one line */
+      transform: translateY(14px); /* still about 2px under the bigger, lower phone name */
+    }
+    /* Step 4 timeline label: 15px on screen at 375px, still two lines. */
+    .story .inside-label {
+      font-size: 21.5px;
+    }
+    /* "is no longer contagious" stays on one line, centred under "Ana": slightly
+       tighter so it clears the panel's left edge. */
+    .story .story-note--long {
+      letter-spacing: -0.045em;
+    }
+  }
+
+  /* Cycle diagram (SceneCycle.astro, from cycle-diagram.svg). Sizes are the approved
+     file's; the diagram draws at about 1.02× at 1313×900 (it fills the panel's width). */
+  .story .cycle text {
+    fill: #17306a;
+    font-family: var(--font-body);
+  }
+  .story .cycle .cycle-label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .story .cycle .cycle-label--repeat {
+    font-size: 16px;
+  }
+  .story .cycle .cycle-name {
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .story .cycle .cycle-water {
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .story .cycle .cycle-note {
+    fill: #24539a;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .story .cycle .block-label {
+    fill: var(--color-blocked);
+    font-size: 15px;
+  }
+
+  .story .story-art {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Cycle diagram: arrows and "Blocked" states */
+  .story .cycle .arrow {
+    fill: none;
+    stroke: #17306a;
+  }
+  .story .cycle .head {
+    fill: #17306a;
+  }
+
+  .story .cycle .block {
+    display: none;
+  }
+
+  /* Each layer blocks one arrow: Body "picks up virus", Home "passes it on", Yard the
+     two-way arrow between Standing water and Mosquito, Community the repeat arc. */
+  .story .cycle[data-block='body'] .block--body,
+  .story .cycle[data-block='home'] .block--home,
+  .story .cycle[data-block='yard'] .block--yard,
+  .story .cycle[data-block='community'] .block--community {
+    display: inline;
+  }
+
+  .story .cycle[data-block='body'] .arrow--body,
+  .story .cycle[data-block='home'] .arrow--home,
+  .story .cycle[data-block='yard'] .arrow--yard,
+  .story .cycle[data-block='community'] .arrow--repeat {
+    stroke: #a9c8e0;
+    stroke-dasharray: 9 7;
+  }
+  .story .cycle[data-block='body'] .head--body,
+  .story .cycle[data-block='home'] .head--home,
+  .story .cycle[data-block='yard'] .head--yard,
+  .story .cycle[data-block='community'] .head--repeat {
+    fill: #a9c8e0;
+  }
+
+  /* One small motion per scene; only on the scene being shown, only with JS. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .story .scene.is-active .dots-appear .dot {
+      animation: story-dot 0.5s ease-out both;
+    }
+    .js .story .scene.is-active .dots-appear .dot--1 {
+      animation-delay: 0.3s;
+    }
+    .js .story .scene.is-active .dots-appear .dot--2 {
+      animation-delay: 0.8s;
+    }
+    .js .story .scene.is-active .dots-appear .dot--3 {
+      animation-delay: 1.3s;
+    }
+    .js .story .scene.is-active .dots-appear .dot--4 {
+      animation-delay: 1.8s;
+    }
+    /* Step 4: the neighbor's dots start about 0.6s in, right after the bite. */
+    .js .story .scene.is-active .dots-appear--after-bite .dot--1 {
+      animation-delay: 0.6s;
+    }
+    .js .story .scene.is-active .dots-appear--after-bite .dot--2 {
+      animation-delay: 1.1s;
+    }
+    .js .story .scene.is-active .dots-appear--after-bite .dot--3 {
+      animation-delay: 1.6s;
+    }
+    .js .story .scene.is-active .dots-appear--after-bite .dot--4 {
+      animation-delay: 2.1s;
+    }
+    .js .story .scene.is-active .fly--next {
+      animation: story-fly-next 1.6s ease-out both;
+    }
+    .js .story .scene.is-active .timeline-fill {
+      transform-box: fill-box;
+      transform-origin: left center;
+      animation: story-timeline 2.2s ease-out 0.4s both;
+    }
+  }
+
+  @keyframes story-dot {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  .story .dot {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Offsets are in the mosquito's own (scaled) units: they start near the bucket. */
+  @keyframes story-fly-next {
+    from {
+      opacity: 0;
+      transform: translate(44px, -12px);
+    }
+    20% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes story-timeline {
+    from {
+      transform: scaleX(0);
+    }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+// "Not medical advice" box for the top of the sick page and every disease page.
+// Navy heading: deep red is reserved for the warning-signs box and the "I think I'm sick" link.
+import { useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+  /** Replaces the default body text (e.g. the sick page's own wording). */
+  body?: string;
+  /** One slim line (heading inline in bold) with the orange left bar, no frame. */
+  slim?: boolean;
+}
+
+const t = useTranslations(Astro.props.lang);
+const body = Astro.props.body ?? t('disclaimer.body');
+---
+
+{
+  Astro.props.slim ? (
+    <aside class="disclaimer disclaimer--slim" aria-label={t('disclaimer.heading')}>
+      <p>
+        <strong>{t('disclaimer.heading')}.</strong> {body}
+      </p>
+    </aside>
+  ) : (
+    <aside class="disclaimer" aria-labelledby="disclaimer-heading">
+      <h2 id="disclaimer-heading" class="disclaimer__heading">{t('disclaimer.heading')}</h2>
+      <p>{body}</p>
+    </aside>
+  )
+}
+
+<style>
+  /* Slim box (Oct 16): 8px / 12px padding, heading at body size. */
+  .disclaimer {
+    max-width: var(--content-width);
+    margin-block: var(--space-4);
+    padding: var(--space-2) var(--pad-box);
+    background: var(--color-surface);
+    border: 3px solid var(--color-rule);
+    border-inline-start: 8px solid var(--color-warning-accent);
+    border-radius: var(--radius-sm);
+  }
+
+  .disclaimer__heading {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-heading);
+    margin-bottom: var(--space-1);
+  }
+
+  .disclaimer p {
+    margin: 0;
+  }
+
+  .disclaimer--slim {
+    max-width: none;
+    margin-block: 0 var(--space-3);
+    border: 0;
+    border-inline-start: 6px solid var(--color-warning-accent);
+    border-radius: 0;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+</style>

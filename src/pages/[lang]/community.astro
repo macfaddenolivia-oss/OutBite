@@ -1,0 +1,175 @@
+---
+// Protect your community. Text, Spanish and sources:
+// src/content/community.json (checked against CDC and EPA only).
+// Title and intro, then four sections (2×2 on desktop): Find & report, Organize your
+// block, Renters & shared spaces (with the shared LandlordNote: a sample note and a "Copy
+// note" button that only writes to the clipboard: no email, text, share buttons or forms),
+// and What's that spraying?
+// Puerto Rico line: shown only once the PRDH link is marked verified in
+// src/content/external-links.json (link only; nothing is ever fetched from that site).
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { communityIcons } from '../../lib/community-icons';
+import Genus from '../../components/Genus.astro';
+import LandlordNote from '../../components/LandlordNote.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import content from '../../content/community.json';
+import externalLinks from '../../content/external-links.json';
+import { langStaticPaths, localizePath } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const text = content.text[lang === 'es' ? 'es' : 'en'];
+const s = text.sections;
+const cite = content.cite as Record<string, string[]>;
+const prdh = externalLinks['prdh-arbovirus'];
+const keys = ['find', 'organize', 'renters', 'spraying'] as const;
+const ids = { find: 'find-report', organize: 'organize', renters: 'renters', spraying: 'spraying' } as const;
+const links = {
+  find: content.links.find,
+  organize: localizePath(lang, getPage('printables').path),
+  spraying: content.links.spraying,
+} as Record<string, string>;
+
+// Small flat section icons (src/lib/community-icons.ts, shared with the Tools page).
+const icons = communityIcons;
+---
+
+<BaseLayout lang={lang} title={text.title} description={text.intro}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{text.title}</h1>
+      <p class="page-intro__lead"><Genus text={text.intro} /></p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container community">
+    <div class="sections">
+      {
+        keys.map((key) => {
+          const sec = s[key] as (typeof s)['find'] & Partial<(typeof s)['renters']>;
+          return (
+            <section class="csec" id={ids[key]} aria-labelledby={`${ids[key]}-heading`}>
+              <div class="csec__head">
+                <span class="csec__icon" aria-hidden="true">
+                  <Fragment set:html={icons[key]} />
+                </span>
+                <div>
+                  <h2 id={`${ids[key]}-heading`} class="csec__heading">
+                    {sec.heading}
+                  </h2>
+                  <p class="csec__intro">
+                    <Genus text={sec.intro} />
+                  </p>
+                </div>
+              </div>
+              <ul class="csec__points">
+                {sec.points.map((p) => (
+                  <li>
+                    <strong>{p.label}:</strong> <Genus text={p.text} />
+                  </li>
+                ))}
+                {key === 'find' && prdh.verified && (
+                  <li>
+                    <strong>{s.find.prLabel}:</strong> <a href={prdh.url}>{s.find.prText}</a>
+                  </li>
+                )}
+              </ul>
+
+              {key === 'renters' && <LandlordNote lang={lang} />}
+
+              {sec.link && links[key] && (
+                <p class="csec__link">
+                  <a href={links[key]}>
+                    {sec.link} <span aria-hidden="true">→</span>
+                  </a>
+                </p>
+              )}
+              <SourceLine lang={lang} ids={cite[key]} compact />
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Opened at a section (e.g. from Protect's "More on the Community page →") that is
+  // already in view from the top of the page: stay at the top, so the title and intro
+  // still show instead of sliding under the header.
+  const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  if (target?.matches('.csec')) {
+    const keepTop = () => {
+      const top = target.getBoundingClientRect().top + window.scrollY;
+      if (top + 160 <= window.innerHeight) window.scrollTo(0, 0);
+    };
+    keepTop();
+    window.addEventListener('load', keepTop, { once: true });
+  }
+</script>
+
+<style>
+  .community {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* Sections: 2×2 on desktop, stacked below. White with a navy top rule. */
+  .sections {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--section-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .sections {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .csec {
+    padding: var(--pad-box-lg) var(--pad-box-lg) var(--pad-box);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .csec__head {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .csec__icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .csec__heading {
+    margin-bottom: var(--space-1);
+  }
+
+  .csec__intro {
+    margin: 0;
+  }
+
+  .csec__points {
+    margin: var(--space-3) 0 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .csec__points li + li {
+    margin-top: var(--space-2);
+  }
+
+  .csec__link {
+    margin: var(--space-3) 0 0;
+    font-weight: var(--weight-heading);
+  }
+</style>

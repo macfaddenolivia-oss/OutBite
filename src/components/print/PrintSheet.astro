@@ -1,0 +1,48 @@
+---
+// One printable page: US Letter with 0.5in margins (@page set by the page), so the
+// sheet itself is 7.5in × 10in (720 × 960 CSS px). On screen it is shown scaled down
+// as a preview (or hidden until printed). Fixed print colors: navy text on white,
+// light fills only, nothing that relies on color alone.
+interface Props {
+  id: string;
+  lang: string;
+  label?: string;
+}
+const { id, lang, label } = Astro.props;
+---
+
+<section class="print-sheet" data-sheet={id} lang={lang} aria-label={label}>
+  <slot />
+</section>
+
+<style>
+  .print-sheet {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 720px;
+    height: 960px;
+    overflow: hidden;
+    background: #ffffff;
+    color: #17306a;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.35;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-sheet :global(*) {
+    color: inherit;
+  }
+
+  .print-sheet :global(p),
+  .print-sheet :global(h1),
+  .print-sheet :global(h2),
+  .print-sheet :global(h3),
+  .print-sheet :global(ul),
+  .print-sheet :global(ol) {
+    margin: 0;
+  }
+</style>

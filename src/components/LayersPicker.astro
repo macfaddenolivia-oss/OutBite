@@ -1,0 +1,240 @@
+---
+// The "four layers of protection" block: the nested-squares graphic (LayersGraphic)
+// beside four rows, 01 Body, 02 Home, 03 Yard, 04 Community, each with its one-line
+// description. Used on the home page and the Protect page (one component, no copies).
+// - Home (`picker` off): each row links to that layer on the Protect page.
+// - Protect (`picker` on): each row links to its layer's section on the same page
+//   (so it works without JavaScript); the page script turns the rows into a tab list
+//   and the graphic's squares into extra click targets for the same tabs.
+// The slot (optional) goes above the rows: the home page's heading and intro.
+import LayersGraphic from './LayersGraphic.astro';
+import { localizePath, useTranslations } from '../i18n';
+import { getPage } from '../config/pages';
+
+interface Props {
+  lang: string;
+  picker?: boolean;
+  /** Accessible name for the tab list (Protect). */
+  label?: string;
+}
+const { lang, picker = false, label } = Astro.props;
+const t = useTranslations(lang);
+const LAYER_ORDER = ['body', 'home', 'yard', 'community'] as const;
+const protectPath = localizePath(lang, getPage('protect').path);
+const rowHref = (layer: string) => (picker ? `#layer-${layer}` : `${protectPath}#${layer}`);
+---
+
+<div class:list={['layers-picker', { 'layers-picker--tabs': picker }]} data-layers-picker={picker ? '' : undefined}>
+  <div class="layers-picker__art">
+    <LayersGraphic lang={lang} picker={picker} />
+  </div>
+  <div class="layers-picker__text">
+    <slot />
+    <ul class="layer-rows" aria-label={label} data-layer-tabs>
+      {
+        LAYER_ORDER.map((layer, i) => (
+          <li>
+            <a class={`layer-row layer-row--${layer}`} href={rowHref(layer)} data-layer-tab={layer} id={picker ? `tab-${layer}` : undefined}>
+              <span class="layer-row__num" aria-hidden="true">
+                {picker && <span class="layer-row__swatch" />}
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="layer-row__text">
+                <span class="layer-row__name">{t(`home.layersGraphic.rows.${layer}.name`)}</span>
+                <span class="layer-row__desc">{t(`home.layersGraphic.rows.${layer}.desc`)}</span>
+              </span>
+              <span class="layer-row__arrow" aria-hidden="true">
+                <span class="layer-row__arrow-go">→</span>
+                {picker && <span class="layer-row__arrow-open">↓</span>}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .layers-picker {
+    display: grid;
+    gap: var(--section-gap);
+    align-items: center;
+  }
+
+  .layers-picker__art {
+    max-width: 34rem;
+    width: 100%;
+    justify-self: center;
+  }
+
+  /* Protect: a smaller graphic (about 260px wide on phones). */
+  .layers-picker--tabs .layers-picker__art {
+    max-width: 26rem;
+  }
+
+  @media (max-width: 47.99rem) {
+    .layers-picker--tabs .layers-picker__art {
+      max-width: 16.25rem;
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .layers-picker {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .layer-rows {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+    border: 3px solid var(--color-layers-border);
+  }
+
+  .layers-picker--tabs .layer-rows {
+    margin-top: 0;
+  }
+
+  .layer-rows li + li {
+    border-top: 3px solid var(--color-layers-border);
+  }
+
+  .layer-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--pad-box);
+    color: var(--color-layer-text);
+    text-decoration: none;
+  }
+
+  /* Navy ring inside the tinted row, visible in both modes. */
+  .layer-row:focus-visible {
+    outline: 3px solid var(--palette-navy);
+    outline-offset: -7px;
+  }
+
+  .layer-row:hover .layer-row__name {
+    text-decoration: underline;
+    text-decoration-thickness: 0.12em;
+  }
+
+  .layer-row--body {
+    background: var(--color-layer-body-bg);
+  }
+  .layer-row--home {
+    background: var(--color-layer-home-bg);
+  }
+  .layer-row--yard {
+    background: var(--color-layer-yard-bg);
+  }
+  .layer-row--community {
+    background: var(--color-layer-community-bg);
+  }
+
+  .layer-row__num {
+    font-size: 2rem;
+    font-weight: var(--weight-display);
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .layer-row__text {
+    display: grid;
+  }
+
+  .layer-row__name {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-heading);
+  }
+
+  .layer-row__desc {
+    font-size: var(--text-sm);
+  }
+
+  .layer-row__arrow {
+    font-size: 1.5rem;
+    font-weight: var(--weight-heading);
+  }
+
+  .layer-row__arrow-open {
+    display: none;
+  }
+
+  /* Protect, as tabs. Unselected rows: white with navy text and → arrows, each with
+     a small square in its layer's color beside the number. The selected row: navy
+     with white number, title, description and ↓ arrow. Changes take about 150ms
+     (instant with reduced motion, via the site-wide rule). */
+  .layers-picker--tabs .layer-row {
+    background: var(--color-layer-tab-bg);
+    color: var(--color-layer-tab-text);
+    transition: background-color 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+
+  .layers-picker--tabs .layer-row__num {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .layer-row__swatch {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--palette-navy);
+    flex: none;
+  }
+
+  .layer-row--body .layer-row__swatch { background: var(--color-layer-body-bg); }
+  .layer-row--home .layer-row__swatch { background: var(--color-layer-home-bg); }
+  .layer-row--yard .layer-row__swatch { background: var(--color-layer-yard-bg); }
+  .layer-row--community .layer-row__swatch { background: var(--color-layer-community-bg); }
+
+  /* Subtle darker edge on hover. */
+  .layers-picker--tabs .layer-row:hover {
+    box-shadow: inset 0 0 0 2px var(--palette-navy);
+  }
+
+  .layers-picker--tabs .layer-row[aria-selected='true'] {
+    background: var(--color-layer-tab-selected-bg);
+    color: var(--color-layer-tab-selected-text);
+  }
+
+  .layers-picker--tabs .layer-row[aria-selected='true'] .layer-row__swatch {
+    display: none;
+  }
+
+  .layers-picker--tabs .layer-row[aria-selected='true']:hover {
+    box-shadow: inset 0 0 0 2px var(--color-layer-tab-selected-text);
+  }
+
+  /* Focus ring: navy inside white rows, white inside the navy row. */
+  .layers-picker--tabs .layer-row[aria-selected='true']:focus-visible {
+    outline-color: var(--color-layer-tab-selected-text);
+  }
+
+  /* Print (backgrounds are often off): the selected row is navy text on white with a
+     thick navy left bar, so it reads in black and white; swatches keep their color. */
+  @media print {
+    .layers-picker--tabs .layer-row[aria-selected='true'] {
+      background: #ffffff;
+      color: #17306a;
+      box-shadow: inset 8px 0 0 #17306a;
+    }
+
+    .layer-row__swatch {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
+  .layer-row[aria-selected='true'] .layer-row__arrow-go {
+    display: none;
+  }
+
+  .layer-row[aria-selected='true'] .layer-row__arrow-open {
+    display: inline;
+  }
+</style>

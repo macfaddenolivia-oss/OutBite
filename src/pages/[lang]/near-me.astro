@@ -1,0 +1,1456 @@
+---
+// "Is it near me?" dashboard (Oct 16 2026). All numbers come
+// from CDC (src/data/cases.json and travel-notices.json, written by
+// `npm run update-data`; the build needs no network):
+// 1. Title and the place picker (remembered in this browser only, like the home page).
+//    The ZIP code box (JavaScript only) looks the ZIP up in src/data/zip-to-state.json
+//    (Census ZCTAs, npm run build-zip-data), bundled into this page's script: Enter or
+//    "Go" picks its state or territory; a ZIP in more than one state offers a button for
+//    each. Nothing is sent or saved, and the ZIP never goes into the page address.
+// 2. What these numbers mean, with more detail in an expandable section.
+// 3. The three numbers for the chosen place + CDC's national local/travel split.
+// 4. U.S. map, one virus at a time, with a sortable table (also the no-JS and
+//    screen-reader version).
+// 5. CDC travel notices for dengue, Zika and chikungunya.
+// 6. Sources and "last checked".
+import ActionRow from '../../components/ActionRow.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import UsMap from '../../components/UsMap.astro';
+import placeData from '../../data/places.json';
+import CdcSourceLine from '../../components/CdcSourceLine.astro';
+import NoteRef from '../../components/NoteRef.astro';
+import RefText from '../../components/RefText.astro';
+import SourceLine from '../../components/SourceLine.astro';
+import externalLinks from '../../content/external-links.json';
+import {
+  DISEASES,
+  REPORTED_NOTE_SOURCES,
+  allUSMissing,
+  bin,
+  caseData,
+  destinationName,
+  formatDate,
+  formatWeekDate,
+  latestWeekByPlace,
+  nationalLatestWeek,
+  noticeData,
+  weekTemplate,
+  ytdByPlace,
+  type Count,
+  type Disease,
+} from '../../lib/cases';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
+import { getPage } from '../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const locale = getLocale(lang);
+const htmlLang = locale.meta.htmlLang;
+// Lists and lookups that t() (strings only) can't return.
+const dash = (locale.messages as Record<string, any>).dash as {
+  more: string[];
+  bins: string[];
+  levelNames: Record<string, string>;
+  short: Record<string, string>;
+  inSentence: Record<string, string>;
+};
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const fmt = new Intl.NumberFormat(htmlLang);
+const ytd = ytdByPlace();
+
+const names: Record<string, string> = Object.fromEntries(placeData.places.map((p) => [p.code, t(`places.${p.code}`)]));
+const placesSorted = placeData.places.map((p) => p.code).sort((a, b) => names[a].localeCompare(names[b], htmlLang));
+// Ongoing local spread, per virus, from CDC (src/data/places.json).
+const localSpread = Object.fromEntries(
+  DISEASES.map((d) => [d, placeData.places.filter((p) => p.localSpread[d]).map((p) => p.code)]),
+) as Record<Disease, string[]>;
+const localNote = (diseases: Disease[]) =>
+  t('dash.localSpreadOf', { disease: diseases.map((d) => dash.inSentence[d]).join(` ${t('diseasePage.and')} `) });
+const diseaseName = (d: Disease) => t(`pages.${d}.title`);
+
+const countText = (n: Count) =>
+  n === null ? t('dash.notReported') : n === 0 ? t('dash.noCases') : n === 1 ? t('dash.countLabelOne') : t('dash.countLabel', { count: fmt.format(n) });
+const numberText = (n: Count) => (n === null ? t('dash.notReported') : fmt.format(n));
+const placeLabel = (code: string, d: Disease) =>
+  `${names[code]}: ${countText(ytd[code][d])}${localSpread[d].includes(code) ? ` (${localNote([d])})` : ''}`;
+const initial = Object.fromEntries(Object.keys(ytd).map((code) => [code, { bin: bin(ytd[code].dengue), label: placeLabel(code, 'dengue') }]));
+
+const fetched = formatDate(caseData.fetchedAt.slice(0, 10), htmlLang);
+const noticesAsOf = formatDate(noticeData.fetchedAt.slice(0, 10), htmlLang);
+const notices = [...noticeData.notices].sort((a, b) => b.level - a.level || b.date.localeCompare(a.date));
+
+// Everything the page script needs. Nothing is sent anywhere.
+// Cases newly reported in the latest MMWR week ("current week"), per place and for the U.S.
+const week = latestWeekByPlace();
+const usWeek = nationalLatestWeek();
+const weekDate = formatWeekDate(caseData.weekEnding, htmlLang);
+const weekDateLong = formatDate(caseData.weekEnding, htmlLang);
+const weekText = {
+  weekWith: t('dash.weekWith'),
+  weekWithOne: t('dash.weekWithOne'),
+  weekNone: t('dash.weekNone'),
+  weekMissing: t('dash.weekMissing'),
+  date: weekDate,
+};
+const weekLineText = (n: Count) => weekTemplate(n, weekText).replace('{n}', n === null ? '' : fmt.format(n)).replace('{date}', weekDate);
+const refLabel = t('dash.noteRefLabel');
+
+const pageData = {
+  locale: htmlLang,
+  names,
+  ytd,
+  national: caseData.allUS.ytd,
+  week,
+  usWeek,
+  weekText,
+  localSpread,
+  diseases: dash.inSentence,
+  about: Object.fromEntries(DISEASES.map((d) => [d, { href: href(d), text: t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) }) }])),
+  binLimits: [1, 2, 10, 50, 200],
+  us: t('dash.allUSHeading'),
+  text: {
+    countLabel: t('dash.countLabel'),
+    countLabelOne: t('dash.countLabelOne'),
+    noCases: t('dash.noCases'),
+    notReported: t('dash.notReported'),
+    localSpreadOf: t('dash.localSpreadOf'),
+    placeHeading: t('dash.placeHeading', { year: String(caseData.mmwrYear) }),
+    selected: t('dash.selected'),
+    mapLabel: t('dash.mapLabel'),
+    viewTable: t('dash.viewTable'),
+    viewMap: t('dash.viewMap'),
+    zipNotFound: t('home.near.zipNotFound'),
+    zipShort: t('home.near.zipShort'),
+    zipMulti: t('home.near.zipMulti'),
+    zipFound: t('home.near.zipFound'),
+  },
+};
+---
+
+<BaseLayout lang={lang} title={t('pages.nearMe.title')} description={t('pages.nearMe.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <h1>{t('pages.nearMe.title')}</h1>
+      <p class="page-intro__lead">
+        <strong>{t('dash.dataThrough', { date: weekDateLong })}</strong> {t('dash.intro')} {t('dash.lastCheckedExplain', { date: fetched })}
+      </p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container dash" data-dash={JSON.stringify(pageData)}>
+    <!-- 1. Place picker (same as the home page) -->
+    <section class="dash-pick" aria-labelledby="pick-heading">
+      <!-- Target of the home page's "#place-PR" link (the script then picks Puerto Rico). -->
+      <span id="place-PR" class="dash-anchor" aria-hidden="true"></span>
+      <h2 id="pick-heading" class="visually-hidden">{t('dash.pickHeading')}</h2>
+      <div class="dash-pick__fields">
+        <div class="dash-pick__field">
+          <label for="dash-state">{t('home.near.stateLabel')}</label>
+          <select id="dash-state" data-dash-state>
+            <option value="">{t('home.near.allUS')}</option>
+            {placesSorted.map((code) => <option value={code}>{names[code]}</option>)}
+          </select>
+        </div>
+        <div class="dash-pick__field dash-zip js-only">
+          <label for="dash-zip">{t('home.near.zipLabel')}</label>
+          <div class="dash-zip__row">
+            <input
+              id="dash-zip"
+              class="dash-pick__zip"
+              data-dash-zip
+              type="text"
+              inputmode="numeric"
+              enterkeyhint="go"
+              autocomplete="postal-code"
+              maxlength="5"
+              pattern="[0-9]{5}"
+              placeholder={t('home.near.zipPlaceholder')}
+              aria-describedby="dash-zip-note dash-zip-msg"
+            />
+            <button type="button" class="btn btn-primary dash-zip__go" data-dash-zip-go>{t('home.near.zipGo')}</button>
+          </div>
+          <p class="dash-zip__note" id="dash-zip-note">{t('home.near.zipNote')}</p>
+          <!-- ZIP messages (read by screen readers): too short, not found, or more than
+               one state with a button for each. -->
+          <div class="dash-pick__msg" id="dash-zip-msg" aria-live="polite" data-dash-msg></div>
+        </div>
+        <p class="dash-pick__privacy">{t('home.near.privacy')}</p>
+        <p class="dash-pick__back js-only">
+          <button type="button" class="dash-back" data-dash-back hidden>
+            <span aria-hidden="true">←</span> {t('dash.backToUS')}
+          </button>
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Two columns on desktop: map (left, ~65%) and reported cases (right, ~35%),
+         "What these numbers mean" under the map. Stacked: cases, map, meaning. -->
+    <div class="dash-main">
+      <!-- Reported cases for the chosen place -->
+      <section class="dash-numbers" aria-labelledby="place-heading">
+        <h2 id="place-heading" class="dash-heading" data-dash-place>{t('dash.placeHeading', { place: t('dash.allUSHeading'), year: String(caseData.mmwrYear) })}</h2>
+        <!-- Only with JavaScript (the map isn't clickable without it). Arrow points at the map:
+             left on desktop, down on tablets and phones. -->
+        <p class="dash-hint js-only">
+          <span aria-hidden="true"><span class="dash-hint__left">←</span><span class="dash-hint__down">↓</span> {t('dash.mapHint')}</span>
+          <span class="visually-hidden">{t('dash.mapHintSr')}</span>
+        </p>
+        <p class="dash-note"><RefText text={t('dash.unitNote')} href="#dash-note" label={refLabel} /></p>
+        <ul class="dash-cells">
+          {
+            DISEASES.map((d) => (
+              <li class="dash-cell" data-dash-row={d} data-active={d === 'dengue' ? 'true' : undefined}>
+                <span class="dash-cell__disease">{diseaseName(d)}</span>
+                <span class="dash-cell__number" data-dash-count={d}>{numberText(caseData.allUS.ytd[d])}</span>
+                <span class="dash-cell__unit">{t('home.near.unit')}</span>
+                <span class="dash-cell__week" data-dash-week={d}>
+                  <RefText text={weekLineText(usWeek[d])} href="#dash-note" label={refLabel} />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        {allUSMissing && (
+          <p class="dash-missing" data-dash-missing>
+            {t('dash.allUSMissing')}
+          </p>
+        )}
+        <div class="dash-caveat" id="dash-note">
+          <p>{t('dash.reportedNote')}</p>
+          <SourceLine lang={lang} ids={REPORTED_NOTE_SOURCES} compact />
+        </div>
+        <template data-ref-template><NoteRef href="#dash-note" label={refLabel} /></template>
+        <CdcSourceLine lang={lang} class="dash-source" />
+        <!-- Puerto Rico only: link to PRDH's own data (link only; never fetch from that site). -->
+        <p class="dash-prdh" data-dash-prdh hidden>
+          {t('dash.prdhNote')}{' '}
+          <a href={externalLinks['prdh-arbovirus'].url}>{t('dash.prdhLink')} <span aria-hidden="true">→</span></a>
+        </p>
+      </section>
+
+      <!-- Map (one virus at a time) and table -->
+      <section class="dash-map" aria-labelledby="map-heading">
+        <!-- Tabs and "View as table" above the map; then the map, legend and source line. -->
+        <h2 id="map-heading" class="visually-hidden">{t('dash.mapHeading')}</h2>
+        {DISEASES.map((d) => <span id={`map-${d}`} class="dash-map__anchor" />)}
+        <div class="dash-map__head">
+          <div class="dash-tabs js-only" role="group" aria-label={t('dash.tabsLabel')} data-dash-tabs>
+            {
+              DISEASES.map((d, i) => (
+                <button type="button" class="dash-tab" data-disease={d} aria-pressed={i === 0 ? 'true' : 'false'}>
+                  {diseaseName(d)}
+                </button>
+              ))
+            }
+          </div>
+          <p class="dash-about js-only">
+            <a href={href('dengue')} data-dash-about>
+              <span data-dash-about-text>{t('diseasePage.aboutLink', { disease: t('diseasePage.inSentence.dengue') })}</span> <span aria-hidden="true">→</span>
+            </a>
+          </p>
+          <button type="button" class="btn btn-secondary dash-map__toggle js-only" data-dash-toggle aria-controls="dash-table-wrap dash-map-panel">
+            {t('dash.viewTable')}
+          </button>
+        </div>
+        <div class="dash-map__panel js-only" id="dash-map-panel" data-dash-map-panel>
+          <UsMap
+            label={t('dash.mapLabel', { disease: dash.inSentence.dengue })}
+            names={names}
+            short={dash.short}
+            localSpread={localSpread.dengue}
+            initial={initial}>
+            <div class="legend">
+              <p class="legend__title">{t('dash.legendHeading', { year: caseData.mmwrYear })}</p>
+              <ul class="legend__list">
+                {dash.bins.map((label, i) => (
+                  <li>
+                    <span class={`swatch swatch--${i + 1}`} aria-hidden="true"></span>
+                    {label}
+                  </li>
+                ))}
+                <li><span class="swatch swatch--none" aria-hidden="true"></span>{t('dash.legendNone')}</li>
+                <li><span class="swatch swatch--missing" aria-hidden="true"></span>{t('dash.legendNotReported')}</li>
+                <li data-legend-local hidden={localSpread.dengue.length === 0}><span class="swatch swatch--local" aria-hidden="true"></span>{t('dash.legendLocal')}</li>
+              </ul>
+              <p class="legend__note">{t('dash.mapNote')} {t('dash.notToScale')}.</p>
+            </div>
+          </UsMap>
+        </div>
+
+        <div class="dash-table-wrap" id="dash-table-wrap" data-dash-table>
+          <table class="dash-table">
+            <caption><RefText text={t('dash.tableCaption', { date: weekDate })} href="#dash-table-note" label={refLabel} /></caption>
+            <thead>
+              <tr>
+                <th scope="col" aria-sort="ascending" data-sort-key="place">
+                  <button type="button" class="sort-btn" disabled>{t('dash.colPlace')}<span class="sort-icon" aria-hidden="true"></span></button>
+                </th>
+                {
+                  DISEASES.flatMap((d) => [
+                    <th scope="col" class="num" data-sort-key={d}>
+                      <button type="button" class="sort-btn" disabled>
+                        <span>{diseaseName(d)}<span class="sort-sub">{t('dash.colYear')}</span></span><span class="sort-icon" aria-hidden="true"></span>
+                      </button>
+                    </th>,
+                    <th scope="col" class="num num--week" data-sort-key={`${d}-week`}>
+                      <button type="button" class="sort-btn" disabled>
+                        <span>{diseaseName(d)}<span class="sort-sub">{t('dash.colWeek', { date: weekDate })}</span></span><span class="sort-icon" aria-hidden="true"></span>
+                      </button>
+                    </th>,
+                  ])
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {
+                placesSorted.map((code) => (
+                  <tr data-code={code} data-place={names[code]}>
+                    <th scope="row">
+                      {names[code]}
+                      {DISEASES.some((d) => localSpread[d].includes(code)) && (
+                        <span class="dash-table__local"> ({localNote(DISEASES.filter((d) => localSpread[d].includes(code)))})</span>
+                      )}
+                    </th>
+                    {DISEASES.flatMap((d) => [
+                      <td class="num" data-value={ytd[code][d] ?? -1}>{numberText(ytd[code][d])}</td>,
+                      <td class="num num--week" data-value={week[code][d] ?? -1}>{numberText(week[code][d])}</td>,
+                    ])}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+          <p class="dash-caveat dash-caveat--table" id="dash-table-note">{t('dash.reportedNote')}</p>
+        </div>
+        <CdcSourceLine lang={lang} class="dash-source" />
+      </section>
+
+      <!-- What these numbers mean -->
+      <section class="dash-meaning" aria-labelledby="meaning-heading">
+        <h2 id="meaning-heading" class="dash-heading">{t('dash.meaningHeading')}</h2>
+        <p>{t('dash.meaning1')}</p>
+        <p>{t('dash.meaning2')}</p>
+        <details class="dash-more">
+          <summary>{t('dash.moreHeading')}</summary>
+          <ul>{dash.more.map((line) => <li>{line}</li>)}</ul>
+          <p><a href={href('protect')}>{t('dash.protectLink')} <span aria-hidden="true">→</span></a></p>
+        <p class="dash-faq">
+          <a href={`${href('faq')}#case-numbers`}>{t('faqLinks.faqNumbers')} <span aria-hidden="true">→</span></a>
+          <a href={`${href('faq')}#real-number`}>{t('faqLinks.faqReal')} <span aria-hidden="true">→</span></a>
+        </p>
+        </details>
+      </section>
+    </div>
+
+    <!-- 3. CDC's national local/travel split -->
+    <section class="dash-split-section" aria-labelledby="split-heading">
+      <h2 id="split-heading" class="dash-heading">{t('dash.splitHeading')}</h2>
+      <ul class="dash-split">
+        {
+          DISEASES.map((d) => {
+            const s = caseData.split[d];
+            return (
+              <li>
+                <strong>{diseaseName(d)}:</strong>{' '}
+                {s.available && s.states && s.territories ? (
+                  <>
+                    {t('dash.splitLine', {
+                      local: fmt.format(s.states.local),
+                      travel: fmt.format(s.states.travel),
+                      tlocal: fmt.format(s.territories.local),
+                      ttravel: fmt.format(s.territories.travel),
+                      year: String(s.year),
+                    })}{' '}
+                    <span class="dash-split__source">
+                      <a href={s.url}>{t('dash.splitAsOf', { date: formatDate(s.asOf!, htmlLang) })}</a>
+                    </span>
+                  </>
+                ) : (
+                  <a href={s.url}>{t('dash.splitLink')}</a>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+      <p class="dash-levels">{t('dash.splitExplain')}</p>
+    </section>
+
+    <!-- 4. CDC travel notices -->
+    <section class="dash-notices" aria-labelledby="notices-heading">
+      <h2 id="notices-heading" class="dash-heading">{t('dash.noticesHeading')}</h2>
+      <h3 class="dash-subheading">{t('dash.noticesAsOf', { date: noticesAsOf })}</h3>
+      {
+        notices.length ? (
+          <>
+            <p>{t('dash.noticesIntro')}</p>
+            <p class="dash-levels">{t('worldRisk.levels')}</p>
+            <ul class="notices">
+              {notices.map((n) => (
+                <li class="notice">
+                  <p class="notice__place">
+                    {n.destination === 'Global' ? t('dash.worldwide') : destinationName(n.destination, htmlLang)}
+                    <span class="notice__disease"> · {diseaseName(n.disease)}</span>
+                  </p>
+                  <p class="notice__level">{dash.levelNames[String(n.level)]}</p>
+                  <p class="notice__meta">
+                    {t('dash.posted', { date: formatDate(n.date, htmlLang) })} ·{' '}
+                    <a href={n.url}>{t('dash.sourceCdc')}</a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>{t('dash.noNotices')}</p>
+        )
+      }
+      <p><a href={noticeData.source.pageUrl}>{t('dash.allNotices')} <span aria-hidden="true">→</span></a></p>
+      <!-- The world map is on "Traveling soon?"; this page stays on the U.S. -->
+      <p class="dash-travel">
+        <a href={`${localizePath(lang, getPage('travel').path)}#world`}>{t('dash.travelWorld')} <span aria-hidden="true">→</span></a>
+      </p>
+    </section>
+
+    <!-- 5. Sources -->
+    <section class="dash-sources" aria-labelledby="sources-heading">
+      <h2 id="sources-heading" class="dash-subheading">{t('dash.sourcesHeading')}</h2>
+      <p>{t('dash.sources')}</p>
+      <p>{t('dash.lastChecked', { date: fetched })}</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { fillRefText, statesForZip, weekLine, type WeekText } from '../../lib/place-client';
+  import zipToState from '../../data/zip-to-state.json';
+
+  type Counts = Record<string, number | null>;
+  interface DashData {
+    locale: string;
+    names: Record<string, string>;
+    ytd: Record<string, Counts>;
+    national: Counts;
+    week: Record<string, Counts>;
+    usWeek: Counts;
+    weekText: WeekText;
+    localSpread: Record<string, string[]>;
+    diseases: Record<string, string>;
+    about: Record<string, { href: string; text: string }>;
+    binLimits: number[];
+    us: string;
+    text: Record<string, string>;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-dash]');
+  if (root?.dataset.dash) {
+    const data: DashData = JSON.parse(root.dataset.dash);
+    const fmt = new Intl.NumberFormat(data.locale);
+    const fill = (s: string, vars: Record<string, string>) => s.replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m);
+    const countText = (n: number | null) =>
+      n === null ? data.text.notReported : n === 0 ? data.text.noCases : n === 1 ? data.text.countLabelOne : fill(data.text.countLabel, { count: fmt.format(n) });
+    const bin = (n: number | null) => (n === null ? -1 : n === 0 ? 0 : data.binLimits.filter((l) => n >= l).length);
+
+    const select = root.querySelector<HTMLSelectElement>('[data-dash-state]')!;
+    const zip = root.querySelector<HTMLInputElement>('[data-dash-zip]')!;
+    const msg = root.querySelector<HTMLElement>('[data-dash-msg]')!;
+    const map = root.querySelector<HTMLElement>('[data-map]')!;
+    const places = [...map.querySelectorAll<HTMLElement | SVGGElement>('.place')];
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-disease]')];
+    let disease = 'dengue';
+    let place = '';
+
+    function paintMap() {
+      for (const g of places) {
+        const code = g.dataset.code!;
+        const n = data.ytd[code]?.[disease] ?? null;
+        g.querySelector('.shape')!.setAttribute('class', `shape bin-${bin(n)}`);
+        // Orange outline and note only where CDC lists ongoing spread of this virus.
+        const isLocal = data.localSpread[disease].includes(code);
+        g.classList.toggle('is-local', isLocal);
+        const local = isLocal ? ` (${fill(data.text.localSpreadOf, { disease: data.diseases[disease] })})` : '';
+        g.setAttribute('aria-label', `${data.names[code]}: ${countText(n)}${local}`);
+        g.setAttribute('aria-pressed', String(code === place));
+      }
+      const legendLocal = root!.querySelector<HTMLElement>('[data-legend-local]');
+      if (legendLocal) legendLocal.hidden = data.localSpread[disease].length === 0;
+      // Draw the selected place last so its edge isn't covered by its neighbours
+      // (moving it drops keyboard focus, so give it back).
+      const sel = places.find((g) => g.dataset.code === place);
+      if (sel && sel.classList.contains('place--state')) {
+        const hadFocus = document.activeElement === sel;
+        sel.parentNode!.insertBefore(sel, places.find((g) => g.classList.contains('place--dc')) ?? null);
+        if (hadFocus) sel.focus();
+      }
+      map.setAttribute('aria-label', fill(data.text.mapLabel, { disease: data.diseases[disease] }));
+    }
+
+    function showPlace(code: string) {
+      place = data.ytd[code] ? code : '';
+      const counts = place ? data.ytd[place] : data.national;
+      const name = place ? data.names[place] : data.us;
+      root!.querySelector('[data-dash-place]')!.textContent = fill(data.text.placeHeading, { place: name });
+      for (const el of root!.querySelectorAll<HTMLElement>('[data-dash-count]')) {
+        const n = counts[el.dataset.dashCount!];
+        el.textContent = n === null ? data.text.notReported : fmt.format(n);
+      }
+      const weekCounts = place ? data.week[place] : data.usWeek;
+      const refTemplate = root!.querySelector<HTMLTemplateElement>('[data-ref-template]');
+      for (const el of root!.querySelectorAll<HTMLElement>('[data-dash-week]')) {
+        fillRefText(el, weekLine(weekCounts[el.dataset.dashWeek!], data.weekText, fmt), refTemplate);
+      }
+      select.value = place;
+      root!.querySelector<HTMLElement>('[data-dash-prdh]')!.hidden = place !== 'PR';
+      root!.querySelector<HTMLElement>('[data-dash-back]')!.hidden = place === '';
+      const missing = root!.querySelector<HTMLElement>('[data-dash-missing]');
+      if (missing) missing.hidden = place !== '';
+      paintMap();
+      alignCells();
+    }
+
+    // Desktop (map and cases side by side): stretch the three number rows evenly so
+    // the Chikungunya row's bottom lines up with the bottom of the map frame. If the
+    // rows are already taller than that, they keep their own height.
+    const cells = root.querySelector<HTMLElement>('.dash-cells')!;
+    function alignCells() {
+      cells.style.minHeight = '';
+      const panel = root!.querySelector<HTMLElement>('[data-dash-map-panel]');
+      if (!panel || panel.hidden || !window.matchMedia('(min-width: 64rem)').matches) return;
+      const need = panel.getBoundingClientRect().bottom - cells.getBoundingClientRect().top;
+      if (need > cells.getBoundingClientRect().height) cells.style.minHeight = `${need}px`;
+    }
+    window.addEventListener('resize', alignCells);
+
+    function choose(code: string) {
+      showPlace(code);
+    }
+
+    // Picker
+    // ZIP messages: `invalid` marks the box for screen readers; `codes` adds a button per
+    // state. Cleared first, so the same message is read again.
+    function zipMessage(text: string, opts: { invalid?: boolean; codes?: string[]; quiet?: boolean } = {}) {
+      msg.replaceChildren();
+      if (opts.invalid) zip.setAttribute('aria-invalid', 'true');
+      else zip.removeAttribute('aria-invalid');
+      if (!text) return;
+      setTimeout(() => {
+        const p = document.createElement('p');
+        p.className = opts.quiet ? 'visually-hidden' : 'dash-pick__error';
+        p.textContent = text;
+        msg.append(p);
+        if (!opts.codes) return;
+        const row = document.createElement('p');
+        row.className = 'dash-zip__choices';
+        for (const code of opts.codes) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'btn btn-secondary';
+          b.textContent = data.names[code];
+          b.setAttribute('aria-pressed', 'false');
+          b.addEventListener('click', () => {
+            for (const o of row.querySelectorAll('button')) o.setAttribute('aria-pressed', String(o === b));
+            choose(code);
+          });
+          row.append(b);
+        }
+        msg.append(row);
+      }, 50);
+    }
+    function lookUpZip() {
+      const value = zip.value;
+      if (!/^\d{5}$/.test(value)) return zipMessage(data.text.zipShort, { invalid: true });
+      const codes = statesForZip(zipToState, value).filter((c) => data.names[c]);
+      if (!codes.length) return zipMessage(data.text.zipNotFound, { invalid: true });
+      if (codes.length > 1) return zipMessage(data.text.zipMulti, { codes });
+      choose(codes[0]);
+      zipMessage(fill(data.text.zipFound, { place: data.names[codes[0]] }).replace(/\.\.$/, '.'), { quiet: true });
+    }
+    select.addEventListener('change', () => {
+      zip.value = '';
+      zipMessage('');
+      choose(select.value);
+    });
+    zip.addEventListener('input', () => {
+      zip.value = zip.value.replace(/\D/g, '').slice(0, 5);
+      zipMessage('');
+    });
+    zip.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      lookUpZip();
+    });
+    root.querySelector('[data-dash-zip-go]')!.addEventListener('click', lookUpZip);
+
+    // Map: click, tap, Enter or Space selects a place (again to go back to the U.S.).
+    const pick = (g: HTMLElement | SVGGElement) => choose(place === g.dataset.code ? '' : g.dataset.code!);
+    for (const g of places) {
+      g.addEventListener('click', () => pick(g));
+      g.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pick(g);
+        }
+      });
+    }
+
+    // Virus tabs (each with an "About [disease] →" link to its disease page).
+    const about = root.querySelector<HTMLAnchorElement>('[data-dash-about]')!;
+    for (const tab of tabs) {
+      tab.addEventListener('click', () => {
+        disease = tab.dataset.disease!;
+        about.href = data.about[disease].href;
+        about.querySelector('[data-dash-about-text]')!.textContent = data.about[disease].text;
+        for (const b of tabs) b.setAttribute('aria-pressed', String(b === tab));
+        // Mark the matching row in the reported-cases column.
+        for (const row of root!.querySelectorAll<HTMLElement>('[data-dash-row]')) {
+          if (row.dataset.dashRow === disease) row.dataset.active = 'true';
+          else delete row.dataset.active;
+        }
+        paintMap();
+      });
+    }
+
+    // "#map-zika" (from the disease pages' "See the map" links) opens that virus's tab.
+    // A hash, not a query string, so nothing about it is ever sent anywhere.
+    const requested = location.hash.match(/^#map-(dengue|zika|chikungunya)$/)?.[1];
+    tabs.find((tab) => tab.dataset.disease === requested && requested !== 'dengue')?.click();
+
+
+    // Map / table toggle. Without JavaScript only the table shows.
+    const toggle = root.querySelector<HTMLButtonElement>('[data-dash-toggle]')!;
+    const tableWrap = root.querySelector<HTMLElement>('[data-dash-table]')!;
+    const mapPanel = root.querySelector<HTMLElement>('[data-dash-map-panel]')!;
+    const tabsEl = root.querySelector<HTMLElement>('[data-dash-tabs]')!;
+    let tableShown = false;
+    const setView = (table: boolean) => {
+      tableShown = table;
+      tableWrap.hidden = !table;
+      mapPanel.hidden = table;
+      tabsEl.hidden = table;
+      toggle.textContent = table ? data.text.viewMap : data.text.viewTable;
+      toggle.setAttribute('aria-expanded', String(table));
+      alignCells();
+    };
+    toggle.addEventListener('click', () => setView(!tableShown));
+    setView(false);
+
+    // Sortable table
+    const table = tableWrap.querySelector('table')!;
+    const tbody = table.querySelector('tbody')!;
+    for (const th of table.querySelectorAll<HTMLTableCellElement>('th[data-sort-key]')) {
+      // The sort buttons start disabled (no sorting without JavaScript); turn them on.
+      th.querySelector('button')!.disabled = false;
+      th.querySelector('button')!.addEventListener('click', () => {
+        const key = th.dataset.sortKey!;
+        const current = th.getAttribute('aria-sort');
+        // Numbers sort largest first by default; names A–Z.
+        const dir = current === 'descending' ? 'ascending' : current === 'ascending' ? 'descending' : key === 'place' ? 'ascending' : 'descending';
+        for (const other of table.querySelectorAll('th[data-sort-key]')) other.removeAttribute('aria-sort');
+        th.setAttribute('aria-sort', dir);
+        // Column position = the heading's position (place, then year and week per virus).
+        const col = th.cellIndex;
+        const rows = [...tbody.rows].sort((a, b) => {
+          const diff =
+            key === 'place'
+              ? a.dataset.place!.localeCompare(b.dataset.place!, data.locale)
+              : Number(a.cells[col].dataset.value) - Number(b.cells[col].dataset.value);
+          return dir === 'ascending' ? diff : -diff;
+        });
+        tbody.append(...rows);
+      });
+    }
+
+    // Start with the place chosen earlier (this browser only), else the whole U.S.
+    // Always opens on All of the U.S. (no place is remembered).
+    root.querySelector('[data-dash-back]')?.addEventListener('click', () => {
+      zip.value = '';
+      zipMessage('');
+      choose('');
+      select.focus();
+    });
+    showPlace('');
+    // A link ending in "#place-PR" (the home page's Puerto Rico line) opens on that place,
+    // after the default All of the U.S. view above. A hash: nothing is sent anywhere.
+    const requestedPlace = location.hash.match(/^#place-([A-Z]{2})$/)?.[1];
+    if (requestedPlace && data.ytd[requestedPlace]) {
+      select.value = requestedPlace;
+      choose(requestedPlace);
+    }
+  }
+</script>
+
+<style>
+  .dash {
+    display: grid;
+    gap: var(--section-gap);
+    padding-block: var(--space-3) var(--section-gap);
+  }
+
+  .dash > .dash-pick + .dash-main {
+    margin-top: calc(var(--space-3) - var(--section-gap));
+  }
+
+  /* Map + reported cases (+ "What these numbers mean" under the map). Stacked on
+     tablets and phones: cases, map, meaning (the DOM order). */
+  .dash-main {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-areas: 'cases' 'map' 'meaning';
+  }
+
+  .dash-numbers { grid-area: cases; }
+  .dash-map { grid-area: map; min-width: 0; }
+
+  /* Desktop: cap the map's height so it fits under the picker on a laptop screen. */
+  @media (min-width: 64rem) {
+    .dash-map :global(.us-map__main) {
+      max-height: max(22rem, calc(100vh - 30.5rem));
+      margin-inline: auto;
+    }
+  }
+  .dash-meaning { grid-area: meaning; }
+
+  @media (min-width: 64rem) {
+    .dash-main {
+      grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        'map cases'
+        'meaning cases';
+      align-items: start;
+      column-gap: var(--space-5);
+      row-gap: var(--space-5);
+    }
+
+    .dash-numbers {
+      align-self: start;
+    }
+  }
+
+  .dash section > :first-child {
+    margin-top: 0;
+  }
+
+  .dash-heading {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .dash-subheading {
+    margin: var(--space-3) 0 var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  /* 1. Picker */
+  .dash-pick {
+    padding: var(--space-2) var(--pad-box);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .dash-pick__fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3) var(--space-5);
+  }
+
+  .dash-pick__field {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  /* Each field may shrink to the box: the state menu is as wide as its longest name
+     ("Islas Marianas del Norte"), which at larger text sizes is wider than a phone. */
+  .dash-pick__fields > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Tablets and up: each label beside its field, all in one slim row. */
+  @media (min-width: 48rem) {
+    .dash-pick__fields {
+      align-items: flex-start;
+    }
+
+    .dash-pick .dash-pick__field:not(.js-only),
+    :global(.js) .dash .dash-pick .dash-pick__field.js-only {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+  }
+
+  .dash-pick__field label {
+    font-weight: var(--weight-strong);
+  }
+
+  .dash-pick select,
+  .dash-pick input {
+    box-sizing: border-box;
+    height: var(--tap-target);
+    padding: var(--space-1) var(--space-3);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-field-bg);
+    color: var(--color-field-text);
+    font: inherit;
+  }
+
+  .dash-pick select {
+    max-width: 100%;
+  }
+
+  /* Phones (label above each field): the state menu takes the field's width, so its
+     longest name can't make the page wider than the screen at larger text sizes. */
+  @media (max-width: 47.99rem) {
+    .dash-pick select {
+      width: 100%;
+    }
+
+    .dash > * {
+      min-width: 0;
+    }
+  }
+
+  .dash-pick__zip {
+    width: 8rem;
+  }
+
+  /* ZIP box: label, then the box and "Go", then the small note under them (label beside
+     the box from 48rem). */
+  :global(.js) .dash .dash-pick .dash-pick__field.dash-zip.js-only {
+    display: grid;
+    gap: var(--space-1) var(--space-2);
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    :global(.js) .dash .dash-pick .dash-pick__field.dash-zip.js-only {
+      grid-template-columns: auto auto;
+    }
+
+    .dash-zip__note,
+    .dash-pick__msg {
+      grid-column: 2;
+      max-width: 26rem;
+    }
+  }
+
+  .dash-zip__row {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .dash-zip__go {
+    min-width: 3.5rem;
+    padding-inline: var(--space-3);
+  }
+
+  .dash-zip__note {
+    max-width: 22rem;
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .dash-pick__msg :global(.dash-pick__error) {
+    margin: var(--space-1) 0 0;
+    font-weight: var(--weight-strong);
+  }
+
+  /* The state chosen from a ZIP in more than one state: same look as a chosen tab. */
+  .dash-pick__msg :global(.dash-zip__choices button[aria-pressed='true']) {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .dash-pick__msg :global(.dash-zip__choices) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-2) 0 var(--space-1);
+  }
+
+  .dash-pick__zip::placeholder {
+    color: var(--color-field-placeholder);
+    opacity: 1;
+  }
+
+  .dash-pick__back {
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  .dash-back {
+    min-height: var(--tap-target);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-link);
+    font: inherit;
+    font-weight: var(--weight-strong);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .dash-back[hidden] {
+    display: none;
+  }
+
+  .dash-missing {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .dash-pick__privacy {
+    flex: 1 1 16rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* 2. Meaning */
+  .dash-meaning p {
+    max-width: 44rem;
+    margin: 0 0 var(--space-2);
+    font-size: 1.0625rem;
+  }
+
+  .dash-more {
+    max-width: 44rem;
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--pad-box);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+  }
+
+  .dash-faq {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  .dash-more summary {
+    min-height: var(--tap-target);
+    display: flex;
+    align-items: center;
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .dash-more ul {
+    margin: var(--space-2) 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .dash-more li + li {
+    margin-top: var(--space-1);
+  }
+
+  /* 3. Numbers */
+  .dash-note {
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  .dash-cells {
+    display: grid;
+    grid-auto-rows: 1fr; /* rows share any extra height evenly (desktop alignment) */
+    margin: 0;
+    padding: 0;
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+    list-style: none;
+  }
+
+  .dash-numbers .dash-heading {
+    margin-bottom: var(--space-1);
+  }
+
+  .dash-hint {
+    margin: 0 0 var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .dash-hint__left {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .dash-hint__left {
+      display: inline;
+    }
+
+    .dash-hint__down {
+      display: none;
+    }
+  }
+
+  /* One row per virus: name, then the big number with "cases". The row for the
+     virus shown on the map gets a thick left border. */
+  .dash-cell {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-2);
+    padding: var(--space-2) var(--pad-box);
+    border-inline-start: 8px solid transparent;
+  }
+
+  .dash-cell[data-active='true'] {
+    border-inline-start-color: var(--color-active-marker);
+  }
+
+  .dash-cell__disease {
+    grid-column: 1 / -1;
+  }
+
+  .dash-cell + .dash-cell {
+    border-top: 3px solid var(--color-rule);
+  }
+
+  .dash-cell__disease {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .dash-cell__number {
+    color: var(--color-heading);
+    font-size: clamp(2.25rem, 2rem + 0.6vw, 2.625rem);
+    font-weight: var(--weight-display);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dash-cell__unit {
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+  }
+
+  /* "+N reported* to CDC in the week ending …": 15px, regular weight, navy (never
+     orange or red), under the year total. */
+  .dash-cell__week {
+    grid-column: 1 / -1;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  /* The note the asterisks point to: under the three numbers (above the source line)
+     and under the table. */
+  .dash-caveat {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .dash-caveat p {
+    margin: 0;
+  }
+
+  .dash-caveat :global(.source-line) {
+    margin-top: 2px;
+  }
+
+  /* Table headings: virus name with "this year" / "week ending …" underneath. */
+  .sort-sub {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: var(--weight-regular);
+  }
+
+  /* The source line is the CdcSourceLine component, so :global to reach it. */
+  .dash :global(.dash-source) {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  .dash-prdh {
+    margin: var(--space-3) 0 0;
+    padding: var(--space-2) var(--pad-box);
+    border-left: 6px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .dash-prdh[hidden] {
+    display: none;
+  }
+
+  .dash-split {
+    max-width: 52rem;
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .dash-split li + li {
+    margin-top: var(--space-2);
+  }
+
+  /* Kept on one line where it fits; it may wrap on a phone at larger text sizes ("CDC,
+     al 13 de octubre de 2026 (en inglés)" is wider than the screen there). */
+  .dash-split__source {
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 30rem) {
+    :global(html[data-text-size]) .dash-split__source {
+      white-space: normal;
+    }
+  }
+
+  /* 4. Map and table */
+  /* Virus tabs and "View as table" in one row above the map. */
+  .dash-map__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .dash-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* Unselected: white with navy text; selected: navy with white text (both modes). */
+  .dash-tab {
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--pad-box);
+    border: 3px solid var(--color-tab-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-tab-bg);
+    color: var(--color-tab-text);
+    font: inherit;
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .dash-tab:hover {
+    background: var(--color-tab-hover-bg);
+  }
+
+  .dash-tab[aria-pressed='true'] {
+    border-color: var(--color-tab-active-border);
+    background: var(--color-tab-active-bg);
+    color: var(--color-tab-active-text);
+  }
+
+  .dash-map__anchor {
+    display: block;
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .dash-levels {
+    margin: var(--space-2) 0;
+    font-size: var(--text-sm);
+  }
+
+  .dash-travel {
+    margin-top: var(--space-2);
+    font-weight: var(--weight-strong);
+  }
+
+  .dash-about {
+    margin: 0;
+    font-weight: var(--weight-strong);
+  }
+
+  /* The map panel is white in both modes (fixed map colors), like the story drawings. */
+  .dash-map__panel {
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    border: 3px solid var(--color-rule);
+    background: var(--color-diagram-bg);
+    color: var(--color-callout-text);
+  }
+
+  :global(.js) .dash .js-only {
+    display: revert;
+  }
+
+  :global(.js) .dash .dash-pick__field.js-only {
+    display: grid;
+  }
+
+  .js-only {
+    display: none;
+  }
+
+  :global(.js) .dash-map__panel.js-only[hidden],
+  :global(.js) .dash-tabs.js-only[hidden] {
+    display: none;
+  }
+
+  /* Legend box: row 1 the title and the five steps, row 2 the three special keys
+     (each spanning two columns), row 3 the note. */
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px var(--space-3);
+    margin-top: var(--space-3);
+    padding: var(--space-3);
+    border: 1.5px solid var(--color-legend-border);
+    border-radius: 0;
+    background: var(--color-legend-bg);
+    color: var(--color-legend-text);
+    font-size: var(--text-sm);
+    line-height: 1.25;
+  }
+
+  .legend__title {
+    margin: 0;
+    font-weight: var(--weight-heading);
+  }
+
+  .legend__list {
+    display: contents;
+  }
+
+  .legend__list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* "Ongoing local spread": hidden on a virus tab with none (CDC). */
+  .legend__list li[hidden] {
+    display: none;
+  }
+
+  /* The five steps stay on one line; the special keys may wrap. */
+  .legend__list li:nth-child(-n + 5) {
+    white-space: nowrap;
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1.5px solid var(--color-legend-swatch-border);
+    border-radius: 2px;
+    flex: none;
+  }
+
+  .swatch--1 { background: var(--color-map-1); }
+  .swatch--2 { background: var(--color-map-2); }
+  .swatch--3 { background: var(--color-map-3); }
+  .swatch--4 { background: var(--color-map-4); }
+  .swatch--5 { background: var(--color-map-5); }
+
+  .swatch--none {
+    background: radial-gradient(circle, var(--color-map-pattern) 1.3px, #ffffff 1.6px) 0 0 / 6px 6px;
+  }
+
+  .swatch--missing {
+    background: repeating-linear-gradient(45deg, var(--color-map-pattern) 0 2px, #ffffff 2px 6px);
+  }
+
+  .swatch--local {
+    background: #ffffff;
+    border: 4px solid var(--color-map-local);
+  }
+
+  .legend__list li:nth-child(6) { grid-column: 1 / span 2; }
+  .legend__list li:nth-child(7) { grid-column: 3 / span 2; }
+  .legend__list li:nth-child(8) { grid-column: 5 / span 2; }
+
+  .legend__note {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  /* Phones: title on its own row, steps three to a row, one special key per row. */
+  @media (max-width: 40rem) {
+    .legend {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+      column-gap: var(--space-4);
+    }
+
+    .legend__title {
+      grid-column: 1 / -1;
+    }
+
+    .legend__list li:nth-child(n + 6) {
+      grid-column: 1 / -1;
+    }
+
+    /* Larger text size: steps two to a row. */
+    :global(html[data-text-size]) .legend {
+      grid-template-columns: repeat(2, auto);
+    }
+  }
+
+  .dash-table-wrap {
+    overflow-x: auto;
+  }
+
+  .dash-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dash-table caption {
+    margin-bottom: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    text-align: start;
+  }
+
+  .dash-table th,
+  .dash-table td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+  }
+
+  .dash-table .num {
+    text-align: end;
+  }
+
+  .dash-table thead th {
+    border-bottom: 3px solid var(--color-rule);
+    padding: 0;
+  }
+
+  .dash-table tbody th {
+    font-weight: var(--weight-strong);
+  }
+
+  .dash-table__local {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+  }
+
+  .sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--space-3);
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-weight: var(--weight-heading);
+    text-align: inherit;
+    cursor: pointer;
+  }
+
+  /* Without JavaScript the table can't be sorted: the buttons stay disabled (the page
+     script turns them on) and read as plain column headings. */
+  .sort-btn:disabled {
+    color: inherit;
+    cursor: default;
+  }
+
+  .sort-btn:disabled .sort-icon {
+    display: none;
+  }
+
+  .num .sort-btn {
+    justify-content: flex-end;
+  }
+
+  th[aria-sort='ascending'] .sort-icon::after {
+    content: '▲';
+    font-size: 0.75em;
+  }
+
+  th[aria-sort='descending'] .sort-icon::after {
+    content: '▼';
+    font-size: 0.75em;
+  }
+
+  /* 5. Notices */
+  .notices {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .notices {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .notice {
+    padding: var(--space-2) var(--pad-box);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .notice p {
+    margin: 0;
+  }
+
+  .notice__place {
+    font-size: 1.125rem;
+    font-weight: var(--weight-heading);
+  }
+
+  .notice__disease {
+    font-weight: var(--weight-strong);
+  }
+
+  .notice__level {
+    margin-top: var(--space-1) !important;
+  }
+
+  .notice__meta {
+    margin-top: var(--space-1) !important;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Printing / PDF: keep the map, legend swatches, territory boxes and the number
+     rows in color (browsers drop backgrounds when printing otherwise). */
+  @media print {
+    .dash-map__panel,
+    .dash-map__panel *,
+    .dash-cell,
+    .dash-tab {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .dash-map__toggle,
+    .dash-hint {
+      display: none !important;
+    }
+
+    .dash-map__panel {
+      break-inside: avoid;
+    }
+  }
+
+  /* 6. Sources */
+  .dash-sources p {
+    margin: 0 0 var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>

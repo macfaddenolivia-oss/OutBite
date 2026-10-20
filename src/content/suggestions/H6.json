@@ -1,0 +1,76 @@
+{
+  "id": "H6",
+  "layer": "home",
+  "effortGroup": "project",
+  "guidance": "cdc-epa",
+  "evidence": "limited",
+  "cost": [
+    "$",
+    "$$"
+  ],
+  "effort": "as-needed",
+  "audiences": [
+    "homeowner",
+    "renter"
+  ],
+  "safetyContacts": true,
+  "related": [
+    "H1",
+    "H3",
+    "H4"
+  ],
+  "sources": [
+    "cdc-control-home",
+    "npic",
+    "earle-richardson-2018"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "If mosquitoes stay indoors, use an indoor spray or a pest professional",
+      "summary": "A backup after screens, closed doors, and emptying water.",
+      "guidanceNote": "as a backup",
+      "evidenceMeasures": "when used on its own",
+      "canDo": [
+        "An indoor spray quickly kills mosquitoes resting indoors."
+      ],
+      "cantDo": [
+        "An indoor spray can't keep your home mosquito-free on its own. CDC says this directly. It also has to be repeated."
+      ],
+      "research": [
+        {
+          "text": "In Puerto Rico, pregnant women who were offered free home spraying were much more likely to have their home sprayed.",
+          "cite": [
+            "earle-richardson-2018"
+          ]
+        }
+      ],
+      "tips": [
+        "Follow the label directions."
+      ]
+    },
+    "es": {
+      "title": "Si los mosquitos siguen adentro, usa un insecticida para interiores o un exterminador",
+      "summary": "Un paso de respaldo después de las mallas, las puertas cerradas y vaciar el agua.",
+      "guidanceNote": "como respaldo",
+      "evidenceMeasures": "cuando se usa por sí solo",
+      "canDo": [
+        "Un insecticida para interiores mata rápido a los mosquitos que descansan adentro."
+      ],
+      "cantDo": [
+        "Un insecticida no puede mantener tu casa sin mosquitos por sí solo. Los CDC lo dicen claramente. Además, hay que repetirlo."
+      ],
+      "research": [
+        {
+          "text": "En Puerto Rico, las mujeres embarazadas a quienes se les ofreció fumigación gratis de su casa tuvieron mucha más probabilidad de fumigarla.",
+          "cite": [
+            "earle-richardson-2018"
+          ]
+        }
+      ],
+      "tips": [
+        "Sigue las instrucciones de la etiqueta."
+      ]
+    }
+  }
+}

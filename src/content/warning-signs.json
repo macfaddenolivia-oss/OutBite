@@ -1,0 +1,36 @@
+{
+  "id": "warning-signs",
+  "lastReviewed": "2026-10-19",
+  "cite": {
+    "signs": [
+      "cdc-dengue-symptoms",
+      "cdc-dengue-manage"
+    ]
+  },
+  "text": {
+    "en": {
+      "heading": "Warning signs of severe dengue",
+      "lead": "Immediately go to a local clinic or emergency room if you or a family member has any of the following warning signs:",
+      "signs": [
+        "Belly pain or tenderness",
+        "Vomiting (at least 3 times in 24 hours)",
+        "Bleeding from the nose or gums",
+        "Vomiting blood, or blood in the stool",
+        "Feeling extremely tired or restless"
+      ],
+      "timing": "Warning signs usually begin in the 24–48 hours after fever has gone away."
+    },
+    "es": {
+      "heading": "Señales de alarma del dengue grave",
+      "lead": "Ve de inmediato a una clínica local o a una sala de emergencias si tú o alguien de tu familia tiene cualquiera de estas señales de alarma:",
+      "signs": [
+        "Dolor o sensibilidad en la barriga",
+        "Vómitos (al menos 3 veces en 24 horas)",
+        "Sangrado por la nariz o las encías",
+        "Vómitos con sangre o sangre en las heces",
+        "Sentir mucho cansancio o inquietud"
+      ],
+      "timing": "Las señales de alarma suelen empezar en las 24 a 48 horas después de que se quita la fiebre."
+    }
+  }
+}

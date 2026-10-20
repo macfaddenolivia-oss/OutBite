@@ -1,0 +1,208 @@
+---
+// "How Zika spreads": four labeled paths.
+// 1. Mosquito to person: the mosquito (top left) → the person.
+// 2. Person to mosquito: the pregnant person → the mosquito (top right).
+// 3. Through sex: a two-headed arrow between the two people; label on the ground strip.
+// 4. During pregnancy: a dotted line from the edge of the baby circle, under her arm,
+//    white where it crosses the dress; its label sits on the ground strip.
+// Mosquitoes: the story mosquito (src/assets/source/mosquito.svg) with the four orange virus dots. The
+// pregnant figure is the shared PregnantFigure.astro,
+// the same height as the story's person.
+// Wide screens: one inline SVG (role="img", full text in its description). Narrow
+// screens: the same four paths stacked as text with small pictures, so labels stay 14px+
+// (decided by the diagram's own width, so it also works inside a narrow FAQ answer).
+// Text: src/content/diseases.json (zikaSpread), checked against CDC's "How Zika Spreads".
+import Mosquito from './story/Mosquito.astro';
+import Person from './story/Person.astro';
+import PregnantFigure from './PregnantFigure.astro';
+import { PREG_FIG } from './pregnant-figure';
+
+interface Props {
+  text: {
+    heading: string;
+    paths: { title: string; text: string }[];
+  };
+  headingLevel?: 2 | 3;
+  id?: string;
+}
+const { text, headingLevel = 2, id = 'zika-spread' } = Astro.props;
+const H = headingLevel === 2 ? 'h2' : 'h3';
+const [bite, toMosquito, sex, pregnancy] = text.paths;
+const NAVY = '#17306A';
+const S = 1.15; // both people at the same height
+const PREG = { x: 585, y: 380 };
+const PERSON = { x: 300, y: 380 };
+// Both people are the same height: the story person's (head top to feet, 109 units × S).
+const HEIGHT = 109 * S;
+// "During pregnancy" line, in the traced figure's own units (PREG_FIG): along row 650,
+// just under her hands, from the baby circle's right edge, white across the dress.
+const fk = HEIGHT / (PREG_FIG.bottom - PREG_FIG.top);
+const fig = (ix: number, iy: number) => ({ x: PREG.x + (ix - PREG_FIG.width / 2) * fk, y: PREG.y + (iy - PREG_FIG.bottom) * fk });
+const lineStart = fig(PREG_FIG.circleEdgeX, PREG_FIG.lineY);
+const dressEdge = fig(PREG_FIG.dressEdgeX, PREG_FIG.lineY);
+// Stacked "During pregnancy" icon: the same figure, zoomed in so its baby circle (282 px
+// across in the 758 px-tall file, centred at 288.5, 592.5) fills the 44-unit-tall icon.
+const BELLY = (() => {
+  const height = (42 * (PREG_FIG.bottom - PREG_FIG.top)) / 282;
+  const k = height / (PREG_FIG.bottom - PREG_FIG.top);
+  return { x: 48 - (288.5 - PREG_FIG.width / 2) * k, y: 22 + (PREG_FIG.bottom - 592.5) * k, height };
+})();
+const lines = (t: string, max: number) => {
+  const out: string[] = [];
+  let cur = '';
+  for (const w of t.split(' ')) {
+    if ((cur + ' ' + w).trim().length > max && cur) {
+      out.push(cur);
+      cur = w;
+    } else cur = (cur + ' ' + w).trim();
+  }
+  out.push(cur);
+  return out;
+};
+---
+
+<figure class="zs" aria-labelledby={`${id}-heading`}>
+  <H id={`${id}-heading`} class="zs__heading">{text.heading}</H>
+
+  <!-- Wide screens: the diagram. -->
+  <svg class="zs__svg" viewBox="0 0 900 525" role="img" aria-labelledby={`${id}-heading ${id}-desc`}>
+    <desc id={`${id}-desc`}>{text.paths.map((x) => `${x.title}: ${x.text}`).join(' ')}</desc>
+    <defs>
+      <marker id={`${id}-head`} viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M1 1 L11 6 L1 11 Z" fill={NAVY}></path>
+      </marker>
+    </defs>
+    <rect x="0" y="0" width="900" height="525" fill="#FFFFFF"></rect>
+    <rect x="0" y="380" width="900" height="145" fill="#CBDCEC"></rect>
+
+    <!-- 1. Mosquito to person -->
+    <Mosquito x={115} y={100} scale={1.6} flip dots />
+    <text class="zs__title" x="200" y="66">{bite.title}</text>
+    {lines(bite.text, 30).map((l, i) => <text class="zs__text" x="200" y={90 + i * 21}>{l}</text>)}
+    <path d="M150 165 Q165 240 255 278" fill="none" stroke={NAVY} stroke-width="3.5" marker-end={`url(#${id}-head)`}></path>
+
+    <!-- 2. Person to mosquito -->
+    <Mosquito x={800} y={110} scale={1.6} dots />
+    <text class="zs__title" x="500" y="56">{toMosquito.title}</text>
+    {lines(toMosquito.text, 34).map((l, i) => <text class="zs__text" x="500" y={80 + i * 21}>{l}</text>)}
+    <path d="M650 262 Q695 185 765 168" fill="none" stroke={NAVY} stroke-width="3.5" marker-end={`url(#${id}-head)`}></path>
+
+    <!-- The two people (same height) -->
+    <Person x={PERSON.x} y={PERSON.y} scale={S} />
+    <PregnantFigure x={PREG.x} y={PREG.y} height={HEIGHT} />
+
+    <!-- 3. Through sex: two-headed arrow between the people; label on the ground -->
+    <path d="M345 334 Q448 386 548 362" fill="none" stroke={NAVY} stroke-width="3.5" marker-start={`url(#${id}-head)`} marker-end={`url(#${id}-head)`}></path>
+    <text class="zs__title" x="430" y="412" text-anchor="middle">{sex.title}</text>
+    {lines(sex.text, 38).map((l, i) => <text class="zs__text" x="430" y={436 + i * 21} text-anchor="middle">{l}</text>)}
+
+    <!-- 4. During pregnancy: dotted line (white over the dress), label on the ground -->
+    <path d={`M${lineStart.x} ${lineStart.y} H${dressEdge.x}`} fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="1 5" stroke-linecap="round"></path>
+    <path d={`M${dressEdge.x + 3} ${lineStart.y} H664 Q682 ${lineStart.y} 684 398`} fill="none" stroke={NAVY} stroke-width="2.5" stroke-dasharray="1 5" stroke-linecap="round"></path>
+    <text class="zs__title" x="690" y="412">{pregnancy.title}</text>
+    {lines(pregnancy.text, 24).map((l, i) => <text class="zs__text" x="690" y={436 + i * 21}>{l}</text>)}
+
+    <rect x="1.5" y="1.5" width="897" height="522" fill="none" stroke={NAVY} stroke-width="3"></rect>
+  </svg>
+
+  <!-- Narrow screens: the same four paths, stacked. -->
+  <ol class="zs__list">
+    <li>
+      <svg viewBox="0 0 96 44" aria-hidden="true"><Mosquito x={20} y={18} scale={0.55} flip dots /><path d="M40 22 H58" stroke={NAVY} stroke-width="2.5" marker-end={`url(#${id}-head-s)`} /><Person x={78} y={42} scale={0.32} /><defs><marker id={`${id}-head-s`} viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L11 6 L1 11 Z" fill={NAVY} /></marker></defs></svg>
+      <p><strong>{bite.title}</strong> {bite.text}</p>
+    </li>
+    <li>
+      <svg viewBox="0 0 96 44" aria-hidden="true"><PregnantFigure x={18} y={42} height={36} /><path d="M36 22 H54" stroke={NAVY} stroke-width="2.5" marker-end={`url(#${id}-head-s)`} /><Mosquito x={76} y={18} scale={0.55} dots /></svg>
+      <p><strong>{toMosquito.title}</strong> {toMosquito.text}</p>
+    </li>
+    <li>
+      <svg viewBox="0 0 96 44" aria-hidden="true"><Person x={18} y={42} scale={0.32} /><path d="M34 26 H62" stroke={NAVY} stroke-width="2.5" marker-start={`url(#${id}-head-s2)`} marker-end={`url(#${id}-head-s)`} /><PregnantFigure x={78} y={42} height={36} /><defs><marker id={`${id}-head-s2`} viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill={NAVY} /></marker></defs></svg>
+      <p><strong>{sex.title}</strong> {sex.text}</p>
+    </li>
+    <li>
+      <svg viewBox="0 0 96 44" aria-hidden="true"><PregnantFigure x={BELLY.x} y={BELLY.y} height={BELLY.height} /></svg>
+      <p><strong>{pregnancy.title}</strong> {pregnancy.text}</p>
+    </li>
+  </ol>
+  <slot />
+</figure>
+
+<style>
+  .zs {
+    margin: 0;
+    container-type: inline-size;
+  }
+
+  .zs__heading {
+    margin-bottom: var(--space-2);
+  }
+
+  .zs__svg {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .zs__title {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .zs__text {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 16px;
+  }
+
+  .zs__list {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-3);
+    border: 3px solid var(--color-rule);
+    background: #ffffff;
+    color: #17306a;
+    list-style: none;
+  }
+
+  .zs__list li {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .zs__list li + li {
+    padding-top: var(--space-2);
+    border-top: 1px solid #cbdcec;
+  }
+
+  .zs__list svg {
+    width: 5.5rem;
+    height: auto;
+  }
+
+  .zs__list p {
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: 1.4;
+  }
+
+  .zs__list strong {
+    display: block;
+  }
+
+  /* Only where the diagram is at least 800px wide, so its labels stay 14px or more
+     (16-unit text at 800/900 scale); narrower, the stacked list shows instead. */
+  @container (min-width: 50rem) {
+    .zs__svg {
+      display: block;
+    }
+
+    .zs__list {
+      display: none;
+    }
+  }
+</style>

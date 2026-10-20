@@ -1,0 +1,234 @@
+---
+// "Four layers of protection" graphic for the home page. Inline SVG so its
+// labels come from the translation files (home.layersGraphic.*).
+// Four nested squares (community → yard → home → body) around a person, with two
+// Aedes mosquitoes (the story's mosquito, story/Mosquito.astro: back wing, curved
+// stripes, banded legs) bouncing off the outside with orange marks.
+// Square fills stay the same in dark mode; borders switch to off-white and mosquitoes to light ink.
+// `picker` (Protect page): each square and its label carry data-layer-pick, so a click
+// or tap selects that layer (the page script handles it; the row tabs are the keyboard
+// and screen-reader controls). The page sets data-selected on the <svg>: only the
+// chosen square keeps its color, with a thicker border; the others turn plain (white,
+// or the dark surface in dark mode) with thin outlines. The home page shows all colors.
+// `tags` (protection quiz results): evenly spaced squares with
+// room for a small tag under each layer name (filled in by the page script through
+// data-lg-tag), and no person or mosquitoes.
+import Mosquito from './story/Mosquito.astro';
+import { useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+  picker?: boolean;
+  tags?: boolean;
+}
+
+const { picker = false, tags = false } = Astro.props;
+const t = useTranslations(Astro.props.lang);
+
+// [layer, x/y offset, size, fill]
+const squares = [
+  ['community', 20, 420, '#A9C8E0'],
+  ['yard', 70, 320, '#F0AF74'],
+  ['home', 120, 220, '#CBDCEC'],
+  ['body', 170, 120, '#F4D1A8'],
+] as const;
+// Tags mode: [layer, x, y, width, height, fill], each layer 34 units inside the next
+// and 54 down (label and tag above the next square).
+const tagSquares = [
+  ['community', 4, 4, 412, 342, '#A9C8E0'],
+  ['yard', 38, 58, 344, 254, '#F0AF74'],
+  ['home', 72, 112, 276, 166, '#CBDCEC'],
+  ['body', 106, 166, 208, 78, '#F4D1A8'],
+] as const;
+---
+
+{
+  tags && (
+    <svg class="layers-graphic layers-graphic--tags" viewBox="0 0 420 350" role="img" aria-label={t('home.layersGraphic.label')} data-layers-graphic>
+      {tagSquares.map(([layer, x, y, w, h, fill]) => (
+        <rect x={x} y={y} width={w} height={h} fill={fill} class={`lg-square lg-square--${layer}`} stroke-width="4" />
+      ))}
+      {tagSquares.map(([layer, x, y]) => (
+        <>
+          <text x={x + 12} y={y + 21} class="lg-label lg-label--tagged">
+            {t(`home.layersGraphic.${layer}`)}
+          </text>
+          <g class="lg-tag" data-lg-tag={layer} transform={`translate(${x + 12} ${y + 28})`} visibility="hidden">
+            <rect class="lg-tag__box" x="0" y="0" width="10" height="22" />
+            <text class="lg-tag__text" x="7" y="16" />
+          </g>
+        </>
+      ))}
+    </svg>
+  )
+}
+
+{!tags && (
+<svg
+  class:list={['layers-graphic', { 'layers-graphic--picker': picker }]}
+  viewBox="0 0 560 460"
+  role="img"
+  aria-label={t('home.layersGraphic.label')}
+  data-layers-graphic>
+  {
+    squares.map(([layer, at, size, fill]) => (
+      <rect
+        x={at}
+        y={at}
+        width={size}
+        height={size}
+        fill={fill}
+        class={`lg-square lg-square--${layer}`}
+        stroke-width="6"
+        data-layer-pick={picker ? layer : undefined}
+      />
+    ))
+  }
+  {
+    squares.map(([layer, at]) => (
+      <text x={at + 14} y={at + (layer === 'body' ? 28 : 34)} class={`lg-label lg-label--${layer}`} data-layer-pick={picker ? layer : undefined}>
+        {t(`home.layersGraphic.${layer}`)}
+      </text>
+    ))
+  }
+
+  <!-- Person in the center, below the BODY label -->
+  <g class="lg-person" data-layer-pick={picker ? 'body' : undefined}>
+    <circle cx="230" cy="232" r="13"></circle>
+    <path d="M204 284 V272 a26 24 0 0 1 52 0 V284 Z"></path>
+  </g>
+
+  <!-- Mosquitoes outside the right edge (same places and sizes as before: the old
+       drawing's 64-unit box at translate(478 96) scale(1.15) and (486 278) scale(1);
+       Mosquito.astro centres on the body point (31, 37) of the same box), with orange
+       "bounce" marks. -->
+  <g class="lg-mq">
+    <Mosquito x={478 + 31 * 1.15} y={96 + 37 * 1.15} scale={1.15} />
+    <Mosquito x={486 + 31} y={278 + 37} scale={1} />
+  </g>
+  <g class="lg-bounce" stroke="#E07034" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M454 120 l12 -9 M452 133 l16 0 M454 146 l12 9"></path>
+    <path d="M454 300 l12 -9 M452 313 l16 0 M454 326 l12 9"></path>
+  </g>
+</svg>
+)}
+
+<style>
+  .layers-graphic {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .lg-square {
+    stroke: var(--color-layers-border);
+  }
+
+  /* Labels and the person sit on the light square fills, so they stay navy. */
+  .lg-label {
+    fill: #17306a;
+    font-family: var(--font-heading);
+    font-weight: var(--weight-display);
+    font-size: 21px;
+    letter-spacing: 0.04em;
+  }
+
+  .lg-label--body {
+    font-size: 18px;
+  }
+
+  .lg-person {
+    fill: #17306a;
+  }
+
+  /* ---- Tags (quiz results) ---- */
+  .lg-label--tagged {
+    font-size: 16px;
+  }
+
+  .lg-tag__box {
+    fill: #ffffff;
+    stroke-width: 2.5;
+  }
+
+  .lg-tag__text {
+    fill: #17306a;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  /* "✓ Strong": navy border. "Could be stronger" / indoors note: orange outline. */
+  .lg-tag[data-kind='strong'] .lg-tag__box {
+    stroke: #17306a;
+  }
+
+  .lg-tag[data-kind='grow'] .lg-tag__box,
+  .lg-tag[data-kind='indoors'] .lg-tag__box {
+    stroke: #e07034;
+  }
+
+  /* The mosquito drawing is navy with white stripes and bands; on the dark page its
+     ink turns light and its stripes navy (CSS beats the drawing's fill attributes). */
+  .lg-mq :global([fill='#17306A']) {
+    fill: var(--color-graphic-ink);
+  }
+  .lg-mq :global([stroke='#17306A']) {
+    stroke: var(--color-graphic-ink);
+  }
+  .lg-mq :global([fill='#FFFFFF']) {
+    fill: var(--color-graphic-mark);
+  }
+  .lg-mq :global([fill='#A9C8E0']) {
+    fill: var(--color-graphic-wing);
+  }
+
+  /* ---- Picker (Protect page) ---- */
+  .layers-graphic--picker [data-layer-pick] {
+    cursor: pointer;
+  }
+
+  .layers-graphic--picker .lg-square,
+  .layers-graphic--picker .lg-label,
+  .layers-graphic--picker .lg-person {
+    transition: fill 0.15s, stroke-width 0.15s;
+  }
+
+  .layers-graphic--picker .lg-square:hover {
+    stroke-width: 8;
+  }
+
+  /* Unselected squares: plain (white; the dark surface in dark mode), thin outline,
+     labels in the matching text color. */
+  .layers-graphic--picker[data-selected] .lg-square {
+    fill: var(--color-layer-off-bg);
+  }
+
+  .layers-graphic--picker[data-selected] .lg-label,
+  .layers-graphic--picker[data-selected] .lg-person {
+    fill: var(--color-layer-off-text);
+  }
+
+  /* The selected square keeps its color and gets a thicker border (9 units, about
+     6px at the Protect page's size); its label stays navy on its color. */
+  .layers-graphic--picker[data-selected='community'] .lg-square--community { fill: #a9c8e0; }
+  .layers-graphic--picker[data-selected='yard'] .lg-square--yard { fill: #f0af74; }
+  .layers-graphic--picker[data-selected='home'] .lg-square--home { fill: #cbdcec; }
+  .layers-graphic--picker[data-selected='body'] .lg-square--body { fill: #f4d1a8; }
+
+  .layers-graphic--picker[data-selected='body'] .lg-square--body,
+  .layers-graphic--picker[data-selected='home'] .lg-square--home,
+  .layers-graphic--picker[data-selected='yard'] .lg-square--yard,
+  .layers-graphic--picker[data-selected='community'] .lg-square--community {
+    stroke: var(--color-layers-border);
+    stroke-width: 9;
+  }
+
+  .layers-graphic--picker[data-selected='body'] .lg-label--body,
+  .layers-graphic--picker[data-selected='body'] .lg-person,
+  .layers-graphic--picker[data-selected='home'] .lg-label--home,
+  .layers-graphic--picker[data-selected='yard'] .lg-label--yard,
+  .layers-graphic--picker[data-selected='community'] .lg-label--community {
+    fill: #17306a;
+  }
+</style>

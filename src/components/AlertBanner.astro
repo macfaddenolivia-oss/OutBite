@@ -1,0 +1,138 @@
+---
+// Optional site-wide alert banner at the top of every page. Turn it on and off in
+// src/config/alert.json (steps in README.md, "Alert banner"): English and Spanish text,
+// an optional link, and an end date ("expires").
+// - Peach with an orange line under it and a ✕; never red (red is for emergencies only).
+// - Hidden at build time once the end date has passed, and in the browser too, so it
+//   disappears even if the site isn't rebuilt.
+// - ✕ hides it on this device until the text changes: the device keeps a short
+//   fingerprint of the text (STORAGE.alertDismissed), checked before the banner draws.
+//   Without JavaScript the banner shows without the ✕.
+// - Screen readers read it as a region labeled "Alert" ("Aviso").
+import alert from '../config/alert.json';
+import { localizePath, useTranslations, defaultLocale } from '../i18n';
+import { STORAGE } from '../lib/storage';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+type Localized = Record<string, string>;
+const pick = (field: Localized) => field[lang] ?? field[defaultLocale];
+
+const expiresAt = alert.expires ? new Date(alert.expires) : null;
+const show = alert.enabled && (!expiresAt || expiresAt.getTime() > Date.now());
+const href = alert.link?.href ? (alert.link.href.startsWith('/') ? localizePath(lang, alert.link.href) : alert.link.href) : null;
+// Fingerprint of the alert's text (both languages and the link): a new alert shows again
+// even after an earlier one was closed.
+const text = JSON.stringify([alert.message, alert.link]);
+let hash = 5381;
+for (let i = 0; i < text.length; i++) hash = ((hash << 5) + hash + text.charCodeAt(i)) >>> 0;
+const alertId = hash.toString(36);
+---
+
+{
+  show && (
+    <section class="alert" aria-label={t('a11y.alertRegion')} data-alert data-alert-id={alertId} data-expires={expiresAt?.toISOString()}>
+      <div class="container alert__inner">
+        <p class="alert__text">
+          <strong class="alert__label">{t('alert.label')}:</strong> {pick(alert.message)}
+          {href && (
+            <>
+              {' '}
+              <a href={href}>
+                {pick(alert.link.label)} <span aria-hidden="true">→</span>
+              </a>
+            </>
+          )}
+        </p>
+        <button type="button" class="alert__close" aria-label={t('alert.dismiss')} data-alert-close hidden>
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+    </section>
+  )
+}
+
+<script is:inline define:vars={{ dismissedKey: STORAGE.alertDismissed }}>
+  document.querySelectorAll('[data-alert]').forEach(function (el) {
+    var gone = el.dataset.expires && Date.now() > Date.parse(el.dataset.expires);
+    var closed = false;
+    try {
+      closed = localStorage.getItem(dismissedKey) === el.dataset.alertId;
+    } catch (e) {}
+    if (gone || closed) return el.remove();
+    var close = el.querySelector('[data-alert-close]');
+    close.hidden = false;
+    close.addEventListener('click', function () {
+      try {
+        localStorage.setItem(dismissedKey, el.dataset.alertId);
+      } catch (e) {}
+      el.remove();
+      document.getElementById('main').focus();
+    });
+  });
+</script>
+
+<style>
+  .alert {
+    border-bottom: 4px solid var(--palette-orange);
+    background: var(--color-alert-warning-bg);
+    color: var(--color-alert-warning-text);
+    /* Navy focus ring on peach, in both modes. */
+    --color-focus: var(--palette-navy);
+  }
+
+  .alert__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+  }
+
+  .alert__text {
+    flex: 1;
+    margin: 0;
+  }
+
+  .alert a {
+    color: inherit;
+    font-weight: var(--weight-strong);
+  }
+
+  .alert a:focus-visible,
+  .alert__close:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .alert__close {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: var(--tap-target);
+    height: var(--tap-target);
+    padding: 0;
+    border: 2px solid currentColor;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: inherit;
+    font-size: 1.25rem;
+    font-weight: var(--weight-strong);
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .alert__close[hidden] {
+    display: none;
+  }
+
+  @media print {
+    .alert__close {
+      display: none;
+    }
+  }
+</style>

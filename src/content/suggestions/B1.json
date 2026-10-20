@@ -1,0 +1,75 @@
+{
+  "id": "B1",
+  "layer": "body",
+  "effortGroup": "quick",
+  "guidance": "cdc-epa",
+  "evidence": "strong",
+  "cost": [
+    "$"
+  ],
+  "effort": "each-time",
+  "audiences": [
+    "all",
+    "pregnant",
+    "kids",
+    "traveler"
+  ],
+  "safetyContacts": true,
+  "travelSource": "cdc-prevent-dengue",
+  "related": [],
+  "sources": [
+    "cdc-prevent-bites",
+    "epa-repellents",
+    "epa-find-repellent",
+    "cdc-prevent-dengue",
+    "epa-registration"
+  ],
+  "lastReviewed": "pending",
+  "text": {
+    "en": {
+      "title": "Use an EPA-registered repellent",
+      "summary": "Put it on skin that isn't covered when you'll be around mosquitoes, and reapply as the label says.",
+      "evidenceMeasures": "fewer bites",
+      "canDo": [
+        "EPA-registered means the label has an EPA registration number: EPA evaluated the product for safety and effectiveness when used as the label says.",
+        "Repellent prevents bites on the skin it covers, for as long as the label says.",
+        "CDC names these active ingredients: DEET, picaridin, IR3535, oil of lemon eucalyptus (OLE), PMD, and 2-undecanone.",
+        "CDC and EPA say these repellents are safe for pregnant and breastfeeding people when used as directed."
+      ],
+      "cantDo": [
+        "Repellent can't protect you after it wears off.",
+        "Repellent does nothing about mosquitoes breeding nearby."
+      ],
+      "research": [],
+      "tips": [
+        "Children: see the “Babies and young children” tip for CDC’s and EPA’s age rules and how to apply repellent to a child.",
+        "Put on sunscreen first and repellent second. Don't put repellent under clothing."
+      ],
+      "travel": "Pack an EPA-registered repellent (look for an EPA registration number on the label) when you travel."
+    },
+    "es": {
+      "title": "Usa un repelente registrado por la EPA",
+      "summary": "Póntelo en la piel descubierta cuando vayas a estar cerca de mosquitos, y vuelve a aplicarlo como dice la etiqueta.",
+      "evidenceMeasures": "menos picadas",
+      "canDo": [
+        "Registrado por la EPA quiere decir que la etiqueta tiene un número de registro de la EPA: la EPA evaluó la seguridad y la eficacia del producto cuando se usa como dice la etiqueta.",
+        "El repelente previene picadas en la piel que cubre, por el tiempo que indica la etiqueta.",
+        "Los CDC nombran estos ingredientes activos: DEET, picaridina, IR3535, aceite de eucalipto de limón (OLE), PMD y 2-undecanona.",
+        "Los CDC y la EPA dicen que estos repelentes son seguros durante el embarazo y la lactancia si se usan según las instrucciones."
+      ],
+      "cantDo": [
+        "El repelente no te protege después de que pierde su efecto.",
+        "El repelente no hace nada contra los mosquitos que se crían cerca."
+      ],
+      "research": [],
+      "tips": [
+        "Niños: mira el consejo “Bebés y niños pequeños” para las reglas de edad de los CDC y la EPA y cómo ponerle repelente a un niño.",
+        "Primero el protector solar y después el repelente. No pongas repelente debajo de la ropa."
+      ],
+      "travel": "Lleva un repelente registrado por la EPA (busca el número de registro de la EPA en la etiqueta) cuando viajes."
+    }
+  },
+  "links": [
+    "epa-find-repellent"
+  ]
+}

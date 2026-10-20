@@ -1,0 +1,87 @@
+---
+// The two tip labels, shared by the tip rows (SuggestionCard) and the Sources page:
+// kind "guidance" = the official guidance chip, kind "evidence" = the evidence badge.
+// The text defaults to the label's name; tips pass their own text in the slot
+// (for example "Strong: fewer bites").
+import { useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+  kind: 'guidance' | 'evidence';
+  value: string;
+}
+
+const { lang, kind, value } = Astro.props;
+const t = useTranslations(lang);
+const symbol =
+  kind === 'guidance'
+    ? { 'cdc-epa': '✓', who: '✓', none: '○', unknown: '⚠' }[value]
+    : { strong: '●●●', moderate: '●●○', limited: '●○○', emerging: '◇', 'not-supported': '✕', linked: '↗', 'not-rated': '–' }[value];
+const label = t(kind === 'guidance' ? `card.chip.${value}` : `card.level.${value}`);
+---
+
+{
+  kind === 'guidance' ? (
+    <span class={`chip chip--${value}`}>
+      <span aria-hidden="true">{symbol}</span> {Astro.slots.has('default') ? <slot /> : label}
+    </span>
+  ) : (
+    <span class={`evidence evidence--${value}`}>
+      <span class="evidence__symbol" aria-hidden="true">{symbol}</span>
+      {Astro.slots.has('default') ? <slot /> : label}
+    </span>
+  )
+}
+
+<style>
+  .chip,
+  .evidence {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35em;
+    margin-top: 2px;
+    padding: 0.2em 0.65em;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1.35;
+  }
+
+  .chip {
+    background: var(--color-chip-bg);
+    color: var(--color-chip-text);
+  }
+
+  .evidence__symbol {
+    letter-spacing: -0.1em;
+    font-size: 0.8em;
+  }
+
+  .evidence--strong {
+    background: var(--color-evidence-strong-bg);
+    color: var(--color-evidence-strong-text);
+  }
+  .evidence--moderate {
+    background: var(--color-evidence-moderate-bg);
+    color: var(--color-evidence-moderate-text);
+  }
+  .evidence--limited {
+    background: var(--color-evidence-limited-bg);
+    color: var(--color-evidence-limited-text);
+  }
+  .evidence--emerging {
+    background: var(--color-evidence-emerging-bg);
+    color: var(--color-evidence-emerging-text);
+    box-shadow: inset 0 0 0 2px var(--color-border-strong);
+  }
+  .evidence--not-supported,
+  .evidence--linked,
+  .evidence--not-rated {
+    background: var(--color-evidence-none-bg);
+    color: var(--color-evidence-none-text);
+    box-shadow: inset 0 0 0 2px var(--color-border-strong);
+  }
+  .evidence--not-supported {
+    border-radius: var(--radius-sm);
+  }
+</style>
