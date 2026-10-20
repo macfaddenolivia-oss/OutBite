@@ -17,6 +17,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import sources from './content/sources.json';
 import glossary from './content/glossary.json';
+import { localizePath, withoutBase } from './i18n';
 
 const SPANISH_HOSTS = ['salud.pr.gov', 'www.salud.pr.gov'];
 const NOTE = { es: 'en inglés', en: 'in Spanish' } as const;
@@ -115,7 +116,7 @@ function linkGlossary(html: string, lang: 'en' | 'es'): string {
         if (found && found.index !== undefined && (!best || found.index < best.index)) best = { k, index: found.index, text: found[0] };
       }
       if (!best) break;
-      const href = `/${lang}/glossary/#${todo[best.k].id}`;
+      const href = `${localizePath(lang, 'glossary/')}#${todo[best.k].id}`;
       out += `${rest.slice(0, best.index)}<a class="gloss-link" href="${href}">${best.text}</a>`;
       rest = rest.slice(best.index + best.text.length);
       todo.splice(best.k, 1);
@@ -127,9 +128,10 @@ function linkGlossary(html: string, lang: 'en' | 'es'): string {
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
-  const lang = context.url.pathname.startsWith('/es/') ? 'es' : context.url.pathname.startsWith('/en/') ? 'en' : null;
+  const path = withoutBase(context.url.pathname);
+  const lang = path.startsWith('/es/') ? 'es' : path.startsWith('/en/') ? 'en' : null;
   if (!lang || !response.headers.get('content-type')?.includes('text/html')) return response;
   let html = await response.text();
-  if (!context.url.pathname.includes('/glossary/')) html = linkGlossary(html, lang);
+  if (!path.includes('/glossary/')) html = linkGlossary(html, lang);
   return new Response(label(html, lang), { status: response.status, headers: response.headers });
 });

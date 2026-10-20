@@ -80,6 +80,17 @@ export function getTagline(lang: string): string {
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+/** A site address without the host sub-folder: "/OutBite/es/faq/" → "/es/faq/". */
+export function withoutBase(pathname: string): string {
+  return base && pathname.startsWith(`${base}/`) ? pathname.slice(base.length) : pathname;
+}
+
+/** The full public address of a site path that already includes the sub-folder
+ *  (from localizePath or assetPath), using siteUrl; the placeholder until it is set. */
+export function siteAddress(path: string): string {
+  return new URL(path, site.siteUrl || 'https://outbite.example').href;
+}
+
 /** A file in public/, e.g. "brand/favicon.svg" (respecting a host sub-folder, if any). */
 export function assetPath(path: string): string {
   return `${base}/${path.replace(/^\//, '')}`;
@@ -93,8 +104,7 @@ export function localizePath(lang: string, path = ''): string {
 
 /** The same page in another language: "/en/protect/" → "/es/protect/". */
 export function switchLocalePath(pathname: string, targetLang: string): string {
-  const withoutBase = pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
-  const parts = withoutBase.split('/').filter(Boolean);
+  const parts = withoutBase(pathname).split('/').filter(Boolean);
   if (parts.length && localeCodes.includes(parts[0])) parts.shift();
   const rest = parts.join('/');
   return localizePath(targetLang, rest ? `${rest}/` : '');

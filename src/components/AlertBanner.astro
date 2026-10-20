@@ -9,7 +9,11 @@
 //   fingerprint of the text (STORAGE.alertDismissed), checked before the banner draws.
 //   Without JavaScript the banner shows without the ✕.
 // - Screen readers read it as a region labeled "Alert" ("Aviso").
+// - Preview ("preview": true in src/config/site.json): the preview message from
+//   alert.json "preview" shows instead, on every page, with no end date and no ✕, so it
+//   can't be closed. Setting preview to false removes it.
 import alert from '../config/alert.json';
+import site from '../config/site.json';
 import { localizePath, useTranslations, defaultLocale } from '../i18n';
 import { STORAGE } from '../lib/storage';
 
@@ -23,8 +27,9 @@ const t = useTranslations(lang);
 type Localized = Record<string, string>;
 const pick = (field: Localized) => field[lang] ?? field[defaultLocale];
 
+const preview = site.preview === true;
 const expiresAt = alert.expires ? new Date(alert.expires) : null;
-const show = alert.enabled && (!expiresAt || expiresAt.getTime() > Date.now());
+const show = !preview && alert.enabled && (!expiresAt || expiresAt.getTime() > Date.now());
 const href = alert.link?.href ? (alert.link.href.startsWith('/') ? localizePath(lang, alert.link.href) : alert.link.href) : null;
 // Fingerprint of the alert's text (both languages and the link): a new alert shows again
 // even after an earlier one was closed.
@@ -33,6 +38,18 @@ let hash = 5381;
 for (let i = 0; i < text.length; i++) hash = ((hash << 5) + hash + text.charCodeAt(i)) >>> 0;
 const alertId = hash.toString(36);
 ---
+
+{
+  preview && (
+    <section class="alert" aria-label={t('a11y.alertRegion')} data-alert-preview>
+      <div class="container alert__inner">
+        <p class="alert__text">
+          <strong class="alert__label">{pick(alert.preview.label)}:</strong> {pick(alert.preview.message)}
+        </p>
+      </div>
+    </section>
+  )
+}
 
 {
   show && (

@@ -21,7 +21,7 @@ Needs Node.js 22 or newer (LTS) and npm.
 
 ```sh
 npm install        # first time only: downloads Astro and the fonts into node_modules/
-npm run dev        # starts a local preview at http://localhost:4321 (Ctrl+C to stop)
+npm run dev        # starts a local preview at http://localhost:4321/OutBite/ (Ctrl+C to stop)
 npm run build      # builds the finished static site into dist/
 npm run preview    # serves the built dist/ folder, to check a build before hosting
 ```
@@ -40,21 +40,38 @@ Quality checks are run locally before each release.
 | `npm run build-zip-data` | Rebuilds the ZIP code lookup (`src/data/zip-to-state.json`) |
 | `npm run build-social-images` | Rebuilds the social preview images in `public/brand/` |
 
-## Settings before going live
+## Publishing
+
+The site is published on GitHub Pages at <https://macfaddenolivia-oss.github.io/OutBite/>
+by `.github/workflows/deploy.yml`, using GitHub's own Pages actions. It runs on every push to
+`main`, every day at about 10:00 UTC, and by hand (**Run workflow** on the Actions tab). Each
+run downloads the latest CDC data (`npm run update-data`), builds the site and publishes it.
+If CDC can't be reached, the last good data files are kept and the run still publishes, with
+a warning. Nothing is committed back to the repository.
+
+Every address starts with `/OutBite/` (`base` in `astro.config.mjs`). Links inside the site
+use the helpers in `src/i18n/index.ts` (`localizePath`, `assetPath`, `siteAddress`), which
+add it for you.
+
+## Settings
 
 These settings are in `src/config/site.json`.
 
-- **`siteUrl`**: the site's real address, for example `"https://www.example.org"`. The QR
-  codes on the printables and the links inside the ready-made reminder files use it. While
-  it is empty, QR codes point to the reserved placeholder `https://outbite.example` and the
-  printables show "[site address]".
+- **`preview`**: `true` while experts are still checking the site. Every page then shows a
+  banner that can't be closed ("Preview: this site is still being checked by experts…",
+  text in `src/config/alert.json` under `preview`), carries a `noindex` tag, and
+  `robots.txt` asks search engines to stay out. Set it to `false` at launch.
+- **`siteUrl`**: the site's address without a trailing slash,
+  `"https://macfaddenolivia-oss.github.io/OutBite"`. Its path must match `base` in
+  `astro.config.mjs`. The QR codes on the printables, the links inside the ready-made
+  reminder files and the social preview tags use it.
 - **`GOATCOUNTER_CODE`**: your [GoatCounter](https://www.goatcounter.com) site code (the
   `MYCODE` part of `https://MYCODE.goatcounter.com`), using lowercase letters, numbers and
   hyphens only. GoatCounter counts visits without cookies. The counting script is added
   only to production builds (`npm run build`), never to `npm run dev`. Leave it empty for
   no counting.
-- **`dailyUpdatesScheduled`**: set to `true` once `npm run update-data` runs daily on the
-  host, so the Sources page describes the daily check correctly.
+- **`dailyUpdatesScheduled`**: `true`, because the workflow above updates the data every
+  day; the Sources page describes the daily check.
 
 ## Where things live
 
@@ -97,6 +114,7 @@ choose a `severity` (`info`, `warning`, or `urgent`), and set `expires` (date an
 time zone, e.g. `2026-11-30T23:59:00-04:00`). The banner disappears automatically after
 `expires`, even if the site isn't rebuilt. `link.href` can be a site path like
 `/tools/checklist/` (the language prefix is added for you) or a full `https://` address.
+While `preview` is `true` in `src/config/site.json`, the preview banner shows instead.
 
 ## License
 

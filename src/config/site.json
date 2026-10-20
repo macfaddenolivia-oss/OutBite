@@ -5,7 +5,8 @@
     "es": "Detén la picada antes de que empiece."
   },
   "defaultLocale": "en",
-  "siteUrl": "",
-  "dailyUpdatesScheduled": false,
+  "siteUrl": "https://macfaddenolivia-oss.github.io/OutBite",
+  "dailyUpdatesScheduled": true,
+  "preview": true,
   "GOATCOUNTER_CODE": ""
 }

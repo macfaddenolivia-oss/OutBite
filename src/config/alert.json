@@ -11,5 +11,15 @@
       "en": "Use the weekly checklist",
       "es": "Usa la lista semanal"
     }
+  },
+  "preview": {
+    "label": {
+      "en": "Preview",
+      "es": "Versión preliminar"
+    },
+    "message": {
+      "en": "this site is still being checked by experts. Don’t rely on it for health decisions yet.",
+      "es": "expertos todavía están revisando este sitio. No dependas de él para decisiones de salud por ahora."
+    }
   }
 }

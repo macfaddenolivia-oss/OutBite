@@ -1,0 +1,64 @@
+# Builds the site and publishes it to GitHub Pages:
+# https://macfaddenolivia-oss.github.io/OutBite/
+#
+# Runs on every push to main, every day at about 10:00 UTC, and by hand ("Run workflow"
+# on the Actions tab). Each run first downloads the latest CDC data (npm run update-data);
+# if CDC can't be reached, the last good data files are kept and the run still publishes,
+# with a warning. Nothing is ever committed back to the repository.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+# Only what GitHub Pages needs: read the code, publish the site.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One publish at a time; a newer run waits instead of cancelling one that is publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Update CDC data
+        id: data
+        continue-on-error: true
+        run: npm run update-data
+
+      - name: Warn if the CDC data could not be updated
+        if: steps.data.outcome == 'failure'
+        run: echo "::warning::Some CDC data could not be updated; the site was built with the last good data files. See the 'Update CDC data' step."
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

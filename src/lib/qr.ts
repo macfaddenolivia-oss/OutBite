@@ -4,14 +4,13 @@
 // and the printables show "[site address]" under them (see README.md, siteUrl).
 import QRCode from 'qrcode';
 import site from '../config/site.json';
+import { siteAddress } from '../i18n';
 
-const PLACEHOLDER = 'https://outbite.example';
 export const siteUrlSet = Boolean(site.siteUrl);
-const base = (site.siteUrl || PLACEHOLDER).replace(/\/$/, '');
 
-/** QR code (inline SVG markup) and the full address for a site path like "/en/". */
+/** QR code (inline SVG markup) and the full address for a site path from localizePath. */
 export async function qr(path: string): Promise<{ svg: string; url: string; shown: string | null }> {
-  const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
+  const url = siteAddress(path);
   const svg = await QRCode.toString(url, {
     type: 'svg',
     margin: 0,

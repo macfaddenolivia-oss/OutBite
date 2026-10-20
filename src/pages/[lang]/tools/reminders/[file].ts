@@ -5,10 +5,9 @@
 import type { APIRoute } from 'astro';
 import content from '../../../../content/reminders.json';
 import printables from '../../../../content/printables.json';
-import site from '../../../../config/site.json';
 import { buildIcs } from '../../../../lib/ics.js';
 import { reminderText } from '../../../../lib/reminder-text.js';
-import { localeCodes, localizePath } from '../../../../i18n';
+import { localeCodes, localizePath, siteAddress } from '../../../../i18n';
 import { getPage } from '../../../../config/pages';
 
 const FILES = { 'weekly-check.ics': 'weekly', 'season-reminder.ics': 'season' } as const;
@@ -20,13 +19,12 @@ export function getStaticPaths() {
 export const GET: APIRoute = ({ params }) => {
   const lang = (params.lang === 'es' ? 'es' : 'en') as 'en' | 'es';
   const kind = FILES[params.file as keyof typeof FILES];
-  const base = (site.siteUrl || 'https://outbite.example').replace(/\/$/, '');
   const yard = printables.text[lang].checklist.items.filter((_, i) => printables.itemLayers[i] === 'yard');
   const text = reminderText(
     content.text[lang].event,
     yard,
-    base + localizePath(lang, getPage('checklist').path),
-    base + localizePath(lang, getPage('protect').path),
+    siteAddress(localizePath(lang, getPage('checklist').path)),
+    siteAddress(localizePath(lang, getPage('protect').path)),
   );
   const d = content.defaults;
   const body = buildIcs({ kind, day: d.day, time: d.time, month: d.month, remind: d.remind, text, uid: (k) => `${k}-default-${lang}@outbite` });

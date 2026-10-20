@@ -12,7 +12,7 @@ import AlertBanner from '../components/AlertBanner.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import VisitCounter from '../components/VisitCounter.astro';
-import { assetPath, defaultLocale, getLocale, locales, localizePath, siteName, switchLocalePath, useTranslations } from '../i18n';
+import { assetPath, defaultLocale, getLocale, locales, localizePath, siteAddress, siteName, switchLocalePath, useTranslations } from '../i18n';
 import { STORAGE } from '../lib/storage';
 import { formatDate } from '../lib/cases';
 import { lastReviewed, pageForPath } from '../lib/page-review';
@@ -37,9 +37,8 @@ const pathname = Astro.url.pathname;
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
 // Social preview: one image per language (public/brand/social-en.png, -es.png).
-const siteBase = site.siteUrl || 'https://outbite.example';
-const pageUrl = new URL(pathname, siteBase).href;
-const socialImage = new URL(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}.png`), siteBase).href;
+const pageUrl = siteAddress(pathname);
+const socialImage = siteAddress(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}.png`));
 const shareDescription = description ?? t('social.description');
 const page = pageForPath(pathname);
 const reviewed = page ? lastReviewed(page) : null;
@@ -52,7 +51,7 @@ const reviewed = page ? lastReviewed(page) : null;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex || site.preview === true) && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#132650" media="(prefers-color-scheme: dark)" />
