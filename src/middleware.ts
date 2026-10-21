@@ -29,7 +29,7 @@ for (const s of Object.values(sources as Record<string, { url?: string; title: s
 }
 
 // Same names as src/components/Genus.astro.
-const SCI_NAMES = /((?:Aedes|Ae\.) (?:aegypti|albopictus)|(?:Culex|Cx\.) quinquefasciatus|\bAedes\b|\bCulex\b|\bWolbachia\b)/g;
+const SCI_NAMES = /((?:Aedes|Ae\.) (?:aegypti|albopictus)|(?:Culex|Cx\.) quinquefasciatus|\bBacillus thuringiensis\b|\bisraelensis\b|\bAnopheles\b|\bAedes\b|\bCulex\b|\bWolbachia\b)/g;
 function italicizeNames(html: string): string {
   let em = 0;
   return html

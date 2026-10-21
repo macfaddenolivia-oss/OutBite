@@ -754,5 +754,40 @@
     "url": "https://doi.org/10.1093/jtm/tay005",
     "kind": "study",
     "date": "2018"
+  },
+  "epa-bti": {
+    "short": "EPA",
+    "title": "Bti for Mosquito Control",
+    "publisher": "U.S. EPA",
+    "url": "https://www.epa.gov/mosquitocontrol/bti-mosquito-control",
+    "kind": "official",
+    "updated": "2026-06-02",
+    "titleEs": "El Bti para el control de mosquitos"
+  },
+  "who-lsm-2026": {
+    "short": "WHO 2026",
+    "title": "Operational manual on larval source management: control of Anopheles and Aedes mosquito vectors",
+    "publisher": "World Health Organization",
+    "url": "https://www.who.int/publications/i/item/9789240123212",
+    "kind": "official",
+    "date": "2026",
+    "titleEs": "Manual operativo sobre la gestión de fuentes larvarias: control de los mosquitos vectores Anopheles y Aedes"
+  },
+  "npic-bt": {
+    "short": "NPIC",
+    "title": "Bacillus thuringiensis (Bt)",
+    "publisher": "National Pesticide Information Center (Oregon State University and U.S. EPA)",
+    "publisherEs": "Centro Nacional de Información sobre Pesticidas (Universidad Estatal de Oregón y la EPA de EE. UU.)",
+    "url": "https://npic.orst.edu/ingred/bt.html",
+    "kind": "official",
+    "updated": "2024-01-24"
+  },
+  "ap-2016-pr-naled": {
+    "short": "AP",
+    "title": "Puerto Rico rejects insecticide to fight Zika amid protests",
+    "publisher": "Danica Coto, Associated Press (news report), July 22, 2016",
+    "publisherEs": "Danica Coto, Associated Press (noticia), 22 de julio de 2016",
+    "url": "https://apnews.com/general-news-3e93dacd616f4b1087eed9d5103e4f8f",
+    "kind": "news"
   }
 }

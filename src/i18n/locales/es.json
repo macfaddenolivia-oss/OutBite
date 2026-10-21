@@ -344,7 +344,22 @@
         "name": "Environmental Working Group (EWG)",
         "text": "una organización sin fines de lucro de defensa del medio ambiente. Nunca es la base de un consejo: “Lo que dicen los estudios” en los consejos de repelente indica dónde coincide con los CDC y la EPA."
       },
-      "updated": "Actualizado el {date}"
+      "updated": "Actualizado el {date}",
+      "bti": {
+        "label": "Páginas de agencias sobre el Bti",
+        "name": "Los CDC, la EPA y la OMS",
+        "text": "la base del consejo sobre el larvicida Bti, incluido el manual de la OMS de 2026 sobre la gestión de fuentes larvarias (página 57)."
+      },
+      "factSheet": {
+        "label": "Hoja informativa sobre pesticidas",
+        "name": "Centro Nacional de Información sobre Pesticidas (NPIC)",
+        "text": "a cargo de la Universidad Estatal de Oregón y la EPA de EE. UU. Aparece en el consejo sobre el larvicida Bti para más detalles."
+      },
+      "news": {
+        "label": "Noticia",
+        "name": "Associated Press (2016)",
+        "text": "una noticia, no una guía. El consejo sobre el larvicida Bti y la sección de fumigación de la página de Comunidad la usan solo para decir lo que decidió Puerto Rico en 2016."
+      }
     },
     "listen": {
       "heading": "A quién escuchamos",

@@ -21,7 +21,8 @@
       "cdc-adulticides",
       "cdc-truck-spraying",
       "cdc-wolbachia",
-      "epa-naled"
+      "epa-naled",
+      "ap-2016-pr-naled"
     ]
   },
   "links": {
@@ -96,7 +97,11 @@
               "text": "some programs release male Aedes aegypti mosquitoes that carry Wolbachia, a common type of bacteria. Their eggs don’t hatch, so the number of these mosquitoes goes down."
             }
           ],
-          "link": "Read CDC’s explainer"
+          "link": "Read CDC’s explainer",
+          "note": {
+            "text": "In 2016, during the Zika outbreak, Puerto Rico’s governor decided not to allow aerial spraying with the insecticide naled after public protests over its possible effects on people and wildlife, and supported spraying Bti instead (Associated Press, July 22, 2016).",
+            "link": "More about Bti"
+          }
         }
       },
       "moreLink": "More on the Community page"
@@ -168,7 +173,11 @@
               "text": "algunos programas liberan mosquitos Aedes aegypti machos que llevan Wolbachia, un tipo común de bacteria. Sus huevos no nacen, así que la cantidad de estos mosquitos baja."
             }
           ],
-          "link": "Lee la explicación de los CDC"
+          "link": "Lee la explicación de los CDC",
+          "note": {
+            "text": "En 2016, durante el brote de zika, el gobernador de Puerto Rico decidió no permitir la fumigación aérea con el insecticida naled después de protestas públicas por sus posibles efectos en las personas y la vida silvestre, y apoyó que se fumigara con Bti en su lugar (Associated Press, 22 de julio de 2016).",
+            "link": "Más sobre el Bti"
+          }
         }
       },
       "moreLink": "Más en la página de Comunidad"

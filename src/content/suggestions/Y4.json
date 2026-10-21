@@ -15,7 +15,11 @@
   "related": [],
   "sources": [
     "cdc-bti",
-    "who-dengue"
+    "epa-bti",
+    "who-lsm-2026",
+    "who-dengue",
+    "npic-bt",
+    "ap-2016-pr-naled"
   ],
   "lastReviewed": "pending",
   "text": {
@@ -30,7 +34,44 @@
       "cantDo": [
         "Bti can't be used in drinking water. Always follow the label."
       ],
-      "research": []
+      "research": [
+        {
+          "text": "EPA says Bti “contains spores that produce toxins that specifically target and only affect the larvae of the mosquito, blackfly and fungus gnat.” On safety: “Bti has no toxicity to people,” “Studies indicate Bti has minimal toxicity to honey bees,” and “These toxins do not affect other types of insects including honey bees.”",
+          "cite": [
+            "epa-bti"
+          ]
+        },
+        {
+          "text": "CDC: “The bacterium Bacillus thuringiensis subspecies israelensis (Bti) is found in the soil. Bti is toxic to mosquito larvae, blackflies, and fungus gnats.” “Bti has been used for mosquito control for more than 30 years.”",
+          "cite": [
+            "cdc-bti"
+          ]
+        },
+        {
+          "text": "WHO’s 2026 manual on larval source management (page 57): “At the recommended doses, there is low toxicity to fish, birds, mammals and humans, and insects other than Diptera-Nematocera.” (Diptera-Nematocera are the group of flies that includes mosquitoes, blackflies and fungus gnats.)",
+          "cite": [
+            "who-lsm-2026"
+          ]
+        },
+        {
+          "text": "When to use it: WHO says bacterial larvicides “should be applied when larvae are present and actively feeding,” that “Larvae must be feeding when the bacterial larvicide is present for it to be effective,” and that “In open, natural habitats, Bti breaks down quickly in the environment, so more frequent applications may be needed.” EPA: Bti is used by “being applied to standing water where those larvae are found.” CDC: “Bti does not control biting female mosquitoes.”",
+          "cite": [
+            "who-lsm-2026",
+            "epa-bti",
+            "cdc-bti"
+          ]
+        },
+        {
+          "text": "In 2016, during Zika, Puerto Rico chose Bti instead of aerial naled spraying (Associated Press).",
+          "cite": [
+            "ap-2016-pr-naled"
+          ]
+        }
+      ],
+      "tips": [
+        "Bti only harms the larvae of mosquitoes and a few close relatives. EPA says it has no toxicity to people and minimal toxicity to honey bees, and WHO says it has low toxicity to fish, birds and other mammals at recommended doses.",
+        "Use Bti only when you can see mosquito larvae in the water. It works only while the larvae are feeding, so it doesn’t kill adult mosquitoes. Outdoors, it breaks down quickly, so you may need to add it again."
+      ]
     },
     "es": {
       "title": "Usa un larvicida como Bti en agua que no puedes vaciar, tapar ni beber",
@@ -43,7 +84,47 @@
       "cantDo": [
         "El Bti no se puede usar en agua para beber. Sigue siempre la etiqueta."
       ],
-      "research": []
+      "research": [
+        {
+          "text": "La EPA dice que el Bti “contiene esporas que producen toxinas que atacan específicamente y solo afectan a las larvas del mosquito, la mosca negra y el mosquito de los hongos”. Sobre su seguridad: “el Bti no es tóxico para las personas”, “los estudios indican que el Bti tiene una toxicidad mínima para las abejas melíferas” y “estas toxinas no afectan a otros tipos de insectos, incluidas las abejas melíferas”.",
+          "cite": [
+            "epa-bti"
+          ]
+        },
+        {
+          "text": "Los CDC: “La bacteria Bacillus thuringiensis subespecie israelensis (Bti) se encuentra en la tierra. El Bti es tóxico para las larvas de mosquito, las moscas negras y los mosquitos de los hongos”. “El Bti se ha usado para controlar mosquitos por más de 30 años”.",
+          "cite": [
+            "cdc-bti"
+          ]
+        },
+        {
+          "text": "El manual de la OMS de 2026 sobre la gestión de fuentes larvarias (página 57): “En las dosis recomendadas, la toxicidad es baja para los peces, las aves, los mamíferos y los seres humanos, y para los insectos que no son dípteros nematóceros”. (Los dípteros nematóceros son el grupo de moscas que incluye los mosquitos, las moscas negras y los mosquitos de los hongos).",
+          "cite": [
+            "who-lsm-2026"
+          ]
+        },
+        {
+          "text": "Cuándo usarlo: la OMS dice que los larvicidas bacterianos “deben aplicarse cuando hay larvas presentes y alimentándose activamente”, que “las larvas deben estar alimentándose cuando el larvicida bacteriano está presente para que sea eficaz” y que “en hábitats naturales abiertos, el Bti se descompone rápidamente en el medio ambiente, por lo que pueden hacer falta aplicaciones más frecuentes”. La EPA: el Bti se usa “aplicándolo al agua estancada donde se encuentran esas larvas”. Los CDC: “el Bti no controla a los mosquitos hembra que pican”.",
+          "cite": [
+            "who-lsm-2026",
+            "epa-bti",
+            "cdc-bti"
+          ]
+        },
+        {
+          "text": "En 2016, durante el zika, Puerto Rico escogió el Bti en lugar de la fumigación aérea con naled (Associated Press).",
+          "cite": [
+            "ap-2016-pr-naled"
+          ]
+        }
+      ],
+      "tips": [
+        "El Bti solo hace daño a las larvas de los mosquitos y de algunos parientes cercanos. La EPA dice que no es tóxico para las personas y que tiene una toxicidad mínima para las abejas melíferas, y la OMS dice que tiene baja toxicidad para los peces, las aves y otros mamíferos en las dosis recomendadas.",
+        "Usa el Bti solo cuando veas larvas de mosquito en el agua. Funciona solo mientras las larvas se están alimentando, así que no mata a los mosquitos adultos. Afuera se descompone rápido, así que puede que tengas que volver a ponerlo."
+      ]
     }
-  }
+  },
+  "links": [
+    "npic-bt"
+  ]
 }

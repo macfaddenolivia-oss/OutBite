@@ -2,8 +2,9 @@
 // Sources and methods. Title and intro, then four sections
 // (each keeps its anchor, e.g. #how-we-rate-evidence):
 // 1. Who we listen to: CDC & EPA → WHO → research (↓ on phones), then, below the boxes,
-//    sources named on their own (from sources.json): the DEET/picaridin review and the
-//    one advocacy organization cited (EWG), each labeled as such.
+//    sources named on their own (from sources.json), each labeled as such: the CDC, EPA
+//    and WHO pages behind the Bti larvicide tip, the DEET/picaridin review, NPIC's Bt
+//    fact sheet, the one advocacy organization cited (EWG) and the one news report (AP).
 // 2. How we label tips (#how-we-rate-evidence, which every "How we rate evidence →"
 //    link points to): the real tip badges (Badge.astro) with one-line meanings.
 // 3. How the numbers update: CDC publishes → Outbite checks → the site shows CDC's
@@ -32,11 +33,15 @@ const htmlLang = getLocale(lang).meta.htmlLang;
 const page = (getLocale(lang).messages as Record<string, any>).sourcesPage;
 const steps = page.listen.steps as { title: string; text: string }[];
 const dataSources = page.data.items as { name: string; note: string; url: string }[];
-// Below the ranked boxes: research first, then advocacy.
+// Below the ranked boxes: agency pages first, then research, a fact sheet, advocacy and news.
 const cited = [
-  { key: 'research', id: 'goodyer-2018' },
-  { key: 'advocacy', id: 'ewg-bug-repellents' },
-].map(({ key, id }) => ({ ...page.cited[key], source: sources[id] }));
+  { key: 'bti', ids: ['cdc-bti', 'epa-bti', 'who-lsm-2026'] },
+  { key: 'research', ids: ['goodyer-2018'] },
+  { key: 'factSheet', ids: ['npic-bt'] },
+  { key: 'advocacy', ids: ['ewg-bug-repellents'] },
+  { key: 'news', ids: ['ap-2016-pr-naled'] },
+].map(({ key, ids }) => ({ ...page.cited[key], list: ids.map((id) => sources[id]) }));
+const publisherOf = (s: (typeof sources)[string]) => (lang === 'es' && s.publisherEs) || s.publisher;
 
 const guidance = ['cdc-epa', 'who', 'none', 'unknown'] as const;
 const levels = ['strong', 'moderate', 'limited', 'emerging', 'not-supported', 'not-rated'] as const;
@@ -98,9 +103,15 @@ const reviews = reviewData.reviews.map((r) => ({
             <li class="cited__item">
               <p class="cited__label">{c.label}</p>
               <p>
-                <strong>{c.name}</strong>: {c.text} <a href={c.source.url}>{c.source.title}</a>
-                {/[.?!]$/.test(c.source.title) ? '' : '.'}{' '}
-                {c.source.updated ? <>{page.cited.updated.replace('{date}', formatDate(c.source.updated, htmlLang))}.</> : <>{c.source.publisher}.</>}
+                <strong>{c.name}</strong>: {c.text}
+                {c.list.map((src) => (
+                  <>
+                    {' '}
+                    <a href={src.url}>{src.title}</a>
+                    {/[.?!]$/.test(src.title) ? '' : '.'}{' '}
+                    {src.updated ? <>{page.cited.updated.replace('{date}', formatDate(src.updated, htmlLang))}.</> : <>{publisherOf(src)}{src.date && <>, {src.date}</>}.</>}
+                  </>
+                ))}
               </p>
             </li>
           ))

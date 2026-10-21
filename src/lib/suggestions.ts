@@ -53,7 +53,7 @@ export interface Source {
   title: string;
   publisher: string;
   url: string;
-  kind: 'official' | 'study' | 'advocacy';
+  kind: 'official' | 'study' | 'advocacy' | 'news';
   date?: string;
   /** Spanish publisher line, when the publisher needs words (an advocacy group). */
   publisherEs?: string;

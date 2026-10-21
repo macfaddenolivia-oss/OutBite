@@ -4,7 +4,8 @@
 // Title and intro, then four sections (2×2 on desktop): Find & report, Organize your
 // block, Renters & shared spaces (with the shared LandlordNote: a sample note and a "Copy
 // note" button that only writes to the clipboard: no email, text, share buttons or forms),
-// and What's that spraying?
+// and What's that spraying? (with a short note on Puerto Rico's 2016 choice of Bti over
+// aerial naled spraying, linking to the Bti tip on Protect).
 // Puerto Rico line: shown only once the PRDH link is marked verified in
 // src/content/external-links.json (link only; nothing is ever fetched from that site).
 import ActionRow from '../../components/ActionRow.astro';
@@ -34,6 +35,7 @@ const links = {
   organize: localizePath(lang, getPage('printables').path),
   spraying: content.links.spraying,
 } as Record<string, string>;
+const btiTip = `${localizePath(lang, getPage('protect').path)}#card-Y4`;
 
 // Small flat section icons (src/lib/community-icons.ts, shared with the Tools page).
 const icons = communityIcons;
@@ -80,6 +82,15 @@ const icons = communityIcons;
                   </li>
                 )}
               </ul>
+
+              {key === 'spraying' && (
+                <p class="csec__note">
+                  <Genus text={s.spraying.note.text} />{' '}
+                  <a href={btiTip}>
+                    {s.spraying.note.link} <span aria-hidden="true">→</span>
+                  </a>
+                </p>
+              )}
 
               {key === 'renters' && <LandlordNote lang={lang} />}
 
@@ -166,6 +177,15 @@ const icons = communityIcons;
 
   .csec__points li + li {
     margin-top: var(--space-2);
+  }
+
+  .csec__note {
+    margin: var(--space-3) 0 0;
+  }
+
+  /* "More about Bti →" stays on one line, so the arrow never wraps alone. */
+  .csec__note a {
+    white-space: nowrap;
   }
 
   .csec__link {

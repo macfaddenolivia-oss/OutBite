@@ -344,7 +344,22 @@
         "name": "Environmental Working Group (EWG)",
         "text": "An environmental advocacy nonprofit. It is never the basis for a tip: “What the research says” on the repellent tips notes where it agrees with CDC and EPA."
       },
-      "updated": "Updated {date}"
+      "updated": "Updated {date}",
+      "bti": {
+        "label": "Agency pages on Bti",
+        "name": "CDC, EPA and WHO",
+        "text": "Behind the Bti larvicide tip, including WHO’s 2026 manual on larval source management (page 57)."
+      },
+      "factSheet": {
+        "label": "Pesticide fact sheet",
+        "name": "National Pesticide Information Center (NPIC)",
+        "text": "Run by Oregon State University and U.S. EPA. Linked from the Bti larvicide tip for more detail."
+      },
+      "news": {
+        "label": "News report",
+        "name": "Associated Press (2016)",
+        "text": "A news report, not guidance. The Bti larvicide tip and the Community page’s spraying section use it only to say what Puerto Rico decided in 2016."
+      }
     },
     "listen": {
       "heading": "Who we listen to",
