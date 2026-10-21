@@ -549,7 +549,8 @@
     "noCases": "no cases reported",
     "countLabel": "{count} cases",
     "countLabelOne": "1 case",
-    "seeMap": "See the map and CDC travel notices",
+    "seeMap": "See the map",
+    "seeNotices": "See CDC travel notices",
     "intro": "Reported cases of dengue, Zika and chikungunya by state and territory, from CDC.",
     "pickHeading": "Choose your state or territory",
     "meaningHeading": "What these numbers mean",
@@ -606,7 +607,7 @@
     "worldwide": "Worldwide",
     "sourceCdc": "Source: CDC",
     "sourcesHeading": "Sources",
-    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC Travel Health Notices; CDC case pages for dengue, Zika and chikungunya. Map outlines and ZIP codes: U.S. Census Bureau.",
+    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC case pages for dengue, Zika and chikungunya. Map outlines and ZIP codes: U.S. Census Bureau.",
     "lastChecked": "Last checked {date}: the last day Outbite looked for new CDC data.",
     "short": {
       "DC": "D.C.",

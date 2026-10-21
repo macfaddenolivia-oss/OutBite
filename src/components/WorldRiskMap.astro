@@ -15,7 +15,8 @@
 //   (sorted by the page language's names): every place CDC lists, with its category,
 //   and every other country on the map as "Not on CDC's list".
 // - Under the map: "Per CDC, last updated [date]", the CDC page, CDC's notes and the
-//   matching CDC Travel Health Notices.
+//   matching CDC Travel Health Notices (with `noticesHref`, the travel page, just a link
+//   to the page's own list of notices).
 import worldMap from '../data/world-map.json';
 import risk from '../data/travel-risk.json';
 import noticeData from '../data/travel-notices.json';
@@ -36,8 +37,10 @@ interface Props {
   pickable?: boolean;
   /** One A-to-Z list per virus instead of CDC's grouping (the travel page). */
   azList?: boolean;
+  /** The page lists CDC's notices itself (the travel page): link there instead. */
+  noticesHref?: string;
 }
-const { lang, viruses, initial = viruses[0], id, headingLevel = 2, hideHeading = false, pickable = false, azList = false } = Astro.props;
+const { lang, viruses, initial = viruses[0], id, headingLevel = 2, hideHeading = false, pickable = false, azList = false, noticesHref } = Astro.props;
 const t = useTranslations(lang);
 const htmlLang = getLocale(lang).meta.htmlLang;
 const msg = (getLocale(lang).messages as Record<string, any>).worldRisk;
@@ -297,23 +300,31 @@ const codeNames = Object.fromEntries(codes.map((c) => [c, regionName(c)]));
             {notes(v).map((n: string) => <p>{n}</p>)}
           </div>
         )}
-        <p class="wr__notices-title">{msg.notices.replace('{disease}', diseaseIn(v))}</p>
-        <p class="wr__def">{msg.levels}</p>
-        {notices(v).length ? (
-          <ul class="wr__notices">
-            {notices(v).map((n) => (
-              <li>
-                <a href={n.url}>{n.destination === 'Global' ? t('dash.worldwide') : destinationName(n.destination, htmlLang)}</a>{' '}
-                · {(getLocale(lang).messages as any).dash.levelNames[String(n.level)]} · {formatDate(n.date, htmlLang)}
-              </li>
-            ))}
-          </ul>
+        {noticesHref ? (
+          <p class="wr__all">
+            <a href={noticesHref}>{t('dash.seeNotices')} <span aria-hidden="true">→</span></a>
+          </p>
         ) : (
-          <p class="wr__none">{msg.noNotices.replace('{disease}', diseaseIn(v))}</p>
+          <>
+            <p class="wr__notices-title">{msg.notices.replace('{disease}', diseaseIn(v))}</p>
+            <p class="wr__def">{msg.levels}</p>
+            {notices(v).length ? (
+              <ul class="wr__notices">
+                {notices(v).map((n) => (
+                  <li>
+                    <a href={n.url}>{n.destination === 'Global' ? t('dash.worldwide') : destinationName(n.destination, htmlLang)}</a>{' '}
+                    · {(getLocale(lang).messages as any).dash.levelNames[String(n.level)]} · {formatDate(n.date, htmlLang)}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="wr__none">{msg.noNotices.replace('{disease}', diseaseIn(v))}</p>
+            )}
+            <p class="wr__all">
+              <a href={noticeData.source.pageUrl}>{msg.allNotices} <span aria-hidden="true">→</span></a>
+            </p>
+          </>
         )}
-        <p class="wr__all">
-          <a href={noticeData.source.pageUrl}>{msg.allNotices} <span aria-hidden="true">→</span></a>
-        </p>
       </div>
     ))
   }

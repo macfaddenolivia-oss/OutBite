@@ -33,7 +33,7 @@ const htmlLang = getLocale(lang).meta.htmlLang;
 const cite = faq.cite as Record<string, string[]>;
 const groups = faq.groups as { id: string; questions: string[] }[];
 const qText = text.questions as Record<string, { q: string; a: string[]; items?: { label: string; text: string; source: string }[] }>;
-const meta = faq.questionMeta as Record<string, { page?: string; pages?: string[]; figure?: string; diseases?: string[]; tips?: string[]; links?: string[] }>;
+const meta = faq.questionMeta as Record<string, { page?: string; anchor?: string; pages?: string[]; figure?: string; diseases?: string[]; tips?: string[]; links?: string[] }>;
 const zikaSpread = (diseases.text as Record<string, typeof diseases.text.en>)[lang === 'es' ? 'es' : 'en'].zikaSpread;
 const tipTitle = (id: string) => cardText(getSuggestion(id), lang).title;
 const pageLinkText = text.pageLinks as Record<string, string>;
@@ -150,7 +150,7 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
                           </a>
                         )}
                         {m.page && (
-                          <a href={localizePath(lang, getPage(m.page).path)}>
+                          <a href={`${localizePath(lang, getPage(m.page).path)}${m.anchor ? `#${m.anchor}` : ''}`}>
                             {pageLinkText[m.page]} <span aria-hidden="true">→</span>
                           </a>
                         )}

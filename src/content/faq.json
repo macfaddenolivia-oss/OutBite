@@ -132,12 +132,10 @@
       "figure": "aedes-culex"
     },
     "before-trip": {
-      "page": "nearMe",
+      "page": "travel",
+      "anchor": "notices",
       "links": [
         "cdc-travel-notices"
-      ],
-      "pages": [
-        "travel"
       ]
     },
     "sick-after-trip": {
@@ -386,7 +384,7 @@
         "before-trip": {
           "q": "How do I know if a place I'm visiting has these viruses?",
           "a": [
-            "CDC posts Travel Health Notices about health risks around the world, such as outbreaks, ranked from Level 1 to Level 4. Check the notices before any trip. The “Is it near me?” page lists the current CDC notices for dengue, Zika and chikungunya.",
+            "CDC posts Travel Health Notices about health risks around the world, such as outbreaks, ranked from Level 1 to Level 4. Check the notices before any trip. The “Traveling soon?” page lists the current CDC notices for dengue, Zika and chikungunya.",
             "CDC also advises seeing a travel clinic or your doctor at least 4–6 weeks before you leave."
           ]
         },
@@ -586,7 +584,7 @@
         "before-trip": {
           "q": "¿Cómo sé si el lugar que voy a visitar tiene estos virus?",
           "a": [
-            "Los CDC publican avisos de salud para viajeros sobre riesgos de salud en todo el mundo, como los brotes, del Nivel 1 al Nivel 4. Revisa los avisos antes de cualquier viaje. La página “¿Está cerca de mí?” muestra los avisos actuales de los CDC sobre el dengue, el zika y el chikungunya.",
+            "Los CDC publican avisos de salud para viajeros sobre riesgos de salud en todo el mundo, como los brotes, del Nivel 1 al Nivel 4. Revisa los avisos antes de cualquier viaje. La página “¿Vas a viajar pronto?” muestra los avisos actuales de los CDC sobre el dengue, el zika y el chikungunya.",
             "Los CDC también aconsejan ir a una clínica de viajeros o a tu médico o profesional de la salud al menos 4 a 6 semanas antes de salir."
           ]
         },

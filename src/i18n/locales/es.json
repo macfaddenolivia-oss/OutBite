@@ -549,7 +549,8 @@
     "noCases": "ningún caso reportado",
     "countLabel": "{count} casos",
     "countLabelOne": "1 caso",
-    "seeMap": "Ver el mapa y los avisos de viaje de los CDC",
+    "seeMap": "Ver el mapa",
+    "seeNotices": "Ver los avisos de viaje de los CDC",
     "intro": "Casos reportados de dengue, zika y chikungunya por estado y territorio, según los CDC.",
     "pickHeading": "Escoge tu estado o territorio",
     "meaningHeading": "Qué significan estos números",
@@ -606,7 +607,7 @@
     "worldwide": "Todo el mundo",
     "sourceCdc": "Fuente: CDC",
     "sourcesHeading": "Fuentes",
-    "sources": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales; avisos de salud para viajeros de los CDC; páginas de casos de dengue, zika y chikungunya de los CDC. Contornos del mapa y códigos postales: Oficina del Censo de EE. UU.",
+    "sources": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales; páginas de casos de dengue, zika y chikungunya de los CDC. Contornos del mapa y códigos postales: Oficina del Censo de EE. UU.",
     "lastChecked": "Última revisión: {date} (el último día en que Outbite buscó datos nuevos de los CDC).",
     "short": {
       "DC": "D.C.",

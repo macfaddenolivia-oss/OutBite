@@ -125,6 +125,7 @@ const pickerData = {
           </div>
           <p class="near__more">
             <a href={href('nearMe')}>{t('dash.seeMap')} <span aria-hidden="true">→</span></a>
+            <a href={`${href('travel')}#notices`}>{t('dash.seeNotices')} <span aria-hidden="true">→</span></a>
           </p>
         </div>
         <template data-ref-template><NoteRef href={`#${NOTE_ID}`} label={refLabel} /></template>
@@ -348,6 +349,9 @@ const pickerData = {
   }
 
   .near__more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
     font-weight: var(--weight-strong);
   }
 </style>

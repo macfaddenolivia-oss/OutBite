@@ -26,6 +26,10 @@
 //   clicking a country on the map chooses it in the picker. Nothing is sent or saved.
 // - "All destinations": every place as a table, sortable with JavaScript, complete
 //   without it.
+// - "CDC travel notices" (id="notices"): every current CDC Travel Health Notice for the
+//   three viruses (src/data/travel-notices.json), highest level first, with "Per CDC, as
+//   of …" and the one explanation of Levels 1–4 on this page (the destination results
+//   and the map link here instead of repeating it).
 // Text: src/content/travel.json.
 import ActionRow from '../../components/ActionRow.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -40,6 +44,7 @@ import { sources } from '../../lib/suggestions';
 import { tripItems } from '../../lib/trip-items';
 import TripStep from '../../components/TripStep.astro';
 import { destinations, riskDates, VIRUSES, formatDate, type Destination, type Virus } from '../../lib/travel';
+import { destinationName, noticeData } from '../../lib/cases';
 import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
 import { getPage } from '../../config/pages';
 
@@ -103,6 +108,13 @@ const flowIf = x.flowIf as Record<string, string>;
 const [showingBefore, showingAfter] = x.showingFor.split('{place}');
 const sortCols = [{ key: 'name', label: x.colPlace }, ...VIRUSES.map((v) => ({ key: v, label: virusName(v) }))];
 const pg = printables.text[L].page;
+// CDC travel notices section: highest level first, then newest.
+const levelNames = (getLocale(lang).messages as Record<string, any>).dash.levelNames as Record<string, string>;
+const noticesAsOf = formatDate(noticeData.fetchedAt.slice(0, 10), htmlLang);
+const notices = [...noticeData.notices].sort((a, b) => b.level - a.level || b.date.localeCompare(a.date));
+// CDC's notice pages are in English: say so on the Spanish page.
+const enNote = L === 'es' ? ' (en inglés)' : '';
+const enLang = L === 'es' ? 'en' : undefined;
 ---
 
 <BaseLayout lang={lang} title={t('pages.travel.title')} description={x.intro}>
@@ -135,7 +147,6 @@ const pg = printables.text[L].page;
         <p class="status__def" data-zika-past hidden>{diseases.text[L].extras.zikaPast}</p>
         <p class="status__def">{msg.notListedNote}</p>
         <h4 class="status__sub">{x.noticesHeading}</h4>
-        <p class="status__def">{msg.levels}</p>
         <ul class="status__notices" data-status-notices></ul>
       </div>
     </section>
@@ -153,7 +164,7 @@ const pg = printables.text[L].page;
         }
       </div>
       <p class="world__hint" data-js-only hidden>{x.mapPickHint}</p>
-      <WorldRiskMap lang={lang} viruses={['dengue', 'zika', 'chikungunya']} id="world-map" hideHeading pickable azList />
+      <WorldRiskMap lang={lang} viruses={['dengue', 'zika', 'chikungunya']} id="world-map" hideHeading pickable azList noticesHref="#notices" />
     </section>
 
     <!-- What CDC recommends for this trip -->
@@ -300,9 +311,40 @@ const pg = printables.text[L].page;
       </details>
     </section>
 
-    <p class="trip__notices">
-      <a href={sources['cdc-travel-notices'].url}>{x.notSure} <span aria-hidden="true">→</span></a>
-    </p>
+    <!-- CDC travel notices -->
+    <section class="trip__sec notices-sec" id="notices" aria-labelledby="notices-heading">
+      <h2 id="notices-heading">{t('dash.noticesHeading')}</h2>
+      <h3 class="notices-sec__asof">{t('dash.noticesAsOf', { date: noticesAsOf })}</h3>
+      {
+        notices.length ? (
+          <>
+            <p>{t('dash.noticesIntro')}</p>
+            <p class="notices-sec__levels">{msg.levels}</p>
+            <ul class="notices">
+              {notices.map((n) => (
+                <li class="notice">
+                  <p class="notice__place">
+                    {n.destination === 'Global' ? t('dash.worldwide') : destinationName(n.destination, htmlLang)}
+                    <span class="notice__disease"> · {virusName(n.disease as Virus)}</span>
+                  </p>
+                  <p class="notice__level">{levelNames[String(n.level)]}</p>
+                  <p class="notice__meta">
+                    {t('dash.posted', { date: formatDate(n.date, htmlLang) })} ·{' '}
+                    <a href={n.url} hreflang={enLang}>{t('dash.sourceCdc')}{enNote}</a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>{t('dash.noNotices')}</p>
+        )
+      }
+      <p class="notices-sec__all">
+        <a href={noticeData.source.pageUrl} hreflang={enLang}>{t('dash.allNotices')}{enNote} <span aria-hidden="true">→</span></a>
+      </p>
+    </section>
+
     <Disclaimer lang={lang} />
   </div>
 </BaseLayout>
@@ -1145,7 +1187,62 @@ const pg = printables.text[L].page;
     }
   }
 
-  .trip__notices {
+  /* ---- CDC travel notices ---- */
+  .notices-sec__asof {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .notices-sec__levels {
+    margin: var(--space-2) 0;
+    font-size: var(--text-sm);
+  }
+
+  .notices {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .notices {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .notice {
+    padding: var(--space-2) var(--pad-box);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .notice p {
+    margin: 0;
+  }
+
+  .notice__place {
+    font-size: 1.125rem;
+    font-weight: var(--weight-heading);
+  }
+
+  .notice__disease {
+    font-weight: var(--weight-strong);
+  }
+
+  .notice__level,
+  .notice__meta {
+    margin-top: var(--space-1) !important;
+  }
+
+  .notice__meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .notices-sec__all {
     margin: 0;
     font-weight: var(--weight-strong);
   }
