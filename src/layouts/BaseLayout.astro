@@ -36,9 +36,10 @@ const t = useTranslations(lang);
 const pathname = Astro.url.pathname;
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
-// Social preview: one image per language (public/brand/social-en.png, -es.png).
+// Social preview: one image per language (public/brand/social-en-v2.png, -es-v2.png;
+// a new name whenever the image changes, so apps don't keep showing a cached old one).
 const pageUrl = siteAddress(pathname);
-const socialImage = siteAddress(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}.png`));
+const socialImage = siteAddress(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}-v2.png`));
 const shareDescription = description ?? t('social.description');
 const page = pageForPath(pathname);
 const reviewed = page ? lastReviewed(page) : null;
