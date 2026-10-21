@@ -651,10 +651,12 @@ const pageData = {
 </script>
 
 <style>
+  /* 32px above the picker box: closer, its full-width navy top edge read as a line
+     under the title area. */
   .dash {
     display: grid;
     gap: var(--section-gap);
-    padding-block: var(--space-3) var(--section-gap);
+    padding-block: var(--space-6) var(--section-gap);
   }
 
   .dash > .dash-pick + .dash-main {
@@ -852,8 +854,9 @@ const pageData = {
     margin: 0;
   }
 
-  /* No empty row (and no gap) while there's no place to go back from. */
-  .dash-pick__back:has(> [hidden]) {
+  /* No empty row (and no gap) while there's no place to go back from. (As specific as
+     the ".js .dash .js-only" rule that shows it with JavaScript.) */
+  :global(.js) .dash .dash-pick__back:has(> [hidden]) {
     display: none;
   }
 
