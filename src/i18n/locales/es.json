@@ -319,6 +319,7 @@
     "notes": "Notas de investigación",
     "tips": "Es bueno saber",
     "sources": "Fuentes",
+    "updated": "actualizado el {date}",
     "seeAlso": "Ver también",
     "pending": "Verificación de fuentes pendiente",
     "travel": "Cuando viajes",
@@ -332,6 +333,19 @@
   },
   "sourcesPage": {
     "intro": "De dónde viene nuestra información, cómo calificamos la evidencia y cómo la revisamos.",
+    "cited": {
+      "research": {
+        "label": "Fuente de investigación",
+        "name": "Goodyer y Schofield (2018)",
+        "text": "una revisión de estudios, revisada por expertos, que compara el DEET y la picaridina, en “Lo que dicen los estudios” del consejo sobre el repelente."
+      },
+      "advocacy": {
+        "label": "Organización de defensa",
+        "name": "Environmental Working Group (EWG)",
+        "text": "una organización sin fines de lucro de defensa del medio ambiente. Nunca es la base de un consejo: “Lo que dicen los estudios” en los consejos de repelente indica dónde coincide con los CDC y la EPA."
+      },
+      "updated": "Actualizado el {date}"
+    },
     "listen": {
       "heading": "A quién escuchamos",
       "lead": "Outbite sigue primero a las agencias de salud pública. Los estudios entran solo para explicar qué tan bien funciona algo.",

@@ -53,8 +53,12 @@ export interface Source {
   title: string;
   publisher: string;
   url: string;
-  kind: 'official' | 'study';
+  kind: 'official' | 'study' | 'advocacy';
   date?: string;
+  /** Spanish publisher line, when the publisher needs words (an advocacy group). */
+  publisherEs?: string;
+  /** "Updated" date (YYYY-MM-DD) shown in the tip's source list. */
+  updated?: string;
 }
 
 export const sources = sourcesData as Record<string, Source>;

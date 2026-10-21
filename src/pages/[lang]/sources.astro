@@ -1,7 +1,9 @@
 ---
 // Sources and methods. Title and intro, then four sections
 // (each keeps its anchor, e.g. #how-we-rate-evidence):
-// 1. Who we listen to: CDC & EPA → WHO → research (↓ on phones).
+// 1. Who we listen to: CDC & EPA → WHO → research (↓ on phones), then, below the boxes,
+//    sources named on their own (from sources.json): the DEET/picaridin review and the
+//    one advocacy organization cited (EWG), each labeled as such.
 // 2. How we label tips (#how-we-rate-evidence, which every "How we rate evidence →"
 //    link points to): the real tip badges (Badge.astro) with one-line meanings.
 // 3. How the numbers update: CDC publishes → Outbite checks → the site shows CDC's
@@ -17,6 +19,7 @@ import Badge from '../../components/Badge.astro';
 import reviewData from '../../content/reviews.json';
 import site from '../../config/site.json';
 import { caseData, formatDate, noticeData } from '../../lib/cases';
+import { sources } from '../../lib/suggestions';
 import { getLocale, langStaticPaths, useTranslations } from '../../i18n';
 
 export function getStaticPaths() {
@@ -29,6 +32,11 @@ const htmlLang = getLocale(lang).meta.htmlLang;
 const page = (getLocale(lang).messages as Record<string, any>).sourcesPage;
 const steps = page.listen.steps as { title: string; text: string }[];
 const dataSources = page.data.items as { name: string; note: string; url: string }[];
+// Below the ranked boxes: research first, then advocacy.
+const cited = [
+  { key: 'research', id: 'goodyer-2018' },
+  { key: 'advocacy', id: 'ewg-bug-repellents' },
+].map(({ key, id }) => ({ ...page.cited[key], source: sources[id] }));
 
 const guidance = ['cdc-epa', 'who', 'none', 'unknown'] as const;
 const levels = ['strong', 'moderate', 'limited', 'emerging', 'not-supported', 'not-rated'] as const;
@@ -84,6 +92,20 @@ const reviews = reviewData.reviews.map((r) => ({
           ))
         }
       </ol>
+      <ul class="cited">
+        {
+          cited.map((c) => (
+            <li class="cited__item">
+              <p class="cited__label">{c.label}</p>
+              <p>
+                <strong>{c.name}</strong>: {c.text} <a href={c.source.url}>{c.source.title}</a>
+                {/[.?!]$/.test(c.source.title) ? '' : '.'}{' '}
+                {c.source.updated ? <>{page.cited.updated.replace('{date}', formatDate(c.source.updated, htmlLang))}.</> : <>{c.source.publisher}.</>}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
     </section>
 
     <!-- 2. How we label tips -->
@@ -270,6 +292,30 @@ const reviews = reviewData.reviews.map((r) => ({
 
   .flow__box--3 {
     background: var(--color-layer-community-bg);
+  }
+
+  /* Below the ranked boxes, not part of them: plain bordered notes. */
+  .cited {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cited__item {
+    padding: var(--space-3) var(--pad-box);
+    border-left: 5px solid var(--color-rule);
+    background: var(--color-bg);
+  }
+
+  .cited__item p {
+    margin: 0;
+  }
+
+  .cited__label {
+    margin-bottom: var(--space-1) !important;
+    font-weight: var(--weight-strong);
   }
 
   .flow__number {

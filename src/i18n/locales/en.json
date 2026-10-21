@@ -319,6 +319,7 @@
     "notes": "Research notes",
     "tips": "Good to know",
     "sources": "Sources",
+    "updated": "updated {date}",
     "seeAlso": "See also",
     "pending": "Source check pending",
     "travel": "When you travel",
@@ -332,6 +333,19 @@
   },
   "sourcesPage": {
     "intro": "Where our information comes from, how we rate the evidence, and how we check it.",
+    "cited": {
+      "research": {
+        "label": "Research source",
+        "name": "Goodyer and Schofield (2018)",
+        "text": "A peer-reviewed review comparing DEET and picaridin, in “What the research says” on the repellent tip."
+      },
+      "advocacy": {
+        "label": "Advocacy organization",
+        "name": "Environmental Working Group (EWG)",
+        "text": "An environmental advocacy nonprofit. It is never the basis for a tip: “What the research says” on the repellent tips notes where it agrees with CDC and EPA."
+      },
+      "updated": "Updated {date}"
+    },
     "listen": {
       "heading": "Who we listen to",
       "lead": "Outbite follows public health agencies first. Research comes in only to explain how well something works.",

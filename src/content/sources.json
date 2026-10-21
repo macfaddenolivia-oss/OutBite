@@ -736,5 +736,23 @@
     "url": "https://www3.epa.gov/pesticides/chem_search/reg_actions/registration/fs_PC-021901_01-Nov-99.pdf",
     "kind": "official",
     "titleEs": "Hoja informativa sobre la citronela (aceite de citronela)"
+  },
+  "ewg-bug-repellents": {
+    "short": "EWG",
+    "title": "EWG’s Guide to Bug Repellents",
+    "publisher": "Environmental Working Group (EWG), an environmental advocacy nonprofit",
+    "publisherEs": "Environmental Working Group (EWG), una organización sin fines de lucro de defensa del medio ambiente",
+    "url": "https://www.ewg.org/consumer-guides/bug-repellents",
+    "kind": "advocacy",
+    "updated": "2024-05-30",
+    "titleEs": "Guía de repelentes de insectos del EWG"
+  },
+  "goodyer-2018": {
+    "short": "Goodyer 2018",
+    "title": "Mosquito repellents for the traveller: does picaridin provide longer protection than DEET?",
+    "publisher": "Goodyer L, Schofield S. Journal of Travel Medicine 25(Suppl 1):S10–S15",
+    "url": "https://doi.org/10.1093/jtm/tay005",
+    "kind": "study",
+    "date": "2018"
   }
 }

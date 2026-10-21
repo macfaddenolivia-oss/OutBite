@@ -22,7 +22,9 @@
     "epa-repellents",
     "epa-find-repellent",
     "cdc-prevent-dengue",
-    "epa-registration"
+    "epa-registration",
+    "goodyer-2018",
+    "ewg-bug-repellents"
   ],
   "lastReviewed": "pending",
   "text": {
@@ -40,7 +42,20 @@
         "Repellent can't protect you after it wears off.",
         "Repellent does nothing about mosquitoes breeding nearby."
       ],
-      "research": [],
+      "research": [
+        {
+          "text": "A 2018 review of 8 field studies and 3 lab studies found little difference in how long DEET and picaridin protect when used at the same dose, with some evidence that picaridin lasts longer. The authors concluded that where only 30% DEET or lower is available, “it is reasonable to offer DEET or picaridin as a first choice.” Most of the studies were at high risk of bias, so the evidence is limited.",
+          "cite": [
+            "goodyer-2018"
+          ]
+        },
+        {
+          "text": "The Environmental Working Group (EWG), an environmental advocacy nonprofit, also recommends 20% picaridin for protection against dengue and Zika, calling it “a good alternative to DEET with many of the same advantages and without the same disadvantages.”",
+          "cite": [
+            "ewg-bug-repellents"
+          ]
+        }
+      ],
       "tips": [
         "Children: see the “Babies and young children” tip for CDC’s and EPA’s age rules and how to apply repellent to a child.",
         "Put on sunscreen first and repellent second. Don't put repellent under clothing."
@@ -61,7 +76,20 @@
         "El repelente no te protege después de que pierde su efecto.",
         "El repelente no hace nada contra los mosquitos que se crían cerca."
       ],
-      "research": [],
+      "research": [
+        {
+          "text": "Una revisión de 2018 de 8 estudios de campo y 3 estudios de laboratorio encontró poca diferencia en cuánto tiempo protegen el DEET y la picaridina cuando se usan en la misma dosis, con algo de evidencia de que la picaridina dura más. Los autores concluyeron que, donde solo hay DEET al 30% o menos, “es razonable ofrecer DEET o picaridina como primera opción”. La mayoría de los estudios tenían un alto riesgo de sesgo, así que la evidencia es limitada.",
+          "cite": [
+            "goodyer-2018"
+          ]
+        },
+        {
+          "text": "El Environmental Working Group (EWG), una organización sin fines de lucro de defensa del medio ambiente, también recomienda la picaridina al 20% para protegerse del dengue y del zika, y dice que es “una buena alternativa al DEET, con muchas de las mismas ventajas y sin las mismas desventajas”.",
+          "cite": [
+            "ewg-bug-repellents"
+          ]
+        }
+      ],
       "tips": [
         "Niños: mira el consejo “Bebés y niños pequeños” para las reglas de edad de los CDC y la EPA y cómo ponerle repelente a un niño.",
         "Primero el protector solar y después el repelente. No pongas repelente debajo de la ropa."

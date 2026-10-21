@@ -7,7 +7,8 @@
 // Open: official guidance, "When you travel", "Good to know" and the "What the research
 // says" panel (a native <details>, evidence badge at its top). Without JavaScript every
 // row is open.
-import { useTranslations } from '../i18n';
+import { getLocale, useTranslations } from '../i18n';
+import { formatDate } from '../lib/cases';
 import {
   cardText,
   effortOrder,
@@ -30,6 +31,10 @@ const costText = (c: string) => (c.startsWith('$') ? c : t(`card.costLabel.${c}`
 const audiences = card.audiences;
 const ownSources = [...new Set([...card.sources, ...(card.travelSource ? [card.travelSource] : [])])];
 const source = (id: string) => sources[id];
+// No period after a title that already ends in one ("…than DEET?").
+const stop = (title: string) => (/[.?!]$/.test(title) ? '' : '.');
+const publisher = (id: string) => (lang === 'es' && source(id).publisherEs) || source(id).publisher;
+const updated = (ymd: string) => t('card.updated', { date: formatDate(ymd, getLocale(lang).meta.htmlLang) });
 const travelUrl = card.travelSource ? source(card.travelSource)?.url : undefined;
 const related = card.related.map((id) => ({ id, title: cardText(getSuggestion(id), lang).title }));
 const layerOrder = suggestions.indexOf(card);
@@ -258,8 +263,9 @@ const communityMore = community.text[lang === 'es' ? 'es' : 'en'].moreLink;
               ownSources.map((id) =>
                 source(id) ? (
                   <li>
-                    <a href={source(id).url}>{source(id).title}</a>. {source(id).publisher}
-                    {source(id).date && <>, {source(id).date}</>}.
+                    <a href={source(id).url}>{source(id).title}</a>{stop(source(id).title)} {publisher(id)}
+                    {source(id).date && <>, {source(id).date}</>}
+                    {source(id).updated && <>, {updated(source(id).updated!)}</>}.
                   </li>
                 ) : (
                   <li>{id}</li>

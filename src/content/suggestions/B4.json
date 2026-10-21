@@ -18,7 +18,8 @@
     "cdc-prevent-bites",
     "cdc-travel-bites",
     "cdc-yellowbook-arthropods",
-    "epa-repellent-safely"
+    "epa-repellent-safely",
+    "ewg-bug-repellents"
   ],
   "lastReviewed": "pending",
   "text": {
@@ -37,7 +38,14 @@
       "cantDo": [
         "Netting can't protect a baby once they're out of the stroller or carrier."
       ],
-      "research": [],
+      "research": [
+        {
+          "text": "The Environmental Working Group (EWG), an environmental advocacy nonprofit, agrees with CDC on the main rules for children: no oil of lemon eucalyptus (OLE) or PMD on children under 3, no repellent on a child's hands, and adults put repellent on their own hands first.",
+          "cite": [
+            "ewg-bug-repellents"
+          ]
+        }
+      ],
       "travel": "Children: no OLE or PMD under age 3, and never on a child's hands, eyes or mouth. Adults put repellent on their own hands first, then on the child's face."
     },
     "es": {
@@ -55,7 +63,14 @@
       "cantDo": [
         "El mosquitero no protege al bebé cuando sale del coche o del portabebés."
       ],
-      "research": [],
+      "research": [
+        {
+          "text": "El Environmental Working Group (EWG), una organización sin fines de lucro de defensa del medio ambiente, coincide con los CDC en las reglas principales para los niños: nada de aceite de eucalipto de limón (OLE) ni PMD en menores de 3 años, nada de repelente en las manos de un niño, y los adultos se ponen el repelente primero en sus propias manos.",
+          "cite": [
+            "ewg-bug-repellents"
+          ]
+        }
+      ],
       "travel": "Niños: nada de OLE ni PMD en menores de 3 años, y nunca en las manos, los ojos ni la boca de un niño. Los adultos se ponen el repelente primero en sus propias manos y luego en la cara del niño."
     }
   },
