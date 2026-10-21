@@ -5,12 +5,14 @@
 // "Keep this handy" (the when-to-get-care card); common symptoms; "If you feel sick" (three step
 // cards); "No regular doctor?" (health centers, urgent care, EMTALA); "Learn more about
 // each virus"; one "Sources for this page" list (open without JavaScript and in print).
-// Deep red only for the emergency box and the Call 911 button.
+// Deep red only for the title area (white text, navy line under it), the emergency box
+// and the Call 911 button.
 // Text and sources: src/content/sick-page.json.
 // No symptom checker, no doses, nothing that reads as a diagnosis.
 // "Print a when-to-get-care card" links to the card on Printables; with JavaScript it
 // prints the card here, in this page's language. The browser's own Print prints the page.
 import ActionRow from '../../components/ActionRow.astro';
+import ToolIcon from '../../components/ToolIcon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PrintCareCard from '../../components/print/PrintCareCard.astro';
 import page from '../../content/sick-page.json';
@@ -64,7 +66,7 @@ const printHref = `${href('printables')}#printable-care`;
 ---
 
 <BaseLayout lang={lang} title={title} description={t('pages.sick.summary')}>
-  <div class="page-intro">
+  <div class="page-intro sick-intro">
     <div class="container">
       <h1>{title}</h1>
       <p class="page-intro__lead">{text.intro}</p>
@@ -94,7 +96,7 @@ const printHref = `${href('printables')}#printable-care`;
 
       <div class="sick__side">
         <section class="handy" aria-labelledby="handy-heading">
-          <h2 id="handy-heading" class="handy__heading">{text.handyHeading}</h2>
+          <h2 id="handy-heading" class="handy__heading"><ToolIcon tool="printables" />{text.handyHeading}</h2>
           <p>{text.handyText}</p>
           <a class="btn btn-primary handy__btn" href={printHref} data-print-card>{text.print}</a>
         </section>
@@ -242,6 +244,32 @@ const printHref = `${href('printables')}#printable-care`;
 </script>
 
 <style>
+  /* ---- Title area: deep red, white text, 6px navy line under it ---- */
+  .sick-intro {
+    border-bottom: 6px solid var(--color-urgent-intro-rule);
+    background: var(--color-urgent-intro-bg);
+    color: var(--color-urgent-intro-text);
+  }
+
+  .sick-intro h1,
+  .sick-intro .page-intro__lead,
+  .sick-intro :global(.action-row__size-label) {
+    color: var(--color-urgent-intro-text);
+  }
+
+  .sick-intro :global(a) {
+    color: var(--color-urgent-intro-link);
+  }
+
+  .sick-intro :global(:focus-visible) {
+    outline-color: var(--color-focus-on-urgent) !important;
+  }
+
+  /* The selected text-size button is navy: a white edge keeps it clear on red. */
+  .sick-intro :global(.size-btn[aria-pressed='true']) {
+    border-color: var(--color-urgent-intro-text);
+  }
+
   .sick {
     padding-block: var(--space-4) var(--section-gap);
   }
@@ -347,8 +375,17 @@ const printHref = `${href('printables')}#printable-care`;
   }
 
   .handy__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     margin-bottom: var(--space-1);
     font-size: var(--text-lg);
+  }
+
+  /* The Tools page printer, as tall as the heading's line (line-height 1.2). */
+  .handy__heading :global(.tool-icon) {
+    width: 1.2em;
+    height: 1.2em;
   }
 
   .handy p {

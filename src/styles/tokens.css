@@ -67,6 +67,12 @@
   --color-urgent-bg: var(--palette-deep-red);
   --color-urgent-text: var(--palette-white);
   --color-urgent-border: var(--palette-deep-red);
+  /* "I think I'm sick" page only: deep red title area, navy line under it. */
+  --color-urgent-intro-bg: var(--palette-deep-red);
+  --color-urgent-intro-text: var(--palette-white);
+  --color-urgent-intro-link: var(--palette-white);
+  --color-urgent-intro-rule: var(--palette-navy);
+  --color-focus-on-urgent: var(--palette-light-orange);
   --color-warning-text: var(--palette-deep-red);
   --color-warning-accent: var(--palette-burnt-orange);
 
