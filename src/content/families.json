@@ -24,6 +24,7 @@
       "sections": {
         "repellent": {
           "heading": "Repellent for kids",
+          "summary": "Most repellents are fine for kids. Put it on for them, and skip OLE and PMD under age 3.",
           "points": [
             "CDC says repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.”",
             "CDC: “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old.”",
@@ -34,6 +35,7 @@
         },
         "babies": {
           "heading": "Babies",
+          "summary": "Cover your baby’s arms and legs, and put netting over the stroller or carrier.",
           "points": [
             "CDC: “Dress your child in clothing that covers arms and legs.”",
             "CDC: “Cover strollers and baby carriers with mosquito netting.”",
@@ -43,6 +45,7 @@
         },
         "house": {
           "heading": "Around the house and yard",
+          "summary": "Every week, tip out toys, pools and anything else that holds water, and keep your screens fixed.",
           "points": [
             "CDC: “Once a week, empty and scrub, turn over, cover, or throw out items that hold water, such as tires, buckets, toys, pools, birdbaths, flowerpot saucers, or trash containers.”",
             "CDC: “Drain and turn over kiddie pools.”",
@@ -52,6 +55,7 @@
         },
         "sick": {
           "heading": "When a child gets sick",
+          "summary": "Babies 1 year old or younger can get very sick from dengue. Know the warning signs, and get care right away if you see one.",
           "points": [
             "CDC says dengue “can cause severe illness, particularly in infants aged ≤1 year.”",
             "CDC: “For mild symptoms, care for a sick infant, child, or family member at home.”"
@@ -70,6 +74,7 @@
       "sections": {
         "repellent": {
           "heading": "Repelente para niños",
+          "summary": "La mayoría de los repelentes se pueden usar en niños. Pónselo tú, y no uses OLE ni PMD en menores de 3 años.",
           "points": [
             "Los CDC dicen que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”.",
             "Los CDC dicen: “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”.",
@@ -80,6 +85,7 @@
         },
         "babies": {
           "heading": "Bebés",
+          "summary": "Cubre los brazos y las piernas de tu bebé, y pon un mosquitero sobre el coche o el portabebés.",
           "points": [
             "Los CDC dicen: “Viste a tu niño con ropa que cubra los brazos y las piernas”.",
             "Los CDC dicen: “Cubre los coches de bebé y los portabebés con un mosquitero”.",
@@ -89,6 +95,7 @@
         },
         "house": {
           "heading": "En la casa y el patio",
+          "summary": "Cada semana, vacía los juguetes, las piscinas y todo lo que acumule agua, y mantén las mallas en buen estado.",
           "points": [
             "Los CDC dicen: “Una vez a la semana, vacía y friega, voltea, tapa o bota las cosas que acumulan agua, como gomas, baldes, juguetes, piscinas, bebederos de pájaros, platos de macetas o zafacones”.",
             "Los CDC dicen: “Vacía y voltea las piscinas inflables para niños”.",
@@ -98,6 +105,7 @@
         },
         "sick": {
           "heading": "Cuando un niño se enferma",
+          "summary": "Los bebés de 1 año o menos pueden enfermarse gravemente de dengue. Conoce las señales de alarma y busca atención de inmediato si ves alguna.",
           "points": [
             "Los CDC dicen que el dengue “puede causar una enfermedad grave, sobre todo en bebés de 1 año o menos”.",
             "Los CDC dicen: “Si los síntomas son leves, cuida en casa al bebé, niño o familiar enfermo”."

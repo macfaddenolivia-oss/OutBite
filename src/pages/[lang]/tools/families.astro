@@ -3,7 +3,8 @@
 // src/content/families.json (CDC and EPA wording only, reusing tips B4 and Y1 and the sick
 // page so nothing contradicts them).
 // Title with the families icon and the intro, then four numbered sections (2×2 on
-// desktop, stacked below), each with a few bullets, a link onward and its sources:
+// desktop, stacked below), each with a one-line plain summary (our wording, not a quote),
+// the CDC/EPA quotes as bullets, a link onward and its sources:
 // 1. Repellent for kids, 2. Babies (both link to the "Babies and young children" tip),
 // 3. Around the house and yard (Weekly mosquito check), 4. When a child gets sick: the
 // shared warning signs (src/content/warning-signs.json) and the shared medicine line
@@ -69,6 +70,9 @@ const also = [
                 <span class="fsec__number">{i + 1}</span>
                 {sec.heading}
               </h2>
+              <p class="fsec__summary">
+                <Genus text={sec.summary} />
+              </p>
               <ul class="fsec__points">
                 {sec.points.map((p) => (
                   <li>
@@ -160,6 +164,12 @@ const also = [
     display: block;
     margin-bottom: var(--space-1);
     font-size: var(--text-sm, 0.875rem);
+  }
+
+  /* Our own plain summary, set apart from the quoted bullets below it. */
+  .fsec__summary {
+    margin: var(--space-3) 0 0;
+    font-weight: var(--weight-strong);
   }
 
   .fsec__points {
