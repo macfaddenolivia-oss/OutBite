@@ -21,7 +21,7 @@ import reviewData from '../../content/reviews.json';
 import site from '../../config/site.json';
 import { caseData, formatDate, noticeData } from '../../lib/cases';
 import { sources } from '../../lib/suggestions';
-import { getLocale, langStaticPaths, useTranslations } from '../../i18n';
+import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
 
 export function getStaticPaths() {
   return langStaticPaths();
@@ -75,6 +75,9 @@ const reviews = reviewData.reviews.map((r) => ({
     <div class="container">
       <h1>{t('pages.sources.title')}</h1>
       <p class="page-intro__lead">{page.intro}</p>
+      <p class="page-intro__more">
+        {t('pages.glossary.pointerQuestion')} <a href={localizePath(lang, 'glossary/')}>{t('pages.glossary.pointerLink')} <span aria-hidden="true">→</span></a>
+      </p>
       <ActionRow lang={lang} />
     </div>
   </div>

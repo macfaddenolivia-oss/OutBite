@@ -2,6 +2,8 @@
 // Words to know / Palabras clave: one plain definition per word, each from CDC or EPA
 // wording, with its source. Each word has its own anchor (#larvicide …), and the first
 // use of each word on other pages links here (src/middleware.ts).
+// Sorted A to Z by the word in the page's language (quotes and accents ignored), grouped
+// under a letter heading, with a row of letter links at the top for the letters in use.
 // Text: src/content/glossary.json.
 import ActionRow from '../../components/ActionRow.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -18,6 +20,17 @@ const { lang } = Astro.params;
 const t = useTranslations(lang);
 const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
 const intro = content.text[L].intro;
+const collator = new Intl.Collator(L, { sensitivity: 'base', ignorePunctuation: true });
+const letterOf = (word: string) =>
+  word.normalize('NFD').replace(/[^\p{L}\p{N}]/gu, '').charAt(0).toUpperCase();
+const sorted = [...content.terms].sort((a, b) => collator.compare(a.text[L].term, b.text[L].term));
+const groups: { letter: string; terms: typeof sorted }[] = [];
+for (const term of sorted) {
+  const letter = letterOf(term.text[L].term);
+  if (groups.at(-1)?.letter !== letter) groups.push({ letter, terms: [] });
+  groups.at(-1)!.terms.push(term);
+}
+const letterId = (letter: string) => `letter-${letter.toLowerCase()}`;
 ---
 
 <BaseLayout lang={lang} title={t('pages.glossary.title')} description={t('pages.glossary.summary')}>
@@ -30,31 +43,86 @@ const intro = content.text[L].intro;
   </div>
 
   <div class="container gloss-page">
-    <dl class="gloss-list">
-      {
-        content.terms.map((term) => (
-          <div class="gloss-item" id={term.id}>
-            <dt>
-              <Genus text={term.text[L].term} />
-            </dt>
-            <dd>
-              {term.text[L].def.map((p: string) => (
-                <p>
-                  <Genus text={p} />
-                </p>
-              ))}
-              <SourceLine lang={lang} ids={term.sources} compact />
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
+    <nav class="gloss-letters" aria-label={t('pages.glossary.lettersLabel')}>
+      <ul>
+        {
+          groups.map((g) => (
+            <li>
+              <a href={`#${letterId(g.letter)}`}>{g.letter}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    {
+      groups.map((g) => (
+        <section class="gloss-group" aria-labelledby={letterId(g.letter)}>
+          <h2 class="gloss-group__letter" id={letterId(g.letter)}>
+            {g.letter}
+          </h2>
+          <dl class="gloss-list">
+            {g.terms.map((term) => (
+              <div class="gloss-item" id={term.id}>
+                <dt>
+                  <Genus text={term.text[L].term} />
+                </dt>
+                <dd>
+                  {term.text[L].def.map((p: string) => (
+                    <p>
+                      <Genus text={p} />
+                    </p>
+                  ))}
+                  <SourceLine lang={lang} ids={term.sources} compact />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))
+    }
   </div>
 </BaseLayout>
 
 <style>
   .gloss-page {
     padding-block: var(--section-gap);
+  }
+
+  .gloss-letters ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .gloss-letters a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 2px solid var(--color-rule);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .gloss-letters a:hover {
+    border-color: currentColor;
+    text-decoration: underline;
+  }
+
+  .gloss-group + .gloss-group {
+    margin-top: var(--space-4);
+  }
+
+  .gloss-group__letter {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xl);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
   }
 
   .gloss-list {

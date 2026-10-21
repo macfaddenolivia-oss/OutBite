@@ -53,6 +53,9 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
     <div class="container">
       <h1>{text.title}</h1>
       <p class="page-intro__lead">{text.intro}</p>
+      <p class="page-intro__more">
+        {t('pages.glossary.pointerQuestion')} <a href={localizePath(lang, 'glossary/')}>{t('pages.glossary.pointerLink')} <span aria-hidden="true">→</span></a>
+      </p>
       <ActionRow lang={lang} />
     </div>
   </div>

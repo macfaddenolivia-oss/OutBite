@@ -251,7 +251,10 @@
     "glossary": {
       "title": "Palabras clave",
       "nav": "Palabras clave",
-      "summary": "Definiciones sencillas de palabras que se usan en este sitio, según los CDC y la EPA."
+      "summary": "Definiciones sencillas de palabras que se usan en este sitio, según los CDC y la EPA.",
+      "pointerQuestion": "¿No sabes qué significa una palabra?",
+      "pointerLink": "Mira Palabras clave",
+      "lettersLabel": "Ir a una letra"
     }
   },
   "protect": {

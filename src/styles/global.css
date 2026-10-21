@@ -86,6 +86,18 @@ a:hover {
   text-decoration-thickness: 0.16em;
 }
 
+/* Automatic first-use links to Words to know (src/middleware.ts): a dotted
+   underline so they read differently from regular links. Same color as the
+   link around them, so contrast is unchanged; focus ring as usual. */
+a.gloss-link {
+  text-decoration-style: dotted;
+  text-decoration-thickness: 0.12em;
+}
+
+a.gloss-link:hover {
+  text-decoration-thickness: 0.18em;
+}
+
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
@@ -293,6 +305,12 @@ main:focus {
   font-size: var(--text-intro);
   line-height: 1.45;
   color: var(--color-text-muted);
+}
+
+.page-intro__more {
+  margin-top: var(--space-1);
+  margin-bottom: 0;
+  line-height: 1.45;
 }
 
 .section-more {

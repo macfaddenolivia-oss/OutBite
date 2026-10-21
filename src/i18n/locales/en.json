@@ -251,7 +251,10 @@
     "glossary": {
       "title": "Words to know",
       "nav": "Words to know",
-      "summary": "Plain definitions of words used on this site, from CDC and EPA."
+      "summary": "Plain definitions of words used on this site, from CDC and EPA.",
+      "pointerQuestion": "Not sure what a word means?",
+      "pointerLink": "See Words to know",
+      "lettersLabel": "Jump to a letter"
     }
   },
   "protect": {
