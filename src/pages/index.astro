@@ -29,8 +29,8 @@ const available = Object.fromEntries(locales.map((l) => [l.code, localizePath(l.
     </script>
     <meta http-equiv="refresh" content={`2; url=${defaultHref}`} />
     <style>
-      body { font-family: system-ui, sans-serif; margin: 2rem 1rem; }
-      @media (prefers-color-scheme: dark) { body { background: #0c1a36; color: #f6f6f6; } a { color: #a9c8e0; } }
+      :root { color-scheme: light; }
+      body { font-family: system-ui, sans-serif; margin: 2rem 1rem; background: #fff; color: #000; }
     </style>
   </head>
   <body>

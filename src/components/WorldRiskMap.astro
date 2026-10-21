@@ -145,7 +145,7 @@ const notices = (v: Virus) => noticeData.notices.filter((n) => n.disease === v).
 const notes = (v: Virus) => (v === 'dengue' ? (lang === 'es' && R.dengue?.notesEs?.length ? R.dengue.notesEs : R.dengue?.notes ?? []) : []);
 const notesInEnglish = (v: Virus) => v === 'dengue' && lang === 'es' && !R.dengue?.notesEs?.length && (R.dengue?.notes ?? []).length > 0;
 
-// Fill colors (fixed: the map panel is white in both modes, like the U.S. map).
+// Fill colors (fixed: the map panel is white, like the U.S. map).
 const FILL: Record<number, string> = { 3: '#24539A', 2: '#5B91C2', 1: '#A9C8E0' };
 const css = viruses
   .flatMap((v) =>
@@ -473,7 +473,7 @@ const codeNames = Object.fromEntries(codes.map((c) => [c, regionName(c)]));
     margin-bottom: var(--space-2);
   }
 
-  /* The map panel is white in both modes (fixed map colors), like the U.S. map. */
+  /* The map panel is white (fixed map colors), like the U.S. map. */
   .wr__panel {
     position: relative;
     padding: var(--space-2);

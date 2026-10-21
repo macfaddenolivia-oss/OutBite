@@ -591,7 +591,7 @@ const openings = [
     margin-inline: auto;
   }
 
-  /* Steps 1 and 5: the whole picture panel is light blue, edge to edge (both modes). */
+  /* Steps 1 and 5: the whole picture panel is light blue, edge to edge. */
   .scene__figure.scene__figure--sky,
   .scene__figure--sky .art {
     background: #cbdcec;
@@ -835,7 +835,7 @@ const openings = [
 
   /* Scene callouts: peach box, 3px navy border, solid navy offset shadow, square
      corners, 19px/800 navy text (two lines at most), and a tail pointing at the
-     subject. Fixed colors, so dark mode keeps the peach callout with navy text.
+     subject. Fixed colors: peach callout with navy text.
      Each callout's left edge sits 32px left of its target, so the tail (32px in)
      points straight at it. */
   .callout {
@@ -1370,7 +1370,7 @@ const openings = [
     font-size: 14.5px;
   }
 
-  /* Step 5 calendar label ("3–14 days"), navy on the white page in both modes. */
+  /* Step 5 calendar label ("3–14 days"), navy on the white page. */
   .story .calendar-label {
     fill: #17306a;
     font-family: var(--font-body);
@@ -1387,14 +1387,14 @@ const openings = [
 
   /* Ground in scenes 1, 2, 4 and 5 (Backdrop.astro): it overflows the drawing and
      the picture panel clips it, so it fills the panel's whole bottom. Names and
-     notes sit on it (navy; off-white in dark mode). */
+     notes sit on it (navy). */
   .story .story-art--ground {
     overflow: visible;
   }
   .story .ground {
     fill: var(--color-ground-bg);
   }
-  /* Step 1's names sit on its fixed light-blue ground: navy in both modes. */
+  /* Step 1's names sit on its fixed light-blue ground: navy. */
   .story .meet-name {
     fill: #17306a;
   }
@@ -1403,8 +1403,8 @@ const openings = [
     fill: var(--color-ground-text);
   }
 
-  /* "Blocked" X and label. The diagram panel stays white in dark mode too, so the
-     burnt orange is used in both modes (light orange would be 1.9:1 on white). */
+  /* "Blocked" X and label: burnt orange on the white diagram panel (light orange
+     would be 1.9:1 on white). */
   .story .block-x {
     fill: none;
     stroke: var(--color-blocked);

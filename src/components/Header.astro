@@ -41,10 +41,7 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
         {/* The current Outbite logo (v2, files in public/brand/): the mark is the "O"
             and the rest of the name follows as live text. */}
         <span class="brand__logo" aria-hidden="true">
-          <picture>
-            <source srcset={assetPath('brand/outbite-mark-dark.svg')} media="screen and (prefers-color-scheme: dark)" />
-            <img class="brand__mark" src={assetPath('brand/outbite-mark.svg')} alt="" width="64" height="64" />
-          </picture><span class="brand__word">{siteName.slice(1)}</span>
+          <img class="brand__mark" src={assetPath('brand/outbite-mark.svg')} alt="" width="64" height="64" /><span class="brand__word">{siteName.slice(1)}</span>
         </span>
       </a>
       <p class="brand__tagline">{getTagline(lang)}</p>

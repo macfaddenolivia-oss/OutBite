@@ -4,10 +4,9 @@
  * 1. Palette: the site's raw colors (a navy → white → orange → deep red scale).
  *    Never use these directly in
  *    components; use the role tokens below.
- * 2. Roles: what a color is for (text, link, button...). Light mode in :root,
- *    dark mode in the prefers-color-scheme block (screens only: printing always
- *    uses the light colors, so text stays dark on white paper). Every text/background role
- *    pair passes WCAG 2.2 AA (kept by the site's contrast check).
+ * 2. Roles: what a color is for (text, link, button...). The site is light only
+ *    (no dark mode, whatever the visitor's phone or computer is set to). Every
+ *    text/background role pair passes WCAG 2.2 AA (kept by the site's contrast check).
  */
 
 :root {
@@ -41,12 +40,7 @@
     var(--palette-burnt-orange) 0 91.67%,
     var(--palette-deep-red) 0 100.0%;
 
-  /* Dark-mode additions (derived from the palette) */
-  --palette-night: #0c1a36;
-  --palette-night-raised: #132650;
-  --palette-coral: #f6a28f;
-
-  /* ---- Roles: light mode ---- */
+  /* ---- Roles ---- */
   --color-bg: var(--palette-off-white);
   --color-surface: var(--palette-white);
   --color-surface-tint: var(--palette-pale-blue);
@@ -98,7 +92,7 @@
   --color-panel-text: var(--palette-white);
   --color-field-bg: var(--palette-white);
   --color-field-text: var(--palette-navy);
-  --color-field-placeholder: var(--palette-deep-blue); /* example text in the ZIP box (field stays white in dark mode) */
+  --color-field-placeholder: var(--palette-deep-blue); /* example text in the ZIP box (field stays white) */
   --color-graphic-ink: var(--palette-navy); /* mosquitoes outside the layers graphic */
   --color-graphic-wing: var(--palette-light-blue);
   --color-graphic-mark: var(--palette-white); /* stripes and leg bands on those mosquitoes */
@@ -113,22 +107,21 @@
   --color-badge-bg: var(--palette-navy);
   --color-badge-text: var(--palette-white);
 
-  /* Four layers of protection: each card keeps navy text in both modes. */
+  /* Four layers of protection: each card keeps navy text. */
   --color-layer-text: var(--palette-navy);
   --color-layer-body-bg: var(--palette-peach);
   --color-layer-home-bg: var(--palette-pale-blue);
   --color-layer-yard-bg: var(--palette-light-orange);
   --color-layer-community-bg: var(--palette-light-blue);
-  --color-layer-pressed-bg: var(--palette-navy); /* selected layer button (How it spreads), both modes */
+  --color-layer-pressed-bg: var(--palette-navy); /* selected layer button (How it spreads) */
   --color-layer-pressed-text: var(--palette-white);
-  --color-diagram-bg: var(--palette-white); /* story drawings keep a white panel in both modes */
-  --color-callout-bg: var(--palette-peach); /* story callouts, both modes */
+  --color-diagram-bg: var(--palette-white); /* story drawings keep a white panel */
+  --color-callout-bg: var(--palette-peach); /* story callouts */
   --color-callout-text: var(--palette-navy);
   --color-blocked: var(--palette-burnt-orange); /* "Blocked" X and label; LARGE BOLD TEXT ONLY */
   /* "Is it near me?" map: five blue steps for reported cases (never red or orange),
      a grey pattern for "no cases reported" / "not reported", orange outlines for CDC's
-     ongoing local spread. The map panel is white in both modes, so the dark-mode block
-     repeats the same five steps. */
+     ongoing local spread. The map panel is white. */
   --color-map-1: var(--palette-light-blue); /* #A9C8E0 */
   --color-map-2: var(--palette-mid-blue); /* #5B91C2 */
   --color-map-3: var(--palette-blue); /* #3B6FAF */
@@ -144,7 +137,7 @@
   --color-legend-text: var(--palette-navy);
   --color-legend-border: var(--palette-navy);
   --color-legend-swatch-border: var(--palette-navy); /* keeps the lightest step visible on the pale box */
-  /* Dashboard virus tabs: white with navy text; selected navy with white text (both modes). */
+  /* Dashboard virus tabs: white with navy text; selected navy with white text. */
   --color-tab-bg: var(--palette-white);
   --color-tab-text: var(--palette-navy);
   --color-tab-border: var(--palette-navy);
@@ -218,97 +211,4 @@
   --page-width: 72rem;
   --gutter: 1rem;
   --tap-target: 2.75rem; /* 44px minimum touch target */
-}
-
-@media screen and (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: var(--palette-night);
-    --color-surface: var(--palette-night-raised);
-    --color-surface-tint: var(--palette-navy);
-    --color-text: var(--palette-off-white);
-    --color-text-muted: var(--palette-pale-blue);
-    --color-heading: var(--palette-off-white);
-    --color-link: var(--palette-light-blue);
-    --color-link-on-tint: var(--palette-light-blue);
-    --color-border: var(--palette-deep-blue);
-    --color-border-strong: var(--palette-mid-blue);
-    --color-focus: var(--palette-light-orange);
-
-    --color-primary-bg: var(--palette-light-orange);
-    --color-primary-bg-hover: var(--palette-peach);
-    --color-primary-text: var(--palette-night);
-    --color-primary-border: var(--palette-pale-blue);
-    --color-secondary-bg: var(--palette-night-raised);
-    --color-secondary-text: var(--palette-off-white);
-    --color-rule: var(--palette-pale-blue);
-
-    --color-urgent-bg: var(--palette-deep-red);
-    --color-urgent-text: var(--palette-white);
-    --color-urgent-border: var(--palette-coral);
-    --color-warning-text: var(--palette-coral);
-    --color-warning-accent: var(--palette-coral);
-
-    --color-alert-info-bg: var(--palette-navy);
-    --color-alert-info-text: var(--palette-off-white);
-    --color-alert-warning-bg: var(--palette-peach);
-    --color-alert-warning-text: var(--palette-night);
-
-    --color-header-bg: var(--palette-night-raised);
-    --color-header-text: var(--palette-off-white);
-    --color-header-link: var(--palette-light-blue);
-    --color-footer-bg: var(--palette-night-raised);
-    --color-footer-text: var(--palette-off-white);
-    --color-footer-link: var(--palette-light-blue);
-
-    --color-accent: var(--palette-light-orange);
-    --color-intro-bg: var(--palette-night-raised);
-    --color-headline-accent: var(--palette-light-orange);
-    --color-tag-bg: var(--palette-light-orange);
-    --color-tag-text: var(--palette-night);
-    --color-panel-bg: var(--palette-night);
-    --color-panel-text: var(--palette-off-white);
-    --color-graphic-ink: var(--palette-pale-blue);
-    --color-graphic-wing: var(--palette-mid-blue);
-    --color-graphic-mark: var(--palette-navy);
-    --color-layer-off-bg: var(--palette-night-raised); /* the dark surface */
-    --color-layer-off-text: var(--palette-off-white); /* navy labels would vanish on it */
-    --color-layers-border: var(--palette-off-white);
-    --color-badge-bg: var(--palette-light-orange);
-    --color-badge-text: var(--palette-night);
-
-    --color-chip-bg: var(--palette-navy);
-    --color-chip-text: var(--palette-off-white);
-    --color-evidence-strong-bg: var(--palette-light-blue);
-    --color-evidence-strong-text: var(--palette-night);
-    --color-evidence-moderate-bg: var(--palette-pale-blue);
-    --color-evidence-moderate-text: var(--palette-night);
-    --color-evidence-limited-bg: var(--palette-peach);
-    --color-evidence-limited-text: var(--palette-night);
-    --color-evidence-emerging-bg: var(--palette-night);
-    --color-evidence-emerging-text: var(--palette-off-white);
-    --color-evidence-none-bg: var(--palette-night);
-    --color-evidence-none-text: var(--palette-off-white);
-    --color-match-border: var(--palette-light-orange);
-    --color-pending-bg: var(--palette-peach);
-    --color-pending-text: var(--palette-night);
-
-    --color-ground-bg: var(--palette-deep-blue);
-    --color-ground-text: var(--palette-off-white);
-
-    /* Map: same steps as light mode (the map panel and legend stay white). */
-    --color-map-1: var(--palette-light-blue);
-    --color-map-2: var(--palette-mid-blue);
-    --color-map-3: var(--palette-blue);
-    --color-map-4: var(--palette-deep-blue);
-    --color-map-5: var(--palette-navy);
-    --color-map-outline-on-dark: var(--palette-white);
-    --color-legend-bg: var(--palette-night-raised);
-    --color-legend-text: var(--palette-off-white);
-    --color-legend-swatch-border: var(--palette-white); /* navy would vanish on the dark box; white also sets the navy step apart */
-
-    /* Tabs stay white / navy; pale-blue edges so they stand out on the dark page. */
-    --color-tab-border: var(--palette-pale-blue);
-    --color-tab-active-border: var(--palette-pale-blue);
-    --color-active-marker: var(--palette-pale-blue);
-  }
 }

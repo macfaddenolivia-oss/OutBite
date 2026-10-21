@@ -6,16 +6,16 @@ import blockHouses from '../assets/source/block-houses.svg?raw';
 // (src/assets/source/block-houses.svg),
 // apartment building, truck spraying from the back; the last three stand on a light-blue
 // ground strip.
-// Outlines and figures use currentColor (navy; off-white in dark mode); fills stay light.
+// Outlines and figures use currentColor (navy); fills stay light.
 const N = 'currentColor';
-// Windows, doors and the cab window stay navy so they show on the light fills in dark mode too.
+// Windows, doors and the cab window are always navy.
 const NAVY = '#17306A';
 export const communityIcons = {
   find: `<svg viewBox="0 0 40 40"><path d="M20 37 C12 26 8 21 8 15 a12 12 0 0 1 24 0 c0 6 -4 11 -12 22 Z" fill="#F0AF74" stroke="${N}" stroke-width="2.6" stroke-linejoin="round"/><circle cx="20" cy="15" r="4.6" fill="#FFFFFF" stroke="${N}" stroke-width="2.4"/></svg>`,
   // Three houses with doors on a ground strip: src/assets/source/block-houses.svg.
   organize: blockHouses
     .replace(/^<svg([^>]*?) width="\d+" height="\d+"/, '<svg$1')
-    // House outlines follow the page's ink color (light in dark mode); doors stay navy.
+    // House outlines follow the page's ink color; doors stay navy.
     .replaceAll('stroke="#17306A" stroke-width="2.6"', `stroke="${N}" stroke-width="2.6"`),
   // Apartment building: 3 × 4 windows and a front door, on the ground strip.
   renters: `<svg viewBox="0 0 40 40"><rect x="1" y="33" width="38" height="3" fill="#CBDCEC"/><rect x="9.5" y="6.5" width="21" height="26.5" fill="#F4D1A8" stroke="${N}" stroke-width="1.8"/><path d="M7.5 5.5 H32.5" stroke="${N}" stroke-width="2.6" stroke-linecap="round"/><g fill="#FFFFFF" stroke="${NAVY}" stroke-width="1"><rect x="12.00" y="9.00" width="3.99" height="3.99"/><rect x="18.00" y="9.00" width="3.99" height="3.99"/><rect x="24.00" y="9.00" width="3.99" height="3.99"/><rect x="12.00" y="14.00" width="3.99" height="3.99"/><rect x="18.00" y="14.00" width="3.99" height="3.99"/><rect x="24.00" y="14.00" width="3.99" height="3.99"/><rect x="12.00" y="19.00" width="3.99" height="3.99"/><rect x="18.00" y="19.00" width="3.99" height="3.99"/><rect x="24.00" y="19.00" width="3.99" height="3.99"/><rect x="12.00" y="24.00" width="3.99" height="3.99"/><rect x="18.00" y="24.00" width="3.99" height="3.99"/><rect x="24.00" y="24.00" width="3.99" height="3.99"/></g><rect x="18" y="28.6" width="4" height="4.4" fill="#FFFFFF" stroke="${NAVY}" stroke-width="1.2"/></svg>`,

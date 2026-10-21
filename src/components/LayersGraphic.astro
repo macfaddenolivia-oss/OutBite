@@ -4,12 +4,11 @@
 // Four nested squares (community → yard → home → body) around a person, with two
 // Aedes mosquitoes (the story's mosquito, story/Mosquito.astro: back wing, curved
 // stripes, banded legs) bouncing off the outside with orange marks.
-// Square fills stay the same in dark mode; borders switch to off-white and mosquitoes to light ink.
 // `picker` (Protect page): each square and its label carry data-layer-pick, so a click
 // or tap selects that layer (the page script handles it; the row tabs are the keyboard
 // and screen-reader controls). The page sets data-selected on the <svg>: only the
-// chosen square keeps its color, with a thicker border; the others turn plain (white,
-// or the dark surface in dark mode) with thin outlines. The home page shows all colors.
+// chosen square keeps its color, with a thicker border; the others turn plain (white)
+// with thin outlines. The home page shows all colors.
 // `tags` (protection quiz results): evenly spaced squares with
 // room for a small tag under each layer name (filled in by the page script through
 // data-lg-tag), and no person or mosquitoes.
@@ -168,8 +167,8 @@ const tagSquares = [
     stroke: #e07034;
   }
 
-  /* The mosquito drawing is navy with white stripes and bands; on the dark page its
-     ink turns light and its stripes navy (CSS beats the drawing's fill attributes). */
+  /* The mosquito drawing's colors come from the graphic tokens (CSS beats the
+     drawing's fill attributes). */
   .lg-mq :global([fill='#17306A']) {
     fill: var(--color-graphic-ink);
   }
@@ -198,7 +197,7 @@ const tagSquares = [
     stroke-width: 8;
   }
 
-  /* Unselected squares: plain (white; the dark surface in dark mode), thin outline,
+  /* Unselected squares: plain white, thin outline,
      labels in the matching text color. */
   .layers-graphic--picker[data-selected] .lg-square {
     fill: var(--color-layer-off-bg);
