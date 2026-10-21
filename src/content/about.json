@@ -14,6 +14,7 @@
     ]
   },
   "links": {
+    "macfadden": "https://oliviamacfadden.com",
     "johansson": "https://bouve.northeastern.edu/directory/michael-johansson/"
   },
   "text": {
@@ -46,6 +47,7 @@
       "made": {
         "heading": "Who made it",
         "text": "Outbite was created by Olivia Macfadden, a PhD student at Northeastern University, with help from Michael Johansson, PhD, a research professor at Northeastern University.",
+        "nameText": "Olivia Macfadden",
         "linkText": "Michael Johansson, PhD"
       },
       "independent": {
@@ -84,6 +86,7 @@
       "made": {
         "heading": "Quién lo hizo",
         "text": "Outbite fue creado por Olivia Macfadden, estudiante de doctorado en Northeastern University, con la ayuda de Michael Johansson, PhD, profesor investigador en Northeastern University.",
+        "nameText": "Olivia Macfadden",
         "linkText": "Michael Johansson, PhD"
       },
       "independent": {

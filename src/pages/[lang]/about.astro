@@ -40,8 +40,9 @@ const reviews = reviewData.reviews.map((r) => ({
       : t(`sourcesPage.reviews.status.${r.status}`),
 }));
 
-// "Michael Johansson, PhD" becomes a link (text only, no branding).
-const [madeBefore, madeAfter] = text.made.text.split(text.made.linkText);
+// "Olivia Macfadden" and "Michael Johansson, PhD" become links (text only, no branding).
+const [madeStart, madeRest] = text.made.text.split(text.made.nameText);
+const [madeBefore, madeAfter] = madeRest.split(text.made.linkText);
 ---
 
 <BaseLayout lang={lang} title={title} description={text.intro}>
@@ -93,7 +94,7 @@ const [madeBefore, madeAfter] = text.made.text.split(text.made.linkText);
     <section class="asec" aria-labelledby="made-heading">
       <h2 id="made-heading">{text.made.heading}</h2>
       <p>
-        {madeBefore}<a href={content.links.johansson}>{text.made.linkText}</a>{madeAfter}
+        {madeStart}<a href={content.links.macfadden}>{text.made.nameText}</a>{madeBefore}<a href={content.links.johansson}>{text.made.linkText}</a>{madeAfter}
       </p>
     </section>
 
