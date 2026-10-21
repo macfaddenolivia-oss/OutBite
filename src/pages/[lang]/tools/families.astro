@@ -1,0 +1,187 @@
+---
+// Families with young kids (design/families-tool-mockup.png). Text, Spanish and sources:
+// src/content/families.json (CDC and EPA wording only, reusing tips B4 and Y1 and the sick
+// page so nothing contradicts them).
+// Title with the families icon and the intro, then four numbered sections (2×2 on
+// desktop, stacked below), each with a few bullets, a link onward and its sources:
+// 1. Repellent for kids, 2. Babies (both link to the "Babies and young children" tip),
+// 3. Around the house and yard (Weekly mosquito check), 4. When a child gets sick: the
+// shared warning signs (src/content/warning-signs.json) and the shared medicine line
+// (diseases.json extras.noNsaid), linking to "I think I'm sick". Then "Also useful".
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Genus from '../../../components/Genus.astro';
+import SourceLine from '../../../components/SourceLine.astro';
+import ToolIcon from '../../../components/ToolIcon.astro';
+import content from '../../../content/families.json';
+import diseases from '../../../content/diseases.json';
+import warningSigns from '../../../content/warning-signs.json';
+import { langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = content.text[L];
+const cite = content.cite as Record<string, string[]>;
+const ws = warningSigns.text[L];
+const noNsaid = diseases.text[L].extras.noNsaid;
+const href = (key: string, hash = '') => `${localizePath(lang, getPage(key).path)}${hash}`;
+
+const keys = ['repellent', 'babies', 'house', 'sick'] as const;
+const links: Record<(typeof keys)[number], string> = {
+  repellent: href('protect', '#card-B4'),
+  babies: href('protect', '#card-B4'),
+  house: href('checklist'),
+  sick: href('sick'),
+};
+const also = [
+  { text: text.also.travel, href: href('travel', '#recommends') },
+  { text: text.also.pregnancy, href: href('faq', '#repellent-pregnancy') },
+  { text: text.also.printables, href: href('printables') },
+];
+---
+
+<BaseLayout lang={lang} title={t('pages.families.title')} description={t('pages.families.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <div class="families__title">
+        <ToolIcon tool="families" />
+        <h1>{t('pages.families.title')}</h1>
+      </div>
+      <p class="page-intro__lead">{t('pages.families.summary')}</p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container families">
+    <div class="sections">
+      {
+        keys.map((key, i) => {
+          const sec = text.sections[key];
+          return (
+            <section class="fsec" id={key} aria-labelledby={`${key}-heading`}>
+              <h2 id={`${key}-heading`} class="fsec__heading">
+                <span class="fsec__number">{i + 1}</span>
+                {sec.heading}
+              </h2>
+              <ul class="fsec__points">
+                {sec.points.map((p) => (
+                  <li>
+                    <Genus text={p} />
+                  </li>
+                ))}
+                {key === 'sick' && (
+                  <>
+                    <li>
+                      {ws.lead}
+                      <ul class="fsec__signs">
+                        {ws.signs.map((s) => (
+                          <li>{s}</li>
+                        ))}
+                      </ul>
+                      {ws.timing}
+                    </li>
+                    <li>{noNsaid}</li>
+                  </>
+                )}
+              </ul>
+              <p class="fsec__link">
+                <a href={links[key]}>
+                  {sec.link} <span aria-hidden="true">→</span>
+                </a>
+              </p>
+              <SourceLine lang={lang} ids={key === 'sick' ? [...new Set([...cite.sick, ...warningSigns.cite.signs])] : cite[key]} compact />
+            </section>
+          );
+        })
+      }
+    </div>
+
+    <p class="also">
+      <strong>{text.also.label}:</strong>{' '}
+      {also.map((a, i) => (
+        <>
+          {i > 0 && <span aria-hidden="true"> · </span>}
+          <a href={a.href}>{a.text}</a>
+        </>
+      ))}
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Title: the Tools icon beside the heading (it wraps under it on narrow screens). */
+  .families__title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    align-items: center;
+  }
+
+  .families__title h1 {
+    margin: 0;
+  }
+
+  .families {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* Sections: 2×2 on desktop, stacked below. White with a navy top rule, as on the
+     Community page. */
+  .sections {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--section-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .sections {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .fsec {
+    padding: var(--pad-box-lg) var(--pad-box-lg) var(--pad-box);
+    border-top: 4px solid var(--color-rule);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .fsec__heading {
+    margin-bottom: 0;
+  }
+
+  .fsec__number {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm, 0.875rem);
+  }
+
+  .fsec__points {
+    margin: var(--space-3) 0 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .fsec__points > li + li {
+    margin-top: var(--space-2);
+  }
+
+  .fsec__signs {
+    margin: var(--space-1) 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .fsec__link {
+    margin: var(--space-3) 0 0;
+    font-weight: var(--weight-heading);
+  }
+
+  .also {
+    margin: var(--section-gap) 0 0;
+  }
+</style>

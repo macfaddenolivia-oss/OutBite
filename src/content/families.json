@@ -1,0 +1,116 @@
+{
+  "id": "families",
+  "lastReviewed": "2026-10-21",
+  "cite": {
+    "repellent": [
+      "cdc-travel-bites",
+      "cdc-yellowbook-arthropods",
+      "epa-repellent-safely"
+    ],
+    "babies": [
+      "cdc-travel-bites"
+    ],
+    "house": [
+      "cdc-prevent-bites",
+      "cdc-control-home"
+    ],
+    "sick": [
+      "cdc-han-dengue-2025",
+      "cdc-dengue-manage"
+    ]
+  },
+  "text": {
+    "en": {
+      "sections": {
+        "repellent": {
+          "heading": "Repellent for kids",
+          "points": [
+            "CDC says repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.”",
+            "CDC: “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old.”",
+            "CDC: “Adults: Spray insect repellent onto your hands and then apply to a child's face.” “Do not apply insect repellent to a child's hands, eyes, mouth, cuts, or irritated skin.”",
+            "EPA: “After returning indoors, wash your child's treated skin and clothes with soap and water or bathe.”"
+          ],
+          "link": "See the full tip"
+        },
+        "babies": {
+          "heading": "Babies",
+          "points": [
+            "CDC: “Dress your child in clothing that covers arms and legs.”",
+            "CDC: “Cover strollers and baby carriers with mosquito netting.”",
+            "Netting can't protect a baby once they're out of the stroller or carrier."
+          ],
+          "link": "See the full tip"
+        },
+        "house": {
+          "heading": "Around the house and yard",
+          "points": [
+            "CDC: “Once a week, empty and scrub, turn over, cover, or throw out items that hold water, such as tires, buckets, toys, pools, birdbaths, flowerpot saucers, or trash containers.”",
+            "CDC: “Drain and turn over kiddie pools.”",
+            "CDC: “Use screens on windows and doors. Repair holes in screens to keep mosquitoes outdoors.”"
+          ],
+          "link": "Weekly mosquito check"
+        },
+        "sick": {
+          "heading": "When a child gets sick",
+          "points": [
+            "CDC says dengue “can cause severe illness, particularly in infants aged ≤1 year.”",
+            "CDC: “For mild symptoms, care for a sick infant, child, or family member at home.”"
+          ],
+          "link": "I think I'm sick"
+        }
+      },
+      "also": {
+        "label": "Also useful",
+        "travel": "Traveling with kids",
+        "pregnancy": "Pregnant? Repellent during pregnancy",
+        "printables": "Print the weekly checklist"
+      }
+    },
+    "es": {
+      "sections": {
+        "repellent": {
+          "heading": "Repelente para niños",
+          "points": [
+            "Los CDC dicen que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”.",
+            "Los CDC dicen: “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”.",
+            "Los CDC dicen: “Adultos: rocíen el repelente en sus manos y luego aplíquenlo en la cara del niño”. “No le pongas repelente en las manos, los ojos, la boca, cortaduras ni piel irritada a un niño”.",
+            "La EPA dice: “Al regresar adentro, lava la piel tratada y la ropa de tu niño con agua y jabón, o báñalo”."
+          ],
+          "link": "Ver el consejo completo"
+        },
+        "babies": {
+          "heading": "Bebés",
+          "points": [
+            "Los CDC dicen: “Viste a tu niño con ropa que cubra los brazos y las piernas”.",
+            "Los CDC dicen: “Cubre los coches de bebé y los portabebés con un mosquitero”.",
+            "El mosquitero no protege al bebé cuando sale del coche o del portabebés."
+          ],
+          "link": "Ver el consejo completo"
+        },
+        "house": {
+          "heading": "En la casa y el patio",
+          "points": [
+            "Los CDC dicen: “Una vez a la semana, vacía y friega, voltea, tapa o bota las cosas que acumulan agua, como gomas, baldes, juguetes, piscinas, bebederos de pájaros, platos de macetas o zafacones”.",
+            "Los CDC dicen: “Vacía y voltea las piscinas inflables para niños”.",
+            "Los CDC dicen: “Usa mallas en las ventanas y puertas. Repara los hoyos de las mallas para que los mosquitos se queden afuera”."
+          ],
+          "link": "Revisión semanal de mosquitos"
+        },
+        "sick": {
+          "heading": "Cuando un niño se enferma",
+          "points": [
+            "Los CDC dicen que el dengue “puede causar una enfermedad grave, sobre todo en bebés de 1 año o menos”.",
+            "Los CDC dicen: “Si los síntomas son leves, cuida en casa al bebé, niño o familiar enfermo”."
+          ],
+          "link": "Creo que me enfermé"
+        }
+      },
+      "also": {
+        "label": "También es útil",
+        "travel": "Viajar con niños",
+        "pregnancy": "¿Embarazada? El repelente durante el embarazo",
+        "printables": "Imprime la lista semanal"
+      }
+    }
+  }
+}

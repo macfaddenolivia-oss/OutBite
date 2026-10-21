@@ -7,7 +7,8 @@
 //    mosquito level and facing right, biting Ana's shoulder and carrying the virus (the
 //    four scattered dots); the bucket stands in the light-blue ground with its contact
 //    shadow; "Ana" on the ground).
-// 2. Protect yourself: a small, airy nested-layers graphic (no rows or mosquitoes).
+// 2. Protect yourself: a small, airy nested-layers graphic (no rows or mosquitoes), with
+//    "Have young kids? See tips for families →" under the tile.
 // 3. Is it near me?: the dashboard map (dengue, current shading) with a Puerto Rico inset.
 import Bucket from './story/Bucket.astro';
 import Mosquito from './story/Mosquito.astro';
@@ -75,33 +76,42 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     </a>
   </li>
   <li>
-    <a class="tile" href={href('protect')}>
-      <span class="tile__preview" aria-hidden="true">
-        <svg viewBox="0 0 378 198" class="tile__svg">
-          {
-            rings.map(([layer, x, y, w, h, fill]) => (
-              <rect x={x} y={y} width={w} height={h} fill={fill} stroke="#17306A" stroke-width="2.5" />
-            ))
-          }
-          {
-            rings
-              .filter(([layer]) => layer !== 'body')
-              .map(([layer, x, y]) => (
-                <text x={x + 8} y={y + 15} class="tile__ring-label">
-                  {t(`home.layersGraphic.${layer}`)}
-                </text>
+    <div class="tile-box">
+      <a class="tile tile--inner" href={href('protect')}>
+        <span class="tile__preview" aria-hidden="true">
+          <svg viewBox="0 0 378 198" class="tile__svg">
+            {
+              rings.map(([layer, x, y, w, h, fill]) => (
+                <rect x={x} y={y} width={w} height={h} fill={fill} stroke="#17306A" stroke-width="2.5" />
               ))
-          }
-          <circle cx="189" cy="92" r="6.5" fill="#17306A"></circle>
-          <path d="M176 119 V113 a13 12 0 0 1 26 0 V119 Z" fill="#17306A"></path>
-        </svg>
-      </span>
-      <span class="tile__body">
-        <span class="tile__title">{t('home.tiles.protect.title')}</span>
-        <span class="tile__text">{t('home.tiles.protect.text')}</span>
-        <span class="tile__btn">{t('home.tiles.protect.button')} <span aria-hidden="true">→</span></span>
-      </span>
-    </a>
+            }
+            {
+              rings
+                .filter(([layer]) => layer !== 'body')
+                .map(([layer, x, y]) => (
+                  <text x={x + 8} y={y + 15} class="tile__ring-label">
+                    {t(`home.layersGraphic.${layer}`)}
+                  </text>
+                ))
+            }
+            <circle cx="189" cy="92" r="6.5" fill="#17306A"></circle>
+            <path d="M176 119 V113 a13 12 0 0 1 26 0 V119 Z" fill="#17306A"></path>
+          </svg>
+        </span>
+        <span class="tile__body">
+          <span class="tile__title">{t('home.tiles.protect.title')}</span>
+          <span class="tile__text">{t('home.tiles.protect.text')}</span>
+          <span class="tile__btn">{t('home.tiles.protect.button')} <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
+      {/* Inside the tile's border, under its button, as its own link (a link can't sit
+          inside the tile's link): Families with young kids. */}
+      <p class="tile__extra">
+        <a href={href('families')}>
+          {t('home.tiles.protect.families')} <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
   </li>
   <li>
     <a class="tile" href={href('nearMe')}>
@@ -270,6 +280,26 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     background: var(--color-primary-bg);
     color: var(--color-primary-text);
     font-weight: var(--weight-strong);
+  }
+
+  /* Protect tile: the border is on the box, so the families link sits inside it. */
+  .tile-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .tile--inner {
+    flex: 1;
+    border: 0;
+  }
+
+  .tile__extra {
+    margin: 0;
+    padding: 0 var(--pad-box-lg) var(--pad-box-lg);
+    font-weight: var(--weight-heading);
   }
 
   .tile:hover .tile__btn {

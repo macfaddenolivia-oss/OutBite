@@ -23,6 +23,7 @@
         "where-live",
         "repellents",
         "repellent-safety",
+        "repellent-pregnancy",
         "zappers"
       ]
     },
@@ -99,6 +100,9 @@
       "epa-repellent-safely",
       "cdc-travel-bites",
       "cdc-yellowbook-arthropods"
+    ],
+    "repellent-pregnancy": [
+      "cdc-prevent-bites"
     ],
     "zappers": [
       "cdc-prevent-bites",
@@ -226,7 +230,8 @@
       ],
       "tips": [
         "B4"
-      ]
+      ],
+      "page": "families"
     },
     "packing": {
       "links": [
@@ -237,6 +242,14 @@
       ],
       "pages": [
         "travel"
+      ]
+    },
+    "repellent-pregnancy": {
+      "tips": [
+        "B1"
+      ],
+      "links": [
+        "epa-find-repellent"
       ]
     }
   },
@@ -262,7 +275,8 @@
         "sick": "See “Think you might be sick?”",
         "sources": "See our Sources page",
         "privacy": "See our Privacy page",
-        "travel": "See “Traveling soon?”"
+        "travel": "See “Traveling soon?”",
+        "families": "See “Families with young kids”"
       },
       "groups": {
         "viruses": {
@@ -369,10 +383,15 @@
           ]
         },
         "repellent-safety": {
-          "q": "Is repellent safe for children and during pregnancy?",
+          "q": "Is repellent safe for babies and children?",
           "a": [
-            "EPA-registered repellents are safe for people who are pregnant or breastfeeding when used as the label directs.",
-            "Babies and young children: CDC says “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old,” and repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.” Don't put repellent on a child's hands, eyes, mouth, cuts or irritated skin; adults put it on their own hands first, then on the child's face. Children shouldn't handle repellent. EPA says to wash a child's treated skin and clothes with soap and water after coming indoors. For babies, CDC advises clothing that covers arms and legs, and mosquito netting over strollers and baby carriers."
+            "CDC says “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old,” and repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.” Don't put repellent on a child's hands, eyes, mouth, cuts or irritated skin; adults put it on their own hands first, then on the child's face. Children shouldn't handle repellent. EPA says to wash a child's treated skin and clothes with soap and water after coming indoors. For babies, CDC advises clothing that covers arms and legs, and mosquito netting over strollers and baby carriers."
+          ]
+        },
+        "repellent-pregnancy": {
+          "q": "Is repellent safe during pregnancy?",
+          "a": [
+            "Yes. EPA-registered repellents are safe for people who are pregnant or breastfeeding when used as the label directs. CDC: “When used as directed, EPA-registered insect repellents are proven safe and effective, even for pregnant and breastfeeding women.”"
           ]
         },
         "zappers": {
@@ -462,7 +481,8 @@
         "sick": "Ver “¿Crees que te enfermaste?”",
         "sources": "Ver nuestra página de Fuentes",
         "privacy": "Ver nuestra página de Privacidad",
-        "travel": "Ver “¿Vas a viajar pronto?”"
+        "travel": "Ver “¿Vas a viajar pronto?”",
+        "families": "Ver “Familias con niños pequeños”"
       },
       "groups": {
         "viruses": {
@@ -569,10 +589,15 @@
           ]
         },
         "repellent-safety": {
-          "q": "¿Es seguro el repelente para niños y durante el embarazo?",
+          "q": "¿Es seguro el repelente para bebés y niños?",
           "a": [
-            "Los repelentes registrados por la EPA son seguros para personas embarazadas o que están amamantando cuando se usan como dice la etiqueta.",
-            "Bebés y niños pequeños: los CDC dicen “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”, y que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”. No le pongas repelente en las manos, los ojos, la boca, cortaduras ni piel irritada a un niño; los adultos se lo ponen primero en sus propias manos y luego en la cara del niño. Los niños no deben manejar el repelente. La EPA dice que hay que lavar la piel tratada y la ropa del niño con agua y jabón al regresar adentro. Para los bebés, los CDC aconsejan ropa que cubra los brazos y las piernas, y mosquiteros sobre los coches de bebé y los portabebés."
+            "Los CDC dicen “No uses productos que contengan aceite de eucalipto de limón (OLE) o para-mentano-diol (PMD) en niños menores de 3 años”, y que los repelentes con DEET, picaridina, IR3535 y 2-undecanona “se pueden usar en niños sin restricción de edad”. No le pongas repelente en las manos, los ojos, la boca, cortaduras ni piel irritada a un niño; los adultos se lo ponen primero en sus propias manos y luego en la cara del niño. Los niños no deben manejar el repelente. La EPA dice que hay que lavar la piel tratada y la ropa del niño con agua y jabón al regresar adentro. Para los bebés, los CDC aconsejan ropa que cubra los brazos y las piernas, y mosquiteros sobre los coches de bebé y los portabebés."
+          ]
+        },
+        "repellent-pregnancy": {
+          "q": "¿Es seguro el repelente durante el embarazo?",
+          "a": [
+            "Sí. Los repelentes registrados por la EPA son seguros para personas embarazadas o que están amamantando cuando se usan como dice la etiqueta. Los CDC dicen: “Cuando se usan según las instrucciones, los repelentes de insectos registrados por la EPA son seguros y eficaces, incluso para las mujeres embarazadas y que están amamantando”."
           ]
         },
         "zappers": {

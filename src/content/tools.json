@@ -23,6 +23,12 @@
       ]
     },
     {
+      "key": "family",
+      "tools": [
+        "families"
+      ]
+    },
+    {
       "key": "help",
       "tools": [],
       "notes": [
@@ -36,6 +42,7 @@
         "stand": "Check where you stand",
         "habit": "Keep up the habit",
         "trip": "Planning a trip?",
+        "family": "Have young kids?",
         "help": "Ask for help"
       },
       "cards": {
@@ -64,6 +71,11 @@
           "line": "See CDC’s advice for where you’re going, and what to pack.",
           "button": "Plan your trip"
         },
+        "families": {
+          "title": "Families with young kids",
+          "line": "Repellent rules for kids, keeping babies safe, toys that hold water, and when a child needs care.",
+          "button": "Open"
+        },
         "landlordNote": {
           "title": "Note to a landlord",
           "line": "A ready-to-copy note asking your landlord to fix screens or standing water.",
@@ -78,6 +90,7 @@
         "stand": "Revisa cómo estás",
         "habit": "Mantén el hábito",
         "trip": "¿Planeas un viaje?",
+        "family": "¿Tienes niños pequeños?",
         "help": "Pide ayuda"
       },
       "cards": {
@@ -105,6 +118,11 @@
           "title": "¿Vas a viajar pronto?",
           "line": "Mira los consejos de los CDC para tu destino y qué llevar.",
           "button": "Planea tu viaje"
+        },
+        "families": {
+          "title": "Familias con niños pequeños",
+          "line": "Reglas del repelente para niños, cómo proteger a los bebés, juguetes que acumulan agua y cuándo un niño necesita atención.",
+          "button": "Abrir"
         },
         "landlordNote": {
           "title": "Nota para el dueño de la vivienda",

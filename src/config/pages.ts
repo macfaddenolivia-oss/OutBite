@@ -26,6 +26,7 @@ export const pages: PageDef[] = [
   { key: 'reminders', path: 'tools/reminders/', phase: 5, group: 'tool', review: 'reminders.json' },
   { key: 'printables', path: 'tools/printables/', phase: 5, group: 'tool', review: 'printables.json' },
   { key: 'travel', path: 'travel/', group: 'tool', review: 'travel.json' },
+  { key: 'families', path: 'tools/families/', group: 'tool', review: 'families.json' },
   { key: 'sources', path: 'sources/', phase: 7, group: 'main', review: 'pages/sources.json' },
   { key: 'dengue', path: 'dengue/', phase: 4, group: 'disease', review: 'diseases.json' },
   { key: 'zika', path: 'zika/', phase: 4, group: 'disease', review: 'diseases.json' },

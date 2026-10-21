@@ -136,7 +136,8 @@
       "protect": {
         "title": "Protect yourself",
         "text": "Simple steps for your body, home, yard and community.",
-        "button": "See the steps"
+        "button": "See the steps",
+        "families": "Have young kids? See tips for families"
       },
       "nearMe": {
         "title": "Is it near me?",
@@ -241,6 +242,11 @@
       "nav": "Traveling soon?",
       "summary": "See what CDC says about dengue, chikungunya and Zika where you’re going, and what to do before, during and after your trip.",
       "menu": "Travel"
+    },
+    "families": {
+      "title": "Families with young kids",
+      "nav": "Families with young kids",
+      "summary": "Babies and young children need a few extra steps. Everything here follows CDC and EPA."
     },
     "glossary": {
       "title": "Words to know",
@@ -681,7 +687,8 @@
     "faqNumbers": "Where do these numbers come from?",
     "faqReal": "Why might the real number be higher?",
     "faqRepellents": "Which repellents work?",
-    "faqRepellentSafety": "Is repellent safe for children and during pregnancy?",
+    "faqRepellentSafety": "Is repellent safe for babies and children?",
+    "faqRepellentPregnancy": "Is repellent safe during pregnancy?",
     "faqSpot": "How to tell an Aedes mosquito apart",
     "faqLabel": "From our questions and answers",
     "faqSpotShort": "Spotting Aedes"

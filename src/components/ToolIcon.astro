@@ -1,7 +1,8 @@
 ---
 // Small flat icons for the Tools page cards, 72 × 72, in the
 // site palette with navy outlines; decorative (aria-hidden). The travel icon is the
-// story's airplane (story/Airplane.astro, from How it spreads) on a light-blue circle.
+// story's airplane (story/Airplane.astro, from How it spreads) on a light-blue circle; the
+// families icon is an adult and a child on the light-blue ground strip.
 import Airplane from './story/Airplane.astro';
 
 interface Props {
@@ -74,6 +75,18 @@ const ORANGE = '#E07034';
           <path d="M23 58 H41" />
         </g>
         <circle cx="57" cy="31" r="2.5" fill={NAVY} stroke="none" />
+      </g>
+    )
+  }
+  {
+    tool === 'families' && (
+      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round">
+        {/* An adult and a child standing on the light-blue ground strip */}
+        <rect x="2" y="60" width="68" height="9" fill={PALE_BLUE} stroke="none" />
+        <circle cx="25" cy="15" r="8" fill={NAVY} />
+        <path d="M11 61 V39 a14 13 0 0 1 28 0 V61 Z" fill={NAVY} />
+        <circle cx="51" cy="35" r="6" fill={LIGHT_ORANGE} />
+        <path d="M41 61 V51 a10 9 0 0 1 20 0 V61 Z" fill={LIGHT_ORANGE} />
       </g>
     )
   }

@@ -136,7 +136,8 @@
       "protect": {
         "title": "Protégete",
         "text": "Pasos sencillos para tu cuerpo, tu casa, tu patio y tu comunidad.",
-        "button": "Ver los pasos"
+        "button": "Ver los pasos",
+        "families": "¿Tienes niños pequeños? Mira consejos para familias"
       },
       "nearMe": {
         "title": "¿Está cerca de mí?",
@@ -241,6 +242,11 @@
       "nav": "¿Vas a viajar pronto?",
       "summary": "Mira lo que dicen los CDC sobre el dengue, el chikungunya y el zika en tu destino, y qué hacer antes, durante y después del viaje.",
       "menu": "Viajes"
+    },
+    "families": {
+      "title": "Familias con niños pequeños",
+      "nav": "Familias con niños pequeños",
+      "summary": "Los bebés y los niños pequeños necesitan algunos pasos más. Todo aquí sigue a los CDC y la EPA."
     },
     "glossary": {
       "title": "Palabras clave",
@@ -681,7 +687,8 @@
     "faqNumbers": "¿De dónde vienen estas cifras?",
     "faqReal": "¿Por qué el número real podría ser mayor?",
     "faqRepellents": "¿Qué repelentes funcionan?",
-    "faqRepellentSafety": "¿Es seguro el repelente para niños y durante el embarazo?",
+    "faqRepellentSafety": "¿Es seguro el repelente para bebés y niños?",
+    "faqRepellentPregnancy": "¿Es seguro el repelente durante el embarazo?",
     "faqSpot": "Cómo reconocer a un mosquito Aedes",
     "faqLabel": "De nuestras preguntas y respuestas",
     "faqSpotShort": "Cómo reconocerlo"
