@@ -580,8 +580,8 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
-  /* 992–1199px: tighter spacing (same text size) so all eight items, longer in
-     Spanish, stay on one line. */
+  /* Tighter spacing (same text size) so all eight items, longer in Spanish, stay on one
+     line: 992–1199px, and at every width when the text is larger (115% or 130%). */
   @media (min-width: 62rem) and (max-width: 74.99rem) {
     .site-nav ul {
       gap: 0 var(--space-1);
@@ -590,6 +590,87 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     .site-nav a,
     .nav-dis__btn {
       padding-inline: var(--space-1);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    :global(html[data-text-size]) .site-nav ul {
+      gap: 0 var(--space-1);
+    }
+
+    :global(html[data-text-size]) .site-nav a,
+    :global(html[data-text-size]) .nav-dis__btn {
+      padding-inline: var(--space-1);
+    }
+  }
+
+  /* Spanish at larger text: even tight, the eight items only fit on one row from about
+     1150px (115%) or 1255px (130%) wide, so below 1184px / 1280px (a little room to
+     spare) the Menu button stays, as under 992px. Measured Oct 21, 2026; English fits
+     from 992px at every size. Only these rules differ from the tablet layout. */
+  @media (min-width: 62rem) and (max-width: 73.99rem) {
+    :global(html[lang='es'][data-text-size='115']) .header__grid {
+      grid-template-columns: 1fr auto auto auto;
+      grid-template-areas: 'brand lang sick menu';
+    }
+
+    :global(html.js[lang='es'][data-text-size='115']) .menu-toggle {
+      display: inline-flex;
+    }
+
+    :global(html.js[lang='es'][data-text-size='115']) .site-nav:not([data-open]) {
+      display: none;
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding-block: var(--space-2);
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .site-nav a {
+      min-height: var(--tap-target);
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .nav-dis-phone {
+      display: block;
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .nav-dis {
+      display: none;
+    }
+  }
+
+  @media (min-width: 62rem) and (max-width: 79.99rem) {
+    :global(html[lang='es'][data-text-size='130']) .header__grid {
+      grid-template-columns: 1fr auto auto auto;
+      grid-template-areas: 'brand lang sick menu';
+    }
+
+    :global(html.js[lang='es'][data-text-size='130']) .menu-toggle {
+      display: inline-flex;
+    }
+
+    :global(html.js[lang='es'][data-text-size='130']) .site-nav:not([data-open]) {
+      display: none;
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding-block: var(--space-2);
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .site-nav a {
+      min-height: var(--tap-target);
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .nav-dis-phone {
+      display: block;
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .nav-dis {
+      display: none;
     }
   }
 

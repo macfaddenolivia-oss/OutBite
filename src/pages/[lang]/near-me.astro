@@ -168,12 +168,16 @@ const pageData = {
             />
             <button type="button" class="btn btn-primary dash-zip__go" data-dash-zip-go>{t('home.near.zipGo')}</button>
           </div>
-          <p class="dash-zip__note" id="dash-zip-note">{t('home.near.zipNote')}</p>
-          <!-- ZIP messages (read by screen readers): too short, not found, or more than
-               one state with a button for each. -->
-          <div class="dash-pick__msg" id="dash-zip-msg" aria-live="polite" data-dash-msg></div>
+          <!-- Right under the ZIP box: the note and "No location tracking." on one line,
+               then the ZIP messages (read by screen readers): too short, not found, or
+               more than one state with a button for each. -->
+          <div class="dash-zip__under">
+            <p class="dash-zip__note" id="dash-zip-note">{t('home.near.zipNote')} {t('home.near.privacy')}</p>
+            <div class="dash-pick__msg" id="dash-zip-msg" aria-live="polite" data-dash-msg></div>
+          </div>
         </div>
-        <p class="dash-pick__privacy">{t('home.near.privacy')}</p>
+        <!-- Without JavaScript there is no ZIP box, so "No location tracking." sits here. -->
+        <p class="dash-pick__privacy no-js-only">{t('home.near.privacy')}</p>
         <p class="dash-pick__back js-only">
           <button type="button" class="dash-back" data-dash-back hidden>
             <span aria-hidden="true">←</span> {t('dash.backToUS')}
@@ -797,8 +801,7 @@ const pageData = {
       grid-template-columns: auto auto;
     }
 
-    .dash-zip__note,
-    .dash-pick__msg {
+    .dash-zip__under {
       grid-column: 2;
       max-width: 26rem;
     }
@@ -849,6 +852,11 @@ const pageData = {
     margin: 0;
   }
 
+  /* No empty row (and no gap) while there's no place to go back from. */
+  .dash-pick__back:has(> [hidden]) {
+    display: none;
+  }
+
   .dash-back {
     min-height: var(--tap-target);
     padding: 0;
@@ -872,6 +880,7 @@ const pageData = {
 
   .dash-pick__privacy {
     flex: 1 1 16rem;
+    align-self: center;
     margin: 0;
     color: var(--color-text-muted);
     font-size: var(--text-sm);
@@ -1148,6 +1157,10 @@ const pageData = {
   }
 
   .js-only {
+    display: none;
+  }
+
+  :global(.js) .dash .no-js-only {
     display: none;
   }
 

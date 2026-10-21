@@ -279,7 +279,6 @@ main:focus {
    underneath; a page may drop the rule (How it spreads) but never resizes the intro. */
 .page-intro {
   background: var(--color-intro-bg);
-  border-bottom: 4px solid var(--color-rule);
   padding-block: var(--space-3);
 }
 

@@ -60,7 +60,7 @@ const openings = [
 ---
 
 <BaseLayout lang={lang} title={title} description={t('pages.howItSpreads.summary')}>
-  <div class="page-intro page-intro--story">
+  <div class="page-intro">
     <div class="container">
       <h1>{title}</h1>
       <p class="page-intro__lead"><Genus text={text.intro} /></p>
@@ -567,12 +567,8 @@ const openings = [
 </script>
 
 <style>
-  /* This page only: no rule under the intro; the intro, choice band and story share
-     one continuous white band. Sizes and spacing come from the shared .page-intro. */
-  .page-intro--story {
-    border-bottom: 0;
-  }
-
+  /* This page only: the intro, choice band and story share one continuous white band.
+     Sizes and spacing come from the shared .page-intro. */
   .story-band {
     background: var(--color-intro-bg);
   }
@@ -1289,9 +1285,11 @@ const openings = [
 
   /* Explanation box: all versions stacked in one cell, only the chosen one visible,
      so its height never changes. Tinted to match the chosen layer. */
+  /* Last visible line of step 9 (everything after it is for screen readers or no
+     JavaScript): no margin under it, so the step stays one screen tall at 1313×900. */
   :global(.js) .story .layer-explain {
     display: grid !important;
-    margin: 0 0 var(--space-2);
+    margin: 0;
     border-inline-start: 5px solid transparent;
     color: var(--color-layer-text);
   }
