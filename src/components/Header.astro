@@ -21,8 +21,8 @@ const navItems = mainNavKeys.map((key) => {
     current: normalized === href ? 'page' : normalized.startsWith(href) ? 'true' : undefined,
   };
 });
-// "Diseases": a small dropdown (desktop) or a labeled group (phone menu) with the three
-// disease pages; marked current on any disease page.
+// "Diseases": a small dropdown (menu bar) or a label with three buttons (Menu button) for
+// the three disease pages; marked current on any disease page.
 const diseaseItems = diseaseKeys.map((key) => {
   const href = localizePath(lang, getPage(key).path);
   return { key, href, current: normalized === href ? ('page' as const) : undefined };
@@ -71,19 +71,25 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20">
-        <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-      </svg>
-      {t('a11y.menu')}
+      {/* Both labels share one spot, so the button keeps its width when it changes. */}
+      <span class="menu-toggle__labels">
+        <span class="menu-toggle__open">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20">
+            <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          {t('a11y.menu')}
+        </span>
+        <span class="menu-toggle__close"><span aria-hidden="true">✕</span> {t('a11y.close')}</span>
+      </span>
     </button>
   </div>
 
   <nav id="site-nav" class="site-nav" aria-label={t('a11y.mainNav')}>
-    <ul class="container">
-      <!-- Diseases, phones: a label with the three pages under it (always shown). -->
+    <ul>
+      <!-- Diseases, Menu button: a small label with the three pages as buttons on one row. -->
       <li class="nav-dis-phone">
-        <span class:list={['nav-dis-phone__label', { 'is-current': onDiseasePage }]}>{t('header.diseases')}</span>
-        <ul>
+        <span class="nav-dis-phone__label" id="nav-dis-label">{t('header.diseases')}</span>
+        <ul class="nav-dis-phone__list" aria-labelledby="nav-dis-label">
           {
             diseaseItems.map((d) => (
               <li>
@@ -95,9 +101,9 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
           }
         </ul>
       </li>
-      <!-- Diseases, tablet and up: a dropdown opened by click, tap, Enter or Space (a
-           native <details>, so it also works without JavaScript; the script adds
-           aria-expanded, Escape and closing on a click outside). Never on hover. -->
+      <!-- Diseases, menu bar: a dropdown opened by click, tap, Enter or Space (a native
+           <details>, so it also works without JavaScript; the script adds aria-expanded,
+           Escape and closing on a click outside). Never on hover. -->
       <li class="nav-dis">
         <details class="nav-dis__details" data-nav-dis>
           <summary class:list={['nav-dis__btn', { 'is-current': onDiseasePage }]}>
@@ -121,7 +127,10 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
         navItems.map((item) => (
           <li>
             <a href={item.href} aria-current={item.current}>
-              {menuLabel(item.key)}
+              <span class="site-nav__label">{menuLabel(item.key)}</span>
+              <svg class="site-nav__chev" aria-hidden="true" width="8" height="14" viewBox="0 0 8 14">
+                <path d="M1.5 2 L6.5 7 L1.5 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
             </a>
           </li>
         ))
@@ -129,42 +138,68 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     </ul>
   </nav>
 </header>
+<!-- Dims the page behind the open menu (a tap on it closes the menu). -->
+<div class="menu-backdrop" aria-hidden="true"></div>
+
+<script is:inline>
+  // Header layout wherever the Menu button shows (html.menu-mode): the first of "row",
+  // "bar" and "tight" (see the styles) in which nothing is squeezed. Runs before the page
+  // draws, and again when the fonts load, the width or text size changes, or menu mode
+  // starts or ends.
+  (function () {
+    var root = document.documentElement;
+    var header = document.querySelector('.site-header');
+    var grid = header && header.querySelector('.header__grid');
+    var brand = header && header.querySelector('.brand');
+    if (!grid || !brand) return;
+    var fits = function () {
+      return brand.scrollWidth <= brand.clientWidth && grid.scrollWidth <= grid.clientWidth;
+    };
+    var layouts = ['row', 'bar', 'tight'];
+    var fit = function () {
+      if (!root.classList.contains('menu-mode')) {
+        header.removeAttribute('data-layout');
+        return;
+      }
+      for (var i = 0; i < layouts.length; i++) {
+        header.dataset.layout = layouts[i];
+        if (fits()) return;
+      }
+    };
+    fit();
+    addEventListener('resize', fit);
+    new MutationObserver(fit).observe(root, { attributes: true, attributeFilter: ['class', 'data-text-size'] });
+    if (document.fonts) document.fonts.ready.then(fit);
+  })();
+</script>
 
 <script>
   const root = document.documentElement;
   const header = document.querySelector<HTMLElement>('.site-header');
-  const sickLink = document.querySelector<HTMLElement>('.sick-link');
 
-  // Share the real header/bar sizes with CSS (used for scroll padding and the
-  // space reserved under the phone bar). Sizes change with text zoom and language.
-  if (header && sickLink) {
-    const measure = () => {
-      root.style.setProperty('--header-height', `${header.offsetHeight}px`);
-      root.style.setProperty('--sick-bar-height', `${sickLink.offsetHeight}px`);
-    };
-    new ResizeObserver(measure).observe(header);
-    new ResizeObserver(measure).observe(sickLink);
+  // Share the real header height with CSS (scroll padding under the sticky header).
+  // It changes with text zoom and language.
+  if (header) {
+    new ResizeObserver(() => root.style.setProperty('--header-height', `${header.offsetHeight}px`)).observe(header);
   }
 
-  // Keep keyboard focus from landing under the sticky header (desktop) or the
-  // bottom bar (phones). Backs up CSS scroll-padding for browsers that ignore it.
+  // Keep keyboard focus from landing under the sticky header (tablet and up). Backs up
+  // CSS scroll-padding for browsers that ignore it.
   document.addEventListener('focusin', (event) => {
     const el = event.target;
-    if (!(el instanceof HTMLElement) || !header || !sickLink) return;
+    if (!(el instanceof HTMLElement) || !header) return;
     if (header.contains(el)) return;
     // Keyboard focus only: a mouse click on page content can focus <main> (tabindex -1,
     // the skip link's target) and must not scroll the page.
     if (!el.matches(':focus-visible') || el.tagName === 'MAIN') return;
     // Pages that scroll focused content into place themselves (How it spreads story).
     if (el.closest('[data-scroll-managed]')) return;
+    if (getComputedStyle(header).position !== 'sticky') return;
     requestAnimationFrame(() => {
       const gap = 16;
-      const top = getComputedStyle(header).position === 'sticky' ? header.getBoundingClientRect().bottom : 0;
-      const bottom =
-        getComputedStyle(sickLink).position === 'fixed' ? sickLink.getBoundingClientRect().top : window.innerHeight;
+      const top = header.getBoundingClientRect().bottom;
       const rect = el.getBoundingClientRect();
       if (rect.top < top + gap) window.scrollBy(0, rect.top - top - gap);
-      else if (rect.bottom > bottom - gap) window.scrollBy(0, rect.bottom - bottom + gap);
     });
   });
 
@@ -191,20 +226,48 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     });
   }
 
+  // Menu button: the menu opens over the page (dimmed behind it, and not scrolling) just
+  // under the header, so "I think I'm sick" stays in view. Escape, a tap outside it or
+  // choosing an item closes it and puts focus back on the button; moving focus out of
+  // the header (Tab past the last item) just closes it.
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const nav = document.getElementById('site-nav');
 
-  if (toggle && nav) {
-    const setOpen = (open: boolean) => {
+  if (header && toggle && nav) {
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+    const place = () => nav.style.setProperty('--menu-top', `${Math.max(0, header.getBoundingClientRect().bottom)}px`);
+    const setOpen = (open: boolean, returnFocus = false) => {
+      if (open && header.getBoundingClientRect().top < 0) {
+        // Phones (the header scrolls away): bring the whole header back into view first.
+        window.scrollBy({ top: header.getBoundingClientRect().top, behavior: 'instant' });
+      }
       toggle.setAttribute('aria-expanded', String(open));
       nav.toggleAttribute('data-open', open);
+      root.classList.toggle('menu-open', open);
+      if (open) place();
+      if (!open && returnFocus) toggle.focus();
     };
-    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+    nav.addEventListener('click', (event) => {
+      if (isOpen() && (event.target as Element).closest('a')) setOpen(false, true);
+    });
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node;
+      if (isOpen() && !nav.contains(target) && !toggle.contains(target)) setOpen(false, true);
+    });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        toggle.focus();
+      if (event.key === 'Escape' && isOpen()) {
+        setOpen(false, true);
       }
+    });
+    document.addEventListener('focusin', (event) => {
+      if (isOpen() && !header.contains(event.target as Node)) setOpen(false);
+    });
+    // Wider window or smaller text: the menu bar replaces the button, so close.
+    addEventListener('resize', () => {
+      if (!isOpen()) return;
+      if (root.classList.contains('menu-mode')) place();
+      else setOpen(false);
     });
   }
 </script>
@@ -216,19 +279,48 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     border-bottom: 4px solid var(--color-rule);
   }
 
-  /* Phone layout:  name + tagline | language
-                    name + tagline | menu
-                    menu items (collapsible)
-     The sick link becomes a bar fixed to the bottom of the screen. */
+  /* Header layouts wherever the Menu button shows (and without JavaScript under 992px):
+       row:   name | language | sick link | Menu
+       bar:   name | language | Menu, then the sick link as a full-width red bar
+       tight: name | language over Menu, then the bar
+     The script just after the header picks the first that fits (data-layout). Before it
+     runs, and without JavaScript, phones get "bar" and wider screens "row". */
   .header__grid {
     display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-areas: 'brand lang sick menu';
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-2);
+  }
+
+  @media (max-width: 47.99rem) {
+    .header__grid {
+      grid-template-columns: 1fr auto auto;
+      grid-template-areas:
+        'brand lang menu'
+        'sick sick sick';
+    }
+  }
+
+  .site-header[data-layout='row'] .header__grid {
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-areas: 'brand lang sick menu';
+  }
+
+  .site-header[data-layout='bar'] .header__grid {
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas:
+      'brand lang menu'
+      'sick sick sick';
+  }
+
+  .site-header[data-layout='tight'] .header__grid {
     grid-template-columns: 1fr auto;
     grid-template-areas:
       'brand lang'
-      'brand menu';
-    align-items: center;
-    gap: var(--space-1) var(--space-4);
-    padding-block: var(--space-2);
+      'brand menu'
+      'sick sick';
   }
 
   /* Logo sizes: under 600px about 1.3× the old size; 600–899px about 1.5×, tagline
@@ -288,8 +380,7 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
-  /* 992px and up (where the Menu button gives way to the menu bar): logo and tagline
-     on one row. */
+  /* 992px and up: logo and tagline on one row. */
   @media (min-width: 62rem) {
     .brand {
       flex-direction: row;
@@ -309,6 +400,12 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
       border-inline-start: 2px solid var(--color-rule);
       font-size: 1.0625rem;
       white-space: nowrap;
+    }
+
+    /* With the Menu button (Spanish at larger text) the tagline may wrap, so the sick
+       link can stay in the row. */
+    :global(html.menu-mode) .brand__tagline {
+      white-space: normal;
     }
   }
 
@@ -337,6 +434,11 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     list-style: none;
   }
 
+  /* Wrapping the two names is a last resort ("tight"). */
+  .site-header:is([data-layout='row'], [data-layout='bar']) .lang-switcher ul {
+    flex-wrap: nowrap;
+  }
+
   .lang-switcher a {
     display: inline-flex;
     align-items: center;
@@ -344,6 +446,7 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     padding-inline: var(--space-1);
     color: var(--color-header-link);
     font-size: var(--text-sm);
+    white-space: nowrap;
   }
 
   .lang-switcher a[aria-current] {
@@ -355,34 +458,25 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
   .sick-link {
     grid-area: sick;
     justify-self: start;
+    white-space: nowrap;
   }
 
-  /* Phones: slim bar along the bottom edge. The page reserves matching space
-     (see global.css) so it never covers the footer or focused items. */
+  /* The full-width red bar under the logo row (phones, or wherever the row is crowded). */
   @media (max-width: 47.99rem) {
     .sick-link {
-      grid-area: auto;
-      position: fixed;
-      inset-inline: 0;
-      bottom: 0;
-      z-index: 50;
-      width: 100%;
-      padding-block: var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
-      border: 0;
-      border-top: 2px solid var(--color-urgent-border);
-      border-radius: 0;
-      box-shadow: 0 -2px 10px rgb(0 0 0 / 0.2);
+      justify-self: stretch;
+      white-space: normal;
     }
+  }
 
-    .sick-link:focus-visible {
-      outline-color: var(--palette-white);
-      outline-offset: -6px;
-    }
+  .site-header:is([data-layout='bar'], [data-layout='tight']) .sick-link {
+    justify-self: stretch;
+    white-space: normal;
+  }
 
-    /* Hide the bar while typing so it can't sit on top of the on-screen keyboard. */
-    :global(body:has(:is(input, textarea, select, [contenteditable='true']):focus)) .sick-link {
-      display: none;
-    }
+  .site-header[data-layout='row'] .sick-link {
+    justify-self: start;
+    white-space: nowrap;
   }
 
   .menu-toggle {
@@ -390,7 +484,6 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     justify-self: end;
     display: none;
     align-items: center;
-    gap: var(--space-2);
     min-height: var(--tap-target);
     padding: var(--space-2) var(--space-3);
     border: 3px solid var(--color-rule);
@@ -399,118 +492,267 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     color: var(--color-header-text);
     font: inherit;
     font-weight: var(--weight-strong);
+    white-space: nowrap;
     cursor: pointer;
   }
 
-  :global(.js) .menu-toggle {
+  :global(html.menu-mode) .menu-toggle {
     display: inline-flex;
   }
 
-  /* Without JavaScript the menu is simply always open. */
-  :global(.js) .site-nav:not([data-open]) {
-    display: none;
+  /* Open: "✕ Close", filled navy. */
+  .menu-toggle[aria-expanded='true'] {
+    background: var(--color-rule);
+    color: var(--color-header-bg);
   }
 
+  .menu-toggle__labels {
+    display: grid;
+    justify-items: center;
+  }
+
+  .menu-toggle__labels > span {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .menu-toggle[aria-expanded='true'] .menu-toggle__open,
+  .menu-toggle:not([aria-expanded='true']) .menu-toggle__close {
+    visibility: hidden;
+  }
+
+  /* ---- The menu as a list of rows: under the Menu button, and without JavaScript under
+     992px (always open there, below the header). ---- */
   .site-nav {
     border-top: 1px solid var(--color-border);
+    background: var(--color-header-bg);
   }
 
-  .site-nav ul {
+  .site-nav > ul {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    padding-block: var(--space-2);
+    margin: 0;
+    padding: 0;
     list-style: none;
+  }
+
+  .site-nav > ul > li {
+    border-bottom: 1px solid var(--color-nav-divider);
+  }
+
+  .site-nav > ul > li:last-child {
+    border-bottom: 0;
   }
 
   .site-nav a {
     display: flex;
     align-items: center;
-    min-height: var(--tap-target);
-    padding-inline: var(--space-2);
     color: var(--color-header-link);
     font-weight: var(--weight-strong);
     text-decoration: none;
   }
 
-  .site-nav a:hover {
-    text-decoration: underline;
-  }
-
-  .site-nav a[aria-current] {
+  /* Rows: full width, at least 48px tall, with a › on the right. */
+  .site-nav > ul > li > a {
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 3rem;
+    padding: var(--space-2) var(--gutter);
     color: var(--color-header-text);
-    text-decoration: underline;
-    text-decoration-thickness: 0.16em;
+    font-size: var(--text-lg);
   }
 
-  /* "Diseases" on phones: a label with its three links indented under it. */
+  .site-nav > ul > li > a:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .site-nav a:hover .site-nav__label {
+    text-decoration: underline;
+  }
+
+  .site-nav__chev {
+    flex: none;
+    color: var(--color-header-link);
+  }
+
+  /* Current page: a light-orange bar on the left, pale peach, bold. */
+  .site-nav > ul > li > a[aria-current] {
+    padding-inline-start: calc(var(--gutter) - 6px);
+    border-inline-start: 6px solid var(--color-nav-current-bar);
+    background: var(--color-nav-current-bg);
+    font-weight: var(--weight-heading);
+  }
+
+  /* "Diseases": a small label, then the three pages as equal buttons on one row (two
+     rows if the names don't fit, as in Spanish at the largest text size). */
+  .nav-dis-phone {
+    padding: var(--space-3) var(--gutter) var(--space-4);
+  }
+
+  .nav-dis-phone__label {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--color-header-link);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-heading);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-dis-phone__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-dis-phone__list li {
+    flex: 1 1 0;
+    min-width: max-content;
+  }
+
+  .site-nav .nav-dis-phone__list a {
+    justify-content: center;
+    min-height: 3rem;
+    padding: var(--space-1) var(--space-2);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+    color: var(--color-header-text);
+    text-align: center;
+  }
+
+  .nav-dis-phone__list a:hover {
+    text-decoration: underline;
+  }
+
+  /* On a disease page, its button is filled navy. */
+  .site-nav .nav-dis-phone__list a[aria-current] {
+    background: var(--color-header-text);
+    color: var(--color-header-bg);
+  }
+
   .nav-dis {
     display: none;
   }
 
-  .nav-dis-phone__label {
-    display: flex;
-    align-items: center;
-    min-height: var(--tap-target);
-    padding-inline: var(--space-2);
-    color: var(--color-header-text);
-    font-weight: var(--weight-display);
+  /* ---- Under the Menu button (JavaScript on): the menu opens over the page, just under
+     the header; the page behind is dimmed and doesn't scroll. ---- */
+  :global(html.menu-mode) .site-nav {
+    position: fixed;
+    inset-inline: 0;
+    top: var(--menu-top, 0px);
+    z-index: 50;
+    max-height: calc(100vh - var(--menu-top, 0px));
+    max-height: calc(100dvh - var(--menu-top, 0px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-top: 0;
+    border-bottom: 4px solid var(--color-rule);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.2);
   }
 
-  .nav-dis-phone ul {
-    margin: 0;
-    padding: 0 0 0 var(--space-4);
-    list-style: none;
+  :global(html.menu-mode) .site-nav:not([data-open]) {
+    display: none;
   }
 
-  /* Tablet and up: compact sticky header. Name | language | sick link. Under 992px a
-     "Menu" button opens the list (as on phones), so the menu text never shrinks. */
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  :global(html.menu-open) .site-header {
+    position: relative;
+    z-index: 50;
+  }
+
+  .menu-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: var(--color-menu-backdrop);
+  }
+
+  :global(html.menu-open) .menu-backdrop {
+    display: block;
+  }
+
+  /* Tablet and up: compact sticky header. */
   @media (min-width: 48rem) {
-    .site-header {
+    .site-header,
+    :global(html.menu-open) .site-header {
       position: sticky;
       top: 0;
       z-index: 50;
     }
+  }
 
-    .header__grid {
-      grid-template-columns: 1fr auto auto auto;
-      grid-template-areas: 'brand lang sick menu';
-      gap: var(--space-3) var(--space-4);
+  /* Without JavaScript under 992px the menu is always open in the header, so the header
+     scrolls away instead of covering the page. */
+  @media (min-width: 48rem) and (max-width: 61.99rem) {
+    :global(html:not(.js)) .site-header {
+      position: static;
     }
   }
 
-  /* 992px and up: the menu as one line under the header, with "Diseases" as a
-     dropdown. */
+  /* 992px and up (outside menu mode): name | language | sick link, then the menu as one
+     line under the header, with "Diseases" as a dropdown. */
   @media (min-width: 62rem) {
-    .header__grid {
+    :global(html:not(.menu-mode)) .header__grid {
       grid-template-columns: 1fr auto auto;
       grid-template-areas: 'brand lang sick';
+      gap: var(--space-3) var(--space-4);
     }
 
-    :global(.js) .menu-toggle {
-      display: none;
-    }
-
-    :global(.js) .site-nav:not([data-open]) {
-      display: block;
-    }
-
-    .site-nav ul {
+    :global(html:not(.menu-mode)) .site-nav > ul {
       flex-direction: row;
       flex-wrap: wrap;
       gap: 0 var(--space-4);
-      padding-block: 0;
+      max-width: var(--page-width);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
     }
 
-    .site-nav a {
+    :global(html:not(.menu-mode)) .site-nav > ul > li {
+      border-bottom: 0;
+    }
+
+    :global(html:not(.menu-mode)) .site-nav > ul > li > a {
       min-height: 2.5rem;
+      padding: 0 var(--space-2);
+      color: var(--color-header-link);
+      font-size: inherit;
     }
 
-    .nav-dis-phone {
+    :global(html:not(.menu-mode)) .site-nav > ul > li > a:focus-visible {
+      outline-offset: 3px;
+    }
+
+    :global(html:not(.menu-mode)) .site-nav__chev {
       display: none;
     }
 
-    .nav-dis {
+    :global(html:not(.menu-mode)) .site-nav > ul > li > a[aria-current] {
+      padding-inline-start: var(--space-2);
+      border-inline-start: 0;
+      background: none;
+      font-weight: var(--weight-strong);
+    }
+
+    :global(html:not(.menu-mode)) .site-nav a[aria-current] {
+      color: var(--color-header-text);
+      text-decoration: underline;
+      text-decoration-thickness: 0.16em;
+    }
+
+    :global(html:not(.menu-mode)) .nav-dis-phone {
+      display: none;
+    }
+
+    :global(html:not(.menu-mode)) .nav-dis {
       display: block;
       position: relative;
     }
@@ -578,106 +820,43 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
       min-height: var(--tap-target);
       padding-inline: var(--space-3);
     }
+
+    .nav-dis__menu a:hover {
+      text-decoration: underline;
+    }
   }
 
   /* Tighter spacing (same text size) so all eight items, longer in Spanish, stay on one
      line: 992–1199px, and at every width when the text is larger (115% or 130%). */
   @media (min-width: 62rem) and (max-width: 74.99rem) {
-    .site-nav ul {
+    :global(html:not(.menu-mode)) .site-nav > ul {
       gap: 0 var(--space-1);
     }
 
-    .site-nav a,
-    .nav-dis__btn {
+    :global(html:not(.menu-mode)) .site-nav > ul > li > a,
+    :global(html:not(.menu-mode)) .nav-dis__btn {
       padding-inline: var(--space-1);
     }
   }
 
   @media (min-width: 62rem) {
-    :global(html[data-text-size]) .site-nav ul {
+    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul {
       gap: 0 var(--space-1);
     }
 
-    :global(html[data-text-size]) .site-nav a,
-    :global(html[data-text-size]) .nav-dis__btn {
+    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul > li > a,
+    :global(html[data-text-size]:not(.menu-mode)) .nav-dis__btn {
       padding-inline: var(--space-1);
     }
   }
 
-  /* Spanish at larger text: even tight, the eight items only fit on one row from about
-     1150px (115%) or 1255px (130%) wide, so below 1184px / 1280px (a little room to
-     spare) the Menu button stays, as under 992px. Measured Oct 21, 2026; English fits
-     from 992px at every size. Only these rules differ from the tablet layout. */
-  @media (min-width: 62rem) and (max-width: 73.99rem) {
-    :global(html[lang='es'][data-text-size='115']) .header__grid {
-      grid-template-columns: 1fr auto auto auto;
-      grid-template-areas: 'brand lang sick menu';
-    }
-
-    :global(html.js[lang='es'][data-text-size='115']) .menu-toggle {
-      display: inline-flex;
-    }
-
-    :global(html.js[lang='es'][data-text-size='115']) .site-nav:not([data-open]) {
-      display: none;
-    }
-
-    :global(html[lang='es'][data-text-size='115']) .site-nav ul {
-      flex-direction: column;
-      gap: 0;
-      padding-block: var(--space-2);
-    }
-
-    :global(html[lang='es'][data-text-size='115']) .site-nav a {
-      min-height: var(--tap-target);
-    }
-
-    :global(html[lang='es'][data-text-size='115']) .nav-dis-phone {
-      display: block;
-    }
-
-    :global(html[lang='es'][data-text-size='115']) .nav-dis {
-      display: none;
-    }
-  }
-
-  @media (min-width: 62rem) and (max-width: 79.99rem) {
-    :global(html[lang='es'][data-text-size='130']) .header__grid {
-      grid-template-columns: 1fr auto auto auto;
-      grid-template-areas: 'brand lang sick menu';
-    }
-
-    :global(html.js[lang='es'][data-text-size='130']) .menu-toggle {
-      display: inline-flex;
-    }
-
-    :global(html.js[lang='es'][data-text-size='130']) .site-nav:not([data-open]) {
-      display: none;
-    }
-
-    :global(html[lang='es'][data-text-size='130']) .site-nav ul {
-      flex-direction: column;
-      gap: 0;
-      padding-block: var(--space-2);
-    }
-
-    :global(html[lang='es'][data-text-size='130']) .site-nav a {
-      min-height: var(--tap-target);
-    }
-
-    :global(html[lang='es'][data-text-size='130']) .nav-dis-phone {
-      display: block;
-    }
-
-    :global(html[lang='es'][data-text-size='130']) .nav-dis {
-      display: none;
-    }
-  }
-
   @media print {
-    .site-header,
-    .sick-link {
+    .site-header {
       position: static;
+    }
+
+    .menu-backdrop {
+      display: none !important;
     }
   }
 </style>

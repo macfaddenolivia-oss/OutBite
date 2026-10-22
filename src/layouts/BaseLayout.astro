@@ -86,6 +86,23 @@ const reviewed = page ? lastReviewed(page) : null;
         var size = localStorage.getItem(textSizeKey);
         if (size === '115' || size === '130') document.documentElement.dataset.textSize = size;
       } catch (e) {}
+      // "menu-mode" on <html>: the header shows the Menu button instead of the menu bar
+      // (see Header.astro). Under 992px; in Spanish at larger text the eight items only fit
+      // on one row from about 1150px (115%) or 1255px (130%), so below 1184px / 1280px
+      // there too (measured Oct 21, 2026; English fits from 992px at every size).
+      (function () {
+        var root = document.documentElement;
+        var update = function () {
+          var es = root.lang === 'es';
+          var size = root.dataset.textSize;
+          var max = es && size === '130' ? '79.99rem' : es && size === '115' ? '73.99rem' : '61.99rem';
+          var narrow = matchMedia('(max-width: ' + max + ')').matches;
+          if (narrow !== root.classList.contains('menu-mode')) root.classList.toggle('menu-mode', narrow);
+        };
+        update();
+        addEventListener('resize', update);
+        new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['data-text-size'] });
+      })();
     </script>
     <VisitCounter path={countPath} />
   </head>

@@ -24,6 +24,7 @@
   --palette-orange: #e07034;
   --palette-burnt-orange: #c75426;
   --palette-deep-red: #9c2420;
+  --palette-pale-peach: #fbefe4; /* not in the stripe: the current row in the phone menu */
 
   /* The full scale in order, for the signature stripe: linear-gradient(<direction>, var(--palette-scale)) */
   --palette-scale:
@@ -84,6 +85,12 @@
   --color-header-bg: var(--palette-white);
   --color-header-text: var(--palette-navy);
   --color-header-link: var(--palette-deep-blue);
+  /* Phone menu (the Menu button): the current page's row, a light-orange bar on pale
+     peach; the page behind the open menu is dimmed with see-through navy. */
+  --color-nav-current-bg: var(--palette-pale-peach);
+  --color-nav-current-bar: var(--palette-light-orange);
+  --color-nav-divider: var(--palette-light-blue);
+  --color-menu-backdrop: rgb(23 48 106 / 0.4);
   --color-footer-bg: var(--palette-navy);
   --color-footer-text: var(--palette-off-white);
   --color-footer-link: var(--palette-light-blue);
