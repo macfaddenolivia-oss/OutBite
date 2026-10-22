@@ -91,6 +91,21 @@ const weekText = {
   date: weekDate,
 };
 const weekLineText = (n: Count) => weekTemplate(n, weekText).replace('{n}', n === null ? '' : fmt.format(n)).replace('{date}', weekDate);
+// Phones and narrow windows: a short weekly line in each column ("3 new this week"), with
+// CDC's full wording and the date once under the three numbers.
+const weekShort = {
+  weekWith: t('dash.weekShortWith'),
+  weekWithOne: t('dash.weekShortOne'),
+  weekNone: t('dash.weekShortNone'),
+  weekMissing: t('dash.weekShortMissing'),
+  date: weekDate,
+};
+const weekShortText = (n: Count) => weekTemplate(n, weekShort).replace('{n}', n === null ? '' : fmt.format(n));
+// Width of the widest of the three numbers, in em of the big-number font (digits 0.68em,
+// separators 0.4em; measured in Public Sans Black, Oct 22, 2026). Phones and narrow
+// windows size the numbers so it fits a column (see .dash-cell__number).
+const numEm = (counts: Count[]) =>
+  Math.max(1, ...counts.map((n) => (n === null ? 0 : [...fmt.format(n)].reduce((w, c) => w + (/\d/.test(c) ? 0.68 : 0.4), 0.1)))).toFixed(2);
 const refLabel = t('dash.noteRefLabel');
 
 const pageData = {
@@ -101,6 +116,7 @@ const pageData = {
   week,
   usWeek,
   weekText,
+  weekShort,
   localSpread,
   diseases: dash.inSentence,
   about: Object.fromEntries(DISEASES.map((d) => [d, { href: href(d), text: t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) }) }])),
@@ -187,53 +203,12 @@ const pageData = {
     </section>
 
     <!-- 2. Two columns on desktop: map (left, ~65%) and reported cases (right, ~35%),
-         "What these numbers mean" under the map. Stacked: cases, map, meaning. -->
+         the table (when shown) and "What these numbers mean" under the map. Stacked: map,
+         cases joined under it, table, meaning. -->
     <div class="dash-main">
-      <!-- Reported cases for the chosen place -->
-      <section class="dash-numbers" aria-labelledby="place-heading">
-        <h2 id="place-heading" class="dash-heading" data-dash-place>{t('dash.placeHeading', { place: t('dash.allUSHeading'), year: String(caseData.mmwrYear) })}</h2>
-        <!-- Only with JavaScript (the map isn't clickable without it). Arrow points at the map:
-             left on desktop, down on tablets and phones. -->
-        <p class="dash-hint js-only">
-          <span aria-hidden="true"><span class="dash-hint__left">←</span><span class="dash-hint__down">↓</span> {t('dash.mapHint')}</span>
-          <span class="visually-hidden">{t('dash.mapHintSr')}</span>
-        </p>
-        <p class="dash-note"><RefText text={t('dash.unitNote')} href="#dash-note" label={refLabel} /></p>
-        <ul class="dash-cells">
-          {
-            DISEASES.map((d) => (
-              <li class="dash-cell" data-dash-row={d} data-active={d === 'dengue' ? 'true' : undefined}>
-                <span class="dash-cell__disease">{diseaseName(d)}</span>
-                <span class="dash-cell__number" data-dash-count={d}>{numberText(caseData.allUS.ytd[d])}</span>
-                <span class="dash-cell__unit">{t('home.near.unit')}</span>
-                <span class="dash-cell__week" data-dash-week={d}>
-                  <RefText text={weekLineText(usWeek[d])} href="#dash-note" label={refLabel} />
-                </span>
-              </li>
-            ))
-          }
-        </ul>
-        {allUSMissing && (
-          <p class="dash-missing" data-dash-missing>
-            {t('dash.allUSMissing')}
-          </p>
-        )}
-        <div class="dash-caveat" id="dash-note">
-          <p>{t('dash.reportedNote')}</p>
-          <SourceLine lang={lang} ids={REPORTED_NOTE_SOURCES} compact />
-        </div>
-        <template data-ref-template><NoteRef href="#dash-note" label={refLabel} /></template>
-        <CdcSourceLine lang={lang} class="dash-source" />
-        <!-- Puerto Rico only: link to PRDH's own data (link only; never fetch from that site). -->
-        <p class="dash-prdh" data-dash-prdh hidden>
-          {t('dash.prdhNote')}{' '}
-          <a href={externalLinks['prdh-arbovirus'].url}>{t('dash.prdhLink')} <span aria-hidden="true">→</span></a>
-        </p>
-      </section>
-
       <!-- Map (one virus at a time) and table -->
       <section class="dash-map" aria-labelledby="map-heading">
-        <!-- Tabs and "View as table" above the map; then the map, legend and source line. -->
+        <!-- Tabs and "View as table" above the map; then the map and legend. -->
         <h2 id="map-heading" class="visually-hidden">{t('dash.mapHeading')}</h2>
         {DISEASES.map((d) => <span id={`map-${d}`} class="dash-map__anchor" />)}
         <div class="dash-map__head">
@@ -279,7 +254,70 @@ const pageData = {
             </div>
           </UsMap>
         </div>
+      </section>
 
+      <!-- Reported cases for the chosen place. Desktop: the column right of the map.
+           Phones and narrow windows: a box joined to the bottom of the map (place, then the
+           three numbers side by side, then the week and "Back to all of the U.S."). -->
+      <section class="dash-numbers" aria-labelledby="place-heading" data-dash-numbers>
+        <div class="dash-box" data-dash-box>
+          <h2 id="place-heading" class="dash-heading" tabindex="-1" data-dash-place>{t('dash.placeHeading', { place: t('dash.allUSHeading'), year: String(caseData.mmwrYear) })}</h2>
+          <!-- Only with JavaScript (the map isn't clickable without it). Desktop: arrow left,
+               at the map. Under the box on phones and narrow windows: arrow up. -->
+          <p class="dash-hint dash-hint--side js-only" data-dash-hint>
+            <span aria-hidden="true">← {t('dash.mapHint')}</span>
+            <span class="visually-hidden">{t('dash.mapHintSr')}</span>
+          </p>
+          <p class="dash-note"><RefText text={t('dash.unitNote')} href="#dash-note" label={refLabel} /></p>
+          <ul class="dash-cells" data-dash-cells style={`--num-em: ${numEm(DISEASES.map((d) => caseData.allUS.ytd[d]))}`}>
+            {
+              DISEASES.map((d) => (
+                <li class="dash-cell" data-dash-row={d} data-active={d === 'dengue' ? 'true' : undefined}>
+                  <span class="dash-cell__disease">{diseaseName(d)}</span>
+                  <span class="dash-cell__number" data-dash-count={d} data-missing={caseData.allUS.ytd[d] === null ? 'true' : undefined}>
+                    {numberText(caseData.allUS.ytd[d])}
+                  </span>
+                  <span class="dash-cell__unit">{t('home.near.unit')}</span>
+                  <span class="dash-cell__week" data-dash-week={d}>
+                    <RefText text={weekLineText(usWeek[d])} href="#dash-note" label={refLabel} />
+                  </span>
+                  <span class="dash-cell__short" data-dash-short={d}>{weekShortText(usWeek[d])}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="dash-box__foot">
+            <span><RefText text={t('dash.weekNewly', { date: weekDate })} href="#dash-note" label={refLabel} /></span>
+            <span class="dash-box__back js-only" data-dash-box-back hidden>
+              {' '}<span aria-hidden="true">·</span>{' '}
+              <button type="button" class="dash-back" data-dash-back-box>{t('dash.backToUS')}</button>
+            </span>
+          </p>
+        </div>
+        <p class="dash-hint dash-hint--below js-only" data-dash-hint>
+          <span aria-hidden="true">↑ {t('dash.mapHint')}</span>
+          <span class="visually-hidden">{t('dash.mapHintSr')}</span>
+        </p>
+        {allUSMissing && (
+          <p class="dash-missing" data-dash-missing>
+            {t('dash.allUSMissing')}
+          </p>
+        )}
+        <div class="dash-caveat" id="dash-note">
+          <p>{t('dash.reportedNote')}</p>
+          <SourceLine lang={lang} ids={REPORTED_NOTE_SOURCES} compact />
+        </div>
+        <template data-ref-template><NoteRef href="#dash-note" label={refLabel} /></template>
+        <CdcSourceLine lang={lang} class="dash-source" />
+        <!-- Puerto Rico only: link to PRDH's own data (link only; never fetch from that site). -->
+        <p class="dash-prdh" data-dash-prdh hidden>
+          {t('dash.prdhNote')}{' '}
+          <a href={externalLinks['prdh-arbovirus'].url}>{t('dash.prdhLink')} <span aria-hidden="true">→</span></a>
+        </p>
+      </section>
+
+      <!-- The table (instead of the map) and the source line under the map or table. -->
+      <div class="dash-tablearea">
         <div class="dash-table-wrap" id="dash-table-wrap" data-dash-table>
           <table class="dash-table">
             <caption><RefText text={t('dash.tableCaption', { date: weekDate })} href="#dash-table-note" label={refLabel} /></caption>
@@ -326,7 +364,7 @@ const pageData = {
           <p class="dash-caveat dash-caveat--table" id="dash-table-note">{t('dash.reportedNote')}</p>
         </div>
         <CdcSourceLine lang={lang} class="dash-source" />
-      </section>
+      </div>
 
       <!-- What these numbers mean -->
       <section class="dash-meaning" aria-labelledby="meaning-heading">
@@ -405,6 +443,7 @@ const pageData = {
     week: Record<string, Counts>;
     usWeek: Counts;
     weekText: WeekText;
+    weekShort: WeekText;
     localSpread: Record<string, string[]>;
     diseases: Record<string, string>;
     about: Record<string, { href: string; text: string }>;
@@ -464,15 +503,22 @@ const pageData = {
       for (const el of root!.querySelectorAll<HTMLElement>('[data-dash-count]')) {
         const n = counts[el.dataset.dashCount!];
         el.textContent = n === null ? data.text.notReported : fmt.format(n);
+        el.toggleAttribute('data-missing', n === null);
       }
       const weekCounts = place ? data.week[place] : data.usWeek;
       const refTemplate = root!.querySelector<HTMLTemplateElement>('[data-ref-template]');
       for (const el of root!.querySelectorAll<HTMLElement>('[data-dash-week]')) {
         fillRefText(el, weekLine(weekCounts[el.dataset.dashWeek!], data.weekText, fmt), refTemplate);
       }
+      const em = Math.max(1, ...Object.values(counts).map((n) => (n === null ? 0 : [...fmt.format(n)].reduce((w, c) => w + (/\d/.test(c) ? 0.68 : 0.4), 0.1))));
+      root!.querySelector<HTMLElement>('[data-dash-cells]')!.style.setProperty('--num-em', em.toFixed(2));
+      for (const el of root!.querySelectorAll<HTMLElement>('[data-dash-short]')) {
+        el.textContent = weekLine(weekCounts[el.dataset.dashShort!], data.weekShort, fmt);
+      }
       select.value = place;
       root!.querySelector<HTMLElement>('[data-dash-prdh]')!.hidden = place !== 'PR';
       root!.querySelector<HTMLElement>('[data-dash-back]')!.hidden = place === '';
+      root!.querySelector<HTMLElement>('[data-dash-box-back]')!.hidden = place === '';
       const missing = root!.querySelector<HTMLElement>('[data-dash-missing]');
       if (missing) missing.hidden = place !== '';
       paintMap();
@@ -494,6 +540,27 @@ const pageData = {
 
     function choose(code: string) {
       showPlace(code);
+    }
+
+    // Phones and narrow windows (numbers under the map): after a place is picked on the
+    // map, make sure its numbers are on screen. If they aren't, scroll them gently into
+    // view (instantly with reduced motion); keyboard focus stays on the map.
+    const box = root.querySelector<HTMLElement>('[data-dash-box]')!;
+    function revealNumbers() {
+      if (window.matchMedia('(min-width: 64rem)').matches) return;
+      const header = document.querySelector<HTMLElement>('.site-header');
+      const top = header && getComputedStyle(header).position === 'sticky' ? header.getBoundingClientRect().bottom : 0;
+      const gap = 12;
+      const rect = box.getBoundingClientRect();
+      // The whole box if it fits on screen, otherwise at least the three numbers.
+      const room = window.innerHeight - top - 2 * gap;
+      const bottom = rect.height <= room ? rect.bottom : cells.getBoundingClientRect().bottom;
+      let by = 0;
+      if (bottom > window.innerHeight - gap) by = bottom - (window.innerHeight - gap);
+      if (rect.top - by < top + gap) by = rect.top - top - gap;
+      if (by <= 0 && rect.top >= top) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollBy({ top: by, behavior: reduce ? 'instant' : 'smooth' });
     }
 
     // Picker
@@ -553,7 +620,10 @@ const pageData = {
     root.querySelector('[data-dash-zip-go]')!.addEventListener('click', lookUpZip);
 
     // Map: click, tap, Enter or Space selects a place (again to go back to the U.S.).
-    const pick = (g: HTMLElement | SVGGElement) => choose(place === g.dataset.code ? '' : g.dataset.code!);
+    const pick = (g: HTMLElement | SVGGElement) => {
+      choose(place === g.dataset.code ? '' : g.dataset.code!);
+      revealNumbers();
+    };
     for (const g of places) {
       g.addEventListener('click', () => pick(g));
       g.addEventListener('keydown', (e) => {
@@ -600,6 +670,7 @@ const pageData = {
       tabsEl.hidden = table;
       toggle.textContent = table ? data.text.viewMap : data.text.viewTable;
       toggle.setAttribute('aria-expanded', String(table));
+      root!.dataset.view = table ? 'table' : 'map';
       alignCells();
     };
     toggle.addEventListener('click', () => setView(!tableShown));
@@ -639,6 +710,14 @@ const pageData = {
       choose('');
       select.focus();
     });
+    // The same under the numbers box (phones and narrow windows): focus moves to the
+    // box's heading, since the button disappears.
+    root.querySelector('[data-dash-back-box]')?.addEventListener('click', () => {
+      zip.value = '';
+      zipMessage('');
+      choose('');
+      root.querySelector<HTMLElement>('[data-dash-place]')!.focus();
+    });
     showPlace('');
     // A link ending in "#place-PR" (the home page's Puerto Rico line) opens on that place,
     // after the default All of the U.S. view above. A hash: nothing is sent anywhere.
@@ -663,16 +742,18 @@ const pageData = {
     margin-top: calc(var(--space-3) - var(--section-gap));
   }
 
-  /* Map + reported cases (+ "What these numbers mean" under the map). Stacked on
-     tablets and phones: cases, map, meaning (the DOM order). */
+  /* Map + reported cases (+ the table and "What these numbers mean" under the map).
+     Under 64rem, stacked in the DOM order: map, cases (joined under the map), table,
+     meaning. */
   .dash-main {
     display: grid;
     gap: var(--space-5);
-    grid-template-areas: 'cases' 'map' 'meaning';
+    grid-template-areas: 'map' 'cases' 'table' 'meaning';
   }
 
   .dash-numbers { grid-area: cases; }
   .dash-map { grid-area: map; min-width: 0; }
+  .dash-tablearea { grid-area: table; min-width: 0; }
 
   /* Desktop: cap the map's height so it fits under the picker on a laptop screen. */
   @media (min-width: 64rem) {
@@ -686,9 +767,10 @@ const pageData = {
   @media (min-width: 64rem) {
     .dash-main {
       grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto 1fr;
       grid-template-areas:
         'map cases'
+        'table cases'
         'meaning cases';
       align-items: start;
       column-gap: var(--space-5);
@@ -697,6 +779,11 @@ const pageData = {
 
     .dash-numbers {
       align-self: start;
+    }
+
+    /* The source line (or the table) sits close under the map, as before. */
+    .dash-tablearea {
+      margin-top: calc(var(--space-2) - var(--space-5));
     }
   }
 
@@ -953,18 +1040,26 @@ const pageData = {
     font-weight: var(--weight-strong);
   }
 
-  .dash-hint__left {
-    display: none;
+  .dash-hint--below {
+    margin: var(--space-2) 0 0;
+  }
+
+  /* One hint at a time: beside the map (arrow left) on desktop, under the numbers box
+     (arrow up) below 64rem; none while the table is shown. */
+  @media (max-width: 63.99rem) {
+    :global(.js) .dash .dash-hint.dash-hint--side {
+      display: none;
+    }
   }
 
   @media (min-width: 64rem) {
-    .dash-hint__left {
-      display: inline;
-    }
-
-    .dash-hint__down {
+    :global(.js) .dash .dash-hint.dash-hint--below {
       display: none;
     }
+  }
+
+  :global(.js) .dash[data-view='table'] .dash-hint.js-only {
+    display: none;
   }
 
   /* One row per virus: name, then the big number with "cases". The row for the
@@ -1017,6 +1112,139 @@ const pageData = {
     color: var(--color-text);
     font-size: var(--text-sm);
     line-height: 1.35;
+  }
+
+  /* Short weekly line and the line under the box: phones and narrow windows only. */
+  .dash-cell__short,
+  .dash-box__foot {
+    display: none;
+  }
+
+  :global(.js) .dash .dash-box__back.js-only[hidden] {
+    display: none;
+  }
+
+  /* ---- Phones and narrow windows (under 64rem): the numbers box joined to the bottom
+     of the map: the place and "reported* cases…", then Dengue, Zika and Chikungunya side
+     by side in three equal columns (name, big number, "3 new this week"), then CDC's
+     wording and date with "Back to all of the U.S.". ---- */
+  @media (max-width: 63.99rem) {
+    /* Paddings in px here, so larger text doesn't narrow the three columns. */
+    .dash-box {
+      padding: 12px 12px 8px;
+      border: 3px solid var(--color-rule);
+      background: var(--color-surface);
+    }
+
+    /* Joined: no gap and no second navy line under the map (with JavaScript, map shown). */
+    :global(.js) .dash:not([data-view='table']) .dash-numbers {
+      margin-top: calc(-1 * var(--space-5));
+    }
+
+    :global(.js) .dash:not([data-view='table']) .dash-box {
+      border-top: 0;
+    }
+
+    /* With the map shown, the table area holds only the source line, which the numbers
+       already have. */
+    :global(.js) .dash:not([data-view='table']) .dash-tablearea {
+      display: none;
+    }
+
+    .dash-tablearea :global(.dash-source) {
+      display: none;
+    }
+
+    .dash-numbers .dash-heading {
+      margin: 0;
+      font-size: var(--text-lg);
+    }
+
+    .dash-note {
+      margin: 0 0 var(--space-2);
+      font-size: var(--text-sm);
+    }
+
+    /* Each column gets the same padding; the list is pulled out by that much so the
+       text lines up with the box. Thin dividers between the columns. */
+    .dash-cells {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: auto;
+      margin-inline: -8px;
+      border: 0;
+      border-top: 1px solid var(--color-border);
+      background: none;
+    }
+
+    .dash-cell,
+    .dash-cell[data-active='true'] {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      container-type: inline-size;
+      padding: 8px 8px 4px;
+      border: 0;
+    }
+
+    .dash-cell + .dash-cell {
+      border-top: 0;
+      border-inline-start: 1px solid var(--color-border);
+    }
+
+    /* Column label: shrinks only if "Chikungunya" wouldn't fit (6.33em wide). */
+    .dash-cell__disease {
+      font-size: min(0.875rem, 15cqi);
+      font-weight: var(--weight-heading);
+      letter-spacing: 0;
+      text-transform: none;
+      overflow-wrap: anywhere;
+    }
+
+    /* Big number: as large as the desktop size, unless the widest of the three
+       (--num-em, set by the page) wouldn't fit its column; never smaller than the
+       label. */
+    .dash-cell__number {
+      font-size: max(
+        min(0.875rem, 15cqi),
+        min(clamp(2.25rem, 2rem + 0.6vw, 2.625rem), calc(100cqi / var(--num-em, 3.8)))
+      );
+      white-space: nowrap;
+    }
+
+    /* "not reported" in place of a number: label size, may wrap. */
+    .dash-cell__number[data-missing] {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-strong);
+      line-height: 1.3;
+      white-space: normal;
+    }
+
+    .dash-cell__unit,
+    .dash-cell__week {
+      display: none;
+    }
+
+    .dash-cell__short {
+      display: block;
+      color: var(--color-text);
+      font-size: 0.875rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .dash-box__foot {
+      display: block;
+      margin: var(--space-1) 0 0;
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-border);
+      font-size: var(--text-sm);
+      line-height: 1.4;
+    }
+
+    .dash-box__foot .dash-back {
+      min-height: 24px;
+      font-weight: var(--weight-regular);
+    }
   }
 
   /* The note the asterisks point to: under the three numbers (above the source line)
@@ -1272,6 +1500,21 @@ const pageData = {
     /* Larger text size: steps two to a row. */
     :global(html[data-text-size]) .legend {
       grid-template-columns: repeat(2, auto);
+    }
+  }
+
+  /* Larger text size up to 64rem: the six-column legend doesn't fit beside the
+     territory insets (768px at 130%), so it takes the phone layout. */
+  @media (min-width: 40.01rem) and (max-width: 63.99rem) {
+    :global(html[data-text-size]) .legend {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+      column-gap: var(--space-4);
+    }
+
+    :global(html[data-text-size]) .legend__title,
+    :global(html[data-text-size]) .legend__list li:nth-child(n + 6) {
+      grid-column: 1 / -1;
     }
   }
 
