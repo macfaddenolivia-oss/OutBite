@@ -449,7 +449,7 @@
         "privacy": {
           "q": "Does Outbite collect my information?",
           "a": [
-            "No. Outbite doesn’t ask for your name, email or location, has no accounts and doesn’t use cookies. Visits are counted with GoatCounter in a way that doesn’t identify you, and the Privacy page has a switch to stop counting your visits. Five choices are saved in your own browser only: the weekly checklist’s ticks, the Protect page’s “Show first” choices, the “Don’t count my visits” switch, your text size and whether you closed the alert banner. The ZIP code box and place picker never save or send what you type."
+            "No. Outbite doesn’t ask for your name, email or location, has no accounts and doesn’t use cookies. Visits are counted with GoatCounter in a way that doesn’t identify you, and the Privacy page has a switch to stop counting your visits. Five choices are saved in your own browser only: the weekly checklist’s ticks, the Protect page’s “Show first” choices, the “Don’t count my visits” switch, your text size and whether you closed the alert banner. The place picker never saves or sends what you choose."
           ]
         },
         "medical-advice": {
@@ -655,7 +655,7 @@
         "privacy": {
           "q": "¿Outbite recoge mi información?",
           "a": [
-            "No. Outbite no te pide tu nombre, correo ni ubicación, no tiene cuentas y no usa cookies. Las visitas se cuentan con GoatCounter de una forma que no te identifica, y la página de Privacidad tiene un interruptor para que no se cuenten tus visitas. Cinco opciones se guardan solo en tu propio navegador: las marcas de la lista semanal, las opciones de “Mostrar primero” de la página Protégete, el interruptor “No contar mis visitas”, el tamaño del texto y si cerraste el aviso. La casilla del código postal y el selector de lugar nunca guardan ni envían lo que escribes."
+            "No. Outbite no te pide tu nombre, correo ni ubicación, no tiene cuentas y no usa cookies. Las visitas se cuentan con GoatCounter de una forma que no te identifica, y la página de Privacidad tiene un interruptor para que no se cuenten tus visitas. Cinco opciones se guardan solo en tu propio navegador: las marcas de la lista semanal, las opciones de “Mostrar primero” de la página Protégete, el interruptor “No contar mis visitas”, el tamaño del texto y si cerraste el aviso. El selector de lugar nunca guarda ni envía lo que eliges."
           ]
         },
         "medical-advice": {

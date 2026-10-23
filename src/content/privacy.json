@@ -42,7 +42,7 @@
           "To avoid counting the same visit twice, GoatCounter links your IP address and browser details to a random ID. It keeps that link only in memory, for up to 8 hours, and your IP address is never saved.",
           "GoatCounter stores its data in Finland and Germany."
         ],
-        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a ZIP code or a place. As with any website, your browser also sends its IP address and browser details with the request; GoatCounter uses them only as described above.",
+        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a place you pick. As with any website, your browser also sends its IP address and browser details with the request; GoatCounter uses them only as described above.",
         "noJs": "With JavaScript turned off, visits aren’t counted at all.",
         "link": "GoatCounter’s privacy page",
         "switchLabel": "Don’t count my visits",
@@ -66,7 +66,7 @@
         "heading": "What we never do",
         "points": [
           "Outbite has no accounts and no forms.",
-          "Outbite doesn’t track your location. The ZIP code box looks up your state in your browser, and nothing is sent or saved. The place picker also works only in your browser, and nothing you pick is saved or sent.",
+          "Outbite doesn’t track your location. The place picker works only in your browser, and nothing you pick is saved or sent.",
           "Outbite has no ads and never sells data.",
           "Copy buttons only copy text to your clipboard.",
           "Outbite never sends messages for you.",
@@ -100,7 +100,7 @@
           "Para no contar la misma visita dos veces, GoatCounter vincula tu dirección IP y los datos de tu navegador con un identificador al azar. Guarda ese vínculo solo en la memoria, por hasta 8 horas, y tu dirección IP nunca se guarda.",
           "GoatCounter guarda los datos en Finlandia y Alemania."
         ],
-        "sends": "Outbite le envía a GoatCounter solo la dirección de la página, el título de la página, el sitio de donde vienes y el ancho de tu pantalla, además de un número al azar que evita que el navegador reutilice una solicitud anterior y, en los navegadores automatizados, una señal que los marca como bots. Nunca envía nada que escribas o elijas en el sitio, como un código postal o un lugar. Como con cualquier sitio web, tu navegador también envía su dirección IP y los datos del navegador con la solicitud; GoatCounter los usa solo como se explica arriba.",
+        "sends": "Outbite le envía a GoatCounter solo la dirección de la página, el título de la página, el sitio de donde vienes y el ancho de tu pantalla, además de un número al azar que evita que el navegador reutilice una solicitud anterior y, en los navegadores automatizados, una señal que los marca como bots. Nunca envía nada que escribas o elijas en el sitio, como un lugar que eliges. Como con cualquier sitio web, tu navegador también envía su dirección IP y los datos del navegador con la solicitud; GoatCounter los usa solo como se explica arriba.",
         "noJs": "Con JavaScript desactivado, las visitas no se cuentan.",
         "link": "Página de privacidad de GoatCounter",
         "switchLabel": "No contar mis visitas",
@@ -124,7 +124,7 @@
         "heading": "Lo que nunca hacemos",
         "points": [
           "Outbite no tiene cuentas ni formularios.",
-          "Outbite no rastrea tu ubicación. La casilla del código postal busca tu estado en tu navegador, y no se envía ni se guarda nada. El selector de lugar también funciona solo en tu navegador, y nada de lo que eliges se guarda ni se envía.",
+          "Outbite no rastrea tu ubicación. El selector de lugar funciona solo en tu navegador, y nada de lo que eliges se guarda ni se envía.",
           "Outbite no tiene anuncios y nunca vende datos.",
           "Los botones de copiar solo copian texto a tu portapapeles.",
           "Outbite nunca envía mensajes por ti.",

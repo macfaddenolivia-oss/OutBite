@@ -105,7 +105,7 @@
   --color-panel-text: var(--palette-white);
   --color-field-bg: var(--palette-white);
   --color-field-text: var(--palette-navy);
-  --color-field-placeholder: var(--palette-deep-blue); /* example text in the ZIP box (field stays white) */
+  --color-field-placeholder: var(--palette-deep-blue); /* example text in a search box (field stays white) */
   --color-graphic-ink: var(--palette-navy); /* mosquitoes outside the layers graphic */
   --color-graphic-wing: var(--palette-light-blue);
   --color-graphic-mark: var(--palette-white); /* stripes and leg bands on those mosquitoes */

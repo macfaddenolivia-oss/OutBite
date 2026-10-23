@@ -84,20 +84,12 @@
     "near": {
       "stateLabel": "Estado o territorio",
       "allUS": "Todo EE. UU.",
-      "zipLabel": "Código postal",
       "privacy": "No rastreamos tu ubicación.",
       "unit": "casos",
       "us": "EE. UU.",
-      "zipNotFound": "No encontramos ese código postal. Elige tu estado o territorio.",
-      "zipShort": "Escribe un código postal de 5 dígitos.",
-      "zipMulti": "Este código postal está en más de un estado. Elige uno:",
-      "zipFound": "Mostrando {place}.",
-      "zipGo": "Ir",
-      "zipNote": "Las cifras son por estado, así que tu código postal muestra las cifras de tu estado.",
       "showing": "Estos números son de {place}.",
       "seeState": "Ver tu estado o territorio",
       "place": "En {place} este año",
-      "zipPlaceholder": "ej. 00901",
       "prLine": "El dengue es común en Puerto Rico.",
       "prLink": "Mira las cifras de Puerto Rico"
     },
@@ -493,11 +485,6 @@
           "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html"
         },
         {
-          "name": "Oficina del Censo de EE. UU.: archivo de relación entre ZCTA y condados (2020)",
-          "note": "La casilla del código postal en “¿Está cerca de mí?”: en qué estado o territorio está cada Área de Tabulación de Código Postal (ZCTA) (todos, si un código postal cruza la línea entre estados). Las ZCTA se parecen a los códigos postales del Servicio Postal (USPS), pero no son iguales, así que algunos códigos postales (como los de apartados postales) no aparecen. De dominio público. Un programa lo lee al crear el sitio; tu código postal se busca en tu navegador.",
-          "url": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html"
-        },
-        {
           "name": "CDC: Áreas con riesgo de dengue",
           "note": "La lista mundial de países según la categoría de riesgo de dengue de los CDC, para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad (se revisa a diario, con la fecha y las notas de los CDC).",
           "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
@@ -651,7 +638,7 @@
     "worldwide": "Todo el mundo",
     "sourceCdc": "Fuente: CDC",
     "sourcesHeading": "Fuentes",
-    "sources": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales; páginas de casos de dengue, zika y chikungunya de los CDC. Contornos del mapa y códigos postales: Oficina del Censo de EE. UU.",
+    "sources": "Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, datos semanales; páginas de casos de dengue, zika y chikungunya de los CDC. Contornos del mapa: Oficina del Censo de EE. UU.",
     "lastChecked": "Última revisión: {date} (el último día en que Outbite buscó datos nuevos de los CDC).",
     "short": {
       "DC": "D.C.",

@@ -84,20 +84,12 @@
     "near": {
       "stateLabel": "State or territory",
       "allUS": "All of the U.S.",
-      "zipLabel": "ZIP code",
       "privacy": "No location tracking.",
       "unit": "cases",
       "us": "the U.S.",
-      "zipNotFound": "We couldn’t find that ZIP code. Choose your state or territory instead.",
-      "zipShort": "Enter a 5-digit ZIP code.",
-      "zipMulti": "This ZIP code is in more than one state. Choose one:",
-      "zipFound": "Showing {place}.",
-      "zipGo": "Go",
-      "zipNote": "Case numbers are by state, so your ZIP code shows your state’s numbers.",
       "showing": "These numbers are for {place}.",
       "seeState": "See your state or territory",
       "place": "In {place} this year",
-      "zipPlaceholder": "e.g. 33101",
       "prLine": "Dengue is common in Puerto Rico.",
       "prLink": "See Puerto Rico’s numbers"
     },
@@ -493,11 +485,6 @@
           "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html"
         },
         {
-          "name": "U.S. Census Bureau: 2020 ZCTA to County relationship file",
-          "note": "The ZIP code box on “Is it near me?”: which state or territory each ZIP Code Tabulation Area is in (all of them, for a ZIP that crosses state lines). ZCTAs are close to, but not exactly, USPS ZIP codes, so some ZIPs (like PO boxes) aren’t found. Public domain. Read by a script when the site is built; your ZIP code is looked up in your browser.",
-          "url": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html"
-        },
-        {
           "name": "CDC: Areas with Risk of Dengue",
           "note": "The world list of countries by CDC’s dengue risk category, for the world maps on “Traveling soon?” and the disease pages (read daily, with CDC’s date and notes).",
           "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
@@ -651,7 +638,7 @@
     "worldwide": "Worldwide",
     "sourceCdc": "Source: CDC",
     "sourcesHeading": "Sources",
-    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC case pages for dengue, Zika and chikungunya. Map outlines and ZIP codes: U.S. Census Bureau.",
+    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC case pages for dengue, Zika and chikungunya. Map outlines: U.S. Census Bureau.",
     "lastChecked": "Last checked {date}: the last day Outbite looked for new CDC data.",
     "short": {
       "DC": "D.C.",

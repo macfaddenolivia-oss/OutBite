@@ -16,7 +16,6 @@
     "build-map": "node scripts/build-map.mjs",
     "test-ics": "node scripts/test-ics.mjs",
     "build-world-map": "node scripts/build-world-map.mjs",
-    "build-zip-data": "node scripts/build-zip-data.mjs",
     "due-for-review": "node scripts/due-for-review.mjs",
     "build-social-images": "node scripts/build-social-images.mjs",
     "build-photos": "node scripts/build-photos.mjs",

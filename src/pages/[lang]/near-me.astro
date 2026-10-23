@@ -1,11 +1,8 @@
 ---
 // "Is it near me?" dashboard (Oct 16 2026). All numbers come from CDC
 // (src/data/cases.json, written by `npm run update-data`; the build needs no network):
-// 1. Title and the place picker (remembered in this browser only, like the home page).
-//    The ZIP code box (JavaScript only) looks the ZIP up in src/data/zip-to-state.json
-//    (Census ZCTAs, npm run build-zip-data), bundled into this page's script: Enter or
-//    "Go" picks its state or territory; a ZIP in more than one state offers a button for
-//    each. Nothing is sent or saved, and the ZIP never goes into the page address.
+// 1. Title and the state and territory picker, with "No location tracking." beside it.
+//    Nothing is sent or saved.
 // 2. What these numbers mean, with more detail in an expandable section.
 // 3. The three numbers for the chosen place + CDC's national local/travel split, then a
 //    link to "Traveling soon?" (world map and CDC travel notices).
@@ -133,10 +130,6 @@ const pageData = {
     mapLabel: t('dash.mapLabel'),
     viewTable: t('dash.viewTable'),
     viewMap: t('dash.viewMap'),
-    zipNotFound: t('home.near.zipNotFound'),
-    zipShort: t('home.near.zipShort'),
-    zipMulti: t('home.near.zipMulti'),
-    zipFound: t('home.near.zipFound'),
   },
 };
 ---
@@ -166,34 +159,7 @@ const pageData = {
             {placesSorted.map((code) => <option value={code}>{names[code]}</option>)}
           </select>
         </div>
-        <div class="dash-pick__field dash-zip js-only">
-          <label for="dash-zip">{t('home.near.zipLabel')}</label>
-          <div class="dash-zip__row">
-            <input
-              id="dash-zip"
-              class="dash-pick__zip"
-              data-dash-zip
-              type="text"
-              inputmode="numeric"
-              enterkeyhint="go"
-              autocomplete="postal-code"
-              maxlength="5"
-              pattern="[0-9]{5}"
-              placeholder={t('home.near.zipPlaceholder')}
-              aria-describedby="dash-zip-note dash-zip-msg"
-            />
-            <button type="button" class="btn btn-primary dash-zip__go" data-dash-zip-go>{t('home.near.zipGo')}</button>
-          </div>
-          <!-- Right under the ZIP box: the note and "No location tracking." on one line,
-               then the ZIP messages (read by screen readers): too short, not found, or
-               more than one state with a button for each. -->
-          <div class="dash-zip__under">
-            <p class="dash-zip__note" id="dash-zip-note">{t('home.near.zipNote')} {t('home.near.privacy')}</p>
-            <div class="dash-pick__msg" id="dash-zip-msg" aria-live="polite" data-dash-msg></div>
-          </div>
-        </div>
-        <!-- Without JavaScript there is no ZIP box, so "No location tracking." sits here. -->
-        <p class="dash-pick__privacy no-js-only">{t('home.near.privacy')}</p>
+        <p class="dash-pick__privacy">{t('home.near.privacy')}</p>
         <p class="dash-pick__back js-only">
           <button type="button" class="dash-back" data-dash-back hidden>
             <span aria-hidden="true">←</span> {t('dash.backToUS')}
@@ -431,8 +397,7 @@ const pageData = {
 </BaseLayout>
 
 <script>
-  import { fillRefText, statesForZip, weekLine, type WeekText } from '../../lib/place-client';
-  import zipToState from '../../data/zip-to-state.json';
+  import { fillRefText, weekLine, type WeekText } from '../../lib/place-client';
 
   type Counts = Record<string, number | null>;
   interface DashData {
@@ -462,8 +427,6 @@ const pageData = {
     const bin = (n: number | null) => (n === null ? -1 : n === 0 ? 0 : data.binLimits.filter((l) => n >= l).length);
 
     const select = root.querySelector<HTMLSelectElement>('[data-dash-state]')!;
-    const zip = root.querySelector<HTMLInputElement>('[data-dash-zip]')!;
-    const msg = root.querySelector<HTMLElement>('[data-dash-msg]')!;
     const map = root.querySelector<HTMLElement>('[data-map]')!;
     const places = [...map.querySelectorAll<HTMLElement | SVGGElement>('.place')];
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-disease]')];
@@ -564,60 +527,7 @@ const pageData = {
     }
 
     // Picker
-    // ZIP messages: `invalid` marks the box for screen readers; `codes` adds a button per
-    // state. Cleared first, so the same message is read again.
-    function zipMessage(text: string, opts: { invalid?: boolean; codes?: string[]; quiet?: boolean } = {}) {
-      msg.replaceChildren();
-      if (opts.invalid) zip.setAttribute('aria-invalid', 'true');
-      else zip.removeAttribute('aria-invalid');
-      if (!text) return;
-      setTimeout(() => {
-        const p = document.createElement('p');
-        p.className = opts.quiet ? 'visually-hidden' : 'dash-pick__error';
-        p.textContent = text;
-        msg.append(p);
-        if (!opts.codes) return;
-        const row = document.createElement('p');
-        row.className = 'dash-zip__choices';
-        for (const code of opts.codes) {
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'btn btn-secondary';
-          b.textContent = data.names[code];
-          b.setAttribute('aria-pressed', 'false');
-          b.addEventListener('click', () => {
-            for (const o of row.querySelectorAll('button')) o.setAttribute('aria-pressed', String(o === b));
-            choose(code);
-          });
-          row.append(b);
-        }
-        msg.append(row);
-      }, 50);
-    }
-    function lookUpZip() {
-      const value = zip.value;
-      if (!/^\d{5}$/.test(value)) return zipMessage(data.text.zipShort, { invalid: true });
-      const codes = statesForZip(zipToState, value).filter((c) => data.names[c]);
-      if (!codes.length) return zipMessage(data.text.zipNotFound, { invalid: true });
-      if (codes.length > 1) return zipMessage(data.text.zipMulti, { codes });
-      choose(codes[0]);
-      zipMessage(fill(data.text.zipFound, { place: data.names[codes[0]] }).replace(/\.\.$/, '.'), { quiet: true });
-    }
-    select.addEventListener('change', () => {
-      zip.value = '';
-      zipMessage('');
-      choose(select.value);
-    });
-    zip.addEventListener('input', () => {
-      zip.value = zip.value.replace(/\D/g, '').slice(0, 5);
-      zipMessage('');
-    });
-    zip.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter') return;
-      e.preventDefault();
-      lookUpZip();
-    });
-    root.querySelector('[data-dash-zip-go]')!.addEventListener('click', lookUpZip);
+    select.addEventListener('change', () => choose(select.value));
 
     // Map: click, tap, Enter or Space selects a place (again to go back to the U.S.).
     const pick = (g: HTMLElement | SVGGElement) => {
@@ -705,16 +615,12 @@ const pageData = {
     // Start with the place chosen earlier (this browser only), else the whole U.S.
     // Always opens on All of the U.S. (no place is remembered).
     root.querySelector('[data-dash-back]')?.addEventListener('click', () => {
-      zip.value = '';
-      zipMessage('');
       choose('');
       select.focus();
     });
     // The same under the numbers box (phones and narrow windows): focus moves to the
     // box's heading, since the button disappears.
     root.querySelector('[data-dash-back-box]')?.addEventListener('click', () => {
-      zip.value = '';
-      zipMessage('');
       choose('');
       root.querySelector<HTMLElement>('[data-dash-place]')!.focus();
     });
@@ -833,8 +739,7 @@ const pageData = {
       align-items: flex-start;
     }
 
-    .dash-pick .dash-pick__field:not(.js-only),
-    :global(.js) .dash .dash-pick .dash-pick__field.js-only {
+    .dash-pick .dash-pick__field {
       display: flex;
       align-items: center;
       gap: var(--space-2);
@@ -845,8 +750,7 @@ const pageData = {
     font-weight: var(--weight-strong);
   }
 
-  .dash-pick select,
-  .dash-pick input {
+  .dash-pick select {
     box-sizing: border-box;
     height: var(--tap-target);
     padding: var(--space-1) var(--space-3);
@@ -855,9 +759,6 @@ const pageData = {
     background: var(--color-field-bg);
     color: var(--color-field-text);
     font: inherit;
-  }
-
-  .dash-pick select {
     max-width: 100%;
   }
 
@@ -871,69 +772,6 @@ const pageData = {
     .dash > * {
       min-width: 0;
     }
-  }
-
-  .dash-pick__zip {
-    width: 8rem;
-  }
-
-  /* ZIP box: label, then the box and "Go", then the small note under them (label beside
-     the box from 48rem). */
-  :global(.js) .dash .dash-pick .dash-pick__field.dash-zip.js-only {
-    display: grid;
-    gap: var(--space-1) var(--space-2);
-    align-items: center;
-  }
-
-  @media (min-width: 48rem) {
-    :global(.js) .dash .dash-pick .dash-pick__field.dash-zip.js-only {
-      grid-template-columns: auto auto;
-    }
-
-    .dash-zip__under {
-      grid-column: 2;
-      max-width: 26rem;
-    }
-  }
-
-  .dash-zip__row {
-    display: flex;
-    gap: var(--space-2);
-  }
-
-  .dash-zip__go {
-    min-width: 3.5rem;
-    padding-inline: var(--space-3);
-  }
-
-  .dash-zip__note {
-    max-width: 22rem;
-    margin: 0;
-    font-size: var(--text-sm);
-  }
-
-  .dash-pick__msg :global(.dash-pick__error) {
-    margin: var(--space-1) 0 0;
-    font-weight: var(--weight-strong);
-  }
-
-  /* The state chosen from a ZIP in more than one state: same look as a chosen tab. */
-  .dash-pick__msg :global(.dash-zip__choices button[aria-pressed='true']) {
-    border-color: var(--color-tab-active-border);
-    background: var(--color-tab-active-bg);
-    color: var(--color-tab-active-text);
-  }
-
-  .dash-pick__msg :global(.dash-zip__choices) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin: var(--space-2) 0 var(--space-1);
-  }
-
-  .dash-pick__zip::placeholder {
-    color: var(--color-field-placeholder);
-    opacity: 1;
   }
 
   .dash-pick__back {
@@ -1381,10 +1219,6 @@ const pageData = {
 
   :global(.js) .dash .js-only {
     display: revert;
-  }
-
-  :global(.js) .dash .dash-pick__field.js-only {
-    display: grid;
   }
 
   .js-only {

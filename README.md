@@ -38,7 +38,6 @@ Quality checks are run locally before each release.
 | `npm run update-data` | Downloads the latest case counts, travel notices and world risk lists from public CDC sources into `src/data/`. Run it daily once hosted, then rebuild |
 | `npm run build-map` | Rebuilds the U.S. map shapes (`src/data/us-map.json`) |
 | `npm run build-world-map` | Rebuilds the world risk map shapes (`src/data/world-map.json`) |
-| `npm run build-zip-data` | Rebuilds the ZIP code lookup (`src/data/zip-to-state.json`) |
 | `npm run build-social-images` | Rebuilds the social preview images in `public/brand/` |
 | `npm run build-photos` | Rebuilds the web versions of the *Aedes aegypti* photo in `public/photos/` from `design/Aedes_Mosquito.png` |
 
@@ -90,7 +89,7 @@ These settings are in `src/config/site.json`.
 | Header, footer, page frame | `src/components/`, `src/layouts/BaseLayout.astro` |
 | Individual pages | `src/pages/[lang]/…` (one file builds every language) |
 | A suggestion card (Protect page) | `src/content/suggestions/<ID>.json` |
-| States/territories and ZIP ranges for the place picker | `src/data/places.json` (names are in the translation files under `places`) |
+| States and territories for the place picker | `src/data/places.json` (names are in the translation files under `places`) |
 | Source links used across the site | `src/content/sources.json` (one entry per source; content refers to its ID) |
 | Source art used by the build (story mosquito, row of houses) | `src/assets/source/` |
 | The one real photo (*Aedes aegypti*, CDC PHIL image 9258 by James Gathany, public domain), shown on the FAQ, Words to know and How it spreads step 1 | `src/components/AedesPhoto.astro`, text under `photos` in the translation files |
