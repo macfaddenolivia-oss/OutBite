@@ -361,6 +361,15 @@
     "kind": "official",
     "titleEs": "Ciclo de vida de los mosquitos Aedes"
   },
+  "cdc-phil-aedes-aegypti": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 9258: Aedes aegypti mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=9258",
+    "kind": "official",
+    "date": "2006",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 9258: mosquito Aedes aegypti"
+  },
   "cdc-travel-bites-3wk": {
     "short": "CDC",
     "title": "Preventing Mosquito Bites While Traveling",

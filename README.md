@@ -93,7 +93,7 @@ These settings are in `src/config/site.json`.
 | States/territories and ZIP ranges for the place picker | `src/data/places.json` (names are in the translation files under `places`) |
 | Source links used across the site | `src/content/sources.json` (one entry per source; content refers to its ID) |
 | Source art used by the build (story mosquito, row of houses) | `src/assets/source/` |
-| The one real photo (*Aedes aegypti*, public domain), shown on the FAQ, Words to know and How it spreads step 1 | `src/components/AedesPhoto.astro`, text under `photos` in the translation files |
+| The one real photo (*Aedes aegypti*, CDC PHIL image 9258 by James Gathany, public domain), shown on the FAQ, Words to know and How it spreads step 1 | `src/components/AedesPhoto.astro`, text under `photos` in the translation files |
 
 ### Suggestion cards
 

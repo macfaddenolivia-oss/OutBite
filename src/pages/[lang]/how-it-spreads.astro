@@ -103,7 +103,7 @@ const openings = [
           </div>
         </div>
         <div class="scene__figure scene__figure--sky">
-          <div class="art">
+          <div class="art art--meet">
             <SceneMeet label={s.meet.label} aedesName={s.meet.aedesName} culexName={s.meet.culexName} />
             <p class="callout callout--aedes" aria-hidden="true">{s.meet.calloutAedes}</p>
             <div class="meet-photo">
@@ -901,6 +901,15 @@ const openings = [
     justify-content: center;
     margin-top: calc(12px - (360 - 298.5) * 100cqw / 480);
     padding: 0 var(--space-3) var(--space-3);
+  }
+
+  /* Phones (callout hidden, its words are in the text): step 1's drawing starts 80 units
+     lower, trimming the empty sky above the wings (top of the raised wing: about 107 of
+     360 units), so the photo row costs the shared frame less height. */
+  @media (max-width: 30rem) {
+    .art--meet :global(.story-art) {
+      margin-top: calc(-80 * 100cqw / 480);
+    }
   }
 
   /* Side by side, the panel's own 20px bottom padding is below it. */

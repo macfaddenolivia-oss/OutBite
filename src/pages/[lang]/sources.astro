@@ -5,8 +5,8 @@
 //    sources named on their own (from sources.json), each labeled as such: the CDC, EPA
 //    and WHO pages behind the Bti larvicide tip, the DEET/picaridin review, NPIC's Bt
 //    fact sheet, the one advocacy organization cited (EWG), the one news report (AP),
-//    and an "Images" note for the one photo (public domain, no source link; no glossary
-//    link there, so the species name stays whole).
+//    and an "Images" note for the one photo (CDC's Public Health Image Library; no
+//    glossary link there, so the species name stays whole).
 // 2. How we label tips (#how-we-rate-evidence, which every "How we rate evidence →"
 //    link points to): the real tip badges (Badge.astro) with one-line meanings.
 // 3. How the numbers update: CDC publishes → Outbite checks → the site shows CDC's
@@ -44,7 +44,7 @@ const cited = [
   { key: 'factSheet', ids: ['npic-bt'] },
   { key: 'advocacy', ids: ['ewg-bug-repellents'] },
   { key: 'news', ids: ['ap-2016-pr-naled'] },
-  { key: 'images', ids: [] },
+  { key: 'images', ids: ['cdc-phil-aedes-aegypti'] },
 ].map(({ key, ids }) => ({ ...page.cited[key], key, list: ids.map((id) => sources[id]) }));
 const publisherOf = (s: (typeof sources)[string]) => (lang === 'es' && s.publisherEs) || s.publisher;
 

@@ -372,8 +372,8 @@
       },
       "images": {
         "label": "Images",
-        "name": "Public domain photo",
-        "text": "The one photo on this site, an Aedes aegypti mosquito, on Questions and answers, Words to know and How it spreads. Every other picture is an Outbite drawing."
+        "name": "Photo of an Aedes aegypti mosquito",
+        "text": "The one photo on this site, on Questions and answers, Words to know and How it spreads. Photo: CDC/James Gathany, public domain. Every other picture is an Outbite drawing."
       }
     },
     "listen": {
@@ -712,7 +712,7 @@
       "alt": "Close-up photo of an Aedes aegypti mosquito biting a person’s skin. It is black, with white bands on its long legs and white markings on its back shaped like a lyre (a small harp). Its belly is red with blood.",
       "caption": "An Aedes aegypti mosquito biting a person",
       "storyCaption": "What it looks like in real life",
-      "credit": "Public domain photo"
+      "credit": "Photo: CDC/James Gathany, public domain"
     }
   },
   "diseasePage": {

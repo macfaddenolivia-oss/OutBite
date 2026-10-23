@@ -62,8 +62,10 @@ function label(html: string, lang: 'en' | 'es'): string {
     if (titles) {
       for (const form of [titles.en, escapeHtml(titles.en)]) if (text.includes(form)) text = text.split(form).join(escapeHtml(titles.es));
     }
-    const note = `<span class="lang-note"> (${NOTE[lang]})</span>`;
-    const arrow = text.match(/\s*<span aria-hidden="true"[^>]*>→<\/span>\s*$/);
+    // "(en inglés)" never splits across lines.
+    const note = `<span class="lang-note"> (${NOTE[lang].replace(' ', '&nbsp;')})</span>`;
+    // The note goes before the arrow and the (no-break) space joining it to the last word.
+    const arrow = text.match(/(?:\s|&nbsp;)*<span aria-hidden="true"[^>]*>→<\/span>\s*$/);
     text = arrow ? text.slice(0, arrow.index) + note + text.slice(arrow.index) : text + note;
     return `<a${before}href="${href}"${after} hreflang="${lang === 'es' ? 'en' : 'es'}">${italicizeNames(text)}</a>`;
   });

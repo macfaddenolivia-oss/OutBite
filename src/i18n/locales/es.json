@@ -372,8 +372,8 @@
       },
       "images": {
         "label": "Imágenes",
-        "name": "Foto de dominio público",
-        "text": "la única foto de este sitio, un mosquito Aedes aegypti, en Preguntas y respuestas, Palabras clave y Cómo se transmite. Todas las demás imágenes son dibujos de Outbite."
+        "name": "Foto de un mosquito Aedes aegypti",
+        "text": "la única foto de este sitio, en Preguntas y respuestas, Palabras clave y Cómo se transmite. Foto: CDC/James Gathany, dominio público. Todas las demás imágenes son dibujos de Outbite."
       }
     },
     "listen": {
@@ -712,7 +712,7 @@
       "alt": "Foto de cerca de un mosquito Aedes aegypti picando la piel de una persona. Es negro, con bandas blancas en sus patas largas y marcas blancas en forma de lira (un arpa pequeña) en la parte de arriba del cuerpo. Su abdomen está rojo de sangre.",
       "caption": "Un mosquito Aedes aegypti picando a una persona",
       "storyCaption": "Así se ve en la vida real",
-      "credit": "Foto de dominio público"
+      "credit": "Foto: CDC/James Gathany, dominio público"
     }
   },
   "diseasePage": {

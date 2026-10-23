@@ -1,12 +1,13 @@
 ---
-// The one real photo on the site: an Aedes aegypti mosquito (public domain; files in
-// public/photos/, made by npm run build-photos). Used only where it
+// The one real photo on the site: an Aedes aegypti mosquito (CDC PHIL image 9258, by
+// James Gathany, public domain; files in public/photos/, made by npm run build-photos).
+// Used only where it
 // helps people recognize the mosquito: the FAQ "How can I tell…" answer, the Aedes entry
 // in Words to know, and step 1 of How it spreads (story: "What it looks like in real
 // life" and just the species name, so step 1 stays short on phones). Drawings
 // everywhere else.
-// Same look everywhere: 128px square in a thin navy border, the caption and credit
-// beside it. Width and height are set, so nothing moves while it loads. The alt text
+// Same look everywhere: 128px square (96px in the story on phones) in a thin navy border,
+// the caption and credit beside it. Width and height are set, so nothing moves while it loads. The alt text
 // describes what's visible (it carries information); the caption names the species.
 // Text: photos.aedes.* in the translation files.
 import Genus from './Genus.astro';
@@ -25,12 +26,12 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
 
 <figure class:list={['photo', { 'photo--story': story }]} data-no-glossary>
   <picture>
-    <source type="image/webp" srcset={srcset('webp')} sizes={`${SIZE}px`} />
+    <source type="image/webp" srcset={srcset('webp')} sizes={story ? `(max-width: 40rem) 96px, ${SIZE}px` : `${SIZE}px`} />
     <img
       class="photo__img"
       src={assetPath('photos/aedes-aegypti-192.jpg')}
       srcset={srcset('jpg')}
-      sizes={`${SIZE}px`}
+      sizes={story ? `(max-width: 40rem) 96px, ${SIZE}px` : `${SIZE}px`}
       width={SIZE}
       height={SIZE}
       alt={t('photos.aedes.alt')}
@@ -96,5 +97,14 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
   .photo--story .photo__lead,
   .photo--story .photo__credit {
     color: #17306a;
+  }
+
+  /* Phones: smaller in the story, where step 1 sets the height of the shared frame for
+     all nine steps. */
+  @media (max-width: 40rem) {
+    .photo--story .photo__img {
+      width: 96px;
+      height: 96px;
+    }
   }
 </style>

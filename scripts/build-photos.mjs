@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // npm run build-photos
 // Makes the web versions of the Aedes aegypti photo (design/Aedes_Mosquito.png, 440 × 440,
-// public domain; the original stays in design/, which isn't published):
+// CDC PHIL image 9258 by James Gathany, public domain; the original stays in design/,
+// which isn't published):
 // public/photos/aedes-aegypti-192.webp and -384.webp, with JPEG fallbacks of the same
 // sizes. The site shows it 128px wide (src/components/AedesPhoto.astro); 192 covers
 // ordinary screens and 384 sharp phone screens. Uses sharp, which comes with Astro;

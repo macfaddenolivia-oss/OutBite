@@ -57,7 +57,7 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
       <h1>{text.title}</h1>
       <p class="page-intro__lead">{text.intro}</p>
       <p class="page-intro__more">
-        {t('pages.glossary.pointerQuestion')} <a href={localizePath(lang, 'glossary/')}>{t('pages.glossary.pointerLink')} <span aria-hidden="true">→</span></a>
+        {t('pages.glossary.pointerQuestion')} <a href={localizePath(lang, 'glossary/')}>{t('pages.glossary.pointerLink')}&nbsp;<span aria-hidden="true">→</span></a>
       </p>
       <ActionRow lang={lang} />
     </div>
@@ -142,7 +142,7 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
                                 <strong>{it.label}:</strong> <Genus text={fill(it.text)} />{' '}
                                 {readMore(it.source) && (
                                   <a href={readMore(it.source)!.url}>
-                                    {readMore(it.source)!.label} <span aria-hidden="true">→</span>
+                                    {readMore(it.source)!.label}&nbsp;<span aria-hidden="true">→</span>
                                   </a>
                                 )}
                               </li>
@@ -153,32 +153,32 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
                       <p class="faq-item__links">
                         {more && (
                           <a href={more.url}>
-                            {more.label} <span aria-hidden="true">→</span>
+                            {more.label}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         )}
                         {m.page && (
                           <a href={`${localizePath(lang, getPage(m.page).path)}${m.anchor ? `#${m.anchor}` : ''}`}>
-                            {pageLinkText[m.page]} <span aria-hidden="true">→</span>
+                            {pageLinkText[m.page]}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         )}
                         {m.pages?.map((key) => (
                           <a href={localizePath(lang, getPage(key).path)}>
-                            {pageLinkText[key]} <span aria-hidden="true">→</span>
+                            {pageLinkText[key]}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         ))}
                         {m.tips?.map((tip) => (
                           <a href={`${localizePath(lang, getPage('protect').path)}#card-${tip}`}>
-                            {text.tipLabel}: {tipTitle(tip)} <span aria-hidden="true">→</span>
+                            {text.tipLabel}: {tipTitle(tip)}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         ))}
                         {m.links?.map((l) => (
                           <a href={sources[l]?.url}>
-                            {sources[l]?.short}: {sources[l]?.title} <span aria-hidden="true">→</span>
+                            {sources[l]?.short}: {sources[l]?.title}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         ))}
                         {m.diseases?.map((d) => (
                           <a href={localizePath(lang, getPage(d).path)}>
-                            {t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) })} <span aria-hidden="true">→</span>
+                            {t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) })}&nbsp;<span aria-hidden="true">→</span>
                           </a>
                         ))}
                         <button type="button" class="faq-copy" data-faq-copy={id} hidden>
@@ -197,7 +197,7 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
     }
 
     <p class="faq-sick">
-      <a href={localizePath(lang, getPage('sick').path)}>{text.sickLink} <span aria-hidden="true">→</span></a>
+      <a href={localizePath(lang, getPage('sick').path)}>{text.sickLink}&nbsp;<span aria-hidden="true">→</span></a>
     </p>
   </div>
 </BaseLayout>
@@ -578,13 +578,14 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
     margin: 0 !important;
   }
 
-  /* Flex drops the spaces between the link's pieces ("CDC", "(en inglés)", "→"), so
-     the gap puts them back. */
+  /* The links wrap like ordinary text, so a long one ("Lee más en los CDC (en inglés) →")
+     breaks between words instead of into separate pieces; the arrow is joined to the
+     last word by a no-break space. Padding keeps a one-line link a full tap target. */
   .faq-item__links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3em;
+    display: inline-block;
+    box-sizing: border-box;
     min-height: var(--tap-target);
+    padding-block: max(0px, (var(--tap-target) - 1lh) / 2);
     font-weight: var(--weight-strong);
   }
 
