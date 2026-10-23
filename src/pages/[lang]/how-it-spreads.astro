@@ -672,10 +672,14 @@ const openings = [
     margin-bottom: 4px;
   }
 
-  /* Wide screens: the strip may run into the panel's bottom padding (still blue). */
+  /* Side by side: the strip hangs just below the drawing's box (same place as before),
+     so the drawing itself is what gets centered in the panel, at the same height as every
+     other step's (the ground line doesn't jump). It sits in the panel's blue space below. */
   @media (min-width: 56rem) {
     .egg-spots {
-      margin-bottom: -20px; /* may use the panel's (blue) bottom padding */
+      position: absolute;
+      top: 100%;
+      inset-inline: 0;
       padding-bottom: 12px;
     }
   }
@@ -790,6 +794,17 @@ const openings = [
     margin-top: 0;
   }
 
+  /* Tablets, stacked (40–56rem): the picture panel is just as tall as its drawing (it was
+     given part of the frame's spare height, which left empty blue space under the drawing,
+     more on some steps than others); the spare height goes to the text below instead.
+     The drawing then has the same space above and below and the same top on every step.
+     Phones keep their layout. */
+  @media (min-width: 40rem) and (max-width: 55.99rem) {
+    .scene {
+      grid-template-rows: auto 1fr;
+    }
+  }
+
   /* Side by side: text on the left, picture on the right (same 1 : 1.25 proportions,
      mirrored). */
   @media (min-width: 56rem) {
@@ -797,9 +812,12 @@ const openings = [
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     }
 
-    /* Top padding = the text panel's, so the drawing lines up with the top of the text. */
+    /* The drawing is centered in the panel (equal space above and below, at least the
+       text panel's 20px). Every drawing is the same height except steps 1 and 9, which
+       fill the panel, so the drawings sit at the same height on every step. */
     .scene__figure {
       order: 0;
+      align-content: center;
       padding-block: 20px;
       border-bottom: 0;
     }
