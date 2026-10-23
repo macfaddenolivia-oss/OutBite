@@ -2,7 +2,8 @@
 // node scripts/check-data-age.mjs
 // Used by .github/workflows/deploy.yml after the CDC download, before the build: fails if
 // CDC's latest reporting week in src/data/cases.json (the week-ending date the site shows
-// as "CDC data through…") is more than 14 days old, so stale numbers never go out quietly.
+// as "CDC data through…") is more than 14 days old, so stale numbers never go out quietly
+// (the daily run then stops; push and by-hand runs publish with a warning).
 // CDC usually publishes a week's data within about a week of its last day.
 
 import { readFileSync } from 'node:fs';

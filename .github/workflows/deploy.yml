@@ -16,8 +16,10 @@
 #   The live site keeps yesterday's numbers, and GitHub emails you that the run failed.
 # - Push or by-hand run: the site is still published, with the last good data, and the
 #   run shows a warning ("Some CDC data could not be updated…").
-# - Either way, the run fails (and nothing is published) if CDC's latest reporting week
-#   in the data is more than 14 days old.
+# - If CDC's latest reporting week in the data is more than 14 days old: the daily run
+#   fails and nothing is published (GitHub emails you); a push or by-hand run shows a
+#   warning and still publishes, so a pause in CDC's publishing never blocks content
+#   updates.
 # - If no run succeeds for 7 days, GitHub deletes the saved copy; the next run then starts
 #   from the copy in git again.
 name: Deploy to GitHub Pages
@@ -89,8 +91,15 @@ jobs:
           path: .cdc-last-good
           key: cdc-data-${{ github.run_id }}-${{ github.run_attempt }}
 
+      # Daily runs stop here if CDC's data is too old; push and by-hand runs carry on.
       - name: Check CDC's latest reporting week is no more than 14 days old
+        id: age
+        continue-on-error: ${{ github.event_name != 'schedule' }}
         run: node scripts/check-data-age.mjs
+
+      - name: Warn if the CDC data is more than 14 days old
+        if: steps.age.outcome == 'failure'
+        run: echo "::warning::CDC's latest reporting week is more than 14 days old; the site was published anyway. See the age check step."
 
       - run: npm run build
 

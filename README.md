@@ -52,8 +52,10 @@ in the Actions cache, and every run starts from the newest good copy (that one, 
 git if it's newer), so a failed download never rolls the site back. If a download fails on
 the daily run, the run fails and nothing is published (the live site keeps yesterday's
 numbers, and GitHub emails you); on a push or by-hand run the site is published with the last
-good data and a warning. Any run fails if CDC's latest reporting week is more than 14 days
-old. The comment at the top of `deploy.yml` explains this step by step.
+good data and a warning. If CDC's latest reporting week is more than 14 days old, the daily
+run fails the same way, while a push or by-hand run publishes with a warning, so a pause in
+CDC's publishing never blocks content updates. The comment at the top of `deploy.yml`
+explains this step by step.
 
 Every address starts with `/OutBite/` (`base` in `astro.config.mjs`). Links inside the site
 use the helpers in `src/i18n/index.ts` (`localizePath`, `assetPath`, `siteAddress`), which
