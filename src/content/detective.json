@@ -104,6 +104,36 @@
       "why": "The same shot as Aedes4.tif (PHIL 26042) with a different background color; skipped."
     }
   ],
+  "clues": {
+    "aedes": {
+      "source": "design/Aedes_Mosquito.png",
+      "phil": "cdc-phil-aedes-aegypti",
+      "crop": {
+        "x": 220,
+        "y": 220,
+        "width": 440,
+        "height": 293
+      },
+      "sizes": [
+        220,
+        440
+      ]
+    },
+    "culex": {
+      "source": "design/clue-culex.jpg",
+      "phil": "cdc-phil-26026",
+      "crop": {
+        "x": 2100,
+        "y": 1200,
+        "width": 3000,
+        "height": 2000
+      },
+      "sizes": [
+        440,
+        880
+      ]
+    }
+  },
   "yard": {
     "water": [
       "bucket",
@@ -132,12 +162,25 @@
     "en": {
       "eyebrow": "Tools · Game",
       "intro": "Aedes mosquitoes spread dengue, Zika and chikungunya. Can you spot them, and the places they breed?",
-      "cluesHeading": "Look for:",
       "clues": {
-        "legs": "White bands on the legs",
-        "back": "White markings on the back",
-        "culex": "Culex: plain brown, no bands"
+        "heading": "How to tell them apart",
+        "aedes": {
+          "name": "Aedes",
+          "spreads": "spreads dengue, Zika, chikungunya",
+          "points": [
+            "White bands on the legs",
+            "White markings on the back"
+          ]
+        },
+        "culex": {
+          "name": "Culex",
+          "spreads": "does **not** spread dengue, Zika, chikungunya",
+          "points": [
+            "Plain brown, no white bands"
+          ]
+        }
       },
+      "clueCulexAlt": "A golden-brown mosquito standing on skin, in front of a yellow-green background. Its long legs are plain brown, with no white bands; its belly has pale stripes.",
       "start": "Start",
       "startNote": "3 short rounds · about 2 minutes · nothing is saved",
       "roundOf": "Round {n} of 3",
@@ -227,7 +270,6 @@
       "again": "Play again",
       "credit": "Photos: CDC, public domain",
       "staticIntro": "This game needs JavaScript. Here are the clues and the places to check, so you can play in your own yard.",
-      "staticPhotos": "Two examples",
       "staticWater": "These hold water. Empty, scrub, turn over, cover or throw them out once a week:",
       "photos": {
         "mosquito-1": "A dark mosquito standing on brown skin, in front of a yellow background. It has white spots on its body and white bands on its legs.",
@@ -243,12 +285,25 @@
       "reviewStatus": "needs-spanish-review",
       "eyebrow": "Herramientas · Juego",
       "intro": "Los mosquitos Aedes transmiten el dengue, el zika y el chikungunya. ¿Puedes reconocerlos, y también los lugares donde se crían?",
-      "cluesHeading": "Busca:",
       "clues": {
-        "legs": "Bandas blancas en las patas",
-        "back": "Marcas blancas en el lomo",
-        "culex": "Culex: café, sin bandas"
+        "heading": "Cómo distinguirlos",
+        "aedes": {
+          "name": "Aedes",
+          "spreads": "transmite el dengue, el zika y el chikungunya",
+          "points": [
+            "Bandas blancas en las patas",
+            "Marcas blancas en el lomo"
+          ]
+        },
+        "culex": {
+          "name": "Culex",
+          "spreads": "**no** transmite el dengue, el zika ni el chikungunya",
+          "points": [
+            "Café, sin bandas blancas"
+          ]
+        }
       },
+      "clueCulexAlt": "Un mosquito café dorado parado sobre la piel, con un fondo verde amarillento. Sus patas largas son de color café liso, sin bandas blancas; su abdomen tiene rayas claras.",
       "start": "Empezar",
       "startNote": "3 rondas cortas · unos 2 minutos · no se guarda nada",
       "roundOf": "Ronda {n} de 3",
@@ -338,7 +393,6 @@
       "again": "Jugar otra vez",
       "credit": "Fotos: CDC, dominio público",
       "staticIntro": "Este juego necesita JavaScript. Aquí tienes las pistas y los lugares que debes revisar, para que juegues en tu propio patio.",
-      "staticPhotos": "Dos ejemplos",
       "staticWater": "Estas cosas acumulan agua. Vacíalas, friégalas, voltéalas, tápalas o bótalas una vez a la semana:",
       "photos": {
         "mosquito-1": "Un mosquito oscuro parado sobre piel morena, con un fondo amarillo. Tiene manchas blancas en el cuerpo y bandas blancas en las patas.",

@@ -44,7 +44,7 @@ const cited = [
   { key: 'factSheet', ids: ['npic-bt'] },
   { key: 'advocacy', ids: ['ewg-bug-repellents'] },
   { key: 'news', ids: ['ap-2016-pr-naled'] },
-  { key: 'images', ids: ['cdc-phil-aedes-aegypti', 'cdc-phil-26042', 'cdc-phil-26043', 'cdc-phil-26044', 'cdc-phil-17697', 'cdc-phil-26023', 'cdc-phil-26024', 'cdc-phil-26025'] },
+  { key: 'images', ids: ['cdc-phil-aedes-aegypti', 'cdc-phil-26042', 'cdc-phil-26043', 'cdc-phil-26044', 'cdc-phil-17697', 'cdc-phil-26023', 'cdc-phil-26024', 'cdc-phil-26025', 'cdc-phil-26026'] },
 ].map(({ key, ids }) => ({ ...page.cited[key], key, list: ids.map((id) => sources[id]) }));
 const publisherOf = (s: (typeof sources)[string]) => (lang === 'es' && s.publisherEs) || s.publisher;
 

@@ -5,7 +5,8 @@
 // Text, photos and sources: src/content/detective.json (photos made by
 // npm run build-photos into public/photos/detective/; held-back photos are listed there
 // with the reason).
-// - Start: the intro, the clues and Start.
+// - Start: the intro, "How to tell them apart" (DetectiveClues.astro: an Aedes and a
+//   Culex box, each with a CDC example photo that isn't in the game) and Start.
 // - Rounds 1 and 2: 6 photos (3 across, 2 on phones) with 2–3 Aedes each, drawn at random
 //   from every photo in detective.json, Round 2 preferring photos Round 1 didn't use.
 //   Each photo is a toggle button; "Check" shows every answer with its one-line clue,
@@ -15,10 +16,11 @@
 //   fine. "I'm done" marks anything missed with its action.
 // - End: "Case closed!", the score per round, the closing note and three buttons.
 // Each step's heading takes focus when the step opens; results are read out through a
-// polite live region. Without JavaScript: the clues, two labeled example photos and the
-// list of things that hold water.
+// polite live region. Without JavaScript: the same two boxes and the list of things that
+// hold water.
 import ActionRow from '../../../components/ActionRow.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DetectiveClues from '../../../components/DetectiveClues.astro';
 import DetectiveYard from '../../../components/DetectiveYard.astro';
 import Genus from '../../../components/Genus.astro';
 import SourceLine from '../../../components/SourceLine.astro';
@@ -41,8 +43,6 @@ const href = (key: string) => localizePath(lang, getPage(key).path);
 const { water, fine } = content.yard;
 const SIZES = '(max-width: 40rem) 45vw, 280px';
 const srcset = (id: string, ext: string) => [320, 640].map((w) => `${assetPath(`photos/detective/${id}-${w}.${ext}`)} ${w}w`).join(', ');
-// Without JavaScript: one Aedes and one Culex, the clearest of each.
-const examples = ['mosquito-3', 'mosquito-7'].map((id) => content.photos.find((p) => p.id === id)!);
 // What the page script needs, in this language.
 const scriptText = {
   roundOf: text.roundOf,
@@ -75,42 +75,17 @@ const scriptText = {
         <ToolIcon tool="detective" />
         <h1>{t('pages.detective.title')}</h1>
       </div>
-      <p class="page-intro__lead"><Genus text={text.intro} /></p>
+      <!-- No glossary link here: on the start screen only Start should look clickable. -->
+      <p class="page-intro__lead" data-no-glossary><Genus text={text.intro} /></p>
       <ActionRow lang={lang} />
     </div>
   </div>
 
   <div class="container det-page">
-    <!-- Without JavaScript: the clues, two examples and the places to check. -->
+    <!-- Without JavaScript: the two clue boxes and the places to check. -->
     <div class="det-static">
       <p class="det-static__intro">{text.staticIntro}</p>
-      <div class="det-clues">
-        <p class="det-clues__heading">{text.cluesHeading}</p>
-        <ul class="det-clues__list">
-          <li class="det-clue det-clue--aedes"><span>{text.clues.legs}</span></li>
-          <li class="det-clue det-clue--aedes"><span>{text.clues.back}</span></li>
-          <li class="det-clue det-clue--culex"><span><Genus text={text.clues.culex} /></span></li>
-        </ul>
-      </div>
-      <h2 class="det-static__heading">{text.staticPhotos}</h2>
-      <ul class="det-grid det-grid--two">
-        {
-          examples.map((p) => (
-            <li>
-              <figure class:list={['det-example', { 'is-aedes': p.aedes }]}>
-                <picture>
-                  <source type="image/webp" srcset={srcset(p.id, 'webp')} sizes={SIZES} />
-                  <img src={assetPath(`photos/detective/${p.id}-320.jpg`)} srcset={srcset(p.id, 'jpg')} sizes={SIZES} width="320" height="320" alt={photoAlt[p.id]} loading="lazy" decoding="async" />
-                </picture>
-                <figcaption class="det-answer">
-                  <Genus text={p.aedes ? text.answerAedes : text.answerCulex} />
-                </figcaption>
-              </figure>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="det-credit">{text.credit}</p>
+      <DetectiveClues lang={lang} headingId="det-static-clues" />
       <h2 class="det-static__heading"><Genus text={text.yardRound} /></h2>
       <p>{text.staticWater}</p>
       <ul class="det-static__water">
@@ -129,18 +104,11 @@ const scriptText = {
       </p>
     </div>
 
-    <!-- The game (shown by the page script). -->
-    <div class="det-game" data-det data-text={JSON.stringify(scriptText)} hidden>
+    <!-- The game (shown by the page script). No glossary links inside: following one
+         mid-game would lose the game. -->
+    <div class="det-game" data-no-glossary data-det data-text={JSON.stringify(scriptText)} hidden>
       <section class="det-step" data-step="start" aria-labelledby="det-start-heading">
-        <h2 id="det-start-heading" class="visually-hidden" tabindex="-1" data-step-heading>{t('pages.detective.title')}</h2>
-        <div class="det-clues">
-          <p class="det-clues__heading">{text.cluesHeading}</p>
-          <ul class="det-clues__list">
-            <li class="det-clue det-clue--aedes"><span>{text.clues.legs}</span></li>
-            <li class="det-clue det-clue--aedes"><span>{text.clues.back}</span></li>
-            <li class="det-clue det-clue--culex"><span><Genus text={text.clues.culex} /></span></li>
-          </ul>
-        </div>
+        <DetectiveClues lang={lang} headingId="det-start-heading" />
         <p class="det-start">
           <button type="button" class="btn btn-primary det-start__btn" data-start>{text.start} <span aria-hidden="true">→</span></button>
         </p>
@@ -514,50 +482,6 @@ const scriptText = {
     margin: 0 0 var(--space-3);
   }
 
-  /* ---- Clues ---- */
-  .det-clues {
-    max-width: 44rem;
-    padding: var(--space-3) var(--pad-box);
-    border-inline-start: 6px solid var(--palette-light-orange);
-    background: var(--palette-off-white);
-  }
-
-  .det-clues__heading {
-    margin: 0 0 var(--space-1);
-    font-weight: var(--weight-heading);
-  }
-
-  .det-clues__list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .det-clue {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .det-clue + .det-clue {
-    margin-top: var(--space-1);
-  }
-
-  .det-clue::before {
-    content: '';
-    flex: none;
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid var(--palette-light-blue);
-    border-radius: 50%;
-    background: #ffffff;
-  }
-
-  .det-clue--culex::before {
-    border-color: var(--palette-navy);
-    background: #a0623c;
-  }
-
   .det-start {
     margin: var(--space-4) 0 var(--space-2);
   }
@@ -587,11 +511,6 @@ const scriptText = {
     list-style: none;
   }
 
-  .det-grid--two {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 37rem;
-  }
-
   @media (max-width: 40rem) {
     .det-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -599,8 +518,7 @@ const scriptText = {
     }
   }
 
-  .det-photo,
-  .det-example {
+  .det-photo {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -618,8 +536,7 @@ const scriptText = {
     cursor: pointer;
   }
 
-  .det-photo img,
-  .det-example img {
+  .det-photo img {
     display: block;
     width: 100%;
     height: auto;
@@ -657,8 +574,7 @@ const scriptText = {
   }
 
   /* After Check: Aedes framed navy, Culex light blue, each with its clue bar. */
-  .det-photo[data-kind='aedes'],
-  .det-example.is-aedes {
+  .det-photo[data-kind='aedes'] {
     border-color: var(--palette-navy);
     box-shadow: none;
   }
@@ -686,8 +602,7 @@ const scriptText = {
     display: none;
   }
 
-  .det-photo[data-kind='aedes'] .det-answer,
-  .det-example.is-aedes .det-answer {
+  .det-photo[data-kind='aedes'] .det-answer {
     background: var(--palette-navy);
     color: #ffffff;
   }

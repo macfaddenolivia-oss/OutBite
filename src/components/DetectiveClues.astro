@@ -1,0 +1,163 @@
+---
+// Mosquito detective, "How to tell them apart" (design/detective-clues-options.png, option
+// B): the heading, then an Aedes box and a Culex box side by side (stacked on phones), each
+// with one CDC example photo, the name, what it spreads and plain bullets. Shown on the
+// start screen and in the no-JavaScript version. Neither photo is in the game, so they give
+// no answer away: Aedes is the site's PHIL 9258 photo (James Gathany), Culex comes from
+// design/clue-culex.jpg (CDC PHIL 26026, a female Culex quinquefasciatus; detective.json
+// "clues").
+// Nothing here is a link or a button: glossary links are left out (data-no-glossary).
+// Text: detective.json text.*.clues; "**…**" marks the bold word ("not" / "no").
+import Genus from './Genus.astro';
+import content from '../content/detective.json';
+import { assetPath, useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+  /** The heading's level and id (the start screen's heading takes focus). */
+  headingId: string;
+}
+const { lang, headingId } = Astro.props;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = content.text[L];
+const clues = text.clues;
+const photos = content.clues as Record<string, { crop: { width: number; height: number }; sizes: number[] } | null>;
+// Each box's photo: Aedes uses the site's photo alt text; Culex its own (once added).
+const alt: Record<string, string> = { aedes: t('photos.aedes.alt'), culex: (text as Record<string, any>).clueCulexAlt ?? '' };
+const boxes = (['aedes', 'culex'] as const).map((kind) => {
+  const photo = photos[kind];
+  const file = (px: number, ext: string) => assetPath(`photos/detective/clue-${kind}-${px}.${ext}`);
+  const set = (ext: string) => photo!.sizes.map((px) => `${file(px, ext)} ${px}w`).join(', ');
+  const small = photo?.sizes[0] ?? 0;
+  return {
+    kind,
+    ...clues[kind],
+    photo: photo && {
+      webp: set('webp'),
+      jpg: set('jpg'),
+      src: file(small, 'jpg'),
+      width: small,
+      height: Math.round((small * photo.crop.height) / photo.crop.width),
+    },
+  };
+});
+const SIZES = '(max-width: 40rem) calc(100vw - 4rem), 25rem';
+// "does **not** spread…" → [text, bold, text]
+const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
+---
+
+<div class="clues" data-no-glossary>
+  <h2 class="clues__heading" id={headingId} tabindex="-1" data-step-heading>{clues.heading}</h2>
+  <div class="clues__boxes">
+    {
+      boxes.map((box) => (
+        <section class={`clue-box clue-box--${box.kind}`} aria-labelledby={`${headingId}-${box.kind}`}>
+          <div class="clue-box__photo">
+            {box.photo && (
+              <picture>
+                <source type="image/webp" srcset={box.photo.webp} sizes={SIZES} />
+                <img src={box.photo.src} srcset={box.photo.jpg} sizes={SIZES} width={box.photo.width} height={box.photo.height} alt={alt[box.kind]} decoding="async" />
+              </picture>
+            )}
+          </div>
+          <h3 class="clue-box__name" id={`${headingId}-${box.kind}`}>
+            <em>{box.name}</em>
+          </h3>
+          <p class="clue-box__spreads">
+            {parts(box.spreads).map((p, i) => (i % 2 ? <strong>{p}</strong> : <Genus text={p} />))}
+          </p>
+          <ul class="clue-box__points">
+            {box.points.map((p: string) => (
+              <li>
+                <Genus text={p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+  <p class="clues__credit">{text.credit}</p>
+</div>
+
+<style>
+  .clues {
+    max-width: 52rem;
+  }
+
+  .clues__heading {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
+  }
+
+  /* Side by side from 40rem, stacked on phones. */
+  .clues__boxes {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 40rem) {
+    .clues__boxes {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Navy frame with a thick left edge: navy for Aedes (white box), brown for Culex
+     (light-gray box), as in the mockup. */
+  .clue-box {
+    padding: var(--space-3) var(--pad-box) var(--space-3) calc(var(--pad-box) + 4px);
+    border: 3px solid var(--color-rule);
+    border-inline-start: 10px solid var(--palette-navy);
+    background: var(--color-surface);
+  }
+
+  .clue-box--culex {
+    border-inline-start-color: #a0623c;
+    background: var(--palette-off-white);
+  }
+
+  .clue-box__photo {
+    aspect-ratio: 3 / 2;
+    margin-bottom: var(--space-3);
+    border: 2px solid var(--palette-light-blue);
+    background: var(--palette-pale-blue);
+  }
+
+  .clue-box__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .clue-box__name {
+    margin: 0;
+    font-size: var(--text-xl);
+  }
+
+  .clue-box__spreads {
+    margin: var(--space-1) 0 var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  .clue-box__spreads strong {
+    color: var(--color-text);
+  }
+
+  .clue-box__points {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .clue-box__points li + li {
+    margin-top: var(--space-1);
+  }
+
+  .clues__credit {
+    margin: var(--space-2) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>

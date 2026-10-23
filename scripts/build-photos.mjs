@@ -15,6 +15,7 @@
 //    (mosquito-1, …) so the file names don't give the answer away. The game shows them
 //    up to about 260px wide; 640 covers sharp screens. Photos in the folder that are in
 //    neither "photos" nor "held" are listed at the end, to add to detective.json.
+// 3. The two example photos on the Mosquito detective start screen (see below).
 
 import { mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
@@ -60,6 +61,31 @@ for (const photo of detective.photos) {
     }
   }
 }
+// 3. The two example photos in "How to tell them apart" (detective.json "clues"), 3:2,
+//    neither one in the game: crop x, y = the center, width × height in the original's
+//    pixels; saved as public/photos/detective/clue-<aedes|culex>-<width>, WebP and JPEG, at
+//    the widths in "sizes" (the Aedes original is only 440px wide).
+for (const [kind, clue] of Object.entries(detective.clues)) {
+  if (!clue) {
+    console.log(`clues.${kind}: no photo yet (add design/clue-${kind}.* and its crop to detective.json "clues")`);
+    continue;
+  }
+  const { width, height } = await sharp(join(root, clue.source)).metadata();
+  const { x, y, width: w, height: h } = clue.crop;
+  const left = Math.round(x - w / 2);
+  const top = Math.round(y - h / 2);
+  if (left < 0 || top < 0 || left + w > width || top + h > height) throw new Error(`clues.${kind}: crop ${w} × ${h} around (${x}, ${y}) doesn't fit in ${width} × ${height}`);
+  const cropped = sharp(join(root, clue.source)).extract({ left, top, width: w, height: h });
+  for (const px of clue.sizes) {
+    const resized = cropped.clone().resize(px, Math.round((px * h) / w));
+    for (const [ext, encode] of FORMATS) {
+      const file = join(detOut, `clue-${kind}-${px}.${ext}`);
+      await encode(resized.clone(), 78).toFile(file);
+      console.log(`public/photos/detective/clue-${kind}-${px}.${ext}: ${kb(file)} (${basename(clue.source)})`);
+    }
+  }
+}
+
 const listed = new Set([...detective.photos, ...detective.held].map((p) => basename(p.source)));
 const unlisted = readdirSync(join(root, 'design/FindtheAedes')).filter((f) => !f.startsWith('.') && !listed.has(f));
 if (unlisted.length) console.log(`\nNot in src/content/detective.json yet (add each to "photos" with its species, crop and alt text, or to "held"): ${unlisted.join(', ')}`);
