@@ -396,6 +396,11 @@ const openings = [
     const layerButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-layer]')];
     const openingButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-opening-choice]')];
     let current = 0;
+    // Whether the last input was the keyboard (a key press, including Enter or Space on a
+    // button) rather than a pointer: the new step's heading then shows its focus ring.
+    let keyboardNav = false;
+    document.addEventListener('keydown', () => (keyboardNav = true), true);
+    document.addEventListener('pointerdown', () => (keyboardNav = false), true);
     let layer = '';
 
     // The story opens with "After a trip"; the visitor can switch to "Caught nearby".
