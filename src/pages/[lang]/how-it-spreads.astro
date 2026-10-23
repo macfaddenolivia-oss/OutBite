@@ -63,8 +63,10 @@ const openings = [
 <BaseLayout lang={lang} title={title} description={t('pages.howItSpreads.summary')}>
   <div class="page-intro">
     <div class="container">
-      <h1>{title}</h1>
-      <p class="page-intro__lead"><Genus text={text.intro} /></p>
+      <div class="story-intro">
+        <h1>{title}</h1>
+        <p class="page-intro__lead story-intro__lead"><Genus text={text.intro} /></p>
+      </div>
       <ActionRow lang={lang} />
     </div>
   </div>
@@ -580,6 +582,140 @@ const openings = [
      Sizes and spacing come from the shared .page-intro. */
   .story-band {
     background: var(--color-intro-bg);
+  }
+
+  /* Title row (design/how-it-spreads-title.png, bottom version): the intro beside the
+     title, after a thin light-orange line, centered on the title, wherever it fits in 3
+     lines or fewer; otherwise (and on phones) it stays under the title as on other pages.
+     Same markup and reading order either way (h1, then the intro).
+     Widths measured Oct 23, 2026 in 16px steps (first width where the intro takes at most
+     3 lines → one step above): English 100% 752px → 768px, 115% 880px → 896px, 130%
+     992px → 1008px; Spanish 100% 864px → 880px, 115% 992px → 1008px, 130% 1136px →
+     1152px. */
+  @media (min-width: 48rem) {
+    :global(html[lang='en']:not([data-text-size])) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='en']:not([data-text-size])) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='en']:not([data-text-size])) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
+  }
+
+  @media (min-width: 56rem) {
+    :global(html[lang='en'][data-text-size='115']) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='en'][data-text-size='115']) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='en'][data-text-size='115']) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
+  }
+
+  @media (min-width: 63rem) {
+    :global(html[lang='en'][data-text-size='130']) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='en'][data-text-size='130']) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='en'][data-text-size='130']) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
+  }
+
+  @media (min-width: 55rem) {
+    :global(html[lang='es']:not([data-text-size])) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='es']:not([data-text-size])) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='es']:not([data-text-size])) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
+  }
+
+  @media (min-width: 63rem) {
+    :global(html[lang='es'][data-text-size='115']) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='es'][data-text-size='115']) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
+  }
+
+  @media (min-width: 72rem) {
+    :global(html[lang='es'][data-text-size='130']) .story-intro {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .story-intro h1 {
+      flex: none;
+      margin: 0;
+    }
+
+    :global(html[lang='es'][data-text-size='130']) .story-intro__lead {
+      flex: 1 1 0;
+      min-width: 0;
+      margin: 0;
+      padding: var(--space-1) 0 var(--space-1) var(--space-5);
+      border-inline-start: 3px solid var(--palette-light-orange);
+    }
   }
 
   .story {
