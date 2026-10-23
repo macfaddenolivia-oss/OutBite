@@ -39,7 +39,7 @@ Quality checks are run locally before each release.
 | `npm run build-map` | Rebuilds the U.S. map shapes (`src/data/us-map.json`) |
 | `npm run build-world-map` | Rebuilds the world risk map shapes (`src/data/world-map.json`) |
 | `npm run build-social-images` | Rebuilds the social preview images in `public/brand/` |
-| `npm run build-photos` | Rebuilds the web versions of the *Aedes aegypti* photo in `public/photos/` from `design/Aedes_Mosquito.png` |
+| `npm run build-photos` | Rebuilds the web versions of the photos in `public/photos/`: the *Aedes aegypti* photo (from `design/Aedes_Mosquito.png`) and the Mosquito detective photos (from `design/FindtheAedes/`, listed in `src/content/detective.json`; it names any photo in that folder not listed yet) |
 
 ## Publishing
 
@@ -91,7 +91,8 @@ These settings are in `src/config/site.json`.
 | A suggestion card (Protect page) | `src/content/suggestions/<ID>.json` |
 | States and territories for the place picker | `src/data/places.json` (names are in the translation files under `places`) |
 | Source links used across the site | `src/content/sources.json` (one entry per source; content refers to its ID) |
-| Source art used by the build (story mosquito, row of houses) | `src/assets/source/` |
+| Source art used by the build (story mosquito, row of houses, the Mosquito detective yard) | `src/assets/source/` (the yard: `src/assets/source/yard/`, from `design/yard/`) |
+| Mosquito detective: photos, clues, yard items and their actions | `src/content/detective.json` (add a photo there with its species, crop and alt text, then run `npm run build-photos`; the game draws from every photo listed) |
 | The one real photo (*Aedes aegypti*, CDC PHIL image 9258 by James Gathany, public domain), shown on the FAQ, Words to know and How it spreads step 1 | `src/components/AedesPhoto.astro`, text under `photos` in the translation files |
 
 ### Suggestion cards

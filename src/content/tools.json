@@ -29,6 +29,12 @@
       ]
     },
     {
+      "key": "game",
+      "tools": [
+        "detective"
+      ]
+    },
+    {
       "key": "help",
       "tools": [],
       "notes": [
@@ -43,6 +49,7 @@
         "habit": "Keep up the habit",
         "trip": "Planning a trip?",
         "family": "Have young kids?",
+        "game": "Want to practice?",
         "help": "Ask for help"
       },
       "cards": {
@@ -76,6 +83,11 @@
           "line": "Repellent rules for kids, keeping babies safe, toys that hold water, and when a child needs care.",
           "button": "Open"
         },
+        "detective": {
+          "title": "Mosquito detective",
+          "line": "Can you spot an Aedes? A 2-minute game.",
+          "button": "Play"
+        },
         "landlordNote": {
           "title": "Note to a landlord",
           "line": "A ready-to-copy note asking your landlord to fix screens or standing water.",
@@ -91,6 +103,7 @@
         "habit": "Mantén el hábito",
         "trip": "¿Planeas un viaje?",
         "family": "¿Tienes niños pequeños?",
+        "game": "¿Quieres practicar?",
         "help": "Pide ayuda"
       },
       "cards": {
@@ -123,6 +136,11 @@
           "title": "Familias con niños pequeños",
           "line": "Reglas del repelente para niños, cómo proteger a los bebés, juguetes que acumulan agua y cuándo un niño necesita atención.",
           "button": "Abrir"
+        },
+        "detective": {
+          "title": "Detective de mosquitos",
+          "line": "¿Puedes reconocer un Aedes? Un juego de 2 minutos.",
+          "button": "Jugar"
         },
         "landlordNote": {
           "title": "Nota para el dueño de la vivienda",

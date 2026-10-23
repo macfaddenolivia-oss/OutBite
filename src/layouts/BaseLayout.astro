@@ -87,15 +87,16 @@ const reviewed = page ? lastReviewed(page) : null;
         if (size === '115' || size === '130') document.documentElement.dataset.textSize = size;
       } catch (e) {}
       // "menu-mode" on <html>: the header shows the Menu button instead of the menu bar
-      // (see Header.astro). Under 992px; in Spanish at larger text the eight items only fit
-      // on one row from about 1150px (115%) or 1255px (130%), so below 1184px / 1280px
-      // there too (measured Oct 21, 2026; English fits from 992px at every size).
+      // (see Header.astro). Under 992px, and wherever the nine items don't fit on one row
+      // (measured Oct 23, 2026, first width that fits → threshold): English 130% from
+      // 1104px → 1120px; Spanish 100% from 1056px → 1088px, 115% from 1216px → 1248px,
+      // 130% from 1376px → 1408px. English at 100% and 115% fits from 992px.
       (function () {
         var root = document.documentElement;
         var update = function () {
           var es = root.lang === 'es';
           var size = root.dataset.textSize;
-          var max = es && size === '130' ? '79.99rem' : es && size === '115' ? '73.99rem' : '61.99rem';
+          var max = es ? (size === '130' ? '87.99rem' : size === '115' ? '77.99rem' : '67.99rem') : size === '130' ? '69.99rem' : '61.99rem';
           var narrow = matchMedia('(max-width: ' + max + ')').matches;
           if (narrow !== root.classList.contains('menu-mode')) root.classList.toggle('menu-mode', narrow);
         };

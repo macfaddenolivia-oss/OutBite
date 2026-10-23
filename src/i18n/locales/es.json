@@ -241,6 +241,12 @@
       "nav": "Familias con niños pequeños",
       "summary": "Los bebés y los niños pequeños necesitan algunos pasos más. Todo aquí sigue a los CDC y la EPA."
     },
+    "detective": {
+      "title": "Detective de mosquitos",
+      "nav": "Detective de mosquitos",
+      "menu": "Detective",
+      "summary": "¿Puedes reconocer un Aedes? Un juego de 2 minutos."
+    },
     "glossary": {
       "title": "Palabras clave",
       "nav": "Palabras clave",
@@ -364,8 +370,8 @@
       },
       "images": {
         "label": "Imágenes",
-        "name": "Foto de un mosquito Aedes aegypti",
-        "text": "la única foto de este sitio, en Preguntas y respuestas, Palabras clave y Cómo se transmite. Foto: CDC/James Gathany, dominio público. Todas las demás imágenes son dibujos de Outbite."
+        "name": "Fotos",
+        "text": "la foto del Aedes aegypti en Preguntas y respuestas, Palabras clave y Cómo se transmite (Foto: CDC/James Gathany, dominio público), y las fotos de Detective de mosquitos (Fotos: CDC, dominio público), todas de la Biblioteca de Imágenes de Salud Pública de los CDC. Todas las demás imágenes son dibujos de Outbite."
       }
     },
     "listen": {
@@ -692,7 +698,8 @@
     "faqRepellentPregnancy": "¿Es seguro el repelente durante el embarazo?",
     "faqSpot": "Cómo reconocer a un mosquito Aedes",
     "faqLabel": "De nuestras preguntas y respuestas",
-    "faqSpotShort": "Cómo reconocerlo"
+    "faqSpotShort": "Cómo reconocerlo",
+    "detective": "Prueba Detective de mosquitos"
   },
   "photos": {
     "aedes": {

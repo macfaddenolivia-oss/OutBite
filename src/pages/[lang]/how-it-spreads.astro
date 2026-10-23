@@ -107,7 +107,7 @@ const openings = [
             <SceneMeet label={s.meet.label} aedesName={s.meet.aedesName} culexName={s.meet.culexName} />
             <p class="callout callout--aedes" aria-hidden="true">{s.meet.calloutAedes}</p>
             <div class="meet-photo">
-              <AedesPhoto lang={lang} story />
+              <AedesPhoto lang={lang} story link={{ href: localizePath(lang, getPage('detective').path), text: t('faqLinks.detective') }} />
             </div>
           </div>
         </div>

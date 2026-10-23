@@ -370,6 +370,69 @@
     "date": "2006",
     "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 9258: mosquito Aedes aegypti"
   },
+  "cdc-phil-26042": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26042: Aedes aegypti mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26042",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26042: mosquito Aedes aegypti"
+  },
+  "cdc-phil-26043": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26043: Aedes albopictus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26043",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26043: mosquito Aedes albopictus"
+  },
+  "cdc-phil-26044": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26044: Aedes albopictus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26044",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26044: mosquito Aedes albopictus"
+  },
+  "cdc-phil-17697": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 17697: Culex quinquefasciatus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=17697",
+    "kind": "official",
+    "date": "2014",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 17697: mosquito Culex quinquefasciatus"
+  },
+  "cdc-phil-26023": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26023: Culex quinquefasciatus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26023",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26023: mosquito Culex quinquefasciatus"
+  },
+  "cdc-phil-26024": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26024: Culex quinquefasciatus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26024",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26024: mosquito Culex quinquefasciatus"
+  },
+  "cdc-phil-26025": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 26025: Culex quinquefasciatus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=26025",
+    "kind": "official",
+    "date": "2022",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26025: mosquito Culex quinquefasciatus"
+  },
   "cdc-travel-bites-3wk": {
     "short": "CDC",
     "title": "Preventing Mosquito Bites While Traveling",

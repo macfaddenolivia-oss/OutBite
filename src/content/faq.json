@@ -134,7 +134,10 @@
   "questionMeta": {
     "spot-aedes": {
       "figure": "aedes-culex",
-      "photo": true
+      "photo": true,
+      "pages": [
+        "detective"
+      ]
     },
     "before-trip": {
       "page": "travel",
@@ -277,7 +280,8 @@
         "sources": "See our Sources page",
         "privacy": "See our Privacy page",
         "travel": "See “Traveling soon?”",
-        "families": "See “Families with young kids”"
+        "families": "See “Families with young kids”",
+        "detective": "Play “Mosquito detective”"
       },
       "groups": {
         "viruses": {
@@ -483,7 +487,8 @@
         "sources": "Ver nuestra página de Fuentes",
         "privacy": "Ver nuestra página de Privacidad",
         "travel": "Ver “¿Vas a viajar pronto?”",
-        "families": "Ver “Familias con niños pequeños”"
+        "families": "Ver “Familias con niños pequeños”",
+        "detective": "Juega a “Detective de mosquitos”"
       },
       "groups": {
         "viruses": {

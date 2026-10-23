@@ -16,8 +16,10 @@ import { assetPath, useTranslations } from '../i18n';
 interface Props {
   lang: string;
   story?: boolean;
+  /** A link on its own line at the end of the caption (the story: Mosquito detective). */
+  link?: { href: string; text: string };
 }
-const { lang, story = false } = Astro.props;
+const { lang, story = false, link } = Astro.props;
 const t = useTranslations(lang);
 const SIZE = 128;
 const SPECIES = 'Aedes aegypti';
@@ -43,6 +45,13 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
     {story && <strong class="photo__lead">{t('photos.aedes.storyCaption')}</strong>}
     <span class="photo__caption"><Genus text={story ? SPECIES : t('photos.aedes.caption')} /></span>
     <small class="photo__credit">{t('photos.aedes.credit')}</small>
+    {
+      link && (
+        <a class="photo__link" href={link.href}>
+          {link.text} <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
   </figcaption>
 </figure>
 
@@ -96,6 +105,14 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
 
   .photo--story .photo__lead,
   .photo--story .photo__credit {
+    color: #17306a;
+  }
+
+  .photo__link {
+    font-weight: var(--weight-strong);
+  }
+
+  .photo--story .photo__link {
     color: #17306a;
   }
 

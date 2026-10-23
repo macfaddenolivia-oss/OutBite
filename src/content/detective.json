@@ -1,0 +1,354 @@
+{
+  "id": "detective",
+  "lastReviewed": "2026-10-23",
+  "photos": [
+    {
+      "id": "mosquito-1",
+      "source": "design/FindtheAedes/Aedes3.jpg",
+      "phil": "cdc-phil-26043",
+      "aedes": true,
+      "species": "Aedes albopictus",
+      "crop": {
+        "x": 327,
+        "y": 233,
+        "size": 466
+      }
+    },
+    {
+      "id": "mosquito-2",
+      "source": "design/FindtheAedes/Culex4.tif",
+      "phil": "cdc-phil-26025",
+      "aedes": false,
+      "species": "Culex quinquefasciatus",
+      "crop": {
+        "x": 1900,
+        "y": 1200,
+        "size": 2400
+      }
+    },
+    {
+      "id": "mosquito-3",
+      "source": "design/FindtheAedes/Aedes4.tif",
+      "phil": "cdc-phil-26042",
+      "aedes": true,
+      "species": "Aedes aegypti",
+      "crop": {
+        "x": 1800,
+        "y": 1150,
+        "size": 2300
+      }
+    },
+    {
+      "id": "mosquito-4",
+      "source": "design/FindtheAedes/Culex2.tif",
+      "phil": "cdc-phil-17697",
+      "aedes": false,
+      "species": "Culex quinquefasciatus",
+      "crop": {
+        "x": 2350,
+        "y": 1384,
+        "size": 2768
+      }
+    },
+    {
+      "id": "mosquito-5",
+      "source": "design/FindtheAedes/Culex5.tif",
+      "phil": "cdc-phil-26023",
+      "aedes": false,
+      "species": "Culex quinquefasciatus",
+      "crop": {
+        "x": 1850,
+        "y": 1200,
+        "size": 2400
+      }
+    },
+    {
+      "id": "mosquito-6",
+      "source": "design/FindtheAedes/Aedes2.tif",
+      "phil": "cdc-phil-26044",
+      "aedes": true,
+      "species": "Aedes albopictus",
+      "crop": {
+        "x": 1920,
+        "y": 1200,
+        "size": 2400
+      }
+    },
+    {
+      "id": "mosquito-7",
+      "source": "design/FindtheAedes/Culex3.tif",
+      "phil": "cdc-phil-26024",
+      "aedes": false,
+      "species": "Culex quinquefasciatus",
+      "crop": {
+        "x": 1920,
+        "y": 1200,
+        "size": 2400
+      }
+    }
+  ],
+  "held": [
+    {
+      "source": "design/FindtheAedes/Aedes1.tif",
+      "phil": 26049,
+      "why": "CDC's caption names Aedes aegypti (blood-fed female); we had agreed to treat it as a Culex. Waiting for Olivia's decision."
+    },
+    {
+      "source": "design/FindtheAedes/Culex1.tif",
+      "phil": 7956,
+      "why": "CDC's caption names Culex tarsalis, which has white bands at the leg joints and on the proboscis, so it doesn't fit the clue \"Culex: plain brown, no bands\". Waiting for Olivia's decision."
+    },
+    {
+      "source": "design/FindtheAedes/Aedes5.tif",
+      "phil": 26041,
+      "why": "The same shot as Aedes4.tif (PHIL 26042) with a different background color; skipped."
+    }
+  ],
+  "yard": {
+    "water": [
+      "bucket",
+      "tire",
+      "plantSaucer",
+      "petBowl",
+      "birdbath"
+    ],
+    "fine": [
+      "trashCan",
+      "chair",
+      "bucketUpsideDown",
+      "ball"
+    ]
+  },
+  "cite": {
+    "clues": [
+      "cdc-unwanted-mosquitoes"
+    ],
+    "yard": [
+      "cdc-aedes-life-cycle",
+      "cdc-prevent-bites"
+    ]
+  },
+  "text": {
+    "en": {
+      "eyebrow": "Tools · Game",
+      "intro": "Aedes mosquitoes spread dengue, Zika and chikungunya. Can you spot them, and the places they breed?",
+      "cluesHeading": "Look for:",
+      "clues": {
+        "legs": "White bands on the legs",
+        "back": "White markings on the back",
+        "culex": "Culex: plain brown, no bands"
+      },
+      "start": "Start",
+      "startNote": "3 short rounds · about 2 minutes · nothing is saved",
+      "roundOf": "Round {n} of 3",
+      "photoRound": "Tap every Aedes",
+      "photoRoundHelp": "Tap each photo that shows an Aedes mosquito, then select Check. Tap again to undo.",
+      "check": "Check",
+      "next": "Next round",
+      "selected": "Selected",
+      "found": "You found {n} of {total} Aedes",
+      "answerAedes": "Aedes: white bands on the legs",
+      "answerCulex": "Culex: plain brown, no white bands",
+      "markFound": "Found",
+      "markMissed": "Missed",
+      "markWrong": "Not an Aedes",
+      "allFound": "You found every Aedes, and picked no Culex. Nice work.",
+      "missedOne": "1 Aedes was hiding (marked “Missed”). Look for white bands on the legs.",
+      "missedMany": "{n} Aedes were hiding (marked “Missed”). Look for white bands on the legs.",
+      "wrongOne": "1 photo you picked was a Culex (marked “Not an Aedes”): plain brown, no white bands.",
+      "wrongMany": "{n} photos you picked were Culex (marked “Not an Aedes”): plain brown, no white bands.",
+      "yardRound": "Find where they breed",
+      "yardHelp": "Tap everything in this yard that could hold water.",
+      "yardFact": "CDC: “Mosquitoes only need a small amount of water to lay eggs.”",
+      "yardLabel": "A back yard: a house and a fence behind, and nine things on the ground in two rows.",
+      "yardScroll": "Swipe sideways to see the whole yard.",
+      "keyWater": "Holds water: found",
+      "keyFine": "Tapped, but doesn't hold water",
+      "keyMissed": "Missed",
+      "progress": "{n} of 5 found",
+      "done": "I’m done",
+      "finish": "See your score",
+      "yardAllFound": "You found all 5 places that hold water.",
+      "yardMissedOne": "You missed 1 place that holds water. It’s marked now, with what to do.",
+      "yardMissedMany": "You missed {n} places that hold water. They’re marked now, with what to do.",
+      "items": {
+        "bucket": {
+          "name": "Bucket",
+          "tag": "Empty & scrub weekly",
+          "say": "Bucket: holds water. Empty and scrub it once a week."
+        },
+        "tire": {
+          "name": "Tire",
+          "tag": "Turn over or throw out",
+          "say": "Tire: holds water. Turn it over or throw it out."
+        },
+        "plantSaucer": {
+          "name": "Plant saucer",
+          "tag": "Dump the saucer",
+          "say": "Plant saucer: holds water. Dump the saucer once a week."
+        },
+        "petBowl": {
+          "name": "Pet bowl",
+          "tag": "Empty & scrub weekly",
+          "say": "Pet bowl: holds water. Empty and scrub it once a week."
+        },
+        "birdbath": {
+          "name": "Birdbath",
+          "tag": "Empty & scrub weekly",
+          "say": "Birdbath: holds water. Empty and scrub it once a week."
+        },
+        "trashCan": {
+          "name": "Trash can with its lid on",
+          "tag": "Lid on: fine",
+          "say": "Trash can with its lid on: rain can’t get in, so it’s fine."
+        },
+        "chair": {
+          "name": "Chair",
+          "tag": "No water: fine",
+          "say": "Chair: it has nowhere to hold water, so it’s fine."
+        },
+        "bucketUpsideDown": {
+          "name": "Bucket turned upside down",
+          "tag": "Turned over: fine",
+          "say": "Bucket turned upside down: it can’t fill with water, so it’s fine."
+        },
+        "ball": {
+          "name": "Soccer ball",
+          "tag": "No water: fine",
+          "say": "Soccer ball: it can’t hold water, so it’s fine."
+        }
+      },
+      "endHeading": "Case closed!",
+      "roundScore": "Round {n}",
+      "scoreOf": "{n} of {total}",
+      "endNote": "In real life it’s hard to tell mosquitoes apart at a glance, so treat any mosquito around your home as worth acting on.",
+      "checklist": "Weekly mosquito check",
+      "protect": "Protect your home",
+      "again": "Play again",
+      "credit": "Photos: CDC, public domain",
+      "staticIntro": "This game needs JavaScript. Here are the clues and the places to check, so you can play in your own yard.",
+      "staticPhotos": "Two examples",
+      "staticWater": "These hold water. Empty, scrub, turn over, cover or throw them out once a week:",
+      "photos": {
+        "mosquito-1": "A dark mosquito standing on brown skin, in front of a yellow background. It has white spots on its body and white bands on its legs.",
+        "mosquito-2": "An orange-brown mosquito on brown skin, its belly red with blood. Its legs are plain, with no white bands.",
+        "mosquito-3": "A dark mosquito standing on a green surface. It has bold white bands on its legs and curved white markings on its back.",
+        "mosquito-4": "A brown mosquito drinking blood from pale skin, in front of a green background. Its belly is swollen and red; its legs are plain brown.",
+        "mosquito-5": "A brown mosquito on pale skin with its wings spread. Its belly has pale stripes across it; its legs are plain.",
+        "mosquito-6": "A mosquito drinking blood from brown skin, seen from the side. Its body is dark with bright white spots, and its legs have white bands near the tips.",
+        "mosquito-7": "A golden-brown mosquito standing on pale skin, in front of a green background. Its legs are plain, with no white bands."
+      }
+    },
+    "es": {
+      "reviewStatus": "needs-spanish-review",
+      "eyebrow": "Herramientas · Juego",
+      "intro": "Los mosquitos Aedes transmiten el dengue, el zika y el chikungunya. ¿Puedes reconocerlos, y también los lugares donde se crían?",
+      "cluesHeading": "Busca:",
+      "clues": {
+        "legs": "Bandas blancas en las patas",
+        "back": "Marcas blancas en el lomo",
+        "culex": "Culex: café, sin bandas"
+      },
+      "start": "Empezar",
+      "startNote": "3 rondas cortas · unos 2 minutos · no se guarda nada",
+      "roundOf": "Ronda {n} de 3",
+      "photoRound": "Toca cada Aedes",
+      "photoRoundHelp": "Toca cada foto que muestre un mosquito Aedes y luego selecciona Comprobar. Toca otra vez para deshacer.",
+      "check": "Comprobar",
+      "next": "Siguiente ronda",
+      "selected": "Seleccionada",
+      "found": "Encontraste {n} de {total} Aedes",
+      "answerAedes": "Aedes: bandas blancas en las patas",
+      "answerCulex": "Culex: café, sin bandas blancas",
+      "markFound": "Encontrado",
+      "markMissed": "No lo viste",
+      "markWrong": "No es Aedes",
+      "allFound": "Encontraste todos los Aedes y no elegiste ningún Culex. ¡Muy bien!",
+      "missedOne": "Había 1 Aedes escondido (marcado “No lo viste”). Busca las bandas blancas en las patas.",
+      "missedMany": "Había {n} Aedes escondidos (marcados “No lo viste”). Busca las bandas blancas en las patas.",
+      "wrongOne": "1 foto que elegiste era un Culex (marcada “No es Aedes”): café, sin bandas blancas.",
+      "wrongMany": "{n} fotos que elegiste eran Culex (marcadas “No es Aedes”): café, sin bandas blancas.",
+      "yardRound": "Encuentra dónde se crían",
+      "yardHelp": "Toca todo lo que en este patio podría acumular agua.",
+      "yardFact": "Los CDC dicen: “Los mosquitos solo necesitan un poco de agua para poner huevos”.",
+      "yardLabel": "Un patio: una casa y una verja atrás, y nueve cosas en el suelo, en dos filas.",
+      "yardScroll": "Desliza hacia el lado para ver todo el patio.",
+      "keyWater": "Acumula agua: encontrado",
+      "keyFine": "Tocado, pero no acumula agua",
+      "keyMissed": "No lo viste",
+      "progress": "{n} de 5 encontrados",
+      "done": "Terminé",
+      "finish": "Ver tu puntuación",
+      "yardAllFound": "Encontraste los 5 lugares que acumulan agua.",
+      "yardMissedOne": "No viste 1 lugar que acumula agua. Ahora está marcado, con lo que debes hacer.",
+      "yardMissedMany": "No viste {n} lugares que acumulan agua. Ahora están marcados, con lo que debes hacer.",
+      "items": {
+        "bucket": {
+          "name": "Balde",
+          "tag": "Vacía y friega cada semana",
+          "say": "Balde: acumula agua. Vacíalo y friégalo una vez a la semana."
+        },
+        "tire": {
+          "name": "Goma",
+          "tag": "Voltéala o bótala",
+          "say": "Goma: acumula agua. Voltéala o bótala."
+        },
+        "plantSaucer": {
+          "name": "Plato de maceta",
+          "tag": "Vacía el plato",
+          "say": "Plato de maceta: acumula agua. Vacía el plato una vez a la semana."
+        },
+        "petBowl": {
+          "name": "Plato de mascota",
+          "tag": "Vacía y friega cada semana",
+          "say": "Plato de mascota: acumula agua. Vacíalo y friégalo una vez a la semana."
+        },
+        "birdbath": {
+          "name": "Bebedero de pájaros",
+          "tag": "Vacía y friega cada semana",
+          "say": "Bebedero de pájaros: acumula agua. Vacíalo y friégalo una vez a la semana."
+        },
+        "trashCan": {
+          "name": "Zafacón con la tapa puesta",
+          "tag": "Con tapa: bien",
+          "say": "Zafacón con la tapa puesta: la lluvia no entra, así que está bien."
+        },
+        "chair": {
+          "name": "Silla",
+          "tag": "Sin agua: bien",
+          "say": "Silla: no tiene dónde acumular agua, así que está bien."
+        },
+        "bucketUpsideDown": {
+          "name": "Balde boca abajo",
+          "tag": "Volteado: bien",
+          "say": "Balde boca abajo: no se puede llenar de agua, así que está bien."
+        },
+        "ball": {
+          "name": "Bola de fútbol",
+          "tag": "Sin agua: bien",
+          "say": "Bola de fútbol: no puede acumular agua, así que está bien."
+        }
+      },
+      "endHeading": "¡Caso cerrado!",
+      "roundScore": "Ronda {n}",
+      "scoreOf": "{n} de {total}",
+      "endNote": "En la vida real es difícil distinguir los mosquitos a simple vista, así que cualquier mosquito cerca de tu casa es razón para actuar.",
+      "checklist": "Revisión semanal de mosquitos",
+      "protect": "Protege tu casa",
+      "again": "Jugar otra vez",
+      "credit": "Fotos: CDC, dominio público",
+      "staticIntro": "Este juego necesita JavaScript. Aquí tienes las pistas y los lugares que debes revisar, para que juegues en tu propio patio.",
+      "staticPhotos": "Dos ejemplos",
+      "staticWater": "Estas cosas acumulan agua. Vacíalas, friégalas, voltéalas, tápalas o bótalas una vez a la semana:",
+      "photos": {
+        "mosquito-1": "Un mosquito oscuro parado sobre piel morena, con un fondo amarillo. Tiene manchas blancas en el cuerpo y bandas blancas en las patas.",
+        "mosquito-2": "Un mosquito café anaranjado sobre piel morena, con el abdomen rojo de sangre. Sus patas son lisas, sin bandas blancas.",
+        "mosquito-3": "Un mosquito oscuro parado sobre una superficie verde. Tiene bandas blancas muy marcadas en las patas y marcas blancas curvas en el lomo.",
+        "mosquito-4": "Un mosquito café chupando sangre de una piel clara, con un fondo verde. Su abdomen está hinchado y rojo; sus patas son de color café liso.",
+        "mosquito-5": "Un mosquito café sobre piel clara, con las alas abiertas. Su abdomen tiene rayas claras de lado a lado; sus patas son lisas.",
+        "mosquito-6": "Un mosquito chupando sangre de una piel morena, visto de lado. Su cuerpo es oscuro con manchas blancas brillantes, y sus patas tienen bandas blancas cerca de las puntas.",
+        "mosquito-7": "Un mosquito café dorado parado sobre piel clara, con un fondo verde. Sus patas son lisas, sin bandas blancas."
+      }
+    }
+  }
+}

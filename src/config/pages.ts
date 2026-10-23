@@ -27,6 +27,7 @@ export const pages: PageDef[] = [
   { key: 'printables', path: 'tools/printables/', phase: 5, group: 'tool', review: 'printables.json' },
   { key: 'travel', path: 'travel/', group: 'tool', review: 'travel.json' },
   { key: 'families', path: 'tools/families/', group: 'tool', review: 'families.json' },
+  { key: 'detective', path: 'tools/mosquito-detective/', group: 'tool', review: 'detective.json' },
   { key: 'sources', path: 'sources/', phase: 7, group: 'main', review: 'pages/sources.json' },
   { key: 'dengue', path: 'dengue/', phase: 4, group: 'disease', review: 'diseases.json' },
   { key: 'zika', path: 'zika/', phase: 4, group: 'disease', review: 'diseases.json' },
@@ -43,7 +44,7 @@ export const diseaseKeys = ['dengue', 'zika', 'chikungunya'] as const;
 /** The tools, in page order (Tools page groups and footer). */
 export const toolKeys = pages.filter((p) => p.group === 'tool').map((p) => p.key);
 
-export const mainNavKeys = ['howItSpreads', 'protect', 'community', 'nearMe', 'travel', 'tools', 'sources'];
+export const mainNavKeys = ['howItSpreads', 'protect', 'community', 'nearMe', 'travel', 'tools', 'detective', 'sources'];
 
 export function getPage(key: string): PageDef {
   const page = pages.find((p) => p.key === key);

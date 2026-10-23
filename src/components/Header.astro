@@ -13,12 +13,16 @@ const t = useTranslations(lang);
 const pathname = Astro.url.pathname;
 const normalized = pathname.endsWith('/') ? pathname : `${pathname}/`;
 
-const navItems = mainNavKeys.map((key) => {
-  const href = localizePath(lang, getPage(key).path);
+// The current page's item is marked "page"; a section's item (Tools on a tool page) is
+// marked "true", unless the page has its own item in the menu (Detective).
+const navHrefs = mainNavKeys.map((key) => localizePath(lang, getPage(key).path));
+const hasOwnItem = navHrefs.includes(normalized);
+const navItems = mainNavKeys.map((key, i) => {
+  const href = navHrefs[i];
   return {
     key,
     href,
-    current: normalized === href ? 'page' : normalized.startsWith(href) ? 'true' : undefined,
+    current: normalized === href ? 'page' : !hasOwnItem && normalized.startsWith(href) ? 'true' : undefined,
   };
 });
 // "Diseases": a small dropdown (menu bar) or a label with three buttons (Menu button) for
@@ -555,13 +559,20 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
   }
 
   /* Rows: full width, at least 48px tall, with a › on the right. */
+  /* At least 48px (not 3rem): at larger text the row grows with its text anyway, and the
+     nine rows still fit the open menu at 768px in Spanish at 130%. */
   .site-nav > ul > li > a {
     justify-content: space-between;
     gap: var(--space-3);
-    min-height: 3rem;
+    min-height: 48px;
     padding: var(--space-2) var(--gutter);
     color: var(--color-header-text);
     font-size: var(--text-lg);
+  }
+
+  /* Larger text: less padding, so the rows stay close to 48px. */
+  :global(html[data-text-size]) .site-nav > ul > li > a {
+    padding-block: var(--space-1);
   }
 
   .site-nav > ul > li > a:focus-visible {
@@ -826,8 +837,8 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
-  /* Tighter spacing (same text size) so all eight items, longer in Spanish, stay on one
-     line: 992–1199px, and at every width when the text is larger (115% or 130%). */
+  /* Tighter spacing (same text size) so all nine items stay on one line: 992–1199px, and
+     (below) at every width when the text is larger (115% or 130%) or in Spanish. */
   @media (min-width: 62rem) and (max-width: 74.99rem) {
     :global(html:not(.menu-mode)) .site-nav > ul {
       gap: 0 var(--space-1);
@@ -839,13 +850,18 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
+  /* The same tighter spacing at every width when the text is larger, and always in
+     Spanish (its nine items, longer, don't fit with the wider spacing). */
   @media (min-width: 62rem) {
-    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul {
+    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul,
+    :global(html[lang='es']:not(.menu-mode)) .site-nav > ul {
       gap: 0 var(--space-1);
     }
 
     :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul > li > a,
-    :global(html[data-text-size]:not(.menu-mode)) .nav-dis__btn {
+    :global(html[data-text-size]:not(.menu-mode)) .nav-dis__btn,
+    :global(html[lang='es']:not(.menu-mode)) .site-nav > ul > li > a,
+    :global(html[lang='es']:not(.menu-mode)) .nav-dis__btn {
       padding-inline: var(--space-1);
     }
   }

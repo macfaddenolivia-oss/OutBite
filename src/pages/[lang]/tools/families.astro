@@ -8,7 +8,8 @@
 // 1. Repellent for kids, 2. Babies (both link to the "Babies and young children" tip),
 // 3. Around the house and yard (Weekly mosquito check), 4. When a child gets sick: the
 // shared warning signs (src/content/warning-signs.json) and the shared medicine line
-// (diseases.json extras.noNsaid), linking to "I think I'm sick". Then "Also useful".
+// (diseases.json extras.noNsaid), linking to "I think I'm sick". Then "Also useful"
+// (ending with Mosquito detective, a game to play together).
 import ActionRow from '../../../components/ActionRow.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Genus from '../../../components/Genus.astro';
@@ -44,6 +45,7 @@ const also = [
   { text: text.also.travel, href: href('travel', '#recommends') },
   { text: text.also.pregnancy, href: href('faq', '#repellent-pregnancy') },
   { text: text.also.printables, href: href('printables') },
+  { text: text.also.detective, href: href('detective') },
 ];
 ---
 

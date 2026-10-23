@@ -1,0 +1,192 @@
+---
+// Mosquito detective, Round 3: the yard (design/breed-round-mockup.png; drawings from
+// design/yard/, copied to src/assets/source/yard/). The picture is yard-scene.svg itself:
+// its background (house, fence, ground) and its nine items, each drawn where the scene
+// puts it (the scene's own copies of the separate drawings, so every outline has the
+// scene's 3.5-unit weight). Over each item sits a toggle button (aria-pressed), the size
+// of the item's drawing (its box in BOXES, in the scene's 800 × 440 units) but never
+// smaller than 44 × 44px; the button draws the orange or dotted box and the short tag.
+// The page script (tools/mosquito-detective.astro) does the rest.
+// The yard is never drawn narrower than 37.5rem (600px at the usual text size, wider at
+// larger text so the tags keep their room). Where the frame is narrower (phones, and
+// tablets at larger text) it scrolls sideways inside its frame, so every item stays at
+// least about 44px. Cropping to the ground wouldn't make the items bigger, since they span
+// the scene's full width.
+import scene from '../assets/source/yard/yard-scene.svg?raw';
+
+interface Props {
+  items: Record<string, { name: string; tag: string }>;
+  water: string[];
+  label: string;
+}
+const { items, water, label } = Astro.props;
+
+// The scene: the background ends with the ground's top line; the nine items follow, in
+// this order, all on one line.
+const ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'plantSaucer', 'bucket', 'tire', 'petBowl', 'ball'];
+const lines = scene.trim().split('\n');
+const groundLine = lines.findIndex((l) => l.startsWith('<path d="M0 230 H800"'));
+if (groundLine < 0) throw new Error('yard-scene.svg: ground line not found');
+const background = lines.slice(1, groundLine + 1).join('\n');
+const rest = lines.slice(groundLine + 1).join('\n').replace(/<\/svg>\s*$/, '');
+// Top-level elements of `rest`, by tag depth.
+const parts: string[] = [];
+let depth = 0;
+let start = 0;
+for (const m of rest.matchAll(/<(\/?)[a-zA-Z][^>]*?(\/?)>/g)) {
+  if (m[1]) {
+    depth--;
+    if (depth === 0) parts.push(rest.slice(start, m.index! + m[0].length));
+  } else if (m[2]) {
+    if (depth === 0) parts.push(m[0]);
+  } else {
+    if (depth === 0) start = m.index!;
+    depth++;
+  }
+}
+if (parts.length !== ORDER.length) throw new Error(`yard-scene.svg: expected ${ORDER.length} items, found ${parts.length}`);
+// Ids inside the drawings (clip paths), made unique on the page.
+const drawings = Object.fromEntries(ORDER.map((key, i) => [key, parts[i].replace(/id="([^"]+)"/g, 'id="yard-$1"').replace(/url\(#([^)]+)\)/g, 'url(#yard-$1)')]));
+
+// Each item's drawing, in scene units (measured in the browser, outlines excluded).
+const BOXES: Record<string, [number, number, number, number]> = {
+  birdbath: [51, 239, 107, 92],
+  trashCan: [229, 155, 73, 99],
+  chair: [330, 176, 80, 124],
+  bucketUpsideDown: [474, 259, 61, 71],
+  bucket: [574, 244, 58, 76],
+  ball: [89, 363, 62, 62],
+  tire: [250, 350, 141, 71],
+  petBowl: [482, 383, 86, 40],
+  plantSaucer: [671, 311, 98, 100],
+};
+// Keyboard order: the back row, then the front row, left to right.
+const TAB_ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'bucket', 'ball', 'tire', 'petBowl', 'plantSaucer'];
+// Tags sit above each box, centered, except for two side-by-side pairs whose tags would
+// collide (trash can and chair, upside-down bucket and bucket): the left one's tag ends at
+// its item's center, the right one's starts there, so they spread apart.
+const TAG_ALIGN: Record<string, 'end' | 'start'> = { trashCan: 'end', chair: 'start', bucketUpsideDown: 'end', bucket: 'start' };
+const PAD = 6;
+const style = (key: string) => {
+  const [x, y, w, h] = BOXES[key];
+  return `--cx: ${(((x + w / 2) / 800) * 100).toFixed(3)}%; --cy: ${(((y + h / 2) / 440) * 100).toFixed(3)}%; --w: ${(((w + 2 * PAD) / 800) * 100).toFixed(3)}%; --h: ${(((h + 2 * PAD) / 440) * 100).toFixed(3)}%`;
+};
+---
+
+<div class="yard-frame" data-yard-frame>
+  <div class="yard" role="group" aria-label={label}>
+    <svg class="yard__art" viewBox="0 0 800 440" aria-hidden="true" focusable="false">
+      <Fragment set:html={background} />
+      {ORDER.map((key) => <g set:html={drawings[key]} />)}
+    </svg>
+    {
+      TAB_ORDER.map((key) => (
+        <button type="button" class="yard-item" style={style(key)} aria-pressed="false" data-yard-item={key} data-water={String(water.includes(key))} data-tag-align={TAG_ALIGN[key]}>
+          <span class="visually-hidden">{items[key].name}</span>
+          <span class="yard-item__tag" aria-hidden="true" data-yard-tag>
+            {items[key].tag}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .yard-frame {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    border: 2px solid var(--color-border);
+    background: #ffffff;
+  }
+
+  .yard {
+    position: relative;
+    min-width: 37.5rem;
+    aspect-ratio: 800 / 440;
+  }
+
+  .yard__art {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* The tap area: the item's drawing plus a little room, never under 44 × 44px,
+     centered on the drawing. It draws the box once tapped. */
+  .yard-item {
+    position: absolute;
+    left: var(--cx);
+    top: var(--cy);
+    width: max(44px, var(--w));
+    height: max(44px, var(--h));
+    translate: -50% -50%;
+    padding: 0;
+    border: 3px solid transparent;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .yard-item:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Holds water, found: orange box. */
+  .yard-item[data-state='found'] {
+    border-color: var(--palette-orange);
+  }
+
+  /* Tapped, but doesn't hold water: dotted light-blue box. */
+  .yard-item[data-state='fine'] {
+    border: 3px dotted var(--palette-light-blue);
+  }
+
+  /* After "I'm done": a place that holds water but wasn't found. */
+  .yard-item[data-state='missed'] {
+    border: 3px dashed var(--palette-orange);
+    background: rgb(255 255 255 / 0.35);
+  }
+
+  .yard-item:disabled {
+    cursor: default;
+  }
+
+  /* The short tag above the box: navy (found or missed) or white with navy text (fine). */
+  .yard-item__tag {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 3px);
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1;
+    width: max-content;
+    max-width: 11rem;
+    padding: 2px 6px;
+    background: var(--palette-navy);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: var(--weight-strong);
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .yard-item[data-tag-align='end'] .yard-item__tag {
+    translate: -100% 0;
+  }
+
+  .yard-item[data-tag-align='start'] .yard-item__tag {
+    translate: 0 0;
+  }
+
+  .yard-item[data-state] .yard-item__tag {
+    display: block;
+  }
+
+  .yard-item[data-state='fine'] .yard-item__tag {
+    border: 2px solid var(--palette-navy);
+    background: #ffffff;
+    color: var(--palette-navy);
+  }
+</style>

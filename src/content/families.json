@@ -67,7 +67,8 @@
         "label": "Also useful",
         "travel": "Traveling with kids",
         "pregnancy": "Pregnant? Repellent during pregnancy",
-        "printables": "Print the weekly checklist"
+        "printables": "Print the weekly checklist",
+        "detective": "Play Mosquito detective together"
       }
     },
     "es": {
@@ -117,7 +118,8 @@
         "label": "También es útil",
         "travel": "Viajar con niños",
         "pregnancy": "¿Embarazada? El repelente durante el embarazo",
-        "printables": "Imprime la lista semanal"
+        "printables": "Imprime la lista semanal",
+        "detective": "Jueguen juntos a Detective de mosquitos"
       }
     }
   }

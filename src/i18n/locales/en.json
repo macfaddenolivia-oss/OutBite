@@ -241,6 +241,12 @@
       "nav": "Families with young kids",
       "summary": "Babies and young children need a few extra steps. Everything here follows CDC and EPA."
     },
+    "detective": {
+      "title": "Mosquito detective",
+      "nav": "Mosquito detective",
+      "menu": "Detective",
+      "summary": "Can you spot an Aedes? A 2-minute game."
+    },
     "glossary": {
       "title": "Words to know",
       "nav": "Words to know",
@@ -364,8 +370,8 @@
       },
       "images": {
         "label": "Images",
-        "name": "Photo of an Aedes aegypti mosquito",
-        "text": "The one photo on this site, on Questions and answers, Words to know and How it spreads. Photo: CDC/James Gathany, public domain. Every other picture is an Outbite drawing."
+        "name": "Photos",
+        "text": "The Aedes aegypti photo on Questions and answers, Words to know and How it spreads (Photo: CDC/James Gathany, public domain), and the photos in Mosquito detective (Photos: CDC, public domain), all from CDC’s Public Health Image Library. Every other picture is an Outbite drawing."
       }
     },
     "listen": {
@@ -692,7 +698,8 @@
     "faqRepellentPregnancy": "Is repellent safe during pregnancy?",
     "faqSpot": "How to tell an Aedes mosquito apart",
     "faqLabel": "From our questions and answers",
-    "faqSpotShort": "Spotting Aedes"
+    "faqSpotShort": "Spotting Aedes",
+    "detective": "Try Mosquito detective"
   },
   "photos": {
     "aedes": {

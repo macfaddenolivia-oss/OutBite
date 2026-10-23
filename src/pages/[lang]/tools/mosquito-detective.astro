@@ -1,0 +1,849 @@
+---
+// Mosquito detective / Detective de mosquitos (design/mosquito-detective-mockup.png and
+// design/breed-round-mockup.png): a 3-round game, about 2 minutes, no timer. Nothing is
+// saved or sent: the rounds, picks and scores live only in this page while it's open.
+// Text, photos and sources: src/content/detective.json (photos made by
+// npm run build-photos into public/photos/detective/; held-back photos are listed there
+// with the reason).
+// - Start: the intro, the clues and Start.
+// - Rounds 1 and 2: 6 photos (3 across, 2 on phones) with 2–3 Aedes each, drawn at random
+//   from every photo in detective.json, Round 2 preferring photos Round 1 didn't use.
+//   Each photo is a toggle button; "Check" shows every answer with its one-line clue,
+//   marks what was found, missed or wrongly picked, and explains anything missed.
+// - Round 3: the yard (DetectiveYard.astro). Tapping something that holds water draws an
+//   orange box with CDC's action; anything else a dotted light-blue box and why it's
+//   fine. "I'm done" marks anything missed with its action.
+// - End: "Case closed!", the score per round, the closing note and three buttons.
+// Each step's heading takes focus when the step opens; results are read out through a
+// polite live region. Without JavaScript: the clues, two labeled example photos and the
+// list of things that hold water.
+import ActionRow from '../../../components/ActionRow.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DetectiveYard from '../../../components/DetectiveYard.astro';
+import Genus from '../../../components/Genus.astro';
+import SourceLine from '../../../components/SourceLine.astro';
+import ToolIcon from '../../../components/ToolIcon.astro';
+import content from '../../../content/detective.json';
+import { assetPath, langStaticPaths, localizePath, useTranslations } from '../../../i18n';
+import { getPage } from '../../../config/pages';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const L = (lang === 'es' ? 'es' : 'en') as 'en' | 'es';
+const text = content.text[L];
+const items = text.items as Record<string, { name: string; tag: string; say: string }>;
+const photoAlt = text.photos as Record<string, string>;
+const href = (key: string) => localizePath(lang, getPage(key).path);
+const { water, fine } = content.yard;
+const SIZES = '(max-width: 40rem) 45vw, 280px';
+const srcset = (id: string, ext: string) => [320, 640].map((w) => `${assetPath(`photos/detective/${id}-${w}.${ext}`)} ${w}w`).join(', ');
+// Without JavaScript: one Aedes and one Culex, the clearest of each.
+const examples = ['mosquito-3', 'mosquito-7'].map((id) => content.photos.find((p) => p.id === id)!);
+// What the page script needs, in this language.
+const scriptText = {
+  roundOf: text.roundOf,
+  photoRound: text.photoRound,
+  yardRound: text.yardRound,
+  found: text.found,
+  allFound: text.allFound,
+  missedOne: text.missedOne,
+  missedMany: text.missedMany,
+  wrongOne: text.wrongOne,
+  wrongMany: text.wrongMany,
+  markFound: text.markFound,
+  markMissed: text.markMissed,
+  markWrong: text.markWrong,
+  progress: text.progress,
+  yardAllFound: text.yardAllFound,
+  yardMissedOne: text.yardMissedOne,
+  yardMissedMany: text.yardMissedMany,
+  roundScore: text.roundScore,
+  scoreOf: text.scoreOf,
+  say: Object.fromEntries(Object.entries(items).map(([k, v]) => [k, v.say])),
+};
+---
+
+<BaseLayout lang={lang} title={t('pages.detective.title')} description={t('pages.detective.summary')}>
+  <div class="page-intro">
+    <div class="container">
+      <p class="det-eyebrow">{text.eyebrow}</p>
+      <div class="det-title">
+        <ToolIcon tool="detective" />
+        <h1>{t('pages.detective.title')}</h1>
+      </div>
+      <p class="page-intro__lead"><Genus text={text.intro} /></p>
+      <ActionRow lang={lang} />
+    </div>
+  </div>
+
+  <div class="container det-page">
+    <!-- Without JavaScript: the clues, two examples and the places to check. -->
+    <div class="det-static">
+      <p class="det-static__intro">{text.staticIntro}</p>
+      <div class="det-clues">
+        <p class="det-clues__heading">{text.cluesHeading}</p>
+        <ul class="det-clues__list">
+          <li class="det-clue det-clue--aedes"><span>{text.clues.legs}</span></li>
+          <li class="det-clue det-clue--aedes"><span>{text.clues.back}</span></li>
+          <li class="det-clue det-clue--culex"><span><Genus text={text.clues.culex} /></span></li>
+        </ul>
+      </div>
+      <h2 class="det-static__heading">{text.staticPhotos}</h2>
+      <ul class="det-grid det-grid--two">
+        {
+          examples.map((p) => (
+            <li>
+              <figure class:list={['det-example', { 'is-aedes': p.aedes }]}>
+                <picture>
+                  <source type="image/webp" srcset={srcset(p.id, 'webp')} sizes={SIZES} />
+                  <img src={assetPath(`photos/detective/${p.id}-320.jpg`)} srcset={srcset(p.id, 'jpg')} sizes={SIZES} width="320" height="320" alt={photoAlt[p.id]} loading="lazy" decoding="async" />
+                </picture>
+                <figcaption class="det-answer">
+                  <Genus text={p.aedes ? text.answerAedes : text.answerCulex} />
+                </figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="det-credit">{text.credit}</p>
+      <h2 class="det-static__heading"><Genus text={text.yardRound} /></h2>
+      <p>{text.staticWater}</p>
+      <ul class="det-static__water">
+        {
+          water.map((key) => (
+            <li>
+              <strong>{items[key].name}:</strong> {items[key].tag}
+            </li>
+          ))
+        }
+      </ul>
+      <p>{text.yardFact}</p>
+      <p class="det-end__actions">
+        <a class="btn btn-primary" href={href('checklist')}>{text.checklist} <span aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary" href={href('protect')}>{text.protect} <span aria-hidden="true">→</span></a>
+      </p>
+    </div>
+
+    <!-- The game (shown by the page script). -->
+    <div class="det-game" data-det data-text={JSON.stringify(scriptText)} hidden>
+      <section class="det-step" data-step="start" aria-labelledby="det-start-heading">
+        <h2 id="det-start-heading" class="visually-hidden" tabindex="-1" data-step-heading>{t('pages.detective.title')}</h2>
+        <div class="det-clues">
+          <p class="det-clues__heading">{text.cluesHeading}</p>
+          <ul class="det-clues__list">
+            <li class="det-clue det-clue--aedes"><span>{text.clues.legs}</span></li>
+            <li class="det-clue det-clue--aedes"><span>{text.clues.back}</span></li>
+            <li class="det-clue det-clue--culex"><span><Genus text={text.clues.culex} /></span></li>
+          </ul>
+        </div>
+        <p class="det-start">
+          <button type="button" class="btn btn-primary det-start__btn" data-start>{text.start} <span aria-hidden="true">→</span></button>
+        </p>
+        <p class="det-note">{text.startNote}</p>
+      </section>
+
+      <section class="det-step" data-step="photos" aria-labelledby="det-photos-heading" hidden>
+        <h2 id="det-photos-heading" class="det-step__heading" tabindex="-1" data-step-heading>
+          <span class="det-step__round" data-photos-round></span><span class="visually-hidden">. </span>
+          <span data-photos-heading></span>
+        </h2>
+        <p class="det-help" data-photos-help><Genus text={text.photoRoundHelp} /></p>
+        <ul class="det-grid" data-grid></ul>
+        <p class="det-credit">{text.credit}</p>
+        <div class="det-foot">
+          <p class="det-result" data-photos-result hidden></p>
+          <button type="button" class="btn btn-primary" data-check>{text.check}</button>
+          <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <section class="det-step" data-step="yard" aria-labelledby="det-yard-heading" hidden>
+        <h2 id="det-yard-heading" class="det-step__heading" tabindex="-1" data-step-heading>
+          <span class="det-step__round">{text.roundOf.replace('{n}', '3')}</span><span class="visually-hidden">. </span>
+          {text.yardRound}
+        </h2>
+        <p class="det-help">{text.yardHelp} {text.yardFact}</p>
+        <p class="det-scroll-hint" data-scroll-hint hidden>{text.yardScroll} <span aria-hidden="true">→</span></p>
+        <DetectiveYard items={items} water={water} label={text.yardLabel} />
+        <ul class="det-key">
+          <li class="det-key__item det-key__item--found">{text.keyWater}</li>
+          <li class="det-key__item det-key__item--fine">{text.keyFine}</li>
+          <li class="det-key__item det-key__item--missed" data-key-missed hidden>{text.keyMissed}</li>
+        </ul>
+        <div class="det-foot">
+          <p class="det-progress">
+            <span class="det-progress__boxes" aria-hidden="true">
+              {water.map(() => <span class="det-progress__box" data-progress-box />)}
+            </span>
+            <span data-progress>{text.progress.replace('{n}', '0')}</span>
+          </p>
+          <p class="det-result" data-yard-result hidden></p>
+          <button type="button" class="btn btn-primary" data-done>{text.done}</button>
+          <button type="button" class="btn btn-primary" data-finish hidden>{text.finish} <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <section class="det-step" data-step="end" aria-labelledby="det-end-heading" hidden>
+        <h2 id="det-end-heading" class="det-end__heading" tabindex="-1" data-step-heading>{text.endHeading}</h2>
+        <ul class="det-scores" data-scores></ul>
+        <p class="det-end__note">{text.endNote}</p>
+        <p class="det-end__actions">
+          <a class="btn btn-primary" href={href('checklist')}>{text.checklist} <span aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" href={href('protect')}>{text.protect} <span aria-hidden="true">→</span></a>
+          <button type="button" class="btn btn-secondary" data-again>{text.again}</button>
+        </p>
+      </section>
+
+      <p class="visually-hidden" aria-live="polite" data-live></p>
+
+      <!-- One button per photo, copied into the grid by the page script. -->
+      {
+        content.photos.map((p) => (
+          <template data-photo={p.id} data-aedes={String(p.aedes)}>
+            <li>
+              <button type="button" class="det-photo" aria-pressed="false">
+                <picture>
+                  <source type="image/webp" srcset={srcset(p.id, 'webp')} sizes={SIZES} />
+                  <img src={assetPath(`photos/detective/${p.id}-320.jpg`)} srcset={srcset(p.id, 'jpg')} sizes={SIZES} width="320" height="320" alt={photoAlt[p.id]} decoding="async" />
+                </picture>
+                <span class="det-photo__tick" aria-hidden="true">✓</span>
+                <span class="det-photo__mark" data-mark hidden />
+                <span class="det-answer" data-answer hidden>
+                  <span class="visually-hidden">. </span>
+                  <Genus text={p.aedes ? text.answerAedes : text.answerCulex} />
+                </span>
+              </button>
+            </li>
+          </template>
+        ))
+      }
+    </div>
+
+    <SourceLine lang={lang} ids={[...content.cite.clues, ...content.cite.yard]} />
+  </div>
+</BaseLayout>
+
+<script>
+  // Everything stays in this page: nothing is saved or sent.
+  const root = document.querySelector<HTMLElement>('[data-det]');
+  if (root?.dataset.text) {
+    type Text = Record<string, string> & { say: Record<string, string> };
+    const T: Text = JSON.parse(root.dataset.text);
+    root.hidden = false;
+    const $ = <E extends Element = HTMLElement>(sel: string) => root.querySelector<E>(sel)!;
+    const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => String(vars[k] ?? m));
+    // Scientific names in italics (same names as Genus.astro).
+    const NAMES = /((?:Aedes|Ae\.) (?:aegypti|albopictus)|(?:Culex|Cx\.) quinquefasciatus|Aedes|Culex)/;
+    const rich = (el: HTMLElement, s: string) => el.replaceChildren(...s.split(NAMES).map((part, i) => (i % 2 ? Object.assign(document.createElement('em'), { textContent: part }) : part)));
+    const live = $('[data-live]');
+    const say = (s: string) => {
+      live.textContent = '';
+      setTimeout(() => (live.textContent = s), 60);
+    };
+    const shuffle = <V,>(list: V[]) => {
+      const a = [...list];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    // Steps: one shows at a time; its heading takes focus.
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const show = (name: string, focus = true) => {
+      for (const s of steps) s.hidden = s.dataset.step !== name;
+      if (focus) steps.find((s) => s.dataset.step === name)!.querySelector<HTMLElement>('[data-step-heading]')!.focus();
+    };
+
+    // ---- Rounds 1 and 2: photos ----
+    const templates = [...root.querySelectorAll<HTMLTemplateElement>('template[data-photo]')];
+    const aedes = templates.filter((t) => t.dataset.aedes === 'true').map((t) => t.dataset.photo!);
+    const culex = templates.filter((t) => t.dataset.aedes !== 'true').map((t) => t.dataset.photo!);
+    const grid = $('[data-grid]');
+    const photosHeading = $('[data-photos-heading]');
+    const photosRound = $('[data-photos-round]');
+    const photosTitle = $('#det-photos-heading');
+    const photosHelp = $('[data-photos-help]');
+    const photosResult = $('[data-photos-result]');
+    const checkBtn = $<HTMLButtonElement>('[data-check]');
+    const nextBtn = $<HTMLButtonElement>('[data-next]');
+    let round = 0;
+    let used = new Set<string>();
+    let scores: { n: number; total: number }[] = [];
+
+    // Photos not shown yet come first, then the rest, each group in random order.
+    const pick = (pool: string[], n: number) => [...shuffle(pool.filter((id) => !used.has(id))), ...shuffle(pool.filter((id) => used.has(id)))].slice(0, n);
+    function startPhotoRound() {
+      // 2 or 3 Aedes (as many as the photos allow), the rest Culex: 6 in all.
+      const most = Math.min(3, aedes.length);
+      const least = Math.min(most, Math.max(2, 6 - culex.length));
+      const k = least + Math.floor(Math.random() * (most - least + 1));
+      const ids = shuffle([...pick(aedes, k), ...pick(culex, 6 - k)]);
+      ids.forEach((id) => used.add(id));
+      grid.replaceChildren(
+        ...ids.map((id) => {
+          const tpl = templates.find((t) => t.dataset.photo === id)!;
+          const li = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+          const btn = li.querySelector('button')!;
+          btn.dataset.aedes = tpl.dataset.aedes;
+          btn.addEventListener('click', () => btn.setAttribute('aria-pressed', String(btn.getAttribute('aria-pressed') !== 'true')));
+          return li;
+        }),
+      );
+      photosRound.textContent = fill(T.roundOf, { n: round + 1 });
+      rich(photosHeading, T.photoRound);
+      photosHelp.hidden = false;
+      photosResult.hidden = true;
+      checkBtn.hidden = false;
+      nextBtn.hidden = true;
+      show('photos');
+    }
+
+    checkBtn.addEventListener('click', () => {
+      let found = 0;
+      let missed = 0;
+      let wrong = 0;
+      let total = 0;
+      for (const btn of grid.querySelectorAll<HTMLButtonElement>('button')) {
+        const isAedes = btn.dataset.aedes === 'true';
+        const picked = btn.getAttribute('aria-pressed') === 'true';
+        const mark = btn.querySelector<HTMLElement>('[data-mark]')!;
+        const state = isAedes ? (picked ? 'found' : 'missed') : picked ? 'wrong' : '';
+        if (isAedes) total++;
+        if (state === 'found') found++;
+        if (state === 'missed') missed++;
+        if (state === 'wrong') wrong++;
+        btn.dataset.result = state || 'skipped';
+        btn.dataset.kind = isAedes ? 'aedes' : 'culex';
+        rich(mark, state === 'found' ? T.markFound : state === 'missed' ? T.markMissed : state === 'wrong' ? T.markWrong : '');
+        mark.hidden = !state;
+        btn.querySelector<HTMLElement>('[data-answer]')!.hidden = false;
+        btn.disabled = true;
+      }
+      scores[round] = { n: found, total };
+      const lines = [];
+      if (!missed && !wrong) lines.push(T.allFound);
+      if (missed) lines.push(missed === 1 ? T.missedOne : fill(T.missedMany, { n: missed }));
+      if (wrong) lines.push(wrong === 1 ? T.wrongOne : fill(T.wrongMany, { n: wrong }));
+      const heading = `${fill(T.roundOf, { n: round + 1 })}. ${fill(T.found, { n: found, total })}`;
+      rich(photosHeading, fill(T.found, { n: found, total }));
+      rich(photosResult, lines.join(' '));
+      photosHelp.hidden = true;
+      photosResult.hidden = false;
+      checkBtn.hidden = true;
+      nextBtn.hidden = false;
+      photosTitle.focus();
+      say(`${heading}. ${lines.join(' ')}`);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      round++;
+      if (round < 2) startPhotoRound();
+      else startYard();
+    });
+
+    // ---- Round 3: the yard ----
+    const yardItems = [...root.querySelectorAll<HTMLButtonElement>('[data-yard-item]')];
+    const boxes = [...root.querySelectorAll<HTMLElement>('[data-progress-box]')];
+    const progress = $('[data-progress]');
+    const yardResult = $('[data-yard-result]');
+    const doneBtn = $<HTMLButtonElement>('[data-done]');
+    const finishBtn = $<HTMLButtonElement>('[data-finish]');
+    const keyMissed = $('[data-key-missed]');
+    const totalWater = yardItems.filter((b) => b.dataset.water === 'true').length;
+    const foundCount = () => yardItems.filter((b) => b.dataset.state === 'found').length;
+    const showProgress = () => {
+      const n = foundCount();
+      boxes.forEach((box, i) => box.classList.toggle('is-on', i < n));
+      progress.textContent = fill(T.progress, { n });
+      return n;
+    };
+    for (const btn of yardItems) {
+      btn.addEventListener('click', () => {
+        const on = btn.getAttribute('aria-pressed') !== 'true';
+        btn.setAttribute('aria-pressed', String(on));
+        if (on) btn.dataset.state = btn.dataset.water === 'true' ? 'found' : 'fine';
+        else delete btn.dataset.state;
+        const n = showProgress();
+        if (on) say(`${T.say[btn.dataset.yardItem!]} ${fill(T.progress, { n })}`);
+      });
+    }
+    // "Swipe sideways…" only while the yard is wider than its frame.
+    const yardFrame = $('[data-yard-frame]');
+    const scrollHint = $('[data-scroll-hint]');
+    const showScrollHint = () => (scrollHint.hidden = yardFrame.scrollWidth <= yardFrame.clientWidth + 1);
+    addEventListener('resize', showScrollHint);
+    new MutationObserver(showScrollHint).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
+    function startYard() {
+      for (const btn of yardItems) {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.disabled = false;
+        delete btn.dataset.state;
+      }
+      showProgress();
+      yardResult.hidden = true;
+      keyMissed.hidden = true;
+      doneBtn.hidden = false;
+      finishBtn.hidden = true;
+      show('yard');
+      showScrollHint();
+    }
+    doneBtn.addEventListener('click', () => {
+      const n = foundCount();
+      let missed = 0;
+      for (const btn of yardItems) {
+        btn.disabled = true;
+        if (btn.dataset.water === 'true' && btn.dataset.state !== 'found') {
+          missed++;
+          btn.dataset.state = 'missed';
+        }
+      }
+      scores[2] = { n, total: totalWater };
+      const line = !missed ? T.yardAllFound : missed === 1 ? T.yardMissedOne : fill(T.yardMissedMany, { n: missed });
+      const missedSay = yardItems.filter((b) => b.dataset.state === 'missed').map((b) => T.say[b.dataset.yardItem!]);
+      yardResult.textContent = line;
+      yardResult.hidden = false;
+      keyMissed.hidden = !missed;
+      doneBtn.hidden = true;
+      finishBtn.hidden = false;
+      finishBtn.focus();
+      say([line, ...missedSay].join(' '));
+    });
+    finishBtn.addEventListener('click', () => {
+      $('[data-scores]').replaceChildren(
+        ...scores.map((s, i) => {
+          const li = document.createElement('li');
+          li.className = 'det-score';
+          const b = document.createElement('strong');
+          b.textContent = fill(T.roundScore, { n: i + 1 });
+          li.append(b, ` ${fill(T.scoreOf, { n: s.n, total: s.total })}`);
+          return li;
+        }),
+      );
+      show('end');
+    });
+
+    // ---- Start and play again ----
+    const begin = () => {
+      round = 0;
+      used = new Set();
+      scores = [];
+      startPhotoRound();
+    };
+    $('[data-start]').addEventListener('click', begin);
+    $('[data-again]').addEventListener('click', begin);
+    show('start', false);
+  }
+</script>
+
+<style>
+  .det-eyebrow {
+    margin: 0 0 var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-heading);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Title: the Tools icon beside the heading (it wraps under it on narrow screens). */
+  .det-title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    align-items: center;
+  }
+
+  .det-title h1 {
+    margin: 0;
+  }
+
+  .det-page {
+    padding-block: var(--space-4) var(--section-gap);
+  }
+
+  /* The game and the no-JavaScript version share the navy-framed box. */
+  .det-static,
+  .det-game {
+    max-width: 56rem;
+    padding: var(--pad-box-lg);
+    border: 3px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .det-game[hidden] {
+    display: none;
+  }
+
+  :global(.js) .det-static {
+    display: none;
+  }
+
+  .det-step[hidden] {
+    display: none;
+  }
+
+  /* "Round 1 of 3" on its own small line above the task (like the story's step line). */
+  .det-step__round {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .det-step__heading,
+  .det-static__heading {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xl);
+  }
+
+  .det-static__heading {
+    margin-top: var(--section-gap);
+  }
+
+  .det-static__intro,
+  .det-help {
+    margin: 0 0 var(--space-3);
+  }
+
+  /* ---- Clues ---- */
+  .det-clues {
+    max-width: 44rem;
+    padding: var(--space-3) var(--pad-box);
+    border-inline-start: 6px solid var(--palette-light-orange);
+    background: var(--palette-off-white);
+  }
+
+  .det-clues__heading {
+    margin: 0 0 var(--space-1);
+    font-weight: var(--weight-heading);
+  }
+
+  .det-clues__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .det-clue {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .det-clue + .det-clue {
+    margin-top: var(--space-1);
+  }
+
+  .det-clue::before {
+    content: '';
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--palette-light-blue);
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .det-clue--culex::before {
+    border-color: var(--palette-navy);
+    background: #a0623c;
+  }
+
+  .det-start {
+    margin: var(--space-4) 0 var(--space-2);
+  }
+
+  .det-start__btn {
+    font-size: var(--text-lg);
+  }
+
+  .det-note,
+  .det-credit {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .det-credit {
+    margin-top: var(--space-2);
+  }
+
+  /* ---- Photo grid: 3 across, 2 on phones ---- */
+  .det-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .det-grid--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 37rem;
+  }
+
+  @media (max-width: 40rem) {
+    .det-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-2);
+    }
+  }
+
+  .det-photo,
+  .det-example {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 3px solid var(--palette-light-blue);
+    background: var(--palette-pale-blue);
+    color: var(--color-text);
+    font: inherit;
+    text-align: start;
+  }
+
+  .det-photo {
+    cursor: pointer;
+  }
+
+  .det-photo img,
+  .det-example img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  /* Picked: orange frame and a navy tick in the corner. */
+  .det-photo[aria-pressed='true'] {
+    border-color: var(--palette-orange);
+    box-shadow: 0 0 0 2px var(--palette-navy);
+  }
+
+  .det-photo__tick {
+    display: none;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 1.75rem;
+    height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    background: var(--palette-navy);
+    color: #ffffff;
+    font-weight: var(--weight-heading);
+    line-height: 1;
+  }
+
+  .det-photo[aria-pressed='true'] .det-photo__tick {
+    display: flex;
+  }
+
+  .det-photo:disabled {
+    cursor: default;
+  }
+
+  /* After Check: Aedes framed navy, Culex light blue, each with its clue bar. */
+  .det-photo[data-kind='aedes'],
+  .det-example.is-aedes {
+    border-color: var(--palette-navy);
+    box-shadow: none;
+  }
+
+  .det-photo[data-kind='culex'] {
+    border-color: var(--palette-peach);
+    box-shadow: none;
+  }
+
+  .det-photo[data-result='wrong'] {
+    border-color: var(--palette-orange);
+  }
+
+  .det-answer {
+    display: block;
+    padding: 4px 8px;
+    background: var(--palette-peach);
+    color: var(--palette-navy);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1.3;
+  }
+
+  .det-answer[hidden] {
+    display: none;
+  }
+
+  .det-photo[data-kind='aedes'] .det-answer,
+  .det-example.is-aedes .det-answer {
+    background: var(--palette-navy);
+    color: #ffffff;
+  }
+
+  .det-photo__mark {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 2px 6px;
+    border: 2px solid var(--palette-navy);
+    background: #ffffff;
+    color: var(--palette-navy);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-heading);
+    line-height: 1.25;
+  }
+
+  .det-photo__mark[hidden] {
+    display: none;
+  }
+
+  .det-photo[data-result='missed'] .det-photo__mark {
+    background: var(--palette-light-orange);
+  }
+
+  /* ---- Footer row: result line, then the button on the right ---- */
+  .det-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3) var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .det-foot > p {
+    flex: 1 1 20rem;
+    margin: 0;
+  }
+
+  .det-foot .btn[hidden],
+  .det-result[hidden] {
+    display: none;
+  }
+
+  /* ---- Yard ---- */
+  .det-scroll-hint {
+    margin: 0 0 var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+  }
+
+  .det-scroll-hint[hidden] {
+    display: none;
+  }
+
+  .det-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .det-key__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .det-key__item[hidden] {
+    display: none;
+  }
+
+  .det-key__item::before {
+    content: '';
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border: 3px solid var(--palette-orange);
+  }
+
+  .det-key__item--fine::before {
+    border: 3px dotted var(--palette-light-blue);
+  }
+
+  .det-key__item--missed::before {
+    border-style: dashed;
+  }
+
+  .det-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--weight-strong);
+  }
+
+  .det-progress__boxes {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  .det-progress__box {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--palette-navy);
+    background: #ffffff;
+  }
+
+  .det-progress__box.is-on {
+    background: var(--palette-light-orange);
+  }
+
+  /* ---- End ---- */
+  .det-end__heading {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-3xl, 2.5rem);
+  }
+
+  .det-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .det-scores :global(.det-score) {
+    padding: var(--space-2) var(--space-3);
+    background: var(--palette-off-white);
+    font-size: var(--text-lg);
+  }
+
+  .det-end__note {
+    max-width: 44rem;
+    margin: var(--space-4) 0;
+    padding-inline-start: var(--space-3);
+    border-inline-start: 6px solid var(--palette-light-orange);
+  }
+
+  .det-end__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin: 0;
+  }
+
+  .det-static__water {
+    margin: 0 0 var(--space-3);
+    padding-inline-start: 1.2em;
+  }
+
+  .det-static .det-end__actions {
+    margin-top: var(--space-4);
+  }
+</style>
