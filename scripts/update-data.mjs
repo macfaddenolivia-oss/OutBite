@@ -5,7 +5,9 @@
 //   src/data/travel-notices.json  CDC Travel Health Notices RSS (dengue, Zika, chikungunya)
 //   src/data/travel-risk.json     CDC world risk lists (dengue, chikungunya, Zika pages)
 // Each file is validated before it is written. If a download or a check fails, the
-// last good file is kept and the reason is printed. Run daily once hosted, then rebuild.
+// last good file is kept, the reason is printed and the script exits with an error (the
+// deploy workflow decides what that means: see .github/workflows/deploy.yml). Every
+// download gets 30 seconds and one retry. Run daily once hosted, then rebuild.
 // No API keys or accounts. Never touches the Puerto Rico Department of Health portal.
 
 import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
@@ -50,6 +52,19 @@ const NOTICES_RSS = 'https://wwwnc.cdc.gov/travel/rss/notices.xml';
 const NOTICES_PAGE = 'https://wwwnc.cdc.gov/travel/notices';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// Every download: 30 seconds, then one retry (2 seconds later) if it failed or timed out.
+const TIMEOUT_MS = 30_000;
+async function fetchWithRetry(url, options) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const res = await fetch(url, { ...options, signal: AbortSignal.timeout(TIMEOUT_MS) });
+      if (res.ok || attempt === 2) return res;
+    } catch (e) {
+      if (attempt === 2) throw new Error(e.name === 'TimeoutError' ? `no answer within ${TIMEOUT_MS / 1000} seconds (tried twice)` : `${e.message} (tried twice)`);
+    }
+    await sleep(2000);
+  }
+}
 const readJson = (file) => (existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : null);
 function writeSafely(file, data) {
   const tmp = `${file}.tmp`;
@@ -57,7 +72,7 @@ function writeSafely(file, data) {
   renameSync(tmp, file);
 }
 async function get(url, accept = 'application/json') {
-  const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: accept } });
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': UA, Accept: accept } });
   if (!res.ok) throw new Error(`${url} → HTTP ${res.status}`);
   return res;
 }
@@ -153,7 +168,7 @@ async function updateCases() {
   for (const d of DISEASES) {
     split[d] = { available: false, url: SPLIT_PAGES[d], asOf: null, year: null, states: null, territories: null, reason: '' };
     try {
-      const res = await fetch(SPLIT_PAGES[d], { headers: { 'User-Agent': UA } });
+      const res = await fetchWithRetry(SPLIT_PAGES[d], { headers: { 'User-Agent': UA } });
       if (!res.ok) {
         split[d].reason = `CDC refused automated access (HTTP ${res.status}); linking instead`;
         continue;

@@ -630,7 +630,7 @@
     "tableCaption": "Casos reportados{ref} por estado y territorio (selecciona el encabezado de una columna para ordenar): este año, incluidos los relacionados con viajes, y la semana que terminó el {date}. 0 = ninguno reportado a los CDC hasta ahora este año; los reportes pueden llegar tarde.",
     "colPlace": "Estado o territorio",
     "noticesHeading": "Avisos de viaje de los CDC",
-    "noticesAsOf": "Según los CDC, al {date}",
+    "noticesChecked": "Revisado el {date}",
     "noticesIntro": "Avisos actuales sobre el dengue, el zika y el chikungunya en lugares que visitan los viajeros.",
     "levelNames": {
       "1": "Nivel 1 – Toma las precauciones habituales",

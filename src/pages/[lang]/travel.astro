@@ -110,7 +110,8 @@ const sortCols = [{ key: 'name', label: x.colPlace }, ...VIRUSES.map((v) => ({ k
 const pg = printables.text[L].page;
 // CDC travel notices section: highest level first, then newest.
 const levelNames = (getLocale(lang).messages as Record<string, any>).dash.levelNames as Record<string, string>;
-const noticesAsOf = formatDate(noticeData.fetchedAt.slice(0, 10), htmlLang);
+// The day Outbite last downloaded CDC's notices (not a CDC date): "Checked {date}".
+const noticesChecked = formatDate(noticeData.fetchedAt.slice(0, 10), htmlLang);
 const notices = [...noticeData.notices].sort((a, b) => b.level - a.level || b.date.localeCompare(a.date));
 // CDC's notice pages are in English: say so on the Spanish page.
 const enNote = L === 'es' ? ' (en inglés)' : '';
@@ -314,7 +315,7 @@ const enLang = L === 'es' ? 'en' : undefined;
     <!-- CDC travel notices -->
     <section class="trip__sec notices-sec" id="notices" aria-labelledby="notices-heading">
       <h2 id="notices-heading">{t('dash.noticesHeading')}</h2>
-      <h3 class="notices-sec__asof">{t('dash.noticesAsOf', { date: noticesAsOf })}</h3>
+      <h3 class="notices-sec__asof">{t('dash.noticesChecked', { date: noticesChecked })}</h3>
       {
         notices.length ? (
           <>

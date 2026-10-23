@@ -1,10 +1,25 @@
 # Builds the site and publishes it to GitHub Pages:
 # https://macfaddenolivia-oss.github.io/OutBite/
 #
-# Runs on every push to main, every day at about 10:00 UTC, and by hand ("Run workflow"
-# on the Actions tab). Each run first downloads the latest CDC data (npm run update-data);
-# if CDC can't be reached, the last good data files are kept and the run still publishes,
-# with a warning. Nothing is ever committed back to the repository.
+# Runs on every push to main, every day at about 10:00 UTC (GitHub often starts scheduled
+# runs a few hours late), and by hand ("Run workflow" on the Actions tab). Each run first
+# downloads the latest CDC data (npm run update-data). Nothing is ever committed back to
+# the repository.
+#
+# What happens when a CDC download fails:
+# - The last good data is kept between runs. After every successful download, the three
+#   data files (cases, travel notices, world risk lists) are saved in the Actions cache.
+#   Each run starts from the newest good copy: the saved one, unless the copy in git is
+#   newer. So a failed download never sends the site back to the older numbers in git.
+# - Each download gets 30 seconds and one retry; the whole job gets 15 minutes.
+# - Daily (scheduled) run: if any download fails, the run fails and nothing is published.
+#   The live site keeps yesterday's numbers, and GitHub emails you that the run failed.
+# - Push or by-hand run: the site is still published, with the last good data, and the
+#   run shows a warning ("Some CDC data could not be updated…").
+# - Either way, the run fails (and nothing is published) if CDC's latest reporting week
+#   in the data is more than 14 days old.
+# - If no run succeeds for 7 days, GitHub deletes the saved copy; the next run then starts
+#   from the copy in git again.
 name: Deploy to GitHub Pages
 
 on:
@@ -14,7 +29,8 @@ on:
     - cron: '0 10 * * *'
   workflow_dispatch:
 
-# Only what GitHub Pages needs: read the code, publish the site.
+# Only what GitHub Pages needs: read the code, publish the site. (The Actions cache needs
+# no extra permission.)
 permissions:
   contents: read
   pages: write
@@ -28,6 +44,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
 
@@ -38,14 +55,42 @@ jobs:
 
       - run: npm ci
 
+      # The newest saved copy (each save has its own key; "cdc-data-" picks the latest).
+      - name: Restore the last good CDC data
+        uses: actions/cache/restore@v4
+        with:
+          path: .cdc-last-good
+          key: cdc-data-${{ github.run_id }}
+          restore-keys: cdc-data-
+
+      - name: Start from the newest good CDC data
+        run: node scripts/use-newest-data.mjs .cdc-last-good
+
+      # Daily runs stop here if a download fails (nothing is published); push and
+      # by-hand runs carry on with the last good data.
       - name: Update CDC data
         id: data
-        continue-on-error: true
+        continue-on-error: ${{ github.event_name != 'schedule' }}
         run: npm run update-data
 
       - name: Warn if the CDC data could not be updated
         if: steps.data.outcome == 'failure'
-        run: echo "::warning::Some CDC data could not be updated; the site was built with the last good data files. See the 'Update CDC data' step."
+        run: echo "::warning::Some CDC data could not be updated; the site was built with the last good data. See the 'Update CDC data' step."
+
+      - name: Save this good CDC data for later runs
+        if: steps.data.outcome == 'success'
+        run: |
+          mkdir -p .cdc-last-good
+          cp src/data/cases.json src/data/travel-notices.json src/data/travel-risk.json .cdc-last-good/
+
+      - if: steps.data.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: .cdc-last-good
+          key: cdc-data-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Check CDC's latest reporting week is no more than 14 days old
+        run: node scripts/check-data-age.mjs
 
       - run: npm run build
 
@@ -56,6 +101,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

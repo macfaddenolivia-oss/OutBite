@@ -47,8 +47,13 @@ The site is published on GitHub Pages at <https://macfaddenolivia-oss.github.io/
 by `.github/workflows/deploy.yml`, using GitHub's own Pages actions. It runs on every push to
 `main`, every day at about 10:00 UTC, and by hand (**Run workflow** on the Actions tab). Each
 run downloads the latest CDC data (`npm run update-data`), builds the site and publishes it.
-If CDC can't be reached, the last good data files are kept and the run still publishes, with
-a warning. Nothing is committed back to the repository.
+Nothing is committed back to the repository. The data from each successful download is saved
+in the Actions cache, and every run starts from the newest good copy (that one, or the copy in
+git if it's newer), so a failed download never rolls the site back. If a download fails on
+the daily run, the run fails and nothing is published (the live site keeps yesterday's
+numbers, and GitHub emails you); on a push or by-hand run the site is published with the last
+good data and a warning. Any run fails if CDC's latest reporting week is more than 14 days
+old. The comment at the top of `deploy.yml` explains this step by step.
 
 Every address starts with `/OutBite/` (`base` in `astro.config.mjs`). Links inside the site
 use the helpers in `src/i18n/index.ts` (`localizePath`, `assetPath`, `siteAddress`), which

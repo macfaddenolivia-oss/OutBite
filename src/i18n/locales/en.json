@@ -628,7 +628,7 @@
     "tableCaption": "Reported{ref} cases by state and territory: this year (including travel-related) and the week ending {date}. 0 = none reported to CDC so far this year; reports can arrive late. Select a column heading to sort.",
     "colPlace": "State or territory",
     "noticesHeading": "CDC travel notices",
-    "noticesAsOf": "Per CDC, as of {date}",
+    "noticesChecked": "Checked {date}",
     "noticesIntro": "Current notices about dengue, Zika and chikungunya for places travelers visit.",
     "levelNames": {
       "1": "Level 1 – Practice Usual Precautions",
