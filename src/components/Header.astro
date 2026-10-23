@@ -837,35 +837,6 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
-  /* Tighter spacing (same text size) so all nine items stay on one line: 992–1199px, and
-     (below) at every width when the text is larger (115% or 130%) or in Spanish. */
-  @media (min-width: 62rem) and (max-width: 74.99rem) {
-    :global(html:not(.menu-mode)) .site-nav > ul {
-      gap: 0 var(--space-1);
-    }
-
-    :global(html:not(.menu-mode)) .site-nav > ul > li > a,
-    :global(html:not(.menu-mode)) .nav-dis__btn {
-      padding-inline: var(--space-1);
-    }
-  }
-
-  /* The same tighter spacing at every width when the text is larger, and always in
-     Spanish (its nine items, longer, don't fit with the wider spacing). */
-  @media (min-width: 62rem) {
-    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul,
-    :global(html[lang='es']:not(.menu-mode)) .site-nav > ul {
-      gap: 0 var(--space-1);
-    }
-
-    :global(html[data-text-size]:not(.menu-mode)) .site-nav > ul > li > a,
-    :global(html[data-text-size]:not(.menu-mode)) .nav-dis__btn,
-    :global(html[lang='es']:not(.menu-mode)) .site-nav > ul > li > a,
-    :global(html[lang='es']:not(.menu-mode)) .nav-dis__btn {
-      padding-inline: var(--space-1);
-    }
-  }
-
   @media print {
     .site-header {
       position: static;

@@ -148,6 +148,7 @@
     "howItSpreads": {
       "title": "Cómo se transmite",
       "nav": "Cómo se transmite",
+      "menu": "Transmisión",
       "summary": "Sigue el virus de una persona a un mosquito y de ahí a otra persona, y explora los lugares de tu casa donde se crían los mosquitos."
     },
     "protect": {
@@ -163,6 +164,7 @@
     "nearMe": {
       "title": "¿Está cerca de mí?",
       "nav": "¿Está cerca de mí?",
+      "menu": "Cerca de mí",
       "summary": "Casos recientes en tu estado o territorio, según datos de los CDC y de los departamentos de salud."
     },
     "sick": {

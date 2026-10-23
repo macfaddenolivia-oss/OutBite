@@ -88,15 +88,17 @@ const reviewed = page ? lastReviewed(page) : null;
       } catch (e) {}
       // "menu-mode" on <html>: the header shows the Menu button instead of the menu bar
       // (see Header.astro). Under 992px, and wherever the nine items don't fit on one row
-      // (measured Oct 23, 2026, first width that fits → threshold): English 130% from
-      // 1104px → 1120px; Spanish 100% from 1056px → 1088px, 115% from 1216px → 1248px,
-      // 130% from 1376px → 1408px. English at 100% and 115% fits from 992px.
+      // with the normal spacing (measured Oct 23, 2026 in 16px steps, first width that
+      // fits → threshold one step above): English 100% from 1024px → 1040px, 115% from
+      // 1184px → 1200px, 130% from 1328px → 1344px; Spanish (with the short menu labels
+      // "Transmisión" and "Cerca de mí") 100% from 1120px → 1136px, 115% from 1280px →
+      // 1296px, 130% from 1456px → 1472px.
       (function () {
         var root = document.documentElement;
         var update = function () {
           var es = root.lang === 'es';
           var size = root.dataset.textSize;
-          var max = es ? (size === '130' ? '87.99rem' : size === '115' ? '77.99rem' : '67.99rem') : size === '130' ? '69.99rem' : '61.99rem';
+          var max = es ? (size === '130' ? '91.99rem' : size === '115' ? '80.99rem' : '70.99rem') : size === '130' ? '83.99rem' : size === '115' ? '74.99rem' : '64.99rem';
           var narrow = matchMedia('(max-width: ' + max + ')').matches;
           if (narrow !== root.classList.contains('menu-mode')) root.classList.toggle('menu-mode', narrow);
         };
