@@ -133,7 +133,8 @@
   },
   "questionMeta": {
     "spot-aedes": {
-      "figure": "aedes-culex"
+      "figure": "aedes-culex",
+      "photo": true
     },
     "before-trip": {
       "page": "travel",

@@ -369,6 +369,11 @@
         "label": "Noticia",
         "name": "Associated Press (2016)",
         "text": "una noticia, no una guía. El consejo sobre el larvicida Bti y la sección de fumigación de la página de Comunidad la usan solo para decir lo que decidió Puerto Rico en 2016."
+      },
+      "images": {
+        "label": "Imágenes",
+        "name": "Foto de dominio público",
+        "text": "la única foto de este sitio, un mosquito Aedes aegypti, en Preguntas y respuestas, Palabras clave y Cómo se transmite. Todas las demás imágenes son dibujos de Outbite."
       }
     },
     "listen": {
@@ -701,6 +706,14 @@
     "faqSpot": "Cómo reconocer a un mosquito Aedes",
     "faqLabel": "De nuestras preguntas y respuestas",
     "faqSpotShort": "Cómo reconocerlo"
+  },
+  "photos": {
+    "aedes": {
+      "alt": "Foto de cerca de un mosquito Aedes aegypti picando la piel de una persona. Es negro, con bandas blancas en sus patas largas y marcas blancas en forma de lira (un arpa pequeña) en la parte de arriba del cuerpo. Su abdomen está rojo de sangre.",
+      "caption": "Un mosquito Aedes aegypti picando a una persona",
+      "storyCaption": "Así se ve en la vida real",
+      "credit": "Foto de dominio público"
+    }
   },
   "diseasePage": {
     "aboutLink": "Sobre el {disease}",

@@ -19,6 +19,7 @@
     "build-zip-data": "node scripts/build-zip-data.mjs",
     "due-for-review": "node scripts/due-for-review.mjs",
     "build-social-images": "node scripts/build-social-images.mjs",
+    "build-photos": "node scripts/build-photos.mjs",
     "check-browser": "node scripts/check-browser.mjs",
     "check": "npm run check-content && npm run check-contrast && npm run check-data && npm run test-ics && npm run check-browser"
   },

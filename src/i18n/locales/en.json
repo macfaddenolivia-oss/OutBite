@@ -369,6 +369,11 @@
         "label": "News report",
         "name": "Associated Press (2016)",
         "text": "A news report, not guidance. The Bti larvicide tip and the Community page’s spraying section use it only to say what Puerto Rico decided in 2016."
+      },
+      "images": {
+        "label": "Images",
+        "name": "Public domain photo",
+        "text": "The one photo on this site, an Aedes aegypti mosquito, on Questions and answers, Words to know and How it spreads. Every other picture is an Outbite drawing."
       }
     },
     "listen": {
@@ -701,6 +706,14 @@
     "faqSpot": "How to tell an Aedes mosquito apart",
     "faqLabel": "From our questions and answers",
     "faqSpotShort": "Spotting Aedes"
+  },
+  "photos": {
+    "aedes": {
+      "alt": "Close-up photo of an Aedes aegypti mosquito biting a person’s skin. It is black, with white bands on its long legs and white markings on its back shaped like a lyre (a small harp). Its belly is red with blood.",
+      "caption": "An Aedes aegypti mosquito biting a person",
+      "storyCaption": "What it looks like in real life",
+      "credit": "Public domain photo"
+    }
   },
   "diseasePage": {
     "aboutLink": "About {disease}",

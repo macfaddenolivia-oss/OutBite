@@ -1,0 +1,100 @@
+---
+// The one real photo on the site: an Aedes aegypti mosquito (public domain; files in
+// public/photos/, made by npm run build-photos). Used only where it
+// helps people recognize the mosquito: the FAQ "How can I tell…" answer, the Aedes entry
+// in Words to know, and step 1 of How it spreads (story: "What it looks like in real
+// life" and just the species name, so step 1 stays short on phones). Drawings
+// everywhere else.
+// Same look everywhere: 128px square in a thin navy border, the caption and credit
+// beside it. Width and height are set, so nothing moves while it loads. The alt text
+// describes what's visible (it carries information); the caption names the species.
+// Text: photos.aedes.* in the translation files.
+import Genus from './Genus.astro';
+import { assetPath, useTranslations } from '../i18n';
+
+interface Props {
+  lang: string;
+  story?: boolean;
+}
+const { lang, story = false } = Astro.props;
+const t = useTranslations(lang);
+const SIZE = 128;
+const SPECIES = 'Aedes aegypti';
+const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes-aegypti-${w}.${ext}`)} ${w}w`).join(', ');
+---
+
+<figure class:list={['photo', { 'photo--story': story }]} data-no-glossary>
+  <picture>
+    <source type="image/webp" srcset={srcset('webp')} sizes={`${SIZE}px`} />
+    <img
+      class="photo__img"
+      src={assetPath('photos/aedes-aegypti-192.jpg')}
+      srcset={srcset('jpg')}
+      sizes={`${SIZE}px`}
+      width={SIZE}
+      height={SIZE}
+      alt={t('photos.aedes.alt')}
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <figcaption class="photo__text">
+    {story && <strong class="photo__lead">{t('photos.aedes.storyCaption')}</strong>}
+    <span class="photo__caption"><Genus text={story ? SPECIES : t('photos.aedes.caption')} /></span>
+    <small class="photo__credit">{t('photos.aedes.credit')}</small>
+  </figcaption>
+</figure>
+
+<style>
+  .photo {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    max-width: 30rem;
+    margin: 0 0 var(--space-3);
+  }
+
+  /* <picture> is the flex item: it must never shrink, or the photo would squash. */
+  .photo picture {
+    flex: none;
+  }
+
+  .photo__img {
+    display: block;
+    width: 128px;
+    height: 128px;
+    border: 2px solid var(--color-rule);
+    background: var(--color-surface-tint);
+  }
+
+  .photo__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  .photo__lead {
+    color: var(--color-heading);
+    font-size: 1rem;
+  }
+
+  .photo__credit {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Story step 1: on the light-blue picture panel, with fixed navy text like the
+     drawing's names. */
+  .photo--story {
+    margin: 0;
+    color: #17306a;
+  }
+
+  .photo--story .photo__lead,
+  .photo--story .photo__credit {
+    color: #17306a;
+  }
+</style>

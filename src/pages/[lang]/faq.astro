@@ -7,8 +7,11 @@
 // - Four groups of rows that open in place (same style as the Protect page), each
 //   with "Open all / Close all". Each question has its own address (#vaccine) and a
 //   "Copy link" button that only writes to the clipboard.
+// - "How can I tell…" shows the Aedes and Culex drawings, then the one real photo
+//   (AedesPhoto.astro).
 // Without JavaScript: no search, and every answer shows open.
 import ActionRow from '../../components/ActionRow.astro';
+import AedesPhoto from '../../components/AedesPhoto.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Genus from '../../components/Genus.astro';
 import Mosquito from '../../components/story/Mosquito.astro';
@@ -33,7 +36,7 @@ const htmlLang = getLocale(lang).meta.htmlLang;
 const cite = faq.cite as Record<string, string[]>;
 const groups = faq.groups as { id: string; questions: string[] }[];
 const qText = text.questions as Record<string, { q: string; a: string[]; items?: { label: string; text: string; source: string }[] }>;
-const meta = faq.questionMeta as Record<string, { page?: string; anchor?: string; pages?: string[]; figure?: string; diseases?: string[]; tips?: string[]; links?: string[] }>;
+const meta = faq.questionMeta as Record<string, { page?: string; anchor?: string; pages?: string[]; figure?: string; photo?: boolean; diseases?: string[]; tips?: string[]; links?: string[] }>;
 const zikaSpread = (diseases.text as Record<string, typeof diseases.text.en>)[lang === 'es' ? 'es' : 'en'].zikaSpread;
 const tipTitle = (id: string) => cardText(getSuggestion(id), lang).title;
 const pageLinkText = text.pageLinks as Record<string, string>;
@@ -122,6 +125,7 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
                           </figure>
                         </div>
                       )}
+                      {m.photo && <AedesPhoto lang={lang} />}
                       {m.figure === 'zika-spread' && (
                         <div class="faq-spread">
                           <ZikaSpread text={zikaSpread} headingLevel={3} id={`${id}-spread`} />

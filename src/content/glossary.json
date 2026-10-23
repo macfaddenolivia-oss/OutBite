@@ -232,7 +232,8 @@
             "El tipo de mosquito que transmite el dengue, el zika y el chikungunya. Los CDC dicen que los mosquitos “Aedes aegypti y Ae. albopictus viven en muchas zonas de Estados Unidos” y que “pueden transmitir el dengue y otras enfermedades”."
           ]
         }
-      }
+      },
+      "photo": true
     },
     {
       "id": "culex",

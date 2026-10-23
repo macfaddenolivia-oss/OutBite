@@ -8,6 +8,7 @@ import ActionRow from '../../components/ActionRow.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceLine from '../../components/SourceLine.astro';
 import Genus from '../../components/Genus.astro';
+import AedesPhoto from '../../components/AedesPhoto.astro';
 import SceneMeet from '../../components/story/SceneMeet.astro';
 import SceneFirstBite from '../../components/story/SceneFirstBite.astro';
 import SceneOpening from '../../components/story/SceneOpening.astro';
@@ -105,6 +106,9 @@ const openings = [
           <div class="art">
             <SceneMeet label={s.meet.label} aedesName={s.meet.aedesName} culexName={s.meet.culexName} />
             <p class="callout callout--aedes" aria-hidden="true">{s.meet.calloutAedes}</p>
+            <div class="meet-photo">
+              <AedesPhoto lang={lang} story />
+            </div>
           </div>
         </div>
       </li>
@@ -884,6 +888,26 @@ const openings = [
      tail near the callout's right end), the neighbor in step 5 x=110 (23%). */
   .callout--ana {
     left: calc(23% - var(--tail-x));
+  }
+
+  /* Step 1: the real photo (AedesPhoto.astro) under the drawing, pulled up into the
+     empty sky below the names (LABELS_BOTTOM in story/layout.ts: 298.5 of the drawing's
+     360 units; 1 unit = 100cqw / 480) so step 1 stays within the shared frame. Centered,
+     with the caption beside the photo. */
+  .meet-photo {
+    position: relative; /* above the drawing's sky */
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    margin-top: calc(12px - (360 - 298.5) * 100cqw / 480);
+    padding: 0 var(--space-3) var(--space-3);
+  }
+
+  /* Side by side, the panel's own 20px bottom padding is below it. */
+  @media (min-width: 56rem) {
+    .meet-photo {
+      padding-bottom: 0;
+    }
   }
 
   /* Step 1: the callout over the Aedes mosquito (x = 130 of 480 units, 27.1%), 16px

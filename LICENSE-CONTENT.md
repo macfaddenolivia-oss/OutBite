@@ -25,7 +25,8 @@ with a link to the license, and say if you made changes.
 
 Material quoted or adapted from CDC, EPA, WHO and other sources keeps its own terms. Works
 of the U.S. federal government (such as CDC and EPA pages and data) are in the public
-domain in the United States. Map outlines come from public-domain U.S. Census Bureau and
+domain in the United States. The one photo on the site, an *Aedes aegypti* mosquito
+(`public/photos/`), is a public domain photo. Map outlines come from public-domain U.S. Census Bureau and
 Natural Earth data. The Public Sans font is under the SIL Open Font License. Each source is
 listed on the site's Sources page.
 

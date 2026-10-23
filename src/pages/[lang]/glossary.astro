@@ -4,8 +4,10 @@
 // use of each word on other pages links here (src/middleware.ts).
 // Sorted A to Z by the word in the page's language (quotes and accents ignored), grouped
 // under a letter heading, with a row of letter links at the top for the letters in use.
+// The Aedes entry has the one real photo (AedesPhoto.astro, "photo": true).
 // Text: src/content/glossary.json.
 import ActionRow from '../../components/ActionRow.astro';
+import AedesPhoto from '../../components/AedesPhoto.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Genus from '../../components/Genus.astro';
 import SourceLine from '../../components/SourceLine.astro';
@@ -73,6 +75,7 @@ const letterId = (letter: string) => `letter-${letter.toLowerCase()}`;
                       <Genus text={p} />
                     </p>
                   ))}
+                  {term.photo && <AedesPhoto lang={lang} />}
                   <SourceLine lang={lang} ids={term.sources} compact />
                 </dd>
               </div>
