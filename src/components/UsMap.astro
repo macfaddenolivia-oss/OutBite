@@ -15,7 +15,7 @@
 // spread of the virus shown (is-local, whatever the count); elsewhere four fixed blue
 // steps by cases reported this year (step-1…step-4: 1–9, 10–49, 50–99, 100 or more),
 // plain white for none (step-0) and grey stripes for "not reported" (step--1). Navy
-// outlines, white on the darkest step.
+// outlines, white on the two darkest steps.
 import map from '../data/us-map.json';
 
 interface Props {
@@ -240,8 +240,9 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
     transition: none;
   }
 
-  /* The darkest step gets white outlines, so borders between neighboring navy places stay
-     visible (navy on navy would disappear). */
+  /* The two darkest steps get white outlines, so borders between neighboring places on
+     them stay visible (navy outlines would be too faint on 50–99 and vanish on navy). */
+  .shape.step-3,
   .shape.step-4 {
     stroke: var(--color-map-outline-on-dark);
   }

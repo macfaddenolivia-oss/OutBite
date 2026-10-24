@@ -141,7 +141,7 @@
   --color-map-step-3: #4b78b0; /* 50–99 */
   --color-map-step-4: var(--palette-navy); /* 100 or more, #17306A */
   --color-map-outline: var(--palette-navy);
-  --color-map-outline-on-dark: var(--palette-white); /* outlines on the darkest step */
+  --color-map-outline-on-dark: var(--palette-white); /* outlines on the two darkest steps */
   --color-map-pattern: #6b7488; /* neutral grey, map patterns only */
   --color-map-local: var(--palette-orange); /* fill: ongoing local spread */
   --color-map-focus: var(--palette-deep-blue);
