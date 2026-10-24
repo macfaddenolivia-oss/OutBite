@@ -9,13 +9,17 @@
 //    shadow; "Ana" on the ground).
 // 2. Protect yourself: a small, airy nested-layers graphic (no rows or mosquitoes), with
 //    "Have young kids? See tips for families →" under the tile.
-// 3. Is it near me?: the dashboard map (dengue, current shading) with a Puerto Rico inset.
+// 3. Is it near me?: the dashboard map (dengue) with a Puerto Rico inset, shaded like the
+//    "Is it near me?" map (mapStep in src/lib/cases.ts): orange where CDC lists ongoing local
+//    spread, four fixed blue steps, white for none, grey stripes for not reported; with a
+//    one-line key in the big legend's words.
 import Bucket from './story/Bucket.astro';
 import Mosquito from './story/Mosquito.astro';
 import Person from './story/Person.astro';
 import { BUCKET_WATER_Y } from './story/layout';
 import map from '../data/us-map.json';
-import { bin, caseData } from '../lib/cases';
+import placeData from '../data/places.json';
+import { caseData, mapStep } from '../lib/cases';
 import { localizePath, useTranslations } from '../i18n';
 import { getPage } from '../config/pages';
 
@@ -50,7 +54,9 @@ const rings = [
 
 // ---- 3. Map preview: states (dengue year totals, the dashboard's shading) ----
 const states = Object.entries(map.states as Record<string, string>).filter(([code]) => code !== 'DC');
-const binOf = (code: string) => bin(caseData.places[code]?.dengue.ytd ?? null);
+const localDengue = new Set(placeData.places.filter((p) => p.localSpread.dengue).map((p) => p.code));
+const shadeOf = (code: string) =>
+  `tile__state tile__step-${mapStep(caseData.places[code]?.dengue.ytd ?? null)}${localDengue.has(code) ? ' tile__local' : ''}`;
 const pr = (map.territories as Record<string, { d: string; width: number; height: number }>).PR;
 ---
 
@@ -115,16 +121,32 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
   </li>
   <li>
     <a class="tile" href={href('nearMe')}>
-      <span class="tile__preview" aria-hidden="true">
+      <span class="tile__preview tile__preview--map" aria-hidden="true">
         <svg viewBox="0 -10 975 640" class="tile__svg tile__svg--map">
-          {states.map(([code, d]) => <path d={d} class={`tile__state tile__bin-${binOf(code)}`} />)}
+          <defs>
+            <pattern id="tile-hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="16" height="16" fill="#FFFFFF"></rect>
+              <line x1="0" y1="0" x2="0" y2="16" class="tile__hatch-line" stroke-width="5"></line>
+            </pattern>
+          </defs>
+          {states.map(([code, d]) => <path d={d} class={shadeOf(code)} />)}
           <g transform="translate(830 520)">
             <rect x="0" y="0" width="120" height="62" fill="#FFFFFF" stroke="#17306A" stroke-width="3"></rect>
             <g transform={`translate(10 ${(62 - pr.height) / 2}) scale(1)`}>
-              <path d={pr.d} class={`tile__state tile__bin-${binOf('PR')}`} />
+              <path d={pr.d} class={shadeOf('PR')} />
             </g>
           </g>
         </svg>
+        {/* The big map's legend, in one line: orange, then the four blues. */}
+        <span class="tile__key">
+          <span class="tile__key-item"><span class="tile__swatch tile__swatch--local"></span><span><strong>{t('dash.legendLocal')}</strong> (CDC)</span></span>
+          <span class="tile__key-item">
+            <span class="tile__swatches">
+              {[1, 2, 3, 4].map((n) => <span class={`tile__swatch tile__swatch--${n}`}></span>)}
+            </span>
+            {t('dash.legendHeading', { year: String(caseData.mmwrYear) })}
+          </span>
+        </span>
       </span>
       <span class="tile__body">
         <span class="tile__title">{t('home.tiles.nearMe.title')}</span>
@@ -238,13 +260,74 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     stroke-linejoin: round;
   }
 
-  .tile__bin-0,
-  .tile__bin--1 { fill: #ffffff; }
-  .tile__bin-1 { fill: var(--color-map-1); }
-  .tile__bin-2 { fill: var(--color-map-2); }
-  .tile__bin-3 { fill: var(--color-map-3); }
-  .tile__bin-4 { fill: var(--color-map-4); stroke: #ffffff; }
-  .tile__bin-5 { fill: var(--color-map-5); stroke: #ffffff; }
+  /* Same shading as the "Is it near me?" map. */
+  .tile__step-0 { fill: #ffffff; }
+  .tile__step-1 { fill: var(--color-map-step-1); }
+  .tile__step-2 { fill: var(--color-map-step-2); }
+  .tile__step-3 { fill: var(--color-map-step-3); }
+  .tile__step-4 { fill: var(--color-map-step-4); stroke: var(--color-map-outline-on-dark); }
+  .tile__step--1 { fill: url(#tile-hatch); }
+
+  .tile__hatch-line {
+    stroke: var(--color-map-pattern);
+  }
+
+  .tile__state.tile__local {
+    fill: var(--color-map-local);
+    stroke: var(--color-map-outline);
+  }
+
+  /* Map tile: the map above a one-line key, in the tile's fixed preview height. */
+  .tile__preview--map {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tile__preview--map .tile__svg--map {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .tile__key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px var(--space-3);
+    padding: 4px 10px 8px;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.25;
+  }
+
+  .tile__key-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .tile__swatches {
+    display: inline-flex;
+  }
+
+  .tile__swatch {
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 1px solid var(--color-map-outline);
+  }
+
+  .tile__swatches .tile__swatch + .tile__swatch {
+    border-inline-start: 0;
+  }
+
+  .tile__swatch--local { background: var(--color-map-local); }
+  .tile__swatch--1 { background: var(--color-map-step-1); }
+  .tile__swatch--2 { background: var(--color-map-step-2); }
+  .tile__swatch--3 { background: var(--color-map-step-3); }
+  .tile__swatch--4 { background: var(--color-map-step-4); }
 
   .tile__body {
     display: flex;
