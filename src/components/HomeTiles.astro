@@ -8,7 +8,8 @@
 //    four scattered dots); the bucket stands in the light-blue ground with its contact
 //    shadow; "Ana" on the ground).
 // 2. Protect yourself: a small, airy nested-layers graphic (no rows or mosquitoes), with
-//    "Have young kids? See tips for families →" under the tile.
+//    "Have young kids? See tips for families →" between the text and the button.
+// The buttons sit at the bottom of every tile, so they line up across a row.
 // 3. Is it near me?: the dashboard map (dengue) with a Puerto Rico inset, shaded like the
 //    "Is it near me?" map (mapStep in src/lib/cases.ts): orange where CDC lists ongoing local
 //    spread, four fixed blue steps, white for none, grey stripes for not reported; with a
@@ -82,41 +83,40 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     </a>
   </li>
   <li>
-    <div class="tile-box">
-      <a class="tile tile--inner" href={href('protect')}>
-        <span class="tile__preview" aria-hidden="true">
-          <svg viewBox="0 0 378 198" class="tile__svg">
-            {
-              rings.map(([layer, x, y, w, h, fill]) => (
-                <rect x={x} y={y} width={w} height={h} fill={fill} stroke="#17306A" stroke-width="2.5" />
+    {/* The families link sits between the text and the button, and a link can't sit
+        inside another link, so here the button is the tile's link: it covers the whole
+        tile (::after), with the families link on top of it. */}
+    <div class="tile tile--stretched">
+      <span class="tile__preview" aria-hidden="true">
+        <svg viewBox="0 0 378 198" class="tile__svg">
+          {
+            rings.map(([layer, x, y, w, h, fill]) => (
+              <rect x={x} y={y} width={w} height={h} fill={fill} stroke="#17306A" stroke-width="2.5" />
+            ))
+          }
+          {
+            rings
+              .filter(([layer]) => layer !== 'body')
+              .map(([layer, x, y]) => (
+                <text x={x + 8} y={y + 15} class="tile__ring-label">
+                  {t(`home.layersGraphic.${layer}`)}
+                </text>
               ))
-            }
-            {
-              rings
-                .filter(([layer]) => layer !== 'body')
-                .map(([layer, x, y]) => (
-                  <text x={x + 8} y={y + 15} class="tile__ring-label">
-                    {t(`home.layersGraphic.${layer}`)}
-                  </text>
-                ))
-            }
-            <circle cx="189" cy="92" r="6.5" fill="#17306A"></circle>
-            <path d="M176 119 V113 a13 12 0 0 1 26 0 V119 Z" fill="#17306A"></path>
-          </svg>
-        </span>
-        <span class="tile__body">
-          <span class="tile__title">{t('home.tiles.protect.title')}</span>
-          <span class="tile__text">{t('home.tiles.protect.text')}</span>
-          <span class="tile__btn">{t('home.tiles.protect.button')} <span aria-hidden="true">→</span></span>
-        </span>
-      </a>
-      {/* Inside the tile's border, under its button, as its own link (a link can't sit
-          inside the tile's link): Families with young kids. */}
-      <p class="tile__extra">
-        <a href={href('families')}>
-          {t('home.tiles.protect.families')} <span aria-hidden="true">→</span>
+          }
+          <circle cx="189" cy="92" r="6.5" fill="#17306A"></circle>
+          <path d="M176 119 V113 a13 12 0 0 1 26 0 V119 Z" fill="#17306A"></path>
+        </svg>
+      </span>
+      <span class="tile__body">
+        <span class="tile__title">{t('home.tiles.protect.title')}</span>
+        <span class="tile__text">{t('home.tiles.protect.text')}</span>
+        <a class="tile__extra" href={href('families')}>
+          {t('home.tiles.protect.families')}{'\u00A0'}<span aria-hidden="true">→</span>
         </a>
-      </p>
+        <a class="tile__btn tile__btn--stretched" href={href('protect')}>
+          {t('home.tiles.protect.button')} <span aria-hidden="true">→</span>
+        </a>
+      </span>
     </div>
   </li>
   <li>
@@ -347,16 +347,13 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     line-height: 1.1;
   }
 
-  .tile__text {
-    flex: 1;
-  }
 
   .tile__btn {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     min-height: var(--tap-target);
-    margin-top: var(--space-1);
+    margin-top: auto;
     padding: var(--space-2) var(--pad-box);
     border: 3px solid var(--color-primary-border);
     border-radius: var(--radius-sm);
@@ -365,27 +362,61 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
     font-weight: var(--weight-strong);
   }
 
-  /* Protect tile: the border is on the box, so the families link sits inside it. */
-  .tile-box {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border: 3px solid var(--color-rule);
-    background: var(--color-surface);
+  /* Protect tile: the button's ::after covers the tile, so the whole tile is clickable;
+     the families link sits on top of it. */
+  .tile--stretched {
+    position: relative;
   }
 
-  .tile--inner {
-    flex: 1;
-    border: 0;
+  .tile__btn--stretched {
+    text-decoration: none;
+  }
+
+  .tile__btn--stretched::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+  }
+
+  .tile__btn--stretched:focus-visible {
+    outline: none;
+  }
+
+  .tile__btn--stretched:focus-visible::after {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  /* Hover the tile, not the families link. */
+  .tile--stretched:hover {
+    box-shadow: none;
+  }
+
+  .tile--stretched:has(.tile__btn--stretched:hover) {
+    box-shadow: inset 0 0 0 2px var(--color-rule);
   }
 
   .tile__extra {
-    margin: 0;
-    padding: 0 var(--pad-box-lg) var(--pad-box-lg);
+    position: relative;
+    z-index: 1;
     font-weight: var(--weight-heading);
   }
 
+  /* A little space above the button, even in the tallest tile. */
+  .tile__extra,
+  .tile__text {
+    margin-bottom: var(--space-1);
+  }
+
   .tile:hover .tile__btn {
+    background: var(--color-primary-bg-hover);
+  }
+
+  .tile--stretched:hover .tile__btn {
+    background: var(--color-primary-bg);
+  }
+
+  .tile--stretched .tile__btn:hover {
     background: var(--color-primary-bg-hover);
   }
 </style>
