@@ -257,7 +257,7 @@ const openings = [
           <SourceLine lang={lang} ids={cite.moreMosquitoes} compact />
         </div>
         <div class="scene__figure">
-          <div class="art">
+          <div class="art art--more">
             <SceneMoreMosquitoes label={s.moreMosquitoes.label} />
             <p class="callout callout--more" aria-hidden="true"><Genus text={s.moreMosquitoes.callout} /></p>
             {/* Other places mosquitoes lay eggs: a labeled strip on the ground, under the bucket. */}
@@ -765,7 +765,7 @@ const openings = [
      below the ground's top edge (GROUND in story/layout.ts: 262 of the drawing's 360
      units; 1 unit = 100cqw / 480); there are no name labels in this step. Heading → icons 8px, icon → label 4px, then "…or any
      other standing water." in bold italic. At least 12px of panel below it.
-     Phones: two rows of three. */
+     Phones and small tablets (up to 33rem): two rows of three. */
   .egg-spots {
     position: relative; /* above the drawing's ground, which overflows into this space */
     z-index: 1;
@@ -825,7 +825,8 @@ const openings = [
     }
   }
 
-  @media (max-width: 30rem) {
+  /* Up to 33rem: at 130% text, "upturned lid" no longer fits a sixth of the strip. */
+  @media (max-width: 33rem) {
     .egg-spots__list {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-2) var(--space-2);
@@ -1115,6 +1116,47 @@ const openings = [
     right: calc(32.6% - 47px);
     top: calc(88 * 100cqw / 480 - 16px);
     translate: 0 -100%;
+  }
+
+  /* Stacked (under 56rem) the picture panel starts right at the drawing's top, so a
+     callout taller than the sky above the mosquito (more lines at larger text or on
+     narrow screens) was cut off by the panel's edge. Here the callout sits in its own
+     row: the row is as tall as that sky or the callout, whichever is taller, and the
+     drawing is pulled up under it by the sky's height. The callout's bottom stays 16px
+     above the raised wing, with at least 8px above it, and the drawing only moves down
+     when the callout needs the room (nothing changes when it fits). */
+  @media (max-width: 55.99rem) {
+    .art--more {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .art--more::before {
+      content: '';
+      grid-area: 1 / 1;
+      height: calc(88 * 100cqw / 480 - 16px);
+    }
+
+    .art--more .callout--more {
+      position: relative;
+      grid-area: 1 / 1;
+      align-self: end;
+      justify-self: end;
+      top: auto;
+      right: auto;
+      margin-top: var(--space-2); /* at least 8px below the panel's edge */
+      margin-inline-end: calc(32.6% - 47px);
+      translate: none;
+    }
+
+    .art--more > :global(svg) {
+      grid-row: 2;
+      margin-top: calc(-1 * (88 * 100cqw / 480 - 16px));
+    }
+
+    .art--more .egg-spots {
+      grid-row: 3;
+    }
   }
 
   /* Longest text (Spanish step 7); there is open sky to its right, above the calendar,
