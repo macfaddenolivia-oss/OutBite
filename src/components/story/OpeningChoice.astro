@@ -41,8 +41,8 @@ const { heading, local, travel } = Astro.props;
   .choice {
     display: none;
     --color-focus: #17306a;
-    margin-bottom: var(--space-3);
-    padding: 7px var(--space-4); /* 44px buttons + 2×7px + 2×3px border = 64px band */
+    margin-bottom: var(--space-2);
+    padding: 7px var(--space-4);
     background: #f4d1a8;
     border: 3px solid #17306a;
     color: #17306a;
@@ -54,9 +54,11 @@ const { heading, local, travel } = Astro.props;
     align-items: center;
   }
 
+  /* One row: 44px buttons + 2×1px + 2×3px border = 52px band. */
   @media (min-width: 56rem) {
     :global(.js) .choice {
       grid-template-columns: auto minmax(0, 1fr);
+      padding-block: 1px;
     }
   }
 

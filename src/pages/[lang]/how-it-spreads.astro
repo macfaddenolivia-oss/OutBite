@@ -90,14 +90,18 @@ const openings = [
           <p class="scene__meet-caption"><Genus text={s.meet.caption} /></p>
           <div class="scene__notebox">
             <p><Genus text={s.meet.note} /></p>
-            <p class="scene__states">
-              {s.meet.states.lines.map((line: string, i: number) => (
-                <>
-                  {i > 0 && <br />}
-                  {line}
-                </>
-              ))}
-            </p>
+            {/* Closed by default so step 1 fits the same frame as the other steps. */}
+            <details class="scene__where">
+              <summary>{s.meet.states.toggle}</summary>
+              <p class="scene__states">
+                {s.meet.states.lines.map((line: string, i: number) => (
+                  <>
+                    {i > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </p>
+            </details>
           </div>
           <div class="scene__meet-foot">
             <SourceLine lang={lang} ids={cite.meet} collapsed />
@@ -256,25 +260,25 @@ const openings = [
           <p>{s.moreMosquitoes.containers}</p>
           <SourceLine lang={lang} ids={cite.moreMosquitoes} compact />
         </div>
-        <div class="scene__figure">
+        <div class="scene__figure scene__figure--eggs">
           <div class="art art--more">
             <SceneMoreMosquitoes label={s.moreMosquitoes.label} />
             <p class="callout callout--more" aria-hidden="true"><Genus text={s.moreMosquitoes.callout} /></p>
-            {/* Other places mosquitoes lay eggs: a labeled strip on the ground, under the bucket. */}
-            <div class="egg-spots">
-              <p class="egg-spots__title">{s.moreMosquitoes.eggSpots.title}</p>
-              <ul class="egg-spots__list">
-                {
-                  eggSpots.map(([key, file]) => (
-                    <li>
-                      <img src={assetPath(`story/water/${file}.svg`)} alt="" width="40" height="40" />
-                      <span>{s.moreMosquitoes.eggSpots.items[key]}</span>
-                    </li>
-                  ))
-                }
-              </ul>
-              <p class="egg-spots__title egg-spots__more">{s.moreMosquitoes.eggSpots.more}</p>
-            </div>
+          </div>
+          {/* Other places mosquitoes lay eggs: a labeled strip on the ground, under the bucket. */}
+          <div class="egg-spots">
+            <p class="egg-spots__title">{s.moreMosquitoes.eggSpots.title}</p>
+            <ul class="egg-spots__list">
+              {
+                eggSpots.map(([key, file]) => (
+                  <li>
+                    <img src={assetPath(`story/water/${file}.svg`)} alt="" width="40" height="40" />
+                    <span>{s.moreMosquitoes.eggSpots.items[key]}</span>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="egg-spots__title egg-spots__more">{s.moreMosquitoes.eggSpots.more}</p>
           </div>
         </div>
       </li>
@@ -719,7 +723,18 @@ const openings = [
   }
 
   .story {
-    padding-block: var(--space-3) var(--section-gap);
+    padding-block: var(--space-2) var(--section-gap);
+  }
+
+  /* This page: 8px gaps (12px elsewhere) above the title, between the title and the
+     Listen/Share row, below that row and above the story picker, so more of the story
+     box fits on a laptop screen when the page opens. */
+  .page-intro {
+    padding-block: var(--space-2);
+  }
+
+  :global(.js) .page-intro :global(.action-row) {
+    margin-top: var(--space-2);
   }
 
   /* Cap the picture's height; the drawing stays proportional and centered. */
@@ -755,6 +770,17 @@ const openings = [
     max-height: 478px;
   }
 
+  /* Side by side, at most as tall as the other steps' drawings (405px at 100% text), so
+     step 9 doesn't make the frame taller. The diagram is limited by the panel's width
+     there, so this only trims empty space above and below it: the labels keep their size.
+     It grows with the text size (466px at 115%, 478px at 130%), where the cap would
+     shrink the labels and the text column sets the frame's height anyway. */
+  @media (min-width: 56rem) {
+    .art--cycle :global(.story-art.cycle) {
+      max-height: min(478px, 25.3125rem);
+    }
+  }
+
   /* Drawn scenes are at most 405px tall (540 wide). */
   .art :global(.story-art) {
     max-height: 405px;
@@ -763,13 +789,23 @@ const openings = [
   /* "More mosquitoes" (step 6): where mosquitoes lay eggs. A labeled row of six 40px
      icons on the light-blue ground, inside the drawing's box, pulled up to start 16px
      below the ground's top edge (GROUND in story/layout.ts: 262 of the drawing's 360
-     units; 1 unit = 100cqw / 480); there are no name labels in this step. Heading → icons 8px, icon → label 4px, then "…or any
-     other standing water." in bold italic. At least 12px of panel below it.
+     units; the drawing is min(100cqw, 540px) wide, 100cqw being the picture panel's width);
+     there are no name labels in this step. Heading → icons 8px, icon → label 4px, then
+     "…or any other standing water." in bold italic. At least 12px of panel below it.
      Phones and small tablets (up to 33rem): two rows of three. */
+  .scene__figure--eggs {
+    container-type: inline-size;
+    /* How far the strip reaches up into the drawing's box. */
+    --eggs-overlap: calc((360 - 262) * min(100cqw, 540px) / 480 - 16px);
+  }
+
   .egg-spots {
     position: relative; /* above the drawing's ground, which overflows into this space */
     z-index: 1;
-    margin-top: calc(16px - (360 - 262) * 100cqw / 480);
+    width: 100%;
+    max-width: 540px;
+    margin-top: calc(-1 * var(--eggs-overlap));
+    margin-inline: auto;
     padding: 0 var(--space-2) var(--space-3);
     color: var(--color-ground-text);
     text-align: center;
@@ -813,14 +849,33 @@ const openings = [
     margin-bottom: 4px;
   }
 
-  /* Side by side: the strip hangs just below the drawing's box (same place as before),
-     so the drawing itself is what gets centered in the panel, at the same height as every
-     other step's (the ground line doesn't jump). It sits in the panel's blue space below. */
+  /* Side by side: the drawing is centered in the panel, at the same height as every other
+     step's (the ground line doesn't jump), with the strip in the space below it. Where
+     that space is too short for the strip, the drawing moves up just enough, so the strip
+     is never cut off: the space above the drawing (::before) and the strip share the
+     spare height equally (flex 1 1 0), but the strip never gets less than it needs. The
+     ::before's min-height and negative margin match the strip's overlap, so both sides
+     count the same way. */
   @media (min-width: 56rem) {
-    .egg-spots {
-      position: absolute;
-      top: 100%;
-      inset-inline: 0;
+    .scene__figure.scene__figure--eggs,
+    :global(.js) .scene__figure.scene__figure--eggs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scene__figure--eggs::before {
+      content: '';
+      flex: 1 1 12px; /* the strip's bottom padding, which its flex basis can't go below */
+      min-height: var(--eggs-overlap);
+      margin-bottom: calc(-1 * var(--eggs-overlap));
+    }
+
+    .scene__figure--eggs .art--more {
+      flex: none;
+    }
+
+    .scene__figure--eggs .egg-spots {
+      flex: 1 1 0;
       padding-bottom: 12px;
     }
   }
@@ -1072,10 +1127,17 @@ const openings = [
     }
   }
 
-  /* Side by side, the panel's own 20px bottom padding is below it. */
+  /* Side by side, the panel's own 20px bottom padding is below it. The drawing is a
+     little narrower here (476px, others 540px), so the drawing and the 96px photo row
+     together stay within 405px, the height of the other steps' drawings, and step 1 is
+     no taller than they are. */
   @media (min-width: 56rem) {
     .meet-photo {
       padding-bottom: 0;
+    }
+
+    .art--meet {
+      max-width: 476px;
     }
   }
 
@@ -1154,9 +1216,6 @@ const openings = [
       margin-top: calc(-1 * (88 * 100cqw / 480 - 16px));
     }
 
-    .art--more .egg-spots {
-      grid-row: 3;
-    }
   }
 
   /* Longest text (Spanish step 7); there is open sky to its right, above the calendar,
@@ -1277,6 +1336,14 @@ const openings = [
     font-size: 0.875rem;
   }
 
+  /* "Show where": the list of states, closed by default (like the sources toggle). */
+  .scene__where summary {
+    min-height: 24px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
   .scene__note {
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border-strong);
@@ -1290,7 +1357,7 @@ const openings = [
     grid-template-areas: 'back middle forward';
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-2) 20px;
+    padding: var(--space-1) 20px; /* 44px buttons + 2×4px + 3px border = 55px */
     border-top: 3px solid var(--color-rule);
     background: var(--color-surface);
     /* Pinned to the bottom of the window whenever the frame's bottom is off-screen. */

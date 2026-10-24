@@ -6,7 +6,7 @@
 // in Words to know, and step 1 of How it spreads (story: "What it looks like in real
 // life" and just the species name, so step 1 stays short on phones). Drawings
 // everywhere else.
-// Same look everywhere: 128px square (96px in the story on phones) in a thin navy border,
+// Same look everywhere: 128px square (96px in the story) in a thin navy border,
 // the caption and credit beside it. Width and height are set, so nothing moves while it loads. The alt text
 // describes what's visible (it carries information); the caption names the species.
 // Text: photos.aedes.* in the translation files.
@@ -28,12 +28,12 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
 
 <figure class:list={['photo', { 'photo--story': story }]} data-no-glossary>
   <picture>
-    <source type="image/webp" srcset={srcset('webp')} sizes={story ? `(max-width: 40rem) 96px, ${SIZE}px` : `${SIZE}px`} />
+    <source type="image/webp" srcset={srcset('webp')} sizes={story ? '96px' : `${SIZE}px`} />
     <img
       class="photo__img"
       src={assetPath('photos/aedes-aegypti-192.jpg')}
       srcset={srcset('jpg')}
-      sizes={story ? `(max-width: 40rem) 96px, ${SIZE}px` : `${SIZE}px`}
+      sizes={story ? '96px' : `${SIZE}px`}
       width={SIZE}
       height={SIZE}
       alt={t('photos.aedes.alt')}
@@ -116,12 +116,9 @@ const srcset = (ext: string) => [192, 384].map((w) => `${assetPath(`photos/aedes
     color: #17306a;
   }
 
-  /* Phones: smaller in the story, where step 1 sets the height of the shared frame for
-     all nine steps. */
-  @media (max-width: 40rem) {
-    .photo--story .photo__img {
-      width: 96px;
-      height: 96px;
-    }
+  /* Smaller in the story (96px), so step 1 fits the shared frame of all nine steps. */
+  .photo--story .photo__img {
+    width: 96px;
+    height: 96px;
   }
 </style>

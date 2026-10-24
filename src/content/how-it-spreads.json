@@ -90,6 +90,7 @@
           "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). The Aedes mosquito looks different: it is black or dark brown, with white bands on its legs and white markings on its body. Aedes mosquitoes can spread dengue, Zika and chikungunya.",
           "note": "You don’t have to travel to get sick. Aedes mosquitoes can live in many parts of the U.S. Dengue spreads in Puerto Rico, and CDC has reported locally acquired cases in these states:",
           "states": {
+            "toggle": "Show where",
             "lines": [
               "Dengue: Florida, Texas, California, Hawaii and Arizona",
               "Zika: Florida and Texas (2016–2017)",
@@ -222,6 +223,7 @@
           "caption": "Muchos mosquitos en los estados de EE. UU. son mosquitos comunes (Culex). El mosquito Aedes es diferente: es negro o café oscuro, con bandas blancas en las patas y marcas blancas en el cuerpo. Los mosquitos Aedes pueden transmitir el dengue, el zika y el chikungunya.",
           "note": "No hace falta viajar para enfermarse. Los mosquitos Aedes pueden vivir en muchas partes de EE. UU. El dengue se transmite en Puerto Rico, y los CDC han reportado casos locales en estos estados:",
           "states": {
+            "toggle": "Mostrar dónde",
             "lines": [
               "Dengue: Florida, Texas, California, Hawái y Arizona",
               "Zika: Florida y Texas (2016–2017)",
