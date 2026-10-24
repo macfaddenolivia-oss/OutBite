@@ -3,8 +3,9 @@
 // site palette with navy outlines; decorative (aria-hidden). The travel icon is the
 // story's airplane (story/Airplane.astro, from How it spreads) on a light-blue circle; the
 // families icon is an adult and a child on the light-blue ground strip; Mosquito detective
-// is a magnifying glass over a small banded mosquito.
+// is a magnifying glass with the story mosquito in the lens.
 import Airplane from './story/Airplane.astro';
+import detectiveSvg from '../assets/source/detective-icon.svg?raw';
 
 interface Props {
   tool: string;
@@ -16,6 +17,8 @@ const PALE_BLUE = '#CBDCEC';
 const PEACH = '#F4D1A8';
 const LIGHT_ORANGE = '#F0AF74';
 const ORANGE = '#E07034';
+// The detective icon's drawing, without its own <svg> wrapper (same 72 × 72 viewBox).
+const detectiveIcon = detectiveSvg.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 ---
 
 <svg class="tool-icon" viewBox="0 0 72 72" width="72" height="72" aria-hidden="true" focusable="false">
@@ -92,23 +95,10 @@ const ORANGE = '#E07034';
     )
   }
   {
-    tool === 'detective' && (
-      <g stroke={NAVY} stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-        {/* Magnifying glass over a small banded mosquito: navy-outlined light-orange
-            handle, white rim, pale-blue lens with a glint */}
-        <path d="M45 45 L63 63" stroke-width="12" />
-        <path d="M45 45 L63 63" stroke={LIGHT_ORANGE} stroke-width="6" />
-        <circle cx="30" cy="30" r="23" fill="#FFFFFF" />
-        <circle cx="30" cy="30" r="17" fill={PALE_BLUE} stroke-width="2" />
-        <path d="M18 24 Q21 16 29 14" fill="none" stroke="#FFFFFF" stroke-width="3" />
-        <g transform="rotate(-18 31 32)">
-          <path d="M26 34 L21 41 M30 35 L28 43 M35 34 L38 42" fill="none" stroke-width="2" />
-          <ellipse cx="33" cy="31" rx="9" ry="3.6" fill={NAVY} stroke="none" />
-          <path d="M31 28 V34 M35 28 V34" stroke="#FFFFFF" stroke-width="1.6" />
-          <circle cx="23" cy="30" r="3" fill={NAVY} stroke="none" />
-        </g>
-      </g>
-    )
+    /* Magnifying glass with the story mosquito in the lens (design/detective-icon_1.svg,
+       copied to src/assets/source/detective-icon.svg with its clip-path ids renamed to
+       det-lens and det-abd), drawn as is. */
+    tool === 'detective' && <g set:html={detectiveIcon} />
   }
   {
     tool === 'travel' && (
