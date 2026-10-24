@@ -85,7 +85,7 @@
         },
         "detective": {
           "title": "Mosquito detective",
-          "line": "Can you spot an Aedes? A 2-minute game.",
+          "line": "Can you spot an Aedes? A 2‑minute game.",
           "button": "Play"
         },
         "landlordNote": {
@@ -139,7 +139,7 @@
         },
         "detective": {
           "title": "Detective de mosquitos",
-          "line": "¿Puedes reconocer un Aedes? Un juego de 2 minutos.",
+          "line": "¿Puedes reconocer un Aedes? Un juego de 2 minutos.",
           "button": "Jugar"
         },
         "landlordNote": {

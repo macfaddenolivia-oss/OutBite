@@ -245,7 +245,7 @@
       "title": "Mosquito detective",
       "nav": "Mosquito detective",
       "menu": "Detective",
-      "summary": "Can you spot an Aedes? A 2-minute game."
+      "summary": "Can you spot an Aedes? A 2‑minute game."
     },
     "glossary": {
       "title": "Words to know",
@@ -610,19 +610,20 @@
     "splitLink": "See CDC's breakdown of local and travel cases",
     "mapHeading": "Map of reported cases",
     "tabsLabel": "Choose a virus",
-    "mapNote": "Darker = more reported cases, mostly from travel in U.S. states.",
+    "mapNote": "Orange = CDC says mosquitoes are spreading the virus there now. Blue = cases reported to CDC, mostly in people who got sick while traveling.",
+    "mapNoteChikungunya": "Orange = CDC says mosquitoes are spreading the virus there now. Blue = cases reported to CDC.",
     "mapLabel": "Map of the U.S. states, DC and territories, shaded by reported {disease} cases this year. The same numbers are in the table.",
-    "legendHeading": "Reported cases in {year}",
+    "legendHeading": "Cases reported in {year}",
     "bins": [
-      "1",
-      "2–9",
+      "1–9",
       "10–49",
-      "50–199",
-      "200 or more"
+      "50–99",
+      "100 or more"
     ],
-    "legendNone": "No cases reported",
+    "legendNone": "None",
     "legendNotReported": "Not reported",
-    "legendLocal": "Ongoing local spread (CDC)",
+    "legendLocal": "Spreading locally",
+    "localFew": "CDC lists ongoing local spread here. {count} reported to CDC so far in {year} (reports can arrive late).",
     "viewTable": "View as table",
     "viewMap": "View as map",
     "tableCaption": "Reported{ref} cases by state and territory: this year (including travel-related) and the week ending {date}. 0 = none reported to CDC so far this year; reports can arrive late. Select a column heading to sort.",

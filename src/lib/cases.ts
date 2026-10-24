@@ -49,7 +49,20 @@ export function ytdByPlace(): Record<string, Record<Disease, Count>> {
   ) as Record<string, Record<Disease, Count>>;
 }
 
-/** Map shading: 0 = no cases reported, 1–5 = the five blue steps, -1 = not reported. */
+/** "Is it near me?" map (design/map-scale-B.png): places CDC lists with ongoing local
+ *  spread are orange whatever their count; everywhere else, 0 = none (white), 1–4 = four
+ *  fixed blue steps by cases reported this year (1–9, 10–49, 50–99, 100 or more), -1 = not
+ *  reported. Fixed, not taken from the data, so the map means the same thing every year. */
+export const MAP_STEPS = [1, 10, 50, 100]; // lower edge of each blue step
+export function mapStep(n: Count): number {
+  if (n === null) return -1;
+  return MAP_STEPS.filter((limit) => n >= limit).length;
+}
+/** An orange place with fewer than this many cases reported this year gets a line saying
+ *  why it's orange anyway ("CDC lists ongoing local spread here…"). */
+export const FEW_CASES = 10;
+
+/** Home page map tile: 0 = no cases reported, 1–5 = the five blue steps, -1 = not reported. */
 export const BIN_LIMITS = [1, 2, 10, 50, 200]; // lower edge of each step
 export function bin(n: Count): number {
   if (n === null) return -1;

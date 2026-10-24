@@ -9,11 +9,13 @@
 // deep-blue line, the site's focus ring, over a white halo), drawn on top of the map so
 // no neighbor covers it and visible on every fill; the insets get a 3px outline.
 // Each place is a keyboard-focusable button; the page script shades them for the chosen
-// virus, updates their labels and handles selection. Shading: five blue steps
-// (bin-1…bin-5), "no cases reported" (bin-0, dotted) and "not reported" (bin--1,
-// hatched); navy outlines, white on the two darkest steps. Never red or orange for
-// counts; orange outlines mark CDC's ongoing local spread of the virus shown (the
-// page's script switches them with the virus tab).
+// virus, updates each one's name and handles selection. The name is also its hover text,
+// from one source so screen readers hear it once: an SVG <title> for states and D.C.,
+// a title attribute on the insets (their visible labels are aria-hidden). Shading (design/map-scale-B.png): solid orange where CDC lists ongoing local
+// spread of the virus shown (is-local, whatever the count); elsewhere four fixed blue
+// steps by cases reported this year (step-1…step-4: 1–9, 10–49, 50–99, 100 or more),
+// plain white for none (step-0) and grey stripes for "not reported" (step--1). Navy
+// outlines, white on the darkest step.
 import map from '../data/us-map.json';
 
 interface Props {
@@ -23,7 +25,7 @@ interface Props {
   /** Places with ongoing local spread of the initial virus (dengue). */
   localSpread: string[];
   /** Initial shading and labels (dengue), so the map is right before the script runs. */
-  initial: Record<string, { bin: number; label: string }>;
+  initial: Record<string, { step: number; label: string }>;
 }
 const { label, names, short, localSpread, initial } = Astro.props;
 
@@ -32,7 +34,7 @@ const territories = map.territories as Record<string, { d: string; width: number
 // Inset order, top to bottom (left to right on phones).
 const INSETS = ['PR', 'VI', 'GU', 'MP', 'AS'];
 const CODES: Record<string, string> = { PR: 'PR', VI: 'USVI', GU: 'GU', AS: 'AS', MP: 'MP' };
-const binClass = (code: string) => `bin-${initial[code]?.bin ?? -1}`;
+const stepClass = (code: string) => `step-${initial[code]?.step ?? -1}`;
 const local = (code: string) => localSpread.includes(code);
 
 // D.C.: real location (centre of its outline) and a square in the Atlantic beside
@@ -45,10 +47,6 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
 <div class="us-map" role="group" aria-label={label} data-map>
   <svg class="us-map__main" viewBox={`0 0 ${map.width} ${map.height}`}>
     <defs>
-      <pattern id="map-dots" width="8" height="8" patternUnits="userSpaceOnUse">
-        <rect width="8" height="8" fill="#FFFFFF"></rect>
-        <circle cx="4" cy="4" r="1.3" class="map-pattern-ink"></circle>
-      </pattern>
       <pattern id="map-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
         <rect width="8" height="8" fill="#FFFFFF"></rect>
         <line x1="0" y1="0" x2="0" y2="8" class="map-pattern-line" stroke-width="2.5"></line>
@@ -62,8 +60,9 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
           tabindex="0"
           role="button"
           aria-pressed="false"
-          aria-label={initial[code]?.label ?? names[code]}>
-          <path class={`shape ${binClass(code)}`} d={d} data-focus-shape />
+          >
+          <title data-place-title>{initial[code]?.label ?? names[code]}</title>
+          <path class={`shape ${stepClass(code)}`} d={d} data-focus-shape />
         </g>
       ))
     }
@@ -73,10 +72,11 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
       tabindex="0"
       role="button"
       aria-pressed="false"
-      aria-label={initial.DC?.label ?? names.DC}>
+      >
+      <title data-place-title>{initial.DC?.label ?? names.DC}</title>
       <line class="dc-leader" x1={dcX} y1={dcY} x2={DC_BOX.x} y2={DC_BOX.y + DC_BOX.size / 2}></line>
       <circle class="dc-dot" cx={dcX} cy={dcY} r="2.5"></circle>
-      <rect class={`shape ${binClass('DC')}`} x={DC_BOX.x} y={DC_BOX.y} width={DC_BOX.size} height={DC_BOX.size} rx="2" data-focus-shape />
+      <rect class={`shape ${stepClass('DC')}`} x={DC_BOX.x} y={DC_BOX.y} width={DC_BOX.size} height={DC_BOX.size} rx="2" data-focus-shape />
       <text class="dc-label" x={DC_BOX.x + DC_BOX.size / 2} y={DC_BOX.y + DC_BOX.size + 24} text-anchor="middle" aria-hidden="true">
         {short.DC}
       </text>
@@ -96,13 +96,13 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
             tabindex="0"
             role="button"
             aria-pressed="false"
-            aria-label={initial[code]?.label ?? names[code]}>
+            title={initial[code]?.label ?? names[code]}>
             <svg
               class="inset__shape"
               viewBox={`${-PAD} ${-PAD} ${tr.width + PAD * 2} ${tr.height + PAD * 2}`}
               aria-hidden="true"
               focusable="false">
-              <path class={`shape ${binClass(code)}`} d={tr.d} />
+              <path class={`shape ${stepClass(code)}`} d={tr.d} />
             </svg>
             <span class="inset__name" aria-hidden="true">{short[code]}</span>
             <span class="inset__code" aria-hidden="true">{CODES[code]}</span>
@@ -240,33 +240,28 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
     transition: none;
   }
 
-  /* The two darkest steps get white outlines, so borders between neighboring dark
-     places stay visible (navy on navy would disappear). */
-  .shape.bin-4,
-  .shape.bin-5 {
+  /* The darkest step gets white outlines, so borders between neighboring navy places stay
+     visible (navy on navy would disappear). */
+  .shape.step-4 {
     stroke: var(--color-map-outline-on-dark);
   }
 
-  .bin-1 { fill: var(--color-map-1); }
-  .bin-2 { fill: var(--color-map-2); }
-  .bin-3 { fill: var(--color-map-3); }
-  .bin-4 { fill: var(--color-map-4); }
-  .bin-5 { fill: var(--color-map-5); }
-  .bin-0 { fill: url(#map-dots); }
-  .bin--1 { fill: url(#map-hatch); }
-
-  .map-pattern-ink {
-    fill: var(--color-map-pattern);
-  }
+  .step-0 { fill: #ffffff; }
+  .step-1 { fill: var(--color-map-step-1); }
+  .step-2 { fill: var(--color-map-step-2); }
+  .step-3 { fill: var(--color-map-step-3); }
+  .step-4 { fill: var(--color-map-step-4); }
+  .step--1 { fill: url(#map-hatch); }
 
   .map-pattern-line {
     stroke: var(--color-map-pattern);
   }
 
-  /* CDC: ongoing local spread. */
-  .is-local .shape {
-    stroke: var(--color-map-local);
-    stroke-width: 6;
+  /* CDC: ongoing local spread of the virus shown: solid orange, whatever the count. */
+  .is-local .shape,
+  .is-local .shape.step-4 {
+    fill: var(--color-map-local);
+    stroke: var(--color-map-outline);
   }
 
   .place {
@@ -279,11 +274,6 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
     stroke: #ffffff;
     stroke-width: 3;
     filter: drop-shadow(0 0 2px #17306a) drop-shadow(0 0 1px #17306a);
-  }
-
-  .place.is-local[aria-pressed='true'] .shape {
-    stroke: var(--color-map-local);
-    stroke-width: 6;
   }
 
   /* Keyboard focus on states and D.C.: the ring is drawn by .focus-ring. */
@@ -337,20 +327,12 @@ const PAD = 8; // inset padding, in outline units, so edges aren't clipped
     stroke-width: 1;
   }
 
-  .place--inset.is-local .shape {
-    stroke-width: 2;
-  }
-
   .place--inset[aria-pressed='true'] {
     box-shadow: 0 0 0 2px var(--color-map-outline);
   }
 
   .place--inset[aria-pressed='true'] .shape {
     stroke-width: 2;
-  }
-
-  .place--inset.is-local[aria-pressed='true'] .shape {
-    stroke-width: 2.5;
   }
 
   .place--inset:focus-visible {

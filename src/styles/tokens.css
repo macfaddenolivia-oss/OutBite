@@ -132,9 +132,14 @@
   --color-callout-bg: var(--palette-peach); /* story callouts */
   --color-callout-text: var(--palette-navy);
   --color-blocked: var(--palette-burnt-orange); /* "Blocked" X and label; LARGE BOLD TEXT ONLY */
-  /* "Is it near me?" map: five blue steps for reported cases (never red or orange),
-     a grey pattern for "no cases reported" / "not reported", orange outlines for CDC's
-     ongoing local spread. The map panel is white. */
+  /* "Is it near me?" map (design/map-scale-B.png): orange fill for CDC's ongoing local
+     spread; elsewhere four blue steps for reported cases, evenly spaced from light to the
+     site navy; white for none; a grey stripe for "not reported". The map panel is white. */
+  --color-map-step-1: #d3e2f0; /* 1–9 */
+  --color-map-step-2: #8fb2d6; /* 10–49 */
+  --color-map-step-3: #4b78b0; /* 50–99 */
+  --color-map-step-4: var(--palette-navy); /* 100 or more, #17306A */
+  /* Home page map tile: its own five blue steps (and the patterns and outlines below). */
   --color-map-1: var(--palette-light-blue); /* #A9C8E0 */
   --color-map-2: var(--palette-mid-blue); /* #5B91C2 */
   --color-map-3: var(--palette-blue); /* #3B6FAF */
@@ -143,7 +148,7 @@
   --color-map-outline: var(--palette-navy);
   --color-map-outline-on-dark: var(--palette-white); /* outlines on the two darkest steps */
   --color-map-pattern: #6b7488; /* neutral grey, map patterns only */
-  --color-map-local: var(--palette-orange);
+  --color-map-local: var(--palette-orange); /* fill: ongoing local spread */
   --color-map-focus: var(--palette-deep-blue);
   /* Map legend box (sits on the white map panel). */
   --color-legend-bg: var(--palette-pale-blue);

@@ -21,12 +21,14 @@ import externalLinks from '../../content/external-links.json';
 import {
   DISEASES,
   REPORTED_NOTE_SOURCES,
+  FEW_CASES,
+  MAP_STEPS,
   allUSMissing,
-  bin,
   caseData,
   formatDate,
   formatWeekDate,
   latestWeekByPlace,
+  mapStep,
   nationalLatestWeek,
   weekTemplate,
   ytdByPlace,
@@ -68,9 +70,24 @@ const diseaseName = (d: Disease) => t(`pages.${d}.title`);
 const countText = (n: Count) =>
   n === null ? t('dash.notReported') : n === 0 ? t('dash.noCases') : n === 1 ? t('dash.countLabelOne') : t('dash.countLabel', { count: fmt.format(n) });
 const numberText = (n: Count) => (n === null ? t('dash.notReported') : fmt.format(n));
+const year = String(caseData.mmwrYear);
+// An orange place (CDC: ongoing local spread) with few or no cases reported this year says
+// why it's orange anyway: "CDC lists ongoing local spread here. 0 cases reported…".
+const fewLocal = (code: string, d: Disease) => {
+  const n = ytd[code][d];
+  return localSpread[d].includes(code) && n !== null && n < FEW_CASES;
+};
+const fewText = (code: string, d: Disease) => {
+  const n = ytd[code][d] as number;
+  return t('dash.localFew', { count: n === 1 ? t('dash.countLabelOne') : t('dash.countLabel', { count: fmt.format(n) }), n: fmt.format(n), year });
+};
+// The place's label and hover text on the map: its count and, where CDC lists ongoing
+// local spread, that note (or, with few cases, why it's orange).
 const placeLabel = (code: string, d: Disease) =>
-  `${names[code]}: ${countText(ytd[code][d])}${localSpread[d].includes(code) ? ` (${localNote([d])})` : ''}`;
-const initial = Object.fromEntries(Object.keys(ytd).map((code) => [code, { bin: bin(ytd[code].dengue), label: placeLabel(code, 'dengue') }]));
+  fewLocal(code, d)
+    ? `${names[code]}: ${fewText(code, d)}`
+    : `${names[code]}: ${countText(ytd[code][d])}${localSpread[d].includes(code) ? ` (${localNote([d])})` : ''}`;
+const initial = Object.fromEntries(Object.keys(ytd).map((code) => [code, { step: mapStep(ytd[code].dengue), label: placeLabel(code, 'dengue') }]));
 
 const fetched = formatDate(caseData.fetchedAt.slice(0, 10), htmlLang);
 
@@ -117,7 +134,9 @@ const pageData = {
   localSpread,
   diseases: dash.inSentence,
   about: Object.fromEntries(DISEASES.map((d) => [d, { href: href(d), text: t('diseasePage.aboutLink', { disease: t(`diseasePage.inSentence.${d}`) }) }])),
-  binLimits: [1, 2, 10, 50, 200],
+  stepLimits: MAP_STEPS,
+  fewCases: FEW_CASES,
+  year,
   us: t('dash.allUSHeading'),
   text: {
     countLabel: t('dash.countLabel'),
@@ -125,6 +144,7 @@ const pageData = {
     noCases: t('dash.noCases'),
     notReported: t('dash.notReported'),
     localSpreadOf: t('dash.localSpreadOf'),
+    localFew: t('dash.localFew'),
     placeHeading: t('dash.placeHeading', { year: String(caseData.mmwrYear) }),
     selected: t('dash.selected'),
     mapLabel: t('dash.mapLabel'),
@@ -203,20 +223,38 @@ const pageData = {
             short={dash.short}
             localSpread={localSpread.dengue}
             initial={initial}>
+            <!-- Legend (design/map-scale-B.png): orange first, then the four fixed blue steps
+                 with None and Not reported, then a note. The note's "mostly in people who got
+                 sick while traveling" is CDC's for dengue (Facts and Stats: most cases in the
+                 continental states are in travelers) and Zika (Zika Cases in the US: all of
+                 this year's state cases travel-associated); CDC says nothing like it for
+                 chikungunya, so that tab's note leaves it out. -->
             <div class="legend">
-              <p class="legend__title">{t('dash.legendHeading', { year: caseData.mmwrYear })}</p>
+              <p class="legend__local" data-legend-local hidden={localSpread.dengue.length === 0}>
+                <span class="swatch swatch--local" aria-hidden="true"></span>
+                <span><strong>{t('dash.legendLocal')}</strong> (CDC)</span>
+              </p>
+              <p class="legend__title">{t('dash.legendHeading', { year })}</p>
               <ul class="legend__list">
+                <li><span class="swatch swatch--none" aria-hidden="true"></span>{t('dash.legendNone')}</li>
                 {dash.bins.map((label, i) => (
                   <li>
                     <span class={`swatch swatch--${i + 1}`} aria-hidden="true"></span>
                     {label}
                   </li>
                 ))}
-                <li><span class="swatch swatch--none" aria-hidden="true"></span>{t('dash.legendNone')}</li>
                 <li><span class="swatch swatch--missing" aria-hidden="true"></span>{t('dash.legendNotReported')}</li>
-                <li data-legend-local hidden={localSpread.dengue.length === 0}><span class="swatch swatch--local" aria-hidden="true"></span>{t('dash.legendLocal')}</li>
               </ul>
-              <p class="legend__note">{t('dash.mapNote')} {t('dash.notToScale')}.</p>
+              {
+                DISEASES.map((d) => (
+                  <div class="legend__note" data-legend-note={d} hidden={d !== 'dengue'}>
+                    <p>
+                      {d === 'chikungunya' ? t('dash.mapNoteChikungunya') : t('dash.mapNote')} {t('dash.notToScale')}.
+                    </p>
+                    {d !== 'chikungunya' && <SourceLine lang={lang} ids={[d === 'dengue' ? 'cdc-dengue-facts-stats' : 'cdc-zika-cases-us']} compact />}
+                  </div>
+                ))
+              }
             </div>
           </UsMap>
         </div>
@@ -317,6 +355,11 @@ const pageData = {
                       {DISEASES.some((d) => localSpread[d].includes(code)) && (
                         <span class="dash-table__local"> ({localNote(DISEASES.filter((d) => localSpread[d].includes(code)))})</span>
                       )}
+                      {DISEASES.filter((d) => fewLocal(code, d)).map((d) => (
+                        <span class="dash-table__why">
+                          {diseaseName(d)}: {fewText(code, d)}
+                        </span>
+                      ))}
                     </th>
                     {DISEASES.flatMap((d) => [
                       <td class="num" data-value={ytd[code][d] ?? -1}>{numberText(ytd[code][d])}</td>,
@@ -412,7 +455,9 @@ const pageData = {
     localSpread: Record<string, string[]>;
     diseases: Record<string, string>;
     about: Record<string, { href: string; text: string }>;
-    binLimits: number[];
+    stepLimits: number[];
+    fewCases: number;
+    year: string;
     us: string;
     text: Record<string, string>;
   }
@@ -424,7 +469,8 @@ const pageData = {
     const fill = (s: string, vars: Record<string, string>) => s.replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m);
     const countText = (n: number | null) =>
       n === null ? data.text.notReported : n === 0 ? data.text.noCases : n === 1 ? data.text.countLabelOne : fill(data.text.countLabel, { count: fmt.format(n) });
-    const bin = (n: number | null) => (n === null ? -1 : n === 0 ? 0 : data.binLimits.filter((l) => n >= l).length);
+    // Map steps (same as mapStep in src/lib/cases.ts): -1 not reported, 0 none, 1–4 blue.
+    const step = (n: number | null) => (n === null ? -1 : data.stepLimits.filter((l) => n >= l).length);
 
     const select = root.querySelector<HTMLSelectElement>('[data-dash-state]')!;
     const map = root.querySelector<HTMLElement>('[data-map]')!;
@@ -437,16 +483,29 @@ const pageData = {
       for (const g of places) {
         const code = g.dataset.code!;
         const n = data.ytd[code]?.[disease] ?? null;
-        g.querySelector('.shape')!.setAttribute('class', `shape bin-${bin(n)}`);
-        // Orange outline and note only where CDC lists ongoing spread of this virus.
+        g.querySelector('.shape')!.setAttribute('class', `shape step-${step(n)}`);
+        // Orange fill and note only where CDC lists ongoing spread of this virus; with few
+        // or no cases this year, the note says why it's orange anyway.
         const isLocal = data.localSpread[disease].includes(code);
         g.classList.toggle('is-local', isLocal);
-        const local = isLocal ? ` (${fill(data.text.localSpreadOf, { disease: data.diseases[disease] })})` : '';
-        g.setAttribute('aria-label', `${data.names[code]}: ${countText(n)}${local}`);
+        let label: string;
+        if (isLocal && n !== null && n < data.fewCases) {
+          const count = n === 1 ? data.text.countLabelOne : fill(data.text.countLabel, { count: fmt.format(n) });
+          label = `${data.names[code]}: ${fill(data.text.localFew, { count, n: fmt.format(n), year: data.year })}`;
+        } else {
+          const local = isLocal ? ` (${fill(data.text.localSpreadOf, { disease: data.diseases[disease] })})` : '';
+          label = `${data.names[code]}: ${countText(n)}${local}`;
+        }
+        // The place's name, which is also its hover text (an SVG <title> for states and
+        // D.C., a title attribute on insets): one source, so it's read once.
+        const title = g.querySelector('[data-place-title]');
+        if (title) title.textContent = label;
+        else g.setAttribute('title', label);
         g.setAttribute('aria-pressed', String(code === place));
       }
       const legendLocal = root!.querySelector<HTMLElement>('[data-legend-local]');
       if (legendLocal) legendLocal.hidden = data.localSpread[disease].length === 0;
+      for (const note of root!.querySelectorAll<HTMLElement>('[data-legend-note]')) note.hidden = note.dataset.legendNote !== disease;
       // Draw the selected place last so its edge isn't covered by its neighbours
       // (moving it drops keyboard focus, so give it back).
       const sel = places.find((g) => g.dataset.code === place);
@@ -1234,14 +1293,10 @@ const pageData = {
     display: none;
   }
 
-  /* Legend box: row 1 the title and the five steps, row 2 the three special keys
-     (each spanning two columns), row 3 the note. */
+  /* Legend box (design/map-scale-B.png): "Spreading locally (CDC)" on its own line, then
+     "Cases reported in 2026" and the six keys in one row that wraps where it must (each
+     key stays whole), then the note. */
   .legend {
-    display: grid;
-    grid-template-columns: repeat(6, auto);
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px var(--space-3);
     margin-top: var(--space-3);
     padding: var(--space-3);
     border: 1.5px solid var(--color-legend-border);
@@ -1252,28 +1307,37 @@ const pageData = {
     line-height: 1.25;
   }
 
+  .legend__local {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 var(--space-2);
+  }
+
+  /* "Spreading locally": hidden on a virus tab with none (CDC). */
+  .legend__local[hidden],
+  .legend__note[hidden] {
+    display: none;
+  }
+
   .legend__title {
-    margin: 0;
+    margin: 0 0 var(--space-1);
     font-weight: var(--weight-heading);
   }
 
   .legend__list {
-    display: contents;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .legend__list li {
     display: flex;
     align-items: center;
     gap: 6px;
-  }
-
-  /* "Ongoing local spread": hidden on a virus tab with none (CDC). */
-  .legend__list li[hidden] {
-    display: none;
-  }
-
-  /* The five steps stay on one line; the special keys may wrap. */
-  .legend__list li:nth-child(-n + 5) {
     white-space: nowrap;
   }
 
@@ -1286,70 +1350,33 @@ const pageData = {
     flex: none;
   }
 
-  .swatch--1 { background: var(--color-map-1); }
-  .swatch--2 { background: var(--color-map-2); }
-  .swatch--3 { background: var(--color-map-3); }
-  .swatch--4 { background: var(--color-map-4); }
-  .swatch--5 { background: var(--color-map-5); }
-
-  .swatch--none {
-    background: radial-gradient(circle, var(--color-map-pattern) 1.3px, #ffffff 1.6px) 0 0 / 6px 6px;
-  }
+  .swatch--none { background: #ffffff; }
+  .swatch--1 { background: var(--color-map-step-1); }
+  .swatch--2 { background: var(--color-map-step-2); }
+  .swatch--3 { background: var(--color-map-step-3); }
+  .swatch--4 { background: var(--color-map-step-4); }
 
   .swatch--missing {
     background: repeating-linear-gradient(45deg, var(--color-map-pattern) 0 2px, #ffffff 2px 6px);
   }
 
   .swatch--local {
-    background: #ffffff;
-    border: 4px solid var(--color-map-local);
+    width: 1.375rem;
+    height: 1.375rem;
+    background: var(--color-map-local);
   }
 
-  .legend__list li:nth-child(6) { grid-column: 1 / span 2; }
-  .legend__list li:nth-child(7) { grid-column: 3 / span 2; }
-  .legend__list li:nth-child(8) { grid-column: 5 / span 2; }
-
   .legend__note {
-    grid-column: 1 / -1;
-    margin: 0;
+    margin-top: var(--space-2);
     font-size: 0.875rem;
   }
 
-  /* Phones: title on its own row, steps three to a row, one special key per row. */
-  @media (max-width: 40rem) {
-    .legend {
-      grid-template-columns: repeat(3, auto);
-      justify-content: start;
-      column-gap: var(--space-4);
-    }
-
-    .legend__title {
-      grid-column: 1 / -1;
-    }
-
-    .legend__list li:nth-child(n + 6) {
-      grid-column: 1 / -1;
-    }
-
-    /* Larger text size: steps two to a row. */
-    :global(html[data-text-size]) .legend {
-      grid-template-columns: repeat(2, auto);
-    }
+  .legend__note p {
+    margin: 0;
   }
 
-  /* Larger text size up to 64rem: the six-column legend doesn't fit beside the
-     territory insets (768px at 130%), so it takes the phone layout. */
-  @media (min-width: 40.01rem) and (max-width: 63.99rem) {
-    :global(html[data-text-size]) .legend {
-      grid-template-columns: repeat(3, auto);
-      justify-content: start;
-      column-gap: var(--space-4);
-    }
-
-    :global(html[data-text-size]) .legend__title,
-    :global(html[data-text-size]) .legend__list li:nth-child(n + 6) {
-      grid-column: 1 / -1;
-    }
+  .legend__note :global(.source-line) {
+    margin: 2px 0 0;
   }
 
   .dash-table-wrap {
@@ -1390,6 +1417,16 @@ const pageData = {
   }
 
   .dash-table__local {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+  }
+
+  /* An orange place with few or no cases this year: why it's orange anyway. */
+  .dash-table__why {
+    display: block;
+    max-width: 22rem;
+    margin-top: 2px;
     color: var(--color-text-muted);
     font-size: var(--text-sm);
     font-weight: 400;

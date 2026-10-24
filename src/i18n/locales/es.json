@@ -247,7 +247,7 @@
       "title": "Detective de mosquitos",
       "nav": "Detective de mosquitos",
       "menu": "Detective",
-      "summary": "¿Puedes reconocer un Aedes? Un juego de 2 minutos."
+      "summary": "¿Puedes reconocer un Aedes? Un juego de 2 minutos."
     },
     "glossary": {
       "title": "Palabras clave",
@@ -612,19 +612,20 @@
     "splitLink": "Ver la división de casos locales y de viaje de los CDC",
     "mapHeading": "Mapa de casos reportados",
     "tabsLabel": "Escoge un virus",
-    "mapNote": "Más oscuro = más casos reportados, en su mayoría por viajes en los estados de EE. UU.",
+    "mapNote": "Naranja = los CDC dicen que los mosquitos están transmitiendo el virus allí ahora. Azul = casos reportados a los CDC, en su mayoría de personas que se enfermaron durante un viaje.",
+    "mapNoteChikungunya": "Naranja = los CDC dicen que los mosquitos están transmitiendo el virus allí ahora. Azul = casos reportados a los CDC.",
     "mapLabel": "Mapa de los estados de EE. UU., D.C. y los territorios, sombreado según los casos de {disease} reportados este año. Los mismos números están en la tabla.",
     "legendHeading": "Casos reportados en {year}",
     "bins": [
-      "1",
-      "2–9",
+      "1–9",
       "10–49",
-      "50–199",
-      "200 o más"
+      "50–99",
+      "100 o más"
     ],
-    "legendNone": "Ningún caso reportado",
+    "legendNone": "Ninguno",
     "legendNotReported": "Sin datos",
-    "legendLocal": "Propagación local continua (CDC)",
+    "legendLocal": "Propagación local",
+    "localFew": "Los CDC indican propagación local continua aquí. Casos reportados a los CDC hasta ahora en {year}: {n} (los reportes pueden llegar tarde).",
     "viewTable": "Ver como tabla",
     "viewMap": "Ver como mapa",
     "tableCaption": "Casos reportados{ref} por estado y territorio (selecciona el encabezado de una columna para ordenar): este año, incluidos los relacionados con viajes, y la semana que terminó el {date}. 0 = ninguno reportado a los CDC hasta ahora este año; los reportes pueden llegar tarde.",
