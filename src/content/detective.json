@@ -170,12 +170,21 @@
           "points": [
             "White bands on the legs",
             "White markings on the back"
+          ],
+          "spreadsShort": "spreads dengue, Zika, chikungunya",
+          "pointsShort": [
+            "White bands on legs",
+            "White marks on back"
           ]
         },
         "culex": {
           "name": "Culex",
           "spreads": "does **not** spread dengue, Zika, chikungunya",
           "points": [
+            "Plain brown, no white bands"
+          ],
+          "spreadsShort": "does **not** spread them",
+          "pointsShort": [
             "Plain brown, no white bands"
           ]
         }
@@ -204,7 +213,6 @@
       "yardHelp": "Tap everything in this yard that could hold water.",
       "yardFact": "CDC: “Mosquitoes only need a small amount of water to lay eggs.”",
       "yardLabel": "A back yard: a house and a fence behind, and nine things on the ground in two rows.",
-      "yardScroll": "Swipe sideways to see the whole yard.",
       "keyWater": "Holds water: found",
       "keyFine": "Tapped, but doesn't hold water",
       "keyMissed": "Missed",
@@ -293,12 +301,21 @@
           "points": [
             "Bandas blancas en las patas",
             "Marcas blancas en el lomo"
+          ],
+          "spreadsShort": "transmite dengue, zika, chikungunya",
+          "pointsShort": [
+            "Bandas blancas en las patas",
+            "Marcas blancas en el lomo"
           ]
         },
         "culex": {
           "name": "Culex",
           "spreads": "**no** transmite el dengue, el zika ni el chikungunya",
           "points": [
+            "Café, sin bandas blancas"
+          ],
+          "spreadsShort": "**no** los transmite",
+          "pointsShort": [
             "Café, sin bandas blancas"
           ]
         }
@@ -327,7 +344,6 @@
       "yardHelp": "Toca todo lo que en este patio podría acumular agua.",
       "yardFact": "Los CDC dicen: “Los mosquitos solo necesitan un poco de agua para poner huevos”.",
       "yardLabel": "Un patio: una casa y una verja atrás, y nueve cosas en el suelo, en dos filas.",
-      "yardScroll": "Desliza hacia el lado para ver todo el patio.",
       "keyWater": "Acumula agua: encontrado",
       "keyFine": "Tocado, pero no acumula agua",
       "keyMissed": "No lo viste",

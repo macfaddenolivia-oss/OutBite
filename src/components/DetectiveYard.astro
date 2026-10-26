@@ -7,11 +7,15 @@
 // of the item's drawing (its box in BOXES, in the scene's 800 × 440 units) but never
 // smaller than 44 × 44px; the button draws the orange or dotted box and the short tag.
 // The page script (tools/mosquito-detective.astro) does the rest.
-// The yard is never drawn narrower than 37.5rem (600px at the usual text size, wider at
-// larger text so the tags keep their room). Where the frame is narrower (phones, and
-// tablets at larger text) it scrolls sideways inside its frame, so every item stays at
-// least about 44px. Cropping to the ground wouldn't make the items bigger, since they span
-// the scene's full width.
+// The whole yard is never drawn narrower than 37.5rem (600px at the usual text size, wider
+// at larger text so the tags keep their room). Where the frame is narrower (phones, and
+// tablets at larger text; the page script sets data-compact) the compact yard shows
+// instead, so nothing ever scrolls sideways: the house and fence as a strip along the top
+// (the scene's own background, cropped), then the nine items in three rows of three on the
+// ground (COMPACT_ORDER), each button holding its own copy of the item's drawing, all at
+// the same scale as in the scene. Each tag has its own reserved line under its drawing, so
+// no box or tag ever covers another item. Keyboard order follows the rows (the page script
+// puts the buttons in COMPACT_ORDER or TAB_ORDER).
 import scene from '../assets/source/yard/yard-scene.svg?raw';
 
 interface Props {
@@ -46,7 +50,10 @@ for (const m of rest.matchAll(/<(\/?)[a-zA-Z][^>]*?(\/?)>/g)) {
 }
 if (parts.length !== ORDER.length) throw new Error(`yard-scene.svg: expected ${ORDER.length} items, found ${parts.length}`);
 // Ids inside the drawings (clip paths), made unique on the page.
-const drawings = Object.fromEntries(ORDER.map((key, i) => [key, parts[i].replace(/id="([^"]+)"/g, 'id="yard-$1"').replace(/url\(#([^)]+)\)/g, 'url(#yard-$1)')]));
+const uniqueIds = (svg: string, prefix: string) => svg.replace(/id="([^"]+)"/g, `id="${prefix}$1"`).replace(/url\(#([^)]+)\)/g, `url(#${prefix}$1)`);
+const drawings = Object.fromEntries(ORDER.map((key, i) => [key, uniqueIds(parts[i], 'yard-')]));
+// The compact yard's copies (their own clip path ids).
+const compactDrawings = Object.fromEntries(ORDER.map((key, i) => [key, uniqueIds(parts[i], 'yard-c-')]));
 
 // Each item's drawing, in scene units (measured in the browser, outlines excluded).
 const BOXES: Record<string, [number, number, number, number]> = {
@@ -62,6 +69,16 @@ const BOXES: Record<string, [number, number, number, number]> = {
 };
 // Keyboard order: the back row, then the front row, left to right.
 const TAB_ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'bucket', 'ball', 'tire', 'petBowl', 'plantSaucer'];
+// The compact yard, row by row.
+const COMPACT_ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'bucket', 'plantSaucer', 'ball', 'tire', 'petBowl'];
+// Compact drawings: each item's box plus 3 units for the outline, at one shared scale (the
+// widest box, the tire's, fills its column).
+const OUTLINE = 3;
+const WIDEST = Math.max(...Object.values(BOXES).map(([, , w]) => w)) + 2 * OUTLINE;
+const compactBox = (key: string) => {
+  const [x, y, w, h] = BOXES[key];
+  return { viewBox: `${x - OUTLINE} ${y - OUTLINE} ${w + 2 * OUTLINE} ${h + 2 * OUTLINE}`, style: `width: ${(((w + 2 * OUTLINE) / WIDEST) * 100).toFixed(2)}%; aspect-ratio: ${w + 2 * OUTLINE} / ${h + 2 * OUTLINE}` };
+};
 // Tags sit above each box, centered, except for two side-by-side pairs whose tags would
 // collide (trash can and chair, upside-down bucket and bucket): the left one's tag ends at
 // its item's center, the right one's starts there, so they spread apart.
@@ -74,15 +91,24 @@ const style = (key: string) => {
 ---
 
 <div class="yard-frame" data-yard-frame>
-  <div class="yard" role="group" aria-label={label}>
+  <div class="yard" role="group" aria-label={label} data-order={TAB_ORDER.join(' ')} data-compact-order={COMPACT_ORDER.join(' ')}>
     <svg class="yard__art" viewBox="0 0 800 440" aria-hidden="true" focusable="false">
       <Fragment set:html={background} />
       {ORDER.map((key) => <g set:html={drawings[key]} />)}
+    </svg>
+    {/* Compact yard: the house and fence, from just above the chimney to the ground line. */}
+    <svg class="yard__strip" viewBox="0 10 800 224" aria-hidden="true" focusable="false">
+      <Fragment set:html={background} />
     </svg>
     {
       TAB_ORDER.map((key) => (
         <button type="button" class="yard-item" style={style(key)} aria-pressed="false" data-yard-item={key} data-water={String(water.includes(key))} data-tag-align={TAG_ALIGN[key]}>
           <span class="visually-hidden">{items[key].name}</span>
+          <span class="yard-item__spot" aria-hidden="true">
+            <svg class="yard-item__art" viewBox={compactBox(key).viewBox} style={compactBox(key).style} focusable="false">
+              <g set:html={compactDrawings[key]} />
+            </svg>
+          </span>
           <span class="yard-item__tag" aria-hidden="true" data-yard-tag>
             {items[key].tag}
           </span>
@@ -188,5 +214,89 @@ const style = (key: string) => {
     border: 2px solid var(--palette-navy);
     background: #ffffff;
     color: var(--palette-navy);
+  }
+
+  /* The compact yard's parts stay hidden in the whole yard. */
+  .yard__strip,
+  .yard-item__spot {
+    display: none;
+  }
+
+  /* ---- Compact yard (data-compact on the frame) ---- */
+  .yard-frame[data-compact] {
+    overflow: visible;
+  }
+
+  .yard-frame[data-compact] .yard {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-1);
+    min-width: 0;
+    aspect-ratio: auto;
+    padding: 0 var(--space-1) var(--space-2);
+    background: var(--palette-pale-blue); /* the ground */
+  }
+
+  .yard-frame[data-compact] .yard__art {
+    display: none;
+  }
+
+  /* The strip runs edge to edge across the frame, with a little ground under it. */
+  .yard-frame[data-compact] .yard__strip {
+    display: block;
+    grid-column: 1 / -1;
+    width: calc(100% + 2 * var(--space-1));
+    max-width: none;
+    height: auto;
+    margin: 0 calc(-1 * var(--space-1)) var(--space-1);
+  }
+
+  /* Each cell: the drawing standing at the bottom of its spot, then the tag's line. */
+  .yard-frame[data-compact] .yard-item {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    min-height: 44px;
+    padding: var(--space-1);
+    translate: none;
+  }
+
+  .yard-frame[data-compact] .yard-item__spot {
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .yard-frame[data-compact] .yard-item__art {
+    display: block;
+    height: auto;
+  }
+
+  /* Always takes its room (hidden until tapped), so nothing moves when it appears. */
+  .yard-frame[data-compact] .yard-item__tag,
+  .yard-frame[data-compact] .yard-item[data-tag-align] .yard-item__tag {
+    display: block;
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: var(--space-1);
+    padding: 1px 4px;
+    /* 12px, at most 13px at larger text sizes; a long word is hyphenated, never cut. */
+    font-size: min(0.75rem, 13px);
+    line-height: 1.2;
+    hyphens: auto;
+    translate: none;
+    visibility: hidden;
+  }
+
+  .yard-frame[data-compact] .yard-item[data-state] .yard-item__tag {
+    visibility: visible;
   }
 </style>

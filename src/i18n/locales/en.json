@@ -16,6 +16,7 @@
   },
   "header": {
     "sick": "I think I'm sick",
+    "sickShort": "I think I'm sick",
     "diseases": "Diseases"
   },
   "footer": {

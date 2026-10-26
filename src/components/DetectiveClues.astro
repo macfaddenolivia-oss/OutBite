@@ -1,7 +1,9 @@
 ---
 // Mosquito detective, "How to tell them apart" (design/detective-clues-options.png, option
-// B): the heading, then an Aedes box and a Culex box side by side (stacked on phones), each
-// with one CDC example photo, the name, what it spreads and plain bullets. Shown on the
+// B): the heading, then an Aedes box and a Culex box side by side, each with one CDC
+// example photo, the name, what it spreads and plain bullets. On phones (under 40rem) the
+// photos are square and the shorter wording shows (spreadsShort, pointsShort), so the clues
+// and Start fit on one screen. Shown on the
 // start screen and in the no-JavaScript version. Neither photo is in the game, so they give
 // no answer away: Aedes is the site's PHIL 9258 photo (James Gathany), Culex comes from
 // design/clue-culex.jpg (CDC PHIL 26026, a female Culex quinquefasciatus; detective.json
@@ -42,7 +44,8 @@ const boxes = (['aedes', 'culex'] as const).map((kind) => {
     },
   };
 });
-const SIZES = '(max-width: 40rem) calc(100vw - 4rem), 25rem';
+// Phones: half the width (the boxes are side by side); exactly 40rem as before.
+const SIZES = '(max-width: 39.99rem) calc(50vw - 3rem), (max-width: 40rem) calc(100vw - 4rem), 25rem';
 // "does **not** spread…" → [text, bold, text]
 const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
 ---
@@ -64,16 +67,25 @@ const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
           <h3 class="clue-box__name" id={`${headingId}-${box.kind}`}>
             <em>{box.name}</em>
           </h3>
-          <p class="clue-box__spreads">
-            {parts(box.spreads).map((p, i) => (i % 2 ? <strong>{p}</strong> : <Genus text={p} />))}
-          </p>
-          <ul class="clue-box__points">
-            {box.points.map((p: string) => (
-              <li>
-                <Genus text={p} />
-              </li>
-            ))}
-          </ul>
+          {
+            [
+              ['full', box.spreads, box.points],
+              ['short', box.spreadsShort, box.pointsShort],
+            ].map(([version, spreads, points]) => (
+              <div class={`clue-box__${version}`}>
+                <p class="clue-box__spreads">
+                  {parts(spreads as string).map((p, i) => (i % 2 ? <strong>{p}</strong> : <Genus text={p} />))}
+                </p>
+                <ul class="clue-box__points">
+                  {(points as string[]).map((p) => (
+                    <li>
+                      <Genus text={p} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </section>
       ))
     }
@@ -91,16 +103,22 @@ const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
     font-size: var(--text-lg);
   }
 
-  /* Side by side from 40rem, stacked on phones. */
+  /* Side by side (on phones too), unless the boxes would be too narrow for their words:
+     below 15rem of room (240px at the usual text size; 312px at the largest, e.g. 375px
+     wide), they stack. */
+  .clues {
+    container: clues / inline-size;
+  }
+
   .clues__boxes {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-3);
   }
 
-  @media (min-width: 40rem) {
+  @container clues (max-width: 15rem) {
     .clues__boxes {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -159,5 +177,48 @@ const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
     margin: var(--space-2) 0 0;
     color: var(--color-text-muted);
     font-size: var(--text-sm);
+  }
+
+  .clue-box__short {
+    display: none;
+  }
+
+  /* Phones: square photos, smaller type and the shorter wording. */
+  @media (max-width: 39.99rem) {
+    .clues__boxes {
+      gap: var(--space-2);
+    }
+
+    .clue-box {
+      padding: var(--space-2) var(--space-2) var(--space-2) calc(var(--space-2) + 2px);
+      border-inline-start-width: 6px;
+    }
+
+    .clue-box__photo {
+      aspect-ratio: 1;
+      margin-bottom: var(--space-2);
+    }
+
+    .clue-box__name {
+      font-size: var(--text-lg);
+    }
+
+    .clue-box__full {
+      display: none;
+    }
+
+    .clue-box__short {
+      display: block;
+    }
+
+    .clue-box__spreads,
+    .clue-box__points {
+      font-size: var(--text-sm);
+      line-height: 1.35;
+    }
+
+    .clue-box__spreads {
+      margin-bottom: var(--space-1);
+    }
   }
 </style>

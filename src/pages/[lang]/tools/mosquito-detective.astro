@@ -136,7 +136,6 @@ const scriptText = {
           {text.yardRound}
         </h2>
         <p class="det-help">{text.yardHelp} {text.yardFact}</p>
-        <p class="det-scroll-hint" data-scroll-hint hidden>{text.yardScroll} <span aria-hidden="true">→</span></p>
         <DetectiveYard items={items} water={water} label={text.yardLabel} />
         <ul class="det-key">
           <li class="det-key__item det-key__item--found">{text.keyWater}</li>
@@ -342,12 +341,21 @@ const scriptText = {
         if (on) say(`${T.say[btn.dataset.yardItem!]} ${fill(T.progress, { n })}`);
       });
     }
-    // "Swipe sideways…" only while the yard is wider than its frame.
+    // The compact yard wherever the whole one (at least 37.5rem wide) doesn't fit, so it
+    // never scrolls sideways; the buttons follow its rows for the keyboard.
     const yardFrame = $('[data-yard-frame]');
-    const scrollHint = $('[data-scroll-hint]');
-    const showScrollHint = () => (scrollHint.hidden = yardFrame.scrollWidth <= yardFrame.clientWidth + 1);
-    addEventListener('resize', showScrollHint);
-    new MutationObserver(showScrollHint).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
+    const yard = $('.yard');
+    const fitYard = () => {
+      if (!yardFrame.clientWidth) return; // the yard isn't showing
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const compact = yardFrame.clientWidth < 37.5 * rem;
+      if (compact === yardFrame.hasAttribute('data-compact') && yard.dataset.placed) return;
+      yardFrame.toggleAttribute('data-compact', compact);
+      for (const key of (compact ? yard.dataset.compactOrder : yard.dataset.order)!.split(' ')) yard.append(yardItems.find((b) => b.dataset.yardItem === key)!);
+      yard.dataset.placed = 'true';
+    };
+    new ResizeObserver(fitYard).observe(yardFrame);
+    new MutationObserver(fitYard).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
     function startYard() {
       for (const btn of yardItems) {
         btn.setAttribute('aria-pressed', 'false');
@@ -360,7 +368,7 @@ const scriptText = {
       doneBtn.hidden = false;
       finishBtn.hidden = true;
       show('yard');
-      showScrollHint();
+      fitYard();
     }
     doneBtn.addEventListener('click', () => {
       const n = foundCount();
@@ -649,16 +657,6 @@ const scriptText = {
   }
 
   /* ---- Yard ---- */
-  .det-scroll-hint {
-    margin: 0 0 var(--space-1);
-    font-size: var(--text-sm);
-    font-weight: var(--weight-strong);
-  }
-
-  .det-scroll-hint[hidden] {
-    display: none;
-  }
-
   .det-key {
     display: flex;
     flex-wrap: wrap;

@@ -20,6 +20,16 @@
     "message": {
       "en": "this site is still being checked by experts. Don’t rely on it for health decisions yet.",
       "es": "expertos todavía están revisando este sitio. No dependas de él para decisiones de salud por ahora."
+    },
+    "short": {
+      "label": {
+        "en": "Preview",
+        "es": "Vista previa"
+      },
+      "message": {
+        "en": "still being checked by experts.",
+        "es": "los expertos aún la están revisando."
+      }
     }
   }
 }

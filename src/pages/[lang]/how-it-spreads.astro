@@ -88,6 +88,10 @@ const openings = [
           <h2 class="scene__heading" tabindex="-1"><Genus text={s.meet.heading} /></h2>
           <p class="scene__callout-text">{s.meet.calloutAedes}</p>
           <p class="scene__meet-caption"><Genus text={s.meet.caption} /></p>
+          {/* Phones: the photo sits here, in the text, so the picture panel stays short. */}
+          <div class="meet-photo meet-photo--text phone-only">
+            <AedesPhoto lang={lang} story link={{ href: localizePath(lang, getPage('detective').path), text: t('faqLinks.detective') }} />
+          </div>
           <div class="scene__notebox">
             <p><Genus text={s.meet.note} /></p>
             {/* Closed by default so step 1 fits the same frame as the other steps. */}
@@ -108,11 +112,13 @@ const openings = [
             <a class="scene__faq" href={`${localizePath(lang, getPage('faq').path)}#spot-aedes`}><Genus text={t('faqLinks.faqSpotShort')} /> <span aria-hidden="true">→</span><span class="visually-hidden"> (<Genus text={t('faqLinks.faqSpot')} />)</span></a>
           </div>
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure scene__figure--sky">
           <div class="art art--meet">
             <SceneMeet label={s.meet.label} aedesName={s.meet.aedesName} culexName={s.meet.culexName} />
             <p class="callout callout--aedes" aria-hidden="true">{s.meet.calloutAedes}</p>
-            <div class="meet-photo">
+            <div class="meet-photo not-phone">
               <AedesPhoto lang={lang} story link={{ href: localizePath(lang, getPage('detective').path), text: t('faqLinks.detective') }} />
             </div>
           </div>
@@ -136,6 +142,8 @@ const openings = [
           </div>
           <SourceLine lang={lang} ids={cite.firstBite} />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           {
             openings.map(([key, name]) => (
@@ -175,6 +183,8 @@ const openings = [
           }
           </div>
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           {
             openings.map(([key, name]) => (
@@ -206,6 +216,8 @@ const openings = [
           <p><Genus text={s.bite.caption} /></p>
           <SourceLine lang={lang} ids={cite.bite} />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           <div class="art">
             <SceneBite label={s.bite.label} name={names.ana} id="flight-bite" />
@@ -223,8 +235,10 @@ const openings = [
           <p><Genus text={s.inside.caption} /></p>
           <SourceLine lang={lang} ids={cite.inside} />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure scene__figure--sky">
-          <div class="art">
+          <div class="art art--inside">
             <SceneInside label={s.inside.label} timeline={s.inside.timeline} />
           </div>
         </div>
@@ -241,6 +255,8 @@ const openings = [
           <p>{s.nextBite.virusGone}</p>
           <SourceLine lang={lang} ids={cite.nextBite} compact />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           <div class="art">
             <SceneNextBite label={s.nextBite.label} names={names} virusGone={text.diagram.virusGone} />
@@ -258,15 +274,32 @@ const openings = [
           <p class="scene__callout-text"><Genus text={s.moreMosquitoes.callout} /></p>
           <p>{s.moreMosquitoes.caption}</p>
           <p>{s.moreMosquitoes.containers}</p>
+          {/* Phones: the "Where mosquitoes lay eggs" strip sits here, in the text. */}
+          <div class="egg-spots egg-spots--text phone-only">
+            <p class="egg-spots__title">{s.moreMosquitoes.eggSpots.title}</p>
+            <ul class="egg-spots__list">
+              {
+                eggSpots.map(([key, file]) => (
+                  <li>
+                    <img src={assetPath(`story/water/${file}.svg`)} alt="" width="40" height="40" />
+                    <span>{s.moreMosquitoes.eggSpots.items[key]}</span>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="egg-spots__title egg-spots__more">{s.moreMosquitoes.eggSpots.more}</p>
+          </div>
           <SourceLine lang={lang} ids={cite.moreMosquitoes} compact />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure scene__figure--eggs">
           <div class="art art--more">
             <SceneMoreMosquitoes label={s.moreMosquitoes.label} />
             <p class="callout callout--more" aria-hidden="true"><Genus text={s.moreMosquitoes.callout} /></p>
           </div>
           {/* Other places mosquitoes lay eggs: a labeled strip on the ground, under the bucket. */}
-          <div class="egg-spots">
+          <div class="egg-spots not-phone">
             <p class="egg-spots__title">{s.moreMosquitoes.eggSpots.title}</p>
             <ul class="egg-spots__list">
               {
@@ -294,6 +327,8 @@ const openings = [
           <p class="scene__note">{s.newInfection.note}</p>
           <SourceLine lang={lang} ids={cite.newInfection} />
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           <div class="art">
             <SceneNewInfection label={s.newInfection.label} name={names.neighbor} days={s.newInfection.calendar} />
@@ -365,11 +400,19 @@ const openings = [
             <SourceLine lang={lang} ids={[...new Set([...cite.bodyTravel, ...cite.bodyLocal, ...cite.home, ...cite.yard, ...cite.community])]} />
           </div>
 
+          {/* Phones: "Start from the beginning" sits here, so Back and the Protect link keep
+              one row in the nav bar. */}
+          <p class="scene__restart phone-only">
+            <button type="button" class="btn btn-secondary" data-restart><span aria-hidden="true">↺</span> {text.restart}</button>
+          </p>
+
           {/* Without JavaScript there is no nav bar, so the Protect link sits here. */}
           <p class="no-js-only">
             <a href={`${localizePath(lang, getPage('protect').path)}#layer-yard`}>{text.protectCard} <span aria-hidden="true">→</span></a>
           </p>
         </div>
+        {/* Phones: the text above scrolls inside the box; this shows while there is more below. */}
+        <p class="scroll-hint" aria-hidden="true">{text.scrollHint} <span>↓</span></p>
         <div class="scene__figure">
           <div class="art art--cycle">
             <SceneCycle label={s.cycle.label} t={text.diagram} />
@@ -380,7 +423,7 @@ const openings = [
     {/* Last step: Back, "Start from the beginning" (middle) and the Protect link in
         Next's place and style. */}
     <div class="story-nav js-only" data-story-nav>
-      <button type="button" class="btn btn-secondary story-nav__back" data-go="-1" disabled><span aria-hidden="true">←</span> {text.back}</button>
+      <button type="button" class="btn btn-secondary story-nav__back" data-go="-1" disabled><span aria-hidden="true">←</span> <span class="story-nav__back-word">{text.back}</span></button>
       <button type="button" class="btn btn-secondary story-nav__restart" data-restart hidden><span aria-hidden="true">↺</span> {text.restart}</button>
       <button type="button" class="btn btn-primary story-nav__next" data-go="1">{text.next} <span aria-hidden="true">→</span></button>
       <a class="btn btn-primary story-nav__protect" href={`${localizePath(lang, getPage('protect').path)}#layer-yard`} hidden data-protect-link>
@@ -425,7 +468,7 @@ const openings = [
     const back = root.querySelector<HTMLButtonElement>('[data-story-nav] [data-go="-1"]');
     const next = root.querySelector<HTMLButtonElement>('[data-story-nav] [data-go="1"]');
     const nav = root.querySelector<HTMLElement>('[data-story-nav]');
-    const restart = root.querySelector<HTMLButtonElement>('[data-restart]');
+    const restart = root.querySelector<HTMLButtonElement>('[data-story-nav] [data-restart]');
     const protectLink = root.querySelector<HTMLElement>('[data-protect-link]');
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -498,9 +541,28 @@ const openings = [
       }
     }
 
+    // Phones: each step's text scrolls inside the box. "Scroll for more ↓" shows while
+    // there is more below (data-more on the text area).
+    const textOf = (scene: HTMLElement) => scene.querySelector<HTMLElement>('.scene__text');
+    const updateMore = (box = textOf(scenes[current])) => {
+      if (box) box.toggleAttribute('data-more', box.scrollHeight - box.scrollTop - box.clientHeight > 2);
+    };
+    for (const scene of scenes) {
+      const box = textOf(scene);
+      box?.addEventListener('scroll', () => updateMore(box), { passive: true });
+    }
+    addEventListener('resize', () => updateMore());
+    // A "Sources" or "Show where" list opening or closing changes the text's height.
+    root.addEventListener('toggle', () => updateMore(), true);
+    document.fonts?.ready.then(() => updateMore());
+
     function show(index: number, focus: boolean) {
       current = Math.max(0, Math.min(scenes.length - 1, index));
       scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === current));
+      // Each step opens at the top of its text.
+      const box = textOf(scenes[current]);
+      if (box) box.scrollTop = 0;
+      updateMore(box);
       // Shared nav bar: Back disabled on step 1. Last step: Next is replaced by the
       // Protect link, and "Start from the beginning" appears in the middle.
       const last = current === scenes.length - 1;
@@ -538,6 +600,13 @@ const openings = [
           const sr = srTexts?.content.querySelector(`[data-for="${layer}"]`)?.textContent ?? '';
           announce.textContent = shown ? `${sr} ${shown.querySelector('p')?.textContent ?? ''}` : '';
         }
+        // Phones: if the explanation is below the visible part of the text, scroll the
+        // text (not the page) just enough to show it above "Scroll for more".
+        const box = explain.closest<HTMLElement>('.scene__text');
+        if (layer && box && box.scrollHeight > box.clientHeight) {
+          const below = explain.getBoundingClientRect().bottom - box.getBoundingClientRect().bottom + (parseFloat(getComputedStyle(box).scrollPaddingBottom) || 0);
+          if (below > 0) box.scrollTop += below;
+        }
       }
     }
 
@@ -551,6 +620,7 @@ const openings = [
         b.dataset.tip = (value === 'local' ? b.dataset.tipLocal : b.dataset.tipTravel) ?? '';
       }
       updateLayer();
+      updateMore();
     }
 
     root.addEventListener('click', (event) => {
@@ -1263,13 +1333,13 @@ const openings = [
     }
   }
 
-  /* The callout is also real text in the caption for screen readers; on phones the
-     picture is small, so show it there instead of over the picture. */
+  /* The callout is also real text in the caption for screen readers; on phones (under
+     40rem) the picture is small, so show it there instead of over the picture. */
   .scene__callout-text {
     display: none;
   }
 
-  @media (max-width: 30rem) {
+  @media (max-width: 39.99rem) {
     .callout {
       display: none;
     }
@@ -1672,6 +1742,197 @@ const openings = [
   .layers-static {
     padding-inline-start: 1.2em;
   }
+
+  /* ---- Phones (under 40rem), with JavaScript: the whole box with Back/Next fits on the
+     screen under the sticky header (about 375×670 visible on an iPhone).
+     - Every step has the same height: a 150px picture panel and a text area of one fixed
+       height (as tall as the screen allows, at most 390px) that scrolls inside the box
+       when a step's text is longer, with "Scroll for more ↓" at its bottom while there is
+       more below.
+     - Each drawing is cropped to the band its content uses and scaled to fit the panel
+       (--band-top and --band-h, in the drawing's 480×360 units): the same band for every
+       drawing on the ground, so the ground and the people don't move between steps. Step
+       9's diagram keeps its full width (its labels would be too small at 150px): its
+       panel is taller and its text area shorter by the same amount.
+     - Step 1's photo and step 7's "Where mosquitoes lay eggs" strip sit in the text
+       (.phone-only; the copies in the picture panel are .not-phone).
+     - Back/Next is not pinned to the screen here (the box fits), so nothing ever sits
+       behind it; on the last step it stays one row (Back, as an arrow, and the Protect
+       link), with "Start from the beginning" at the end of step 9's text. ---- */
+  .phone-only,
+  .scroll-hint {
+    display: none;
+  }
+
+  @media (max-width: 39.99rem) {
+    :global(.js) .story .not-phone {
+      display: none;
+    }
+
+    :global(.js) .story .phone-only {
+      display: block;
+    }
+
+    :global(.js) .story-frame {
+      container-type: inline-size;
+      --fig-h: 150px;
+      --hint-h: 1.75rem;
+      /* 3px frame border above and below, 3px under the picture, 16px to spare */
+      --text-h: clamp(160px, calc(100vh - var(--header-height) - var(--fig-h) - var(--tap-target) - 11px - 25px), 390px);
+      --text-h: clamp(160px, calc(100svh - var(--header-height) - var(--fig-h) - var(--tap-target) - 11px - 25px), 390px);
+    }
+
+    :global(.js) .story .scene__figure {
+      height: calc(var(--fig-h) + 3px);
+      align-content: center;
+      align-items: center;
+    }
+
+    :global(.js) .story .scene__text {
+      height: calc(var(--text-h) - var(--hint-h));
+      padding: var(--space-3) var(--space-3) var(--space-1);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    /* The step dashes keep their 44px tap areas, which reach 12px under the heading's top
+       edge (the dash is at the top of the area). */
+    :global(.js) .story .scene__text :global(.progress) {
+      margin-bottom: -12px;
+    }
+
+    :global(.js) .story .art {
+      --band-top: 76;
+      --band-h: 242;
+      width: min(100%, var(--fig-h) * 480 / var(--band-h));
+      max-width: none;
+      min-height: 0; /* exactly the band: the rest of the drawing reaches past it */
+      aspect-ratio: 480 / var(--band-h);
+    }
+
+    :global(.js) .story .art > :global(svg.story-art) {
+      max-height: none;
+      margin-top: calc(var(--band-top) / -480 * 100%);
+    }
+
+    :global(.js) .story .art--meet {
+      --band-top: 100;
+      --band-h: 218;
+    }
+
+    :global(.js) .story .art--inside {
+      --band-top: 112;
+      --band-h: 216;
+    }
+
+    /* Step 7: no callout row above the drawing (the callout is in the text). */
+    :global(.js) .story .art--more {
+      display: block;
+    }
+
+    :global(.js) .story .art--more::before {
+      content: none;
+    }
+
+    /* Step 9: the diagram at the panel's full width (600×390 units). */
+    :global(.js) .story .scene[data-scene='8'] .scene__figure {
+      height: calc(100cqw * 390 / 600 + 3px);
+    }
+
+    :global(.js) .story .scene[data-scene='8'] .scene__text {
+      height: calc(var(--text-h) - var(--hint-h) - 100cqw * 390 / 600 + var(--fig-h));
+    }
+
+    :global(.js) .story .art--cycle {
+      width: 100%;
+      aspect-ratio: auto;
+    }
+
+    :global(.js) .story .art--cycle > :global(svg.story-art) {
+      margin-top: 0;
+      aspect-ratio: 600 / 390;
+    }
+
+    :global(.js) .story .meet-photo--text {
+      margin: 0 0 var(--space-3);
+      padding: 0;
+      justify-content: flex-start;
+    }
+
+    :global(.js) .story .egg-spots--text {
+      max-width: none;
+      margin: 0 0 var(--space-3);
+      padding: var(--space-2) var(--space-2) var(--space-3);
+      background: var(--color-ground-bg);
+    }
+
+    :global(.js) .story .scene__restart {
+      margin: var(--space-3) 0 0;
+    }
+
+    /* A strip of its own under the text area (so it never covers the text or a focused
+       link), shown while there is more below (the script sets data-more). */
+    :global(.js) .story .scroll-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3em;
+      height: var(--hint-h);
+      margin: 0;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-link);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-strong);
+      line-height: 1;
+    }
+
+    :global(.js) .story .scene__text:not([data-more]) + .scroll-hint {
+      visibility: hidden;
+    }
+
+    :global(.js) .story .story-nav {
+      position: static;
+    }
+
+    :global(.js) .story .story-nav.is-last {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'back forward';
+    }
+
+    :global(.js) .story .story-nav .story-nav__restart {
+      display: none;
+    }
+
+    /* Two lines at most, at every text size (at most 15px here), so the bar keeps its
+       height on the last step. */
+    :global(.js) .story .story-nav.is-last {
+      padding-inline: var(--space-2);
+    }
+
+    :global(.js) .story .story-nav .story-nav__protect {
+      padding: 0 var(--space-2);
+      font-size: min(0.9375rem, 15px);
+      line-height: 1.1;
+      text-wrap: balance;
+    }
+
+    /* Last step: Back shows its arrow only (the word stays for screen readers), so the
+       Protect link has room for its two lines. */
+    :global(.js) .story .story-nav.is-last .story-nav__back {
+      min-width: var(--tap-target);
+      padding-inline: var(--space-2);
+    }
+
+    :global(.js) .story .story-nav.is-last .story-nav__back-word {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
 </style>
 
 <style is:global>
@@ -1741,6 +2002,22 @@ const openings = [
     stroke: var(--color-diagram-bg);
     stroke-width: 4px;
     stroke-linejoin: round;
+  }
+
+  /* Phones (under 40rem, with JavaScript; see the picture panel's bands above): step 2's
+     plane flies 50 units lower, so "After a trip" fits the same band as the other drawings
+     on the ground, and step 5's mosquito is drawn at about half its size (now from y = 118
+     to 238 instead of -4 to 234, centred where it was), so the drawing with its label and
+     bar fits the 150px panel with the label still about 15px. */
+  @media (max-width: 39.99rem) {
+    .js .story .airplane {
+      transform: translate(330px, 114px);
+    }
+
+    .js .story .inside-mosquito {
+      transform-origin: 0 0;
+      transform: translate(15.85px, 34.28px) scale(0.504);
+    }
   }
 
   /* Phones: the scene drawings shrink to about 70%, so names and notes get bigger

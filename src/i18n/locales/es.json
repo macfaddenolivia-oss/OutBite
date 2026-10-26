@@ -16,6 +16,7 @@
   },
   "header": {
     "sick": "Creo que me enfermé",
+    "sickShort": "Me siento mal",
     "diseases": "Enfermedades"
   },
   "footer": {

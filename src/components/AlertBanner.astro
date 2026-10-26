@@ -11,7 +11,8 @@
 // - Screen readers read it as a region labeled "Alert" ("Aviso").
 // - Preview ("preview": true in src/config/site.json): the preview message from
 //   alert.json "preview" shows instead, on every page, with no end date and no ✕, so it
-//   can't be closed. Setting preview to false removes it.
+//   can't be closed. Setting preview to false removes it. On phones (under 40rem) the
+//   short version (alert.json "preview.short") shows instead, on one line.
 import alert from '../config/alert.json';
 import site from '../config/site.json';
 import { localizePath, useTranslations, defaultLocale } from '../i18n';
@@ -43,8 +44,11 @@ const alertId = hash.toString(36);
   preview && (
     <section class="alert" aria-label={t('a11y.alertRegion')} data-alert-preview>
       <div class="container alert__inner">
-        <p class="alert__text">
+        <p class="alert__text alert__text--full">
           <strong class="alert__label">{pick(alert.preview.label)}:</strong> {pick(alert.preview.message)}
+        </p>
+        <p class="alert__text alert__text--short">
+          <strong class="alert__label">{pick(alert.preview.short.label)}:</strong> {pick(alert.preview.short.message)}
         </p>
       </div>
     </section>
@@ -113,6 +117,28 @@ const alertId = hash.toString(36);
   .alert__text {
     flex: 1;
     margin: 0;
+  }
+
+  /* Preview: the full message, or on phones (under 40rem) the short one-line version
+     (alert.json preview.short) in small text. */
+  .alert__text--short {
+    display: none;
+  }
+
+  @media (max-width: 39.99rem) {
+    .alert__inner:has(.alert__text--short) {
+      padding-block: 6px;
+    }
+
+    .alert__text--full {
+      display: none;
+    }
+
+    .alert__text--short {
+      display: block;
+      font-size: 0.8125rem;
+      line-height: 1.3;
+    }
   }
 
   .alert a {

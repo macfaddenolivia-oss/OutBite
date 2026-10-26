@@ -39,39 +39,44 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
 
 <header class="site-header">
   <div class="container header__grid">
-    <div class="brand">
-      <a class="brand__name" href={localizePath(lang)}>
-        <span class="visually-hidden">{siteName}</span>
-        {/* The current Outbite logo (v2, files in public/brand/): the mark is the "O"
-            and the rest of the name follows as live text. */}
-        <span class="brand__logo" aria-hidden="true">
-          <img class="brand__mark" src={assetPath('brand/outbite-mark.svg')} alt="" width="64" height="64" /><span class="brand__word">{siteName.slice(1)}</span>
-        </span>
-      </a>
-      <p class="brand__tagline">{getTagline(lang)}</p>
+    {/* The name and the language links: one column on phones; elsewhere (display:
+        contents) each takes its own spot in the header grid. */}
+    <div class="header__id">
+      <div class="brand">
+        <a class="brand__name" href={localizePath(lang)}>
+          <span class="visually-hidden">{siteName}</span>
+          {/* The current Outbite logo (v2, files in public/brand/): the mark is the "O"
+              and the rest of the name follows as live text. */}
+          <span class="brand__logo" aria-hidden="true">
+            <img class="brand__mark" src={assetPath('brand/outbite-mark.svg')} alt="" width="64" height="64" /><span class="brand__word">{siteName.slice(1)}</span>
+          </span>
+        </a>
+        <p class="brand__tagline">{getTagline(lang)}</p>
+      </div>
+
+      <nav class="lang-switcher" aria-label={t('a11y.languageNav')}>
+        <ul>
+          {
+            locales.map((l) => (
+              <li>
+                <a
+                  href={langLinksHome ? localizePath(l.code) : switchLocalePath(pathname, l.code)}
+                  lang={l.meta.htmlLang}
+                  hreflang={l.meta.htmlLang}
+                  aria-current={l.code === lang ? 'true' : undefined}
+                >
+                  {l.meta.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </div>
 
-    <nav class="lang-switcher" aria-label={t('a11y.languageNav')}>
-      <ul>
-        {
-          locales.map((l) => (
-            <li>
-              <a
-                href={langLinksHome ? localizePath(l.code) : switchLocalePath(pathname, l.code)}
-                lang={l.meta.htmlLang}
-                hreflang={l.meta.htmlLang}
-                aria-current={l.code === lang ? 'true' : undefined}
-              >
-                {l.meta.name}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
     <a class="btn btn-urgent sick-link" href={localizePath(lang, getPage('sick').path)}>
-      {t('header.sick')}
+      {/* Phones (under 40rem) show the short label (Spanish "Me siento mal"). */}
+      <span class="sick-link__full">{t('header.sick')}</span><span class="sick-link__short">{t('header.sickShort')}</span>
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
@@ -81,9 +86,9 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20">
             <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
-          {t('a11y.menu')}
+          <span class="menu-toggle__word">{t('a11y.menu')}</span>
         </span>
-        <span class="menu-toggle__close"><span aria-hidden="true">✕</span> {t('a11y.close')}</span>
+        <span class="menu-toggle__close"><span aria-hidden="true">✕</span> <span class="menu-toggle__word">{t('a11y.close')}</span></span>
       </span>
     </button>
   </div>
@@ -147,7 +152,8 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
 
 <script is:inline>
   // Header layout wherever the Menu button shows (html.menu-mode): the first of "row",
-  // "bar" and "tight" (see the styles) in which nothing is squeezed. Runs before the page
+  // "bar" and "tight" (see the styles) in which nothing is squeezed; on phones (under
+  // 40rem) "phone", or "phone-tight" if even that doesn't fit. Runs before the page
   // draws, and again when the fonts load, the width or text size changes, or menu mode
   // starts or ends.
   (function () {
@@ -156,18 +162,29 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     var grid = header && header.querySelector('.header__grid');
     var brand = header && header.querySelector('.brand');
     if (!grid || !brand) return;
+    var phone = matchMedia('(max-width: 39.99rem)');
+    var sick = header.querySelector('.sick-link');
     var fits = function () {
-      return brand.scrollWidth <= brand.clientWidth && grid.scrollWidth <= grid.clientWidth;
+      if (brand.scrollWidth > brand.clientWidth || grid.scrollWidth > grid.clientWidth) return false;
+      // Phones: the sick button may wrap to two lines, which still fit its 44px height.
+      return !phone.matches || !sick || sick.offsetHeight <= parseFloat(getComputedStyle(sick).minHeight) + 1;
     };
-    var layouts = ['row', 'bar', 'tight'];
     var fit = function () {
       if (!root.classList.contains('menu-mode')) {
         header.removeAttribute('data-layout');
         return;
       }
+      var layouts = phone.matches ? ['phone', 'phone-tight'] : ['row', 'bar', 'tight'];
       for (var i = 0; i < layouts.length; i++) {
         header.dataset.layout = layouts[i];
-        if (fits()) return;
+        if (fits()) break;
+      }
+      // WebKit can keep the row height of a layout tried along the way; laying the row
+      // out afresh clears it.
+      if (phone.matches) {
+        grid.style.display = 'none';
+        void grid.offsetHeight;
+        grid.style.display = '';
       }
     };
     fit();
@@ -249,7 +266,9 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
       nav.toggleAttribute('data-open', open);
       root.classList.toggle('menu-open', open);
       if (open) place();
-      if (!open && returnFocus) toggle.focus();
+      // The button is in view (the header sticks, or was brought into view to open the
+      // menu); WebKit would otherwise scroll toward the sticky header's place in the page.
+      if (!open && returnFocus) toggle.focus({ preventScroll: true });
     };
     toggle.addEventListener('click', () => setOpen(!isOpen()));
     nav.addEventListener('click', (event) => {
@@ -281,6 +300,10 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     background: var(--color-header-bg);
     color: var(--color-header-text);
     border-bottom: 4px solid var(--color-rule);
+  }
+
+  .header__id {
+    display: contents;
   }
 
   /* Header layouts wherever the Menu button shows (and without JavaScript under 992px):
@@ -701,6 +724,117 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
     }
   }
 
+  /* ---- Phones (under 40rem): one slim row that sticks to the top of the screen (about
+     56px at the usual text size), so "I think I'm sick" is always one tap away:
+       Outbite over "English · Español" (small) | the red sick button | Menu
+     The logo has a fixed size here, so the row stays slim at larger text. The sick
+     button wraps to two lines when the row is short of room; "phone-tight" (set by the
+     script above when even that doesn't fit, e.g. 320px at the largest text) shows the
+     Menu button's icon only, its word kept for screen readers. ---- */
+  .sick-link__short {
+    display: none;
+  }
+
+  @media (max-width: 39.99rem) {
+    .site-header {
+      border-bottom-width: 3px;
+    }
+
+    /* Only with JavaScript: without it the menu is an open list inside the header. */
+    :global(html.js) .site-header,
+    :global(html.js.menu-open) .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .site-header .header__grid {
+      grid-template-columns: max-content minmax(0, 1fr) auto;
+      grid-template-areas: 'id sick menu';
+      align-items: center;
+      gap: 0 4px;
+      padding-block: 1px;
+    }
+
+    .header__id {
+      display: flex;
+      flex-direction: column;
+      grid-area: id;
+    }
+
+    .brand__name {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .site-header .lang-switcher {
+      align-self: start;
+      justify-self: start;
+    }
+
+    .site-header .lang-switcher ul {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 0;
+    }
+
+    .site-header .lang-switcher li {
+      display: flex;
+      align-items: center;
+    }
+
+    .site-header .lang-switcher li + li::before {
+      content: '·';
+      padding-inline: 3px;
+      color: var(--color-header-link);
+      font-size: 0.8125rem;
+    }
+
+    .site-header .lang-switcher a {
+      min-height: 24px;
+      padding-inline: 0;
+      font-size: 0.8125rem;
+      line-height: 1.2;
+    }
+
+    .site-header .sick-link {
+      justify-self: end;
+      max-width: 100%;
+      min-height: var(--tap-target);
+      padding: 2px 6px;
+      font-size: min(0.875rem, 16px); /* two lines at most, even at 320px and 130% */
+      line-height: 1.15;
+      white-space: normal;
+      text-wrap: balance;
+    }
+
+    .sick-link__full {
+      display: none;
+    }
+
+    .sick-link__short {
+      display: inline;
+    }
+
+    .site-header .menu-toggle {
+      padding: var(--space-1) 6px;
+    }
+
+    .site-header .menu-toggle__labels > span {
+      gap: 6px;
+    }
+
+    .site-header[data-layout='phone-tight'] .menu-toggle__word {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+
   /* Without JavaScript under 992px the menu is always open in the header, so the header
      scrolls away instead of covering the page. */
   @media (min-width: 48rem) and (max-width: 61.99rem) {
@@ -834,6 +968,16 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
 
     .nav-dis__menu a:hover {
       text-decoration: underline;
+    }
+  }
+
+  /* The site-wide reduced-motion rule gives every property a tiny transition; the layout
+     script above would then measure the header mid-change (WebKit), so here everything
+     changes at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .site-header :global(*) {
+      transition: none !important;
     }
   }
 

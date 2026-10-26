@@ -82,6 +82,7 @@
       "back": "Back",
       "next": "Next",
       "restart": "Start from the beginning",
+      "scrollHint": "Scroll for more",
       "protectCard": "See how to protect where you live",
       "noJsOpening": "Opening: {name}",
       "scenes": {
@@ -215,6 +216,7 @@
       "back": "Atrás",
       "next": "Siguiente",
       "restart": "Empezar desde el principio",
+      "scrollHint": "Desplázate para ver más",
       "protectCard": "Mira cómo proteger donde vives",
       "noJsOpening": "Inicio: {name}",
       "scenes": {

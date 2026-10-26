@@ -216,7 +216,7 @@ a.gloss-link:hover {
   text-decoration: underline;
 }
 
-/* ---- Room for the sticky header (tablet and up) ----
+/* ---- Room for the sticky header (phones under 40rem, and tablet and up) ----
    Header.astro measures the real height; this is a fallback. scroll-padding keeps
    links jumped to, and keyboard focus, out from under it. */
 
@@ -226,6 +226,16 @@ a.gloss-link:hover {
 
 @media (min-width: 48rem) {
   html {
+    scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  }
+}
+
+@media (max-width: 39.99rem) {
+  :root {
+    --header-height: 3.5rem;
+  }
+
+  html.js {
     scroll-padding-top: calc(var(--header-height) + var(--space-4));
   }
 }

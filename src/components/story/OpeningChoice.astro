@@ -37,7 +37,8 @@ const { heading, local, travel } = Astro.props;
 </section>
 
 <style>
-  /* Slim band: question and both buttons on one row on desktop, stacked on phones. */
+  /* Slim band: question and both buttons on one row on desktop; on phones the question
+     on top and the two buttons side by side under it. */
   .choice {
     display: none;
     --color-focus: #17306a;
@@ -70,19 +71,12 @@ const { heading, local, travel } = Astro.props;
     letter-spacing: -0.02em;
   }
 
-  /* Two equal columns; stacked on phones. */
+  /* Two equal columns, on phones too; both buttons grow together if a label wraps. */
   .choice__buttons {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: 1fr;
     gap: var(--space-2);
-  }
-
-  @media (min-width: 36rem) {
-    .choice__buttons {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
   }
 
   .choice__check,
@@ -109,12 +103,39 @@ const { heading, local, travel } = Astro.props;
     cursor: pointer;
   }
 
-  /* Phones: keep each choice on one line at 52px (Spanish "Después de un viaje"). */
+  /* Phones: side by side, each with a 24px icon above its centred label (two lines where
+     it needs them; both buttons grow together, nothing is cut off) and the ✓ in the
+     top right corner. */
   @media (max-width: 35.99rem) {
+    :global(.js) .choice {
+      padding-inline: var(--space-2);
+    }
+
     .choice__btn {
-      gap: var(--space-2);
-      padding: 0 var(--space-3);
-      font-size: 1.0625rem;
+      position: relative;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding: 6px; /* the ✓ sits beside the icon, above the label */
+      font-size: 1rem;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .choice__icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .choice__label {
+      flex: none;
+    }
+
+    .choice__check {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      font-size: 1rem;
     }
   }
 

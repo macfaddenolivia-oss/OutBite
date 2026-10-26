@@ -1,7 +1,8 @@
 ---
 // The row under each page's title and intro: Listen,
-// Share and Copy link on the left, "Text size" with three A buttons on the right (two
-// lines on phones). Everything happens on this device; nothing is sent anywhere and no
+// Share and Copy link on the left, "Text size" with three A buttons on the right (one
+// row on phones, the words "Text size" for screen readers only). Everything happens on
+// this device; nothing is sent anywhere and no
 // third-party script is used.
 // - Listen: the browser's own speech (speechSynthesis) reads the page's main content in
 //   the page's language, skipping menus, footer, source lists, drawings and anything
@@ -117,6 +118,19 @@ const SIZES = ['100', '115', '130'] as const;
       clear = window.setTimeout(() => (status.textContent = ''), 4000);
     });
 
+    // ---- Phones: one row if it fits; if not, the buttons drop their icons first
+    // (is-compact), and only then do the A buttons wrap to a line of their own. ----
+    const phoneMQ = window.matchMedia('(max-width: 39.99rem)');
+    const fitRow = () => {
+      row.classList.remove('is-compact');
+      if (!phoneMQ.matches) return;
+      const oneRow = () => row.offsetHeight <= Math.max(...[...row.querySelectorAll<HTMLElement>('button')].map((b) => b.offsetHeight)) + 1;
+      if (!oneRow()) row.classList.add('is-compact');
+      if (!oneRow()) row.classList.remove('is-compact');
+    };
+    window.addEventListener('resize', fitRow);
+    document.fonts?.ready.then(fitRow);
+
     // ---- Listen ----
     const listen = $<HTMLButtonElement>('[data-listen]');
     const pause = $<HTMLButtonElement>('[data-pause]');
@@ -129,12 +143,14 @@ const SIZES = ['100', '115', '130'] as const;
     };
     const updateListen = () => {
       listen.hidden = !synth || !voiceFor() || !pause.hidden;
+      fitRow();
     };
     if (synth) {
       synth.cancel(); // nothing left over from another page
       updateListen();
       synth.addEventListener?.('voiceschanged', updateListen);
     }
+    fitRow();
 
     // The page's main content, in reading order: text blocks inside <main>, skipping the
     // menus, this row, source lists, printable sheets, drawings and anything hidden.
@@ -184,6 +200,7 @@ const SIZES = ['100', '115', '130'] as const;
       listen.hidden = true;
       pause.hidden = false;
       stop.hidden = false;
+      fitRow();
       pause.focus();
       next();
     });
@@ -297,6 +314,11 @@ const SIZES = ['100', '115', '130'] as const;
     content: '✓ ';
   }
 
+  /* Phones, when the row is short of room: no icons on Listen and Share. */
+  .action-row.is-compact .action-btn svg {
+    display: none;
+  }
+
   .action-row__size {
     display: flex;
     align-items: center;
@@ -349,11 +371,54 @@ const SIZES = ['100', '115', '130'] as const;
     color: var(--color-surface);
   }
 
-  /* Phones: the buttons on one line, Text size on the next. */
+  /* Up to 40rem: the buttons on one line, Text size on the next (at exactly 40rem, the
+     first tablet width, it stays that way). */
   @media (max-width: 40rem) {
     :global(.js) .action-row {
       flex-direction: column;
       align-items: flex-start;
+    }
+  }
+
+  /* Phones (under 40rem): one row, Listen and Share as smaller buttons (still 44px tall)
+     on the left, the three A buttons on the right. "Text size" is read by screen readers
+     only. Where the row is short of room (320px, larger text, or Pause and Stop while
+     reading) the A buttons wrap to a line of their own, on the right. */
+  @media (max-width: 39.99rem) {
+    :global(.js) .action-row {
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .action-row__main {
+      gap: 6px;
+    }
+
+    .action-btn {
+      gap: 6px;
+      padding: 2px var(--space-2);
+      font-size: var(--text-sm);
+    }
+
+    .action-btn svg {
+      width: 1.1em;
+      height: 1.1em;
+    }
+
+    .action-row__size {
+      margin-inline-start: auto;
+    }
+
+    .action-row__size-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
   }
 </style>
