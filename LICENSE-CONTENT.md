@@ -29,7 +29,7 @@ domain in the United States; this includes the one photo on the site, an *Aedes 
 mosquito by James Gathany for CDC (`public/photos/`, CDC Public Health Image Library image
 9258, <https://wwwn.cdc.gov/phil/Details.aspx?pid=9258>), credited as "Photo: CDC/James
 Gathany, public domain", and the Mosquito detective photos (`public/photos/detective/`, CDC
-Public Health Image Library images 17697, 26023, 26024, 26025, 26026, 26042, 26043 and 26044),
+Public Health Image Library images 1866, 4487, 17697, 26023, 26024, 26025, 26026 and 26042),
 credited as "Photos: CDC, public domain". Map outlines come from public-domain U.S. Census Bureau and
 Natural Earth data. The Public Sans font is under the SIL Open Font License. Each source is
 listed on the site's Sources page.

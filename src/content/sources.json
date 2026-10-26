@@ -397,6 +397,24 @@
     "date": "2022",
     "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 26044: mosquito Aedes albopictus"
   },
+  "cdc-phil-4487": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 4487: Aedes albopictus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=4487",
+    "kind": "official",
+    "date": "2003",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 4487: mosquito Aedes albopictus"
+  },
+  "cdc-phil-1866": {
+    "short": "CDC",
+    "title": "Public Health Image Library, image 1866: Aedes albopictus mosquito",
+    "publisher": "CDC",
+    "url": "https://wwwn.cdc.gov/phil/Details.aspx?pid=1866",
+    "kind": "official",
+    "date": "2000",
+    "titleEs": "Biblioteca de Imágenes de Salud Pública, imagen 1866: mosquito Aedes albopictus"
+  },
   "cdc-phil-17697": {
     "short": "CDC",
     "title": "Public Health Image Library, image 17697: Culex quinquefasciatus mosquito",

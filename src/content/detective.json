@@ -4,14 +4,14 @@
   "photos": [
     {
       "id": "mosquito-1",
-      "source": "design/FindtheAedes/Aedes3.jpg",
-      "phil": "cdc-phil-26043",
+      "source": "design/FindtheAedes/Aedes-PHIL4487.png",
+      "phil": "cdc-phil-4487",
       "aedes": true,
       "species": "Aedes albopictus",
       "crop": {
-        "x": 335,
-        "y": 200,
-        "size": 390
+        "x": 1220,
+        "y": 862,
+        "size": 1500
       }
     },
     {
@@ -64,14 +64,14 @@
     },
     {
       "id": "mosquito-6",
-      "source": "design/FindtheAedes/Aedes2.tif",
-      "phil": "cdc-phil-26044",
+      "source": "design/FindtheAedes/Aedes-PHIL1866.png",
+      "phil": "cdc-phil-1866",
       "aedes": true,
       "species": "Aedes albopictus",
       "crop": {
-        "x": 2050,
-        "y": 1250,
-        "size": 1650
+        "x": 1530,
+        "y": 760,
+        "size": 1300
       }
     },
     {
@@ -88,6 +88,16 @@
     }
   ],
   "held": [
+    {
+      "source": "design/FindtheAedes/Aedes3.jpg",
+      "phil": 26043,
+      "why": "Leg bands too small at phone size (the game's photos are about 94px wide on a 375px phone). Replaced by PHIL 4487 (Oct 26, 2026)."
+    },
+    {
+      "source": "design/FindtheAedes/Aedes2.tif",
+      "phil": 26044,
+      "why": "Leg bands too small at phone size (the game's photos are about 94px wide on a 375px phone). Replaced by PHIL 1866 (Oct 26, 2026)."
+    },
     {
       "source": "design/FindtheAedes/Aedes1.tif",
       "phil": 26049,
@@ -287,12 +297,12 @@
       "staticIntro": "This game needs JavaScript. Here are the clues and the places to check, so you can play in your own yard.",
       "staticWater": "These hold water. Empty, scrub, turn over, cover, or throw them out once a week:",
       "photos": {
-        "mosquito-1": "A dark mosquito standing on brown skin, in front of a yellow background. It has white spots on its body and white bands on its legs.",
+        "mosquito-1": "A dark mosquito biting pale skin, seen from the side. It has bright white spots on its body and white bands on its long legs.",
         "mosquito-2": "An orange-brown mosquito on brown skin, its belly red with blood. Its legs are plain, with no white bands.",
         "mosquito-3": "A dark mosquito standing on a green surface. It has bold white bands on its legs and curved white markings on its back.",
         "mosquito-4": "A brown mosquito drinking blood from pale skin, in front of a green background. Its belly is swollen and red; its legs are plain brown.",
         "mosquito-5": "A brown mosquito on pale skin with its wings spread. Its belly has pale stripes across it; its legs are plain.",
-        "mosquito-6": "A mosquito drinking blood from brown skin, seen from the side. Its body is dark with bright white spots, and its legs have white bands near the tips.",
+        "mosquito-6": "A dark mosquito standing on a finger with its back legs raised high. Its legs have bold white bands.",
         "mosquito-7": "A golden-brown mosquito standing on pale skin, in front of a green background. Its legs are plain, with no white bands."
       }
     },
@@ -425,12 +435,12 @@
       "staticIntro": "Este juego necesita JavaScript. Aquí tienes las pistas y los lugares que debes revisar, para que juegues en tu propio patio.",
       "staticWater": "Estas cosas acumulan agua. Vacíalas, friégalas, voltéalas, tápalas o bótalas una vez a la semana:",
       "photos": {
-        "mosquito-1": "Un mosquito oscuro parado sobre piel morena, con un fondo amarillo. Tiene manchas blancas en el cuerpo y bandas blancas en las patas.",
+        "mosquito-1": "Un mosquito oscuro picando una piel clara, visto de lado. Tiene manchas blancas brillantes en el cuerpo y bandas blancas en sus patas largas.",
         "mosquito-2": "Un mosquito café anaranjado sobre piel morena, con el abdomen rojo de sangre. Sus patas son lisas, sin bandas blancas.",
         "mosquito-3": "Un mosquito oscuro parado sobre una superficie verde. Tiene bandas blancas muy marcadas en las patas y marcas blancas curvas en el lomo.",
         "mosquito-4": "Un mosquito café chupando sangre de una piel clara, con un fondo verde. Su abdomen está hinchado y rojo; sus patas son de color café liso.",
         "mosquito-5": "Un mosquito café sobre piel clara, con las alas abiertas. Su abdomen tiene rayas claras de lado a lado; sus patas son lisas.",
-        "mosquito-6": "Un mosquito chupando sangre de una piel morena, visto de lado. Su cuerpo es oscuro con manchas blancas brillantes, y sus patas tienen bandas blancas cerca de las puntas.",
+        "mosquito-6": "Un mosquito oscuro parado sobre un dedo, con las patas de atrás bien levantadas. Sus patas tienen bandas blancas muy marcadas.",
         "mosquito-7": "Un mosquito café dorado parado sobre piel clara, con un fondo verde. Sus patas son lisas, sin bandas blancas."
       }
     }
