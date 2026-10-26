@@ -72,7 +72,7 @@
   },
   "text": {
     "en": {
-      "intro": "The same Aedes mosquitoes spread dengue, Zika and chikungunya: follow the virus from person to person, then see where each layer of protection stops it.",
+      "intro": "The same Aedes mosquitoes spread dengue, Zika, and chikungunya: follow the virus from person to person, then see where each layer of protection stops it.",
       "choiceHeading": "How does Ana’s story start?",
       "openingLocalLabel": "Caught nearby",
       "openingTravelLabel": "After a trip",
@@ -88,14 +88,14 @@
       "scenes": {
         "meet": {
           "heading": "Meet the Aedes mosquito",
-          "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). The Aedes mosquito looks different: it is black or dark brown, with white bands on its legs and white markings on its body. Aedes mosquitoes can spread dengue, Zika and chikungunya.",
+          "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). The Aedes mosquito looks different: it is black or dark brown, with white bands on its legs and white markings on its body. Aedes mosquitoes can spread dengue, Zika, and chikungunya.",
           "note": "You don’t have to travel to get sick. Aedes mosquitoes can live in many parts of the U.S. Dengue spreads in Puerto Rico, and CDC has reported locally acquired cases in these states:",
           "states": {
             "toggle": "Show where",
             "lines": [
-              "Dengue: Florida, Texas, California, Hawaii and Arizona",
+              "Dengue: Florida, Texas, California, Hawaii, and Arizona",
               "Zika: Florida and Texas (2016–2017)",
-              "Chikungunya: Florida (2014, 2025), Texas (2015) and New York (2025)"
+              "Chikungunya: Florida (2014, 2025), Texas (2015), and New York (2025)"
             ]
           },
           "label": "Two mosquitoes side by side on the ground. Left: the Aedes mosquito, black with white bands on its legs and white markings on its body. Right: the Culex house mosquito, brown, with no white markings in this drawing.",
@@ -118,7 +118,7 @@
         },
         "openingTravel": {
           "heading": "Ana comes home",
-          "caption": "Ana comes home from a trip somewhere dengue, Zika or chikungunya are common. She did nothing wrong, and she feels fine, but the virus is already in her blood. That's why the days after a trip matter.",
+          "caption": "Ana comes home from a trip somewhere dengue, Zika, or chikungunya are common. She did nothing wrong, and she feels fine, but the virus is already in her blood. That's why the days after a trip matter.",
           "callout": "Ana feels fine, but the virus is in her blood.",
           "label": "Ana stands in front of her house with her suitcase. Three orange dots inside her show the virus in her blood."
         },
@@ -144,7 +144,7 @@
         "moreMosquitoes": {
           "heading": "More mosquitoes",
           "caption": "The mosquito also lays eggs in containers that hold water nearby, like this bucket. The eggs hatch into new mosquitoes.",
-          "label": "A bucket of water on the ground with a row of tiny eggs at the waterline. The mosquito, with orange virus dots, stands on the bucket's rim laying eggs. Below, small pictures of other places mosquitoes lay eggs: a tire, a plant saucer, a pet bowl, a birdbath, a bottle cap and an upturned lid.",
+          "label": "A bucket of water on the ground with a row of tiny eggs at the waterline. The mosquito, with orange virus dots, stands on the bucket's rim laying eggs. Below, small pictures of other places mosquitoes lay eggs: a tire, a plant saucer, a pet bowl, a birdbath, a bottle cap, and an upturned lid.",
           "callout": "The Aedes mosquito lays eggs in water nearby.",
           "containers": "Mosquitoes can lay eggs in anything that holds even a little water: buckets, tires, plant saucers, pet bowls, birdbaths.",
           "eggSpots": {

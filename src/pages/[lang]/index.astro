@@ -223,6 +223,20 @@ const pickerData = {
     line-height: 1.5;
   }
 
+  /* Phones (under 40rem): the headline two steps down the type scale (--text-2xl →
+     --text-title → --text-xl) and the intro one step (--text-lg → --text-base). */
+  @media (max-width: 39.99rem) {
+    .hero__headline {
+      font-size: var(--text-xl);
+      letter-spacing: -0.02em;
+      line-height: var(--leading-heading);
+    }
+
+    .hero__intro {
+      font-size: var(--text-base);
+    }
+  }
+
   /* No space above the tiles: they start right where the white intro ends. */
   .home-main {
     padding-block: 0 var(--section-gap);

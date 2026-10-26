@@ -78,8 +78,8 @@
       "tag": "Dengue · Zika · Chikungunya",
       "line1": "Simple steps around your home",
       "line2": "keep mosquitoes away.",
-      "subhead": "They can spread dengue, Zika and chikungunya. Here's how to protect your family and neighbors.",
-      "intro": "Dengue, Zika and chikungunya spread through Aedes mosquito bites. Here’s how they spread, how to protect yourself, and where cases are reported.",
+      "subhead": "They can spread dengue, Zika, and chikungunya. Here's how to protect your family and neighbors.",
+      "intro": "Dengue, Zika, and chikungunya spread through Aedes mosquito bites. Here’s how they spread, how to protect yourself, and where cases are reported.",
       "travelLink": "Traveling soon? See what CDC says for your trip"
     },
     "near": {
@@ -97,7 +97,7 @@
     "spreadCta": "How it spreads",
     "layersGraphic": {
       "text": "Every layer you add keeps more mosquitoes away. The outer layers protect the most people, including you.",
-      "label": "Four nested squares labeled community, yard, home and body surround a person; mosquitoes outside bounce off the outer layer.",
+      "label": "Four nested squares labeled community, yard, home, and body surround a person; mosquitoes outside bounce off the outer layer.",
       "community": "COMMUNITY",
       "yard": "YARD",
       "home": "HOME",
@@ -129,7 +129,7 @@
       },
       "protect": {
         "title": "Protect yourself",
-        "text": "Simple steps for your body, home, yard and community.",
+        "text": "Simple steps for your body, home, yard, and community.",
         "button": "See the steps",
         "families": "Have young kids? See tips for families"
       },
@@ -144,7 +144,7 @@
     "home": {
       "title": "Home",
       "nav": "Home",
-      "summary": "Simple steps around your home keep mosquitoes away. They can spread dengue, Zika and chikungunya."
+      "summary": "Simple steps around your home keep mosquitoes away. They can spread dengue, Zika, and chikungunya."
     },
     "howItSpreads": {
       "title": "How it spreads",
@@ -159,7 +159,7 @@
     "community": {
       "title": "Protect your community",
       "nav": "Community",
-      "summary": "Mosquitoes don't stop at property lines. Work with neighbors, landlords and local programs."
+      "summary": "Mosquitoes don't stop at property lines. Work with neighbors, landlords, and local programs."
     },
     "nearMe": {
       "title": "Is it near me?",
@@ -179,7 +179,7 @@
     "checklist": {
       "title": "Weekly mosquito check",
       "nav": "Weekly mosquito check",
-      "summary": "A quick once-a-week check of your yard, home and routine, with a box to tick for each step."
+      "summary": "A quick once-a-week check of your yard, home, and routine, with a box to tick for each step."
     },
     "quiz": {
       "title": "How layered is my protection?",
@@ -194,7 +194,7 @@
     "printables": {
       "title": "Printables",
       "nav": "Printables",
-      "summary": "Checklist, neighbor flyer, clean-up day flyer, “Spot the Aedes” poster, when-to-get-care card and trip checklist, to print or save as a PDF."
+      "summary": "Checklist, neighbor flyer, clean-up day flyer, “Spot the Aedes” poster, when-to-get-care card, and trip checklist, to print or save as a PDF."
     },
     "sources": {
       "title": "Sources and methods",
@@ -219,22 +219,22 @@
     "faq": {
       "title": "Questions and answers",
       "nav": "FAQ",
-      "summary": "Short answers about dengue, Zika and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from."
+      "summary": "Short answers about dengue, Zika, and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from."
     },
     "about": {
       "title": "About {siteName}",
       "nav": "About",
-      "summary": "Why Outbite exists, who it’s for, how it’s built and who made it."
+      "summary": "Why Outbite exists, who it’s for, how it’s built, and who made it."
     },
     "privacy": {
       "title": "Privacy",
       "nav": "Privacy",
-      "summary": "Outbite doesn’t ask for your name, email or location, and doesn’t use cookies."
+      "summary": "Outbite doesn’t ask for your name, email, or location, and doesn’t use cookies."
     },
     "travel": {
       "title": "Traveling soon?",
       "nav": "Traveling soon?",
-      "summary": "See what CDC says about dengue, chikungunya and Zika where you’re going, and what to do before, during and after your trip.",
+      "summary": "See what CDC says about dengue, chikungunya, and Zika where you’re going, and what to do before, during, and after your trip.",
       "menu": "Travel"
     },
     "families": {
@@ -356,7 +356,7 @@
       "updated": "Updated {date}",
       "bti": {
         "label": "Agency pages on Bti",
-        "name": "CDC, EPA and WHO",
+        "name": "CDC, EPA, and WHO",
         "text": "Behind the Bti larvicide tip, including WHO’s 2026 manual on larval source management (page 57)."
       },
       "factSheet": {
@@ -372,7 +372,7 @@
       "images": {
         "label": "Images",
         "name": "Photos",
-        "text": "The Aedes aegypti photo on Questions and answers, Words to know and How it spreads (Photo: CDC/James Gathany, public domain), and the photos in Mosquito detective (Photos: CDC, public domain), all from CDC’s Public Health Image Library. Every other picture is an Outbite drawing."
+        "text": "The Aedes aegypti photo on Questions and answers, Words to know, and How it spreads (Photo: CDC/James Gathany, public domain), and the photos in Mosquito detective (Photos: CDC, public domain), all from CDC’s Public Health Image Library. Every other picture is an Outbite drawing."
       }
     },
     "listen": {
@@ -483,12 +483,12 @@
         },
         {
           "name": "CDC Travel Health Notices",
-          "note": "Current notices about dengue, Zika and chikungunya.",
+          "note": "Current notices about dengue, Zika, and chikungunya.",
           "url": "https://wwwnc.cdc.gov/travel/notices"
         },
         {
           "name": "U.S. Census Bureau cartographic boundary files (2017)",
-          "note": "Map outlines of the states, D.C. and the territory insets (Puerto Rico, U.S. Virgin Islands, Guam, Northern Mariana Islands, American Samoa; insets not to scale); public domain, via the us-atlas package (ISC license).",
+          "note": "Map outlines of the states, D.C., and the territory insets (Puerto Rico, U.S. Virgin Islands, Guam, Northern Mariana Islands, American Samoa; insets not to scale); public domain, via the us-atlas package (ISC license).",
           "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html"
         },
         {
@@ -589,7 +589,7 @@
     "countLabelOne": "1 case",
     "seeMap": "See the map",
     "seeNotices": "See CDC travel notices",
-    "intro": "Reported cases of dengue, Zika and chikungunya by state and territory, from CDC.",
+    "intro": "Reported cases of dengue, Zika, and chikungunya by state and territory, from CDC.",
     "pickHeading": "Choose your state or territory",
     "meaningHeading": "What these numbers mean",
     "meaning1": "Most cases in U.S. states are in people who got sick while traveling.",
@@ -613,7 +613,7 @@
     "tabsLabel": "Choose a virus",
     "mapNote": "Orange = CDC says mosquitoes are spreading the virus there now. Blue = cases reported to CDC, mostly in people who got sick while traveling.",
     "mapNoteChikungunya": "Orange = CDC says mosquitoes are spreading the virus there now. Blue = cases reported to CDC.",
-    "mapLabel": "Map of the U.S. states, DC and territories, shaded by reported {disease} cases this year. The same numbers are in the table.",
+    "mapLabel": "Map of the U.S. states, DC, and territories, shaded by reported {disease} cases this year. The same numbers are in the table.",
     "legendHeading": "Cases reported in {year}",
     "bins": [
       "1–9",
@@ -631,7 +631,7 @@
     "colPlace": "State or territory",
     "noticesHeading": "CDC travel notices",
     "noticesChecked": "Checked {date}",
-    "noticesIntro": "Current notices about dengue, Zika and chikungunya for places travelers visit.",
+    "noticesIntro": "Current notices about dengue, Zika, and chikungunya for places travelers visit.",
     "levelNames": {
       "1": "Level 1 – Practice Usual Precautions",
       "2": "Level 2 – Practice Enhanced Precautions",
@@ -646,7 +646,7 @@
     "worldwide": "Worldwide",
     "sourceCdc": "Source: CDC",
     "sourcesHeading": "Sources",
-    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC case pages for dengue, Zika and chikungunya. Map outlines: U.S. Census Bureau.",
+    "sources": "CDC National Notifiable Diseases Surveillance System (NNDSS) Weekly Data; CDC case pages for dengue, Zika, and chikungunya. Map outlines: U.S. Census Bureau.",
     "lastChecked": "Last checked {date}: the last day Outbite looked for new CDC data.",
     "short": {
       "DC": "D.C.",
@@ -681,7 +681,7 @@
     "reportedNote": "*Reported cases are only the ones diagnosed and reported to CDC. The real number of infections is higher.",
     "colYear": "this year",
     "colWeek": "week ending {date}",
-    "allUSHeading": "all of the U.S. (states, D.C. and territories)",
+    "allUSHeading": "all of the U.S. (states, D.C., and territories)",
     "backToUS": "Back to all of the U.S.",
     "allUSMissing": "Doesn’t include places CDC hasn’t reported yet.",
     "casesIn": "Cases reported in {year}",
@@ -721,7 +721,7 @@
     "placeInSentence": {
       "VI": "the U.S. Virgin Islands"
     },
-    "switchLabel": "Dengue, Zika and chikungunya pages",
+    "switchLabel": "Dengue, Zika, and chikungunya pages",
     "glanceHeading": "At a glance",
     "glance": {
       "spreadBy": "Spread by",
@@ -737,7 +737,7 @@
     "whereHeading": "Where it spreads",
     "reportedAllUS": "reported{ref} cases in all of the U.S. in {year}, including travel-related",
     "seeMap": "See the {disease} map",
-    "compareHeading": "Dengue, Zika and chikungunya compared",
+    "compareHeading": "Dengue, Zika, and chikungunya compared",
     "compare": {
       "mosquitoes": "Spread by mosquitoes",
       "other": "Other ways it spreads",
@@ -818,7 +818,7 @@
     "note": "The date a person last checked this page."
   },
   "social": {
-    "description": "Dengue, Zika and chikungunya: how they spread and how to protect your family.",
+    "description": "Dengue, Zika, and chikungunya: how they spread and how to protect your family.",
     "imageAlt": "Outbite: Stop the bite before it starts. An Aedes mosquito."
   }
 }

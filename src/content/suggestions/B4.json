@@ -25,11 +25,11 @@
   "text": {
     "en": {
       "title": "Babies and young children",
-      "summary": "No oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) under age 3. Never on a child's hands, eyes or mouth: adults put repellent on their own hands first. Netting covers strollers and baby carriers.",
+      "summary": "No oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) under age 3. Never on a child's hands, eyes, or mouth: adults put repellent on their own hands first. Netting covers strollers and baby carriers.",
       "evidenceMeasures": "fewer bites",
       "canDo": [
         "CDC: “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old.”",
-        "CDC: repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.”",
+        "CDC: repellents with DEET, picaridin, IR3535, and 2-undecanone “can be used on children without age restriction.”",
         "CDC: “Do not apply insect repellent to a child's hands, eyes, mouth, cuts, or irritated skin.” “Adults: Spray insect repellent onto your hands and then apply to a child's face.”",
         "CDC: “Children should not handle repellents.”",
         "EPA: “After returning indoors, wash your child's treated skin and clothes with soap and water or bathe.”",
@@ -46,7 +46,7 @@
           ]
         }
       ],
-      "travel": "Children: no OLE or PMD under age 3, and never on a child's hands, eyes or mouth. Adults put repellent on their own hands first, then on the child's face."
+      "travel": "Children: no OLE or PMD under age 3, and never on a child's hands, eyes, or mouth. Adults put repellent on their own hands first, then on the child's face."
     },
     "es": {
       "title": "Bebés y niños pequeños",

@@ -73,7 +73,7 @@
           "community": "Neighbors · Community"
         },
         "items": [
-          "I emptied and scrubbed buckets, planters, toys, birdbaths and pet bowls.",
+          "I emptied and scrubbed buckets, planters, toys, birdbaths, and pet bowls.",
           "I turned over or covered anything that can hold water, like kiddie pools and trash containers.",
           "I threw out old tires and other things that hold water.",
           "I tightly covered rain barrels and other water storage (or used wire mesh with holes smaller than a mosquito).",
@@ -101,7 +101,7 @@
       },
       "flyer": {
         "title": "Let's keep mosquitoes off our street",
-        "body": "Aedes mosquitoes can spread dengue, Zika and chikungunya. They lay eggs in small amounts of water around homes. When neighbors work together, we can reduce mosquitoes around all our homes.",
+        "body": "Aedes mosquitoes can spread dengue, Zika, and chikungunya. They lay eggs in small amounts of water around homes. When neighbors work together, we can reduce mosquitoes around all our homes.",
         "steps": [
           "We empty and scrub anything that holds water, once a week.",
           "We use screens on windows and doors and fix any holes.",
@@ -114,7 +114,7 @@
       "poster": {
         "title": "Spot the Aedes mosquito",
         "aedesLook": "Black or dark brown, with white bands on the legs and white markings on the body",
-        "aedesSpread": "Can spread dengue, Zika and chikungunya",
+        "aedesSpread": "Can spread dengue, Zika, and chikungunya",
         "culexCommon": "house mosquito",
         "facts": [
           "Bites during the day and at night.",
@@ -149,7 +149,7 @@
         "printChecklistLink": "Print this week's checklist",
         "careWhat": "Warning signs and what to do, for the fridge or your bag.",
         "bothCare": "Both (English top, Spanish bottom)",
-        "cleanupWhat": "Two half-page flyers for a school or group clean-up, with blanks for the date, time, place and organizer.",
+        "cleanupWhat": "Two half-page flyers for a school or group clean-up, with blanks for the date, time, place, and organizer.",
         "bothCleanup": "Both (English top, Spanish bottom)",
         "cleanupTitle": "Clean-up day flyer"
       },
@@ -164,7 +164,7 @@
       },
       "cleanup": {
         "title": "Join our clean-up day",
-        "body": "Aedes mosquitoes can spread dengue, Zika and chikungunya. They lay eggs in small amounts of water. Together we can empty and scrub the places where mosquitoes grow.",
+        "body": "Aedes mosquitoes can spread dengue, Zika, and chikungunya. They lay eggs in small amounts of water. Together we can empty and scrub the places where mosquitoes grow.",
         "fields": [
           "Date",
           "Time",

@@ -161,7 +161,7 @@
   "text": {
     "en": {
       "eyebrow": "Tools · Game",
-      "intro": "Aedes mosquitoes spread dengue, Zika and chikungunya. Can you spot them, and the places they breed?",
+      "intro": "Aedes mosquitoes spread dengue, Zika, and chikungunya. Can you spot them, and the places they breed?",
       "clues": {
         "heading": "How to tell them apart",
         "aedes": {
@@ -278,7 +278,7 @@
       "again": "Play again",
       "credit": "Photos: CDC, public domain",
       "staticIntro": "This game needs JavaScript. Here are the clues and the places to check, so you can play in your own yard.",
-      "staticWater": "These hold water. Empty, scrub, turn over, cover or throw them out once a week:",
+      "staticWater": "These hold water. Empty, scrub, turn over, cover, or throw them out once a week:",
       "photos": {
         "mosquito-1": "A dark mosquito standing on brown skin, in front of a yellow background. It has white spots on its body and white bands on its legs.",
         "mosquito-2": "An orange-brown mosquito on brown skin, its belly red with blood. Its legs are plain, with no white bands.",

@@ -260,7 +260,7 @@
   "text": {
     "en": {
       "title": "Questions and answers",
-      "intro": "Short answers about dengue, Zika and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from.",
+      "intro": "Short answers about dengue, Zika, and chikungunya, the mosquitoes that spread them, travel, and this site. Each answer links to the CDC or EPA page it comes from.",
       "searchLabel": "Search questions",
       "clear": "Clear search",
       "count": "{n} questions match",
@@ -286,7 +286,7 @@
       "groups": {
         "viruses": {
           "heading": "The viruses",
-          "subtitle": "What dengue, Zika and chikungunya are, and how people get them."
+          "subtitle": "What dengue, Zika, and chikungunya are, and how people get them."
         },
         "mosquitoes": {
           "heading": "Mosquitoes & repellent",
@@ -294,7 +294,7 @@
         },
         "travel": {
           "heading": "Travel & coming home",
-          "subtitle": "What to do before, during and after a trip."
+          "subtitle": "What to do before, during, and after a trip."
         },
         "about": {
           "heading": "About the site",
@@ -303,9 +303,9 @@
       },
       "questions": {
         "what-are": {
-          "q": "What are dengue, Zika and chikungunya?",
+          "q": "What are dengue, Zika, and chikungunya?",
           "a": [
-            "Dengue, Zika and chikungunya are illnesses caused by viruses. Infected mosquitoes spread all three viruses to people. Dengue is caused by any of four related viruses."
+            "Dengue, Zika, and chikungunya are illnesses caused by viruses. Infected mosquitoes spread all three viruses to people. Dengue is caused by any of four related viruses."
           ]
         },
         "how-spread": {
@@ -317,7 +317,7 @@
         "person-to-person": {
           "q": "Can these viruses spread from one person to another?",
           "a": [
-            "Zika can spread through sex, even from a partner who has no symptoms, and a pregnant person with Zika can pass it to the baby. Dengue can pass from a pregnant person to the baby during pregnancy or around birth, and in rare cases it spreads through blood transfusions, organ transplants or needlestick injuries. Chikungunya rarely passes from a pregnant person to the baby during most of pregnancy; the risk is highest when the pregnant person has the virus at the time of delivery.",
+            "Zika can spread through sex, even from a partner who has no symptoms, and a pregnant person with Zika can pass it to the baby. Dengue can pass from a pregnant person to the baby during pregnancy or around birth, and in rare cases it spreads through blood transfusions, organ transplants, or needlestick injuries. Chikungunya rarely passes from a pregnant person to the baby during most of pregnancy; the risk is highest when the pregnant person has the virus at the time of delivery.",
             "Condoms can reduce the chance of getting Zika from sex. After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms. CDC advises this after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission."
           ]
         },
@@ -330,13 +330,13 @@
         "very-sick": {
           "q": "Who is more likely to get very sick?",
           "a": [
-            "For dengue, babies 1 year old or younger, pregnant people, adults 65 and older, people with certain medical conditions and people who have had dengue before are more likely to get very sick. For chikungunya, newborns infected around the time of birth, adults 65 and older, and people with conditions such as high blood pressure, diabetes or heart disease are at higher risk of serious illness."
+            "For dengue, babies 1 year old or younger, pregnant people, adults 65 and older, people with certain medical conditions, and people who have had dengue before are more likely to get very sick. For chikungunya, newborns infected around the time of birth, adults 65 and older, and people with conditions such as high blood pressure, diabetes, or heart disease are at higher risk of serious illness."
           ]
         },
         "zika-pregnancy": {
           "q": "Why does Zika matter during pregnancy?",
           "a": [
-            "Zika infection during pregnancy can cause serious birth defects. Zika is also linked to other pregnancy problems, such as pregnancy loss, stillbirth and early birth. Many people with Zika have no symptoms or only mild ones. Preventing mosquito bites helps prevent Zika, and condoms can reduce the chance of getting Zika from sex.",
+            "Zika infection during pregnancy can cause serious birth defects. Zika is also linked to other pregnancy problems, such as pregnancy loss, stillbirth, and early birth. Many people with Zika have no symptoms or only mild ones. Preventing mosquito bites helps prevent Zika, and condoms can reduce the chance of getting Zika from sex.",
             "In short: if you’re pregnant, talk with your doctor about Zika, and CDC advises not traveling to places with an active Zika Travel Health Notice. CDC: “If you are pregnant or planning pregnancy, talk to your healthcare provider about your potential risk of Zika infection, the possible health effects of Zika virus infection on a baby, and ways to protect yourself from Zika.” For pregnant travelers, CDC says: “You should avoid travel to areas with an active Zika Travel Health Notice.” For areas with current or past Zika transmission (places where Zika has spread through mosquitoes at some point): “Discuss travel plans, reasons for travel, ability to prevent mosquito bites, and potential risks with your healthcare provider.” CDC’s timeframes: After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms."
           ]
         },
@@ -384,13 +384,13 @@
         "repellents": {
           "q": "Which insect repellents work?",
           "a": [
-            "CDC recommends EPA-registered insect repellents with one of these active ingredients: DEET, picaridin, IR3535, oil of lemon eucalyptus (OLE), para-menthane-diol (PMD) or 2-undecanone. These repellents are proven safe and effective when used as the label says."
+            "CDC recommends EPA-registered insect repellents with one of these active ingredients: DEET, picaridin, IR3535, oil of lemon eucalyptus (OLE), para-menthane-diol (PMD), or 2-undecanone. These repellents are proven safe and effective when used as the label says."
           ]
         },
         "repellent-safety": {
           "q": "Is repellent safe for babies and children?",
           "a": [
-            "CDC says “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old,” and repellents with DEET, picaridin, IR3535 and 2-undecanone “can be used on children without age restriction.” Don't put repellent on a child's hands, eyes, mouth, cuts or irritated skin; adults put it on their own hands first, then on the child's face. Children shouldn't handle repellent. EPA says to wash a child's treated skin and clothes with soap and water after coming indoors. For babies, CDC advises clothing that covers arms and legs, and mosquito netting over strollers and baby carriers."
+            "CDC says “Do not use products containing oil of lemon eucalyptus (OLE) or para-menthane-diol (PMD) on children under 3 years old,” and repellents with DEET, picaridin, IR3535, and 2-undecanone “can be used on children without age restriction.” Don't put repellent on a child's hands, eyes, mouth, cuts, or irritated skin; adults put it on their own hands first, then on the child's face. Children shouldn't handle repellent. EPA says to wash a child's treated skin and clothes with soap and water after coming indoors. For babies, CDC advises clothing that covers arms and legs, and mosquito netting over strollers and baby carriers."
           ]
         },
         "repellent-pregnancy": {
@@ -400,7 +400,7 @@
           ]
         },
         "zappers": {
-          "q": "Do bug zappers, citronella candles or phone apps keep mosquitoes away?",
+          "q": "Do bug zappers, citronella candles, or phone apps keep mosquitoes away?",
           "a": [
             "Wristbands and sound devices don’t protect you from mosquito bites. CDC says “wearing sound-emitting devices or repellent-impregnated wristbands are ineffective.” CDC and EPA don’t address bug zappers or phone apps. EPA says citronella products, including candles, vary in how well they work. CDC says the effectiveness of repellents that aren’t EPA-registered, including some natural ones, is not known. CDC recommends an EPA-registered repellent, loose long-sleeved shirts and pants, and screens or air conditioning."
           ]
@@ -408,21 +408,21 @@
         "before-trip": {
           "q": "How do I know if a place I'm visiting has these viruses?",
           "a": [
-            "CDC posts Travel Health Notices about health risks around the world, such as outbreaks, ranked from Level 1 to Level 4. Check the notices before any trip. The “Traveling soon?” page lists the current CDC notices for dengue, Zika and chikungunya.",
+            "CDC posts Travel Health Notices about health risks around the world, such as outbreaks, ranked from Level 1 to Level 4. Check the notices before any trip. The “Traveling soon?” page lists the current CDC notices for dengue, Zika, and chikungunya.",
             "CDC also advises seeing a travel clinic or your doctor at least 4–6 weeks before you leave."
           ]
         },
         "packing": {
           "q": "What should I pack?",
           "a": [
-            "An EPA-registered insect repellent and loose, long-sleeved shirts and pants are the basics. Clothing and gear such as boots, socks and tents can be treated with 0.5% permethrin, an insecticide for clothing and gear, not skin. A mosquito net helps if you'll sleep outside or in a room without screens.",
+            "An EPA-registered insect repellent and loose, long-sleeved shirts and pants are the basics. Clothing and gear such as boots, socks, and tents can be treated with 0.5% permethrin, an insecticide for clothing and gear, not skin. A mosquito net helps if you'll sleep outside or in a room without screens.",
             "CDC: “Pack acetaminophen (also known as paracetamol outside the United States) in your first aid kit. These medications can be used to manage fever and body pain in case you get dengue.” CDC also advises seeing a travel clinic or your doctor at least 4–6 weeks before you leave."
           ]
         },
         "after-trip": {
           "q": "I just got back from a trip. What should I do?",
           "a": [
-            "CDC says: “Prevent mosquito bites for 3 weeks after your trip,” even if you are not sick. This step keeps you from spreading viruses like dengue, chikungunya and Zika to mosquitoes that aren’t infected. CDC recommends an EPA-registered insect repellent as one way to prevent bites.",
+            "CDC says: “Prevent mosquito bites for 3 weeks after your trip,” even if you are not sick. This step keeps you from spreading viruses like dengue, chikungunya, and Zika to mosquitoes that aren’t infected. CDC recommends an EPA-registered insect repellent as one way to prevent bites.",
             "After travel, males should use condoms or not have sex for at least 3 months, and females for at least 2 months, starting on the day they return, even without symptoms. CDC advises this after travel to an area with an active Zika Travel Health Notice, and, “if you are concerned about the risks of Zika,” after travel to an area with current or past Zika transmission."
           ]
         },
@@ -435,7 +435,7 @@
         "sources": {
           "q": "Where does Outbite's information come from?",
           "a": [
-            "Outbite’s health information comes from CDC and EPA first. When CDC and EPA don’t cover a topic, we use guidance from the World Health Organization. Each tip, story step and answer links to the page it comes from, and the Sources page lists them."
+            "Outbite’s health information comes from CDC and EPA first. When CDC and EPA don’t cover a topic, we use guidance from the World Health Organization. Each tip, story step, and answer links to the page it comes from, and the Sources page lists them."
           ]
         },
         "case-numbers": {
@@ -453,7 +453,7 @@
         "privacy": {
           "q": "Does Outbite collect my information?",
           "a": [
-            "No. Outbite doesn’t ask for your name, email or location, has no accounts and doesn’t use cookies. Visits are counted with GoatCounter in a way that doesn’t identify you, and the Privacy page has a switch to stop counting your visits. Five choices are saved in your own browser only: the weekly checklist’s ticks, the Protect page’s “Show first” choices, the “Don’t count my visits” switch, your text size and whether you closed the alert banner. The place picker never saves or sends what you choose."
+            "No. Outbite doesn’t ask for your name, email, or location, has no accounts and doesn’t use cookies. Visits are counted with GoatCounter in a way that doesn’t identify you, and the Privacy page has a switch to stop counting your visits. Five choices are saved in your own browser only: the weekly checklist’s ticks, the Protect page’s “Show first” choices, the “Don’t count my visits” switch, your text size, and whether you closed the alert banner. The place picker never saves or sends what you choose."
           ]
         },
         "medical-advice": {

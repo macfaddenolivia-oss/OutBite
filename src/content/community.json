@@ -32,7 +32,7 @@
   "text": {
     "en": {
       "title": "Protect your community",
-      "intro": "Aedes mosquitoes fly only a few blocks, so they don’t stop at property lines. Working with neighbors, landlords and local programs protects more people, including you.",
+      "intro": "Aedes mosquitoes fly only a few blocks, so they don’t stop at property lines. Working with neighbors, landlords, and local programs protects more people, including you.",
       "sections": {
         "find": {
           "heading": "Find & report",
@@ -40,7 +40,7 @@
           "points": [
             {
               "label": "What to report",
-              "text": "unused or abandoned swimming pools, discarded tires, trash and drainage ditches."
+              "text": "unused or abandoned swimming pools, discarded tires, trash, and drainage ditches."
             },
             {
               "label": "Who to tell",
@@ -53,7 +53,7 @@
         },
         "organize": {
           "heading": "Organize your block",
-          "intro": "Aedes mosquitoes fly only a few blocks, so the ones biting you probably grew nearby. You, your neighbors and your community can work together to reduce mosquitoes.",
+          "intro": "Aedes mosquitoes fly only a few blocks, so the ones biting you probably grew nearby. You, your neighbors, and your community can work together to reduce mosquitoes.",
           "points": [
             {
               "label": "A clean-up day",
@@ -61,14 +61,14 @@
             },
             {
               "label": "A walk together",
-              "text": "everyone uses the weekly checklist to tip out, scrub and cover containers."
+              "text": "everyone uses the weekly checklist to tip out, scrub, and cover containers."
             }
           ],
           "link": "Get the neighbor flyer and checklist"
         },
         "renters": {
           "heading": "Renters & shared spaces",
-          "intro": "Some fixes belong to a landlord, school or building manager.",
+          "intro": "Some fixes belong to a landlord, school, or building manager.",
           "points": [
             {
               "label": "Renters",
@@ -76,7 +76,7 @@
             },
             {
               "label": "Schools, churches, workplaces",
-              "text": "one person can check flowerpot saucers, buckets, gutters and outdoor equipment once a week, and empty, scrub, turn over or cover anything that holds water."
+              "text": "one person can check flowerpot saucers, buckets, gutters, and outdoor equipment once a week, and empty, scrub, turn over, or cover anything that holds water."
             }
           ]
         },

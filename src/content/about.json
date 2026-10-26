@@ -19,11 +19,11 @@
   },
   "text": {
     "en": {
-      "intro": "Why Outbite exists, who it’s for, how it’s built and who made it.",
+      "intro": "Why Outbite exists, who it’s for, how it’s built, and who made it.",
       "why": {
         "heading": "Why Outbite exists",
         "paragraphs": [
-          "Dengue, Zika and chikungunya are viruses. They spread to people mainly through the bites of infected Aedes mosquitoes.",
+          "Dengue, Zika, and chikungunya are viruses. They spread to people mainly through the bites of infected Aedes mosquitoes.",
           "Aedes mosquitoes can live in many parts of the United States, and in U.S. territories such as Puerto Rico.",
           "Dengue is common in Puerto Rico, and CDC lists the risk there as frequent or continuous. Chikungunya (2014) and Zika (2016) caused large outbreaks in Puerto Rico, but since 2019 CDC has reported no confirmed locally acquired cases of either virus in U.S. territories.",
           "Clear, bilingual information about preventing these viruses can be hard to find. Outbite puts it in one place, in plain English and Spanish."
@@ -32,7 +32,7 @@
       "for": {
         "heading": "Who it’s for",
         "paragraphs": [
-          "Outbite is for families, renters, homeowners, travelers and communities across the U.S., including Puerto Rico. Every page is in English and Spanish."
+          "Outbite is for families, renters, homeowners, travelers, and communities across the U.S., including Puerto Rico. Every page is in English and Spanish."
         ]
       },
       "built": {
@@ -52,7 +52,7 @@
       },
       "independent": {
         "heading": "Independent",
-        "text": "Outbite is an independent project. It is not an official project of CDC, any government agency or Northeastern University. It has no ads and no outside funding."
+        "text": "Outbite is an independent project. It is not an official project of CDC, any government agency, or Northeastern University. It has no ads and no outside funding."
       },
       "linksLabel": "More about Outbite",
       "license": "Text and drawings: CC BY 4.0. Code: MIT."

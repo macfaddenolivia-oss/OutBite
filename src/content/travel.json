@@ -16,7 +16,7 @@
   },
   "text": {
     "en": {
-      "intro": "See what CDC says about dengue, chikungunya and Zika where you’re going, and what to do before, during and after your trip.",
+      "intro": "See what CDC says about dengue, chikungunya, and Zika where you’re going, and what to do before, during, and after your trip.",
       "pickHeading": "Where are you going?",
       "searchLabel": "Type a country or territory",
       "searchPlaceholder": "e.g. Mexico",
@@ -26,7 +26,7 @@
       "notListed": "Not on CDC’s list",
       "perCdc": "Per CDC, last updated {date}",
       "noticesHeading": "Current CDC Travel Health Notices",
-      "noNotices": "No current CDC Travel Health Notice about dengue, chikungunya or Zika for {place}.",
+      "noNotices": "No current CDC Travel Health Notice about dengue, chikungunya, or Zika for {place}.",
       "recHeading": "What CDC recommends for this trip",
       "before": "Before you go",
       "during": "During your trip",
@@ -39,7 +39,7 @@
       "notSure": "Not sure about your trip? Check CDC’s Travel Health Notices",
       "checkFor": "Trip checklist: {place}",
       "scan": "Scan for the “{title}” page",
-      "printWhat": "Before, during and after a trip, for the destination you choose.",
+      "printWhat": "Before, during, and after a trip, for the destination you choose.",
       "destination": "Destination",
       "anyDestination": "Any destination (all items)",
       "noJs": "Without JavaScript, find your destination in the “All destinations” table below. Each item here says when CDC recommends it.",
@@ -47,7 +47,7 @@
       "matches": "{n} matches",
       "matchesOne": "1 match",
       "when": {
-        "any": "Where CDC lists dengue, chikungunya or Zika risk",
+        "any": "Where CDC lists dengue, chikungunya, or Zika risk",
         "dengue": "Where CDC lists dengue",
         "chikOutbreak": "Where CDC lists a chikungunya outbreak",
         "chikElevated": "Where CDC lists elevated chikungunya risk",
@@ -68,7 +68,7 @@
       "sortHint": "Select a column’s ↕ button to sort.",
       "mapPickHint": "Choose a country on the map to see it in “Where are you going?” and get CDC’s advice for it below.",
       "showingFor": "Showing CDC’s advice for {place}",
-      "flowAny": "For any place with dengue, chikungunya or Zika risk",
+      "flowAny": "For any place with dengue, chikungunya, or Zika risk",
       "flowIf": {
         "dengue": "If dengue",
         "chikOutbreak": "If a chikungunya outbreak",

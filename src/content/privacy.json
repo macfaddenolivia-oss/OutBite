@@ -31,18 +31,18 @@
       "jumpLabel": "On this page",
       "short": {
         "heading": "The short version",
-        "text": "Outbite doesn’t ask for your name, email or location, and doesn’t use cookies. We count visits in a way that doesn’t identify you."
+        "text": "Outbite doesn’t ask for your name, email, or location, and doesn’t use cookies. We count visits in a way that doesn’t identify you."
       },
       "counting": {
         "heading": "Counting visits",
         "points": [
           "Outbite uses GoatCounter to count page views.",
-          "GoatCounter keeps only totals, counted by day or hour: the page visited, the site or page you came from, your browser and operating system type, your approximate country (and, for visits from the United States, your approximate state) and your screen width.",
+          "GoatCounter keeps only totals, counted by day or hour: the page visited, the site or page you came from, your browser and operating system type, your approximate country (and, for visits from the United States, your approximate state), and your screen width.",
           "GoatCounter doesn’t store IP addresses. It doesn’t use cookies or store anything in your browser, and it doesn’t share data with third parties.",
           "To avoid counting the same visit twice, GoatCounter links your IP address and browser details to a random ID. It keeps that link only in memory, for up to 8 hours, and your IP address is never saved.",
           "GoatCounter stores its data in Finland and Germany."
         ],
-        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a place you pick. As with any website, your browser also sends its IP address and browser details with the request; GoatCounter uses them only as described above.",
+        "sends": "Outbite sends GoatCounter only the page’s address, the page title, the site you came from, and your screen width, plus a random number that keeps the browser from reusing an old request and, for automated browsers, a flag that marks them as bots. It never sends anything you type or choose on the site, like a place you pick. As with any website, your browser also sends its IP address and browser details with the request; GoatCounter uses them only as described above.",
         "noJs": "With JavaScript turned off, visits aren’t counted at all.",
         "link": "GoatCounter’s privacy page",
         "switchLabel": "Don’t count my visits",
@@ -75,7 +75,7 @@
       },
       "links": {
         "heading": "Links to other sites",
-        "text": "Outbite links to CDC, EPA, WHO and other sites. Those sites have their own privacy policies."
+        "text": "Outbite links to CDC, EPA, WHO, and other sites. Those sites have their own privacy policies."
       },
       "qr": {
         "heading": "Printables and QR codes",

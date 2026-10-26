@@ -440,6 +440,29 @@ const scriptText = {
     margin: 0;
   }
 
+  /* Phones (under 40rem): the title one step down the type scale (--text-title →
+     --text-xl), with a 44px icon beside it, centred on its first line if it wraps
+     (design/phone-layout-mockup.png, panel 2). */
+  @media (max-width: 39.99rem) {
+    .det-title {
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .det-title :global(.tool-icon) {
+      flex: none;
+      width: 44px;
+      height: 44px;
+    }
+
+    .det-title h1 {
+      min-width: 0;
+      padding-top: max(0px, (44px - 1lh) / 2);
+      font-size: var(--text-xl);
+    }
+  }
+
   .det-page {
     padding-block: var(--space-4) var(--section-gap);
   }
