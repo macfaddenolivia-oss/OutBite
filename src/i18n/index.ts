@@ -80,7 +80,8 @@ export function getTagline(lang: string): string {
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-/** A site address without the host sub-folder: "/OutBite/es/faq/" → "/es/faq/". */
+/** A site address without the host sub-folder, if base names one (e.g. "/sub/es/faq/" →
+ *  "/es/faq/"); unchanged since the site moved to outbite.org with base "/". */
 export function withoutBase(pathname: string): string {
   return base && pathname.startsWith(`${base}/`) ? pathname.slice(base.length) : pathname;
 }

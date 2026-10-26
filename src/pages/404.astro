@@ -1,6 +1,10 @@
 ---
 // One 404 page for the whole site. It is shown for any language, so it uses
 // the default language with links to every language's home page.
+// The site used to live under a sub-folder (https://macfaddenolivia-oss.github.io/OutBite/);
+// since the move to https://outbite.org an old /OutBite/... address lands here, and the
+// script below sends it to the same page without /OutBite, keeping any ?query and #part
+// (/OutBite/en/faq/#vaccine → /en/faq/#vaccine).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { assetPath, defaultLocale, locales, localizePath, useTranslations } from '../i18n';
 
@@ -8,6 +12,12 @@ const t = useTranslations(defaultLocale);
 ---
 
 <BaseLayout lang={defaultLocale} title={t('notFound.title')} countPath={assetPath('404')} langLinksHome>
+  <script is:inline>
+    (function () {
+      var old = location.pathname.match(/^\/outbite(\/.*)?$/i);
+      if (old) location.replace((old[1] || '/') + location.search + location.hash);
+    })();
+  </script>
   <div class="container not-found">
     {
       locales.map((l) => {

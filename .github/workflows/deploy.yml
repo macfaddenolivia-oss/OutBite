@@ -1,5 +1,5 @@
 # Builds the site and publishes it to GitHub Pages:
-# https://macfaddenolivia-oss.github.io/OutBite/
+# https://outbite.org/ (custom domain, set in Settings → Pages)
 #
 # Runs on every push to main, every day at about 10:00 UTC (GitHub often starts scheduled
 # runs a few hours late), and by hand ("Run workflow" on the Actions tab). Each run first

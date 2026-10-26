@@ -12,7 +12,7 @@ public data. It is built with [Astro](https://astro.build) as a static site.
 ## Status
 
 **Preview.** The site is published as a preview at
-<https://macfaddenolivia-oss.github.io/OutBite/> while its content awaits expert review
+<https://outbite.org/> while its content awaits expert review
 (clinician, entomologist and native Spanish speaker). Don’t rely on it for health decisions
 yet.
 
@@ -22,7 +22,7 @@ Needs Node.js 22 or newer (LTS) and npm.
 
 ```sh
 npm install        # first time only: downloads Astro and the fonts into node_modules/
-npm run dev        # starts a local preview at http://localhost:4321/OutBite/ (Ctrl+C to stop)
+npm run dev        # starts a local preview at http://localhost:4321/ (Ctrl+C to stop)
 npm run build      # builds the finished static site into dist/
 npm run preview    # serves the built dist/ folder, to check a build before hosting
 ```
@@ -43,8 +43,9 @@ Quality checks are run locally before each release.
 
 ## Publishing
 
-The site is published on GitHub Pages at <https://macfaddenolivia-oss.github.io/OutBite/>
-by `.github/workflows/deploy.yml`, using GitHub's own Pages actions. It runs on every push to
+The site is published on GitHub Pages at its custom domain, <https://outbite.org/>, by
+`.github/workflows/deploy.yml`, using GitHub's own Pages actions. The domain is set in the
+repository's Settings → Pages (with the matching DNS records), not in a file. It runs on every push to
 `main`, every day at about 10:00 UTC, and by hand (**Run workflow** on the Actions tab). Each
 run downloads the latest CDC data (`npm run update-data`), builds the site and publishes it.
 Nothing is committed back to the repository. The data from each successful download is saved
@@ -57,9 +58,11 @@ run fails the same way, while a push or by-hand run publishes with a warning, so
 CDC's publishing never blocks content updates. The comment at the top of `deploy.yml`
 explains this step by step.
 
-Every address starts with `/OutBite/` (`base` in `astro.config.mjs`). Links inside the site
-use the helpers in `src/i18n/index.ts` (`localizePath`, `assetPath`, `siteAddress`), which
-add it for you.
+Addresses start right at the domain (`base` is `/` in `astro.config.mjs`). Links inside
+the site use the helpers in `src/i18n/index.ts` (`localizePath`, `assetPath`,
+`siteAddress`), which would add a sub-folder if `base` ever named one. The site used to live
+at `https://macfaddenolivia-oss.github.io/OutBite/`: the 404 page sends any old
+`/OutBite/...` address to the same page without `/OutBite` (keeping any `#part`).
 
 ## Settings
 
@@ -70,7 +73,7 @@ These settings are in `src/config/site.json`.
   text in `src/config/alert.json` under `preview`), carries a `noindex` tag, and
   `robots.txt` asks search engines to stay out. Set it to `false` at launch.
 - **`siteUrl`**: the site's address without a trailing slash,
-  `"https://macfaddenolivia-oss.github.io/OutBite"`. Its path must match `base` in
+  `"https://outbite.org"`. Its path must match `base` in
   `astro.config.mjs`. The QR codes on the printables, the links inside the ready-made
   reminder files and the social preview tags use it.
 - **`GOATCOUNTER_CODE`**: your [GoatCounter](https://www.goatcounter.com) site code (the
