@@ -1,7 +1,8 @@
 ---
 // "How does Ana's story start?" choice band above the story frame: two large,
 // equal-size buttons (house = Caught nearby, suitcase = After a trip). The page
-// script sets aria-pressed; the selected one is navy with white text and a ✓.
+// script sets aria-pressed; the selected one is navy with white text (no ✓: the fill and
+// aria-pressed show it).
 // Colors are fixed (peach band, navy and white buttons). Shown only with JavaScript; without it, both openings are shown.
 interface Props {
   heading: string;
@@ -22,7 +23,6 @@ const { heading, local, travel } = Astro.props;
         <rect x="14" y="26" width="8" height="8" fill="#CBDCEC" stroke="currentColor" stroke-width="2.5"></rect>
       </svg>
       <span class="choice__label">{local}</span>
-      <span class="choice__check" aria-hidden="true">✓</span>
     </button>
     <button type="button" class="choice__btn" data-opening-choice="travel" aria-pressed="true">
       <svg class="choice__icon" viewBox="0 0 48 48" width="32" height="32" aria-hidden="true">
@@ -31,7 +31,6 @@ const { heading, local, travel } = Astro.props;
         <path d="M18 14 V42 M30 14 V42" stroke="currentColor" stroke-width="2.5"></path>
       </svg>
       <span class="choice__label">{travel}</span>
-      <span class="choice__check" aria-hidden="true">✓</span>
     </button>
   </div>
 </section>
@@ -79,7 +78,6 @@ const { heading, local, travel } = Astro.props;
     gap: var(--space-2);
   }
 
-  .choice__check,
   .choice__icon {
     line-height: 1;
   }
@@ -103,10 +101,10 @@ const { heading, local, travel } = Astro.props;
     cursor: pointer;
   }
 
-  /* Phones: side by side (design/phone-layout-mockup.png), the icon left of the label
-     and the ✓ as a badge on the corner. A label wraps to a second line where it needs to (both buttons
-     grow together); its text is at most 16px, so the longest word ("Contagio",
-     "Después") still fits beside the icon at 320px and the largest text size. */
+  /* Phones: side by side (design/phone-layout-mockup.png), the icon left of the label. A
+     label wraps to a second line where it needs to (both buttons grow together); its text
+     is at most 16px, so the longest word ("Contagio", "Después") still fits beside the
+     icon at 320px and the largest text size. */
   @media (max-width: 35.99rem) {
     :global(.js) .choice {
       padding-inline: 8px;
@@ -114,7 +112,7 @@ const { heading, local, travel } = Astro.props;
 
     .choice__btn {
       gap: 4px;
-      padding: 4px 14px 4px 4px; /* 14px: clear of the ✓ badge */
+      padding: 4px;
       font-size: min(1rem, 16px);
       line-height: 1.15;
     }
@@ -127,32 +125,14 @@ const { heading, local, travel } = Astro.props;
     .choice__label {
       min-width: 0;
     }
-
-    /* The ✓ as a small badge on the selected button's top right corner, so it takes no
-       room from the label. */
-    .choice__btn {
-      position: relative;
-    }
-
-    .choice__check {
-      position: absolute;
-      top: -8px; /* within the 8px gap above, and the 8px gap between the buttons */
-      right: -7px;
-      display: grid;
-      place-items: center;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #17306a;
-      border-radius: 50%;
-      background: #ffffff;
-      color: #17306a;
-      font-size: 13px;
-      line-height: 1;
-    }
   }
 
-  .choice__btn:hover .choice__label {
-    text-decoration: underline;
+  /* Only where the device can really hover: on touch screens a tapped button would keep
+     the underline (the hover state sticks on iPhone). */
+  @media (hover: hover) {
+    .choice__btn:hover .choice__label {
+      text-decoration: underline;
+    }
   }
 
   .choice__btn[aria-pressed='true'] {
@@ -172,15 +152,5 @@ const { heading, local, travel } = Astro.props;
   /* On the navy (selected) button the icon outlines turn white too (currentColor). */
   .choice__label {
     flex: 1;
-  }
-
-  .choice__check {
-    flex: none;
-    visibility: hidden;
-    font-size: 1.3em;
-  }
-
-  .choice__btn[aria-pressed='true'] .choice__check {
-    visibility: visible;
   }
 </style>
