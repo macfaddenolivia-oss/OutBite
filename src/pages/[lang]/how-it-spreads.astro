@@ -1790,15 +1790,27 @@ const openings = [
 
     :global(.js) .story .scene__text {
       height: calc(var(--text-h) - var(--hint-h));
-      padding: var(--space-3) var(--space-3) var(--space-1);
+      padding: var(--space-2) var(--space-3) var(--space-1);
       overflow-y: auto;
       overscroll-behavior: contain;
     }
 
-    /* The step dashes keep their 44px tap areas, which reach 12px under the heading's top
-       edge (the dash is at the top of the area). */
+    /* The step dashes keep their 44px tap areas, with the dash 8px above each area's
+       bottom: the area reaches up over "STEP n OF 9" (plain text) and stops where the
+       heading starts, 8px under the dashes (about 14px to the tops of its letters), so a
+       tap on the heading never lands on a dash. The same on every step. */
     :global(.js) .story .scene__text :global(.progress) {
-      margin-bottom: -12px;
+      margin-top: calc(14px - var(--tap-target));
+    }
+
+    :global(.js) .story .scene__text :global(.progress__step) {
+      align-items: flex-end;
+      padding-bottom: 8px;
+    }
+
+    /* The step's name (shown on keyboard focus) just under the dashes. */
+    :global(.js) .story .scene__text :global(.progress__step::after) {
+      top: calc(100% - 4px);
     }
 
     :global(.js) .story .art {
@@ -1834,17 +1846,22 @@ const openings = [
       content: none;
     }
 
-    /* Step 9: the diagram at the panel's full width (600×390 units). */
+    /* Step 9: the diagram at the panel's full width (600×390 units), but no taller than
+       at 375px (220px), so wider phones keep room for the four layer buttons. */
+    :global(.js) .story .scene[data-scene='8'] {
+      --fig9: min(100cqw * 390 / 600, 220px);
+    }
+
     :global(.js) .story .scene[data-scene='8'] .scene__figure {
-      height: calc(100cqw * 390 / 600 + 3px);
+      height: calc(var(--fig9) + 3px);
     }
 
     :global(.js) .story .scene[data-scene='8'] .scene__text {
-      height: calc(var(--text-h) - var(--hint-h) - 100cqw * 390 / 600 + var(--fig-h));
+      height: calc(var(--text-h) - var(--hint-h) - var(--fig9) + var(--fig-h));
     }
 
     :global(.js) .story .art--cycle {
-      width: 100%;
+      width: min(100%, 220px * 600 / 390);
       aspect-ratio: auto;
     }
 
@@ -1868,6 +1885,16 @@ const openings = [
 
     :global(.js) .story .scene__restart {
       margin: var(--space-3) 0 0;
+    }
+
+    /* Step 9: compact layer buttons, 44px tall (more only if a name wraps), 8px apart,
+       so all four show above "Scroll for more" when the step opens (375×670). */
+    :global(.js) .story .layer-buttons {
+      gap: 8px;
+    }
+
+    .layer-btn {
+      padding: 0 var(--space-1) 0 var(--space-2);
     }
 
     /* A strip of its own under the text area (so it never covers the text or a focused
