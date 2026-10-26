@@ -56,8 +56,11 @@ const rowHref = (layer: string) => (picker ? `#layer-${layer}` : `${protectPath}
 </div>
 
 <style>
+  /* One column (two from 56rem) that never grows past the page: WebKit would otherwise
+     size it to the drawing's own width at larger text on a 320px phone. */
   .layers-picker {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--section-gap);
     align-items: center;
   }
@@ -100,9 +103,11 @@ const rowHref = (layer: string) => (picker ? `#layer-${layer}` : `${protectPath}
     border-top: 3px solid var(--color-layers-border);
   }
 
+  /* minmax(0, 1fr): the text may wrap rather than push the arrow past the edge (WebKit,
+     320px at larger text). */
   .layer-row {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--space-4);
     min-height: var(--tap-target);
@@ -144,6 +149,30 @@ const rowHref = (layer: string) => (picker ? `#layer-${layer}` : `${protectPath}
 
   .layer-row__text {
     display: grid;
+  }
+
+  /* Small phones (under 360px), and phones at larger text: smaller gaps and step number,
+     so the description keeps room for its longest word ("neighbors") beside the arrow. */
+  @media (max-width: 22.49rem) {
+    .layer-row {
+      gap: var(--space-2);
+      padding-inline: var(--space-2);
+    }
+
+    .layer-row__num {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    :global(html[data-text-size]) .layer-row {
+      gap: var(--space-2);
+      padding-inline: var(--space-2);
+    }
+
+    :global(html[data-text-size]) .layer-row__num {
+      font-size: 1.5rem;
+    }
   }
 
   .layer-row__name {

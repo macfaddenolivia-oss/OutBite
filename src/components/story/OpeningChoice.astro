@@ -103,39 +103,51 @@ const { heading, local, travel } = Astro.props;
     cursor: pointer;
   }
 
-  /* Phones: side by side, each with a 24px icon above its centred label (two lines where
-     it needs them; both buttons grow together, nothing is cut off) and the ✓ in the
-     top right corner. */
+  /* Phones: side by side (design/phone-layout-mockup.png), the icon left of the label
+     and the ✓ as a badge on the corner. A label wraps to a second line where it needs to (both buttons
+     grow together); its text is at most 16px, so the longest word ("Contagio",
+     "Después") still fits beside the icon at 320px and the largest text size. */
   @media (max-width: 35.99rem) {
     :global(.js) .choice {
-      padding-inline: var(--space-2);
+      padding-inline: 8px;
     }
 
     .choice__btn {
-      position: relative;
-      flex-direction: column;
-      justify-content: center;
-      gap: 2px;
-      padding: 6px; /* the ✓ sits beside the icon, above the label */
-      font-size: 1rem;
+      gap: 4px;
+      padding: 4px 14px 4px 4px; /* 14px: clear of the ✓ badge */
+      font-size: min(1rem, 16px);
       line-height: 1.15;
-      text-align: center;
     }
 
     .choice__icon {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
 
     .choice__label {
-      flex: none;
+      min-width: 0;
+    }
+
+    /* The ✓ as a small badge on the selected button's top right corner, so it takes no
+       room from the label. */
+    .choice__btn {
+      position: relative;
     }
 
     .choice__check {
       position: absolute;
-      top: 4px;
-      right: 5px;
-      font-size: 1rem;
+      top: -8px; /* within the 8px gap above, and the 8px gap between the buttons */
+      right: -7px;
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #17306a;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #17306a;
+      font-size: 13px;
+      line-height: 1;
     }
   }
 

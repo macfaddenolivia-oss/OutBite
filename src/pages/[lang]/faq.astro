@@ -355,8 +355,11 @@ const numbers = Object.fromEntries(groups.flatMap((g) => g.questions).map((id) =
     display: flex;
   }
 
+  /* min-width: 0, or WebKit keeps the field's built-in width (about 20 characters),
+     wider than a 320px phone at larger text. */
   .faq-search__input {
     flex: 1;
+    min-width: 0;
     min-height: var(--tap-target);
     padding: var(--space-1) 3rem var(--space-1) var(--space-3);
     border: 2px solid var(--color-rule);

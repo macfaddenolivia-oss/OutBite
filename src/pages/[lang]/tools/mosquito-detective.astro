@@ -125,8 +125,11 @@ const scriptText = {
         <p class="det-credit">{text.credit}</p>
         <div class="det-foot">
           <p class="det-result" data-photos-result hidden></p>
-          <button type="button" class="btn btn-primary" data-check>{text.check}</button>
-          <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
+          {/* Phones: a slim bar stuck to the bottom of the game box (elsewhere it adds nothing). */}
+          <div class="det-bar">
+            <button type="button" class="btn btn-primary" data-check>{text.check}</button>
+            <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
+          </div>
         </div>
       </section>
 
@@ -306,6 +309,9 @@ const scriptText = {
       checkBtn.hidden = true;
       nextBtn.hidden = false;
       photosTitle.focus();
+      // Phones: the result line is right under the heading, so bring both to the top of the
+      // screen (WebKit doesn't scroll a focused heading into view at all).
+      if (matchMedia('(max-width: 39.99rem)').matches) photosTitle.scrollIntoView({ block: 'start' });
       say(`${heading}. ${lines.join(' ')}`);
     });
 
@@ -677,6 +683,74 @@ const scriptText = {
   .det-foot .btn[hidden],
   .det-result[hidden] {
     display: none;
+  }
+
+  .det-bar {
+    display: contents;
+  }
+
+  /* ---- Rounds 1 and 2 on phones (under 40rem) ----
+     - Check (and after it Next) sits in a slim bar stuck to the bottom of the game box
+       while the photos are on screen, so it's never more than a tap away; the photos keep
+       their size (2 across), since spotting the white bands is the game. After Check, the
+       result line shows right under the heading, which takes focus.
+     - Picked: the mark ("Not an Aedes") never reaches the ✓ in the other corner; it wraps
+       to a second line instead.
+     - After Check, the cards in a row are the same height, their clue bars filling to the
+       bottom, so the bars line up whatever their number of lines. */
+  @media (max-width: 39.99rem) {
+    .det-step[data-step='photos']:not([hidden]) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .det-step[data-step='photos'] .det-foot {
+      display: contents;
+    }
+
+    .det-step[data-step='photos'] .det-result {
+      flex: none;
+      margin: 0 0 var(--space-3);
+    }
+
+    .det-step[data-step='photos'] .det-grid,
+    .det-step[data-step='photos'] .det-credit,
+    .det-step[data-step='photos'] .det-bar {
+      order: 1;
+    }
+
+    .det-step[data-step='photos'] .det-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      margin: var(--space-3) calc(-1 * var(--pad-box-lg)) calc(-1 * var(--pad-box-lg));
+      padding: var(--space-2) var(--pad-box-lg);
+      border-top: 2px solid var(--color-rule);
+      background: var(--color-surface);
+    }
+
+    /* Keyboard focus on a photo stays clear of the bar. */
+    :global(html:has(.det-step[data-step='photos']:not([hidden]))) {
+      scroll-padding-bottom: calc(var(--tap-target) + 2rem);
+    }
+
+    .det-grid :global(li) {
+      display: flex;
+    }
+
+    .det-grid :global(.det-photo) {
+      flex: 1;
+    }
+
+    .det-grid :global(.det-answer) {
+      flex: 1;
+    }
+
+    .det-grid :global(.det-photo__mark) {
+      max-width: calc(100% - 1.75rem - 18px);
+    }
   }
 
   /* ---- Yard ---- */

@@ -160,14 +160,18 @@ const [madeBefore, madeAfter] = madeRest.split(text.made.linkText);
   .reviews__row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-2) var(--space-4);
     padding-block: var(--space-2);
     border-bottom: 1px solid var(--color-border);
   }
 
+  /* min-width: 0 lets the name shrink (WebKit otherwise keeps it at its longest line);
+     on a narrow screen at larger text the status wraps under it instead of past the edge. */
   .reviews__what {
     display: grid;
+    min-width: 0;
   }
 
   .reviews__scope {

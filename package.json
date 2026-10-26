@@ -20,7 +20,8 @@
     "build-social-images": "node scripts/build-social-images.mjs",
     "build-photos": "node scripts/build-photos.mjs",
     "check-browser": "node scripts/check-browser.mjs",
-    "check": "npm run check-content && npm run check-contrast && npm run check-data && npm run test-ics && npm run check-browser"
+    "check-webkit": "node scripts/check-webkit.mjs",
+    "check": "npm run check-content && npm run check-contrast && npm run check-data && npm run test-ics && npm run check-browser && npm run check-webkit"
   },
   "engines": {
     "node": ">=22"
@@ -33,6 +34,7 @@
     "d3-geo": "^3.1.1",
     "i18n-iso-countries": "^7.14.0",
     "ical.js": "^2.2.1",
+    "playwright-core": "1.60.0",
     "qrcode": "^1.5.4",
     "topojson-client": "^3.1.0",
     "us-atlas": "^3.0.1",

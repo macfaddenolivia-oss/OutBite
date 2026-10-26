@@ -353,14 +353,25 @@ const tripData = Object.fromEntries(tripPlaces.map((d) => [d.code, { f: d.flags,
     margin-bottom: var(--space-3);
   }
 
+  /* Phones: a name too long for the box ends in "…" in Chrome (WebKit just clips it);
+     not used wider up, where Chrome would shorten names that fit. */
+  @media (max-width: 30rem) {
+    .pcard__dest select {
+      text-overflow: ellipsis;
+    }
+  }
+
   .pcard__dest span {
     font-size: var(--text-sm);
     font-weight: var(--weight-strong);
   }
 
+  /* overflow: WebKit draws a long chosen name ("Cualquier destino (todos los puntos)"
+     at larger text on a 320px phone) past the box's edge, widening the page. */
   .pcard__dest select {
     width: 100%;
     max-width: 100%;
+    overflow: hidden;
     min-height: var(--tap-target);
     padding: var(--space-1) var(--space-2);
     border: 2px solid var(--color-border-strong);
