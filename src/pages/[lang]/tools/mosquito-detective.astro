@@ -408,6 +408,11 @@ const scriptText = {
         if (on) btn.dataset.state = btn.dataset.water === 'true' ? 'found' : 'fine';
         else delete btn.dataset.state;
         const n = showProgress();
+        if (on) placeTag(btn);
+        else {
+          delete btn.dataset.tagPlaced;
+          tagOf(btn).removeAttribute('style');
+        }
         if (on) say(`${T.say[btn.dataset.yardItem!]} ${fill(T.progress, { n })}`);
       });
     }
@@ -419,11 +424,91 @@ const scriptText = {
       if (!yardFrame.clientWidth) return; // the yard isn't showing
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
       const compact = yardFrame.clientWidth < 37.5 * rem;
-      if (compact === yardFrame.hasAttribute('data-compact') && yard.dataset.placed) return;
-      yardFrame.toggleAttribute('data-compact', compact);
-      for (const key of (compact ? yard.dataset.compactOrder : yard.dataset.order)!.split(' ')) yard.append(yardItems.find((b) => b.dataset.yardItem === key)!);
-      yard.dataset.placed = 'true';
+      if (compact !== yardFrame.hasAttribute('data-compact') || !yard.dataset.placed) {
+        yardFrame.toggleAttribute('data-compact', compact);
+        for (const key of (compact ? yard.dataset.compactOrder : yard.dataset.order)!.split(' ')) yard.append(yardItems.find((b) => b.dataset.yardItem === key)!);
+        yard.dataset.placed = 'true';
+      }
+      if (layoutChanged()) placeTags();
     };
+    // The compact (scattered) yard: a tag goes where it covers no other item, no other tag
+    // and doesn't cross the yard's edge: its preferred side first (data-ctag), then above or
+    // below (centered, or aligned to either edge of its box), then beside it, then over its
+    // own item; at its full width, then narrowed to wrap. If no spot is free, the one with the
+    // least overlap. Only a newly shown tag is placed: tags already showing never move when
+    // another item is tapped (all of them are placed afresh, in keyboard order, only when the
+    // yard's layout changes: a new width or text size).
+    type Box = { left: number; top: number; right: number; bottom: number };
+    const overlap = (a: Box, b: Box) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const tagOf = (b: HTMLButtonElement) => b.querySelector<HTMLElement>('[data-yard-tag]')!;
+    function placeTag(btn: HTMLButtonElement) {
+      const tag = tagOf(btn);
+      tag.removeAttribute('style');
+      if (!btn.dataset.state || !yardFrame.hasAttribute('data-compact') || !yardFrame.clientWidth) return;
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const fr = yard.getBoundingClientRect();
+      const br = btn.getBoundingClientRect() as Box;
+      // Obstacles: every other item, and every other tag already placed.
+      const others = yardItems.filter((b) => b !== btn);
+      const obstacles: Box[] = [...others.map((b) => b.getBoundingClientRect()), ...others.filter((b) => b.dataset.state && 'tagPlaced' in b.dataset).map((b) => tagOf(b).getBoundingClientRect())];
+      const pref = btn.dataset.ctag ?? 'above';
+      let best: { r: Box; cost: number; maxWidth: string } | null = null;
+      for (const maxWidth of ['9rem', `${Math.max(br.right - br.left + 6, 4.5 * rem)}px`]) {
+        tag.style.maxWidth = maxWidth;
+        const w = tag.offsetWidth, h = tag.offsetHeight;
+        const xs = { center: (br.left + br.right - w) / 2, start: br.left - 3, end: br.right + 3 - w };
+        const spots: [number, number][] = [];
+        for (const v of [pref.split('-')[0], pref.startsWith('above') ? 'below' : 'above']) {
+          const y = v === 'above' ? br.top - h - 2 : br.bottom + 2;
+          for (const a of [pref.split('-')[1] ?? 'center', 'center', 'start', 'end']) spots.push([xs[a as keyof typeof xs], y]);
+        }
+        spots.push([br.left - w - 2, (br.top + br.bottom - h) / 2], [br.right + 2, (br.top + br.bottom - h) / 2]);
+        spots.push([xs.center, br.bottom - h - 3], [xs.center, br.top + 3]);
+        for (const [x0, y0] of spots) {
+          const x = Math.min(Math.max(x0, fr.left + 2), fr.right - w - 2);
+          const y = Math.min(Math.max(y0, fr.top + 2), fr.bottom - h - 2);
+          const r = { left: x, top: y, right: x + w, bottom: y + h };
+          let cost = 0;
+          for (const o of obstacles) cost += overlap(r, o);
+          if (!best || cost < best.cost) best = { r, cost, maxWidth };
+          if (cost === 0) break;
+        }
+        if (best!.cost === 0) break;
+      }
+      const { r, maxWidth } = best!;
+      tag.style.maxWidth = maxWidth;
+      // (relative to the button's padding box, inside its border)
+      tag.style.left = `${r.left - br.left - btn.clientLeft}px`;
+      tag.style.top = `${r.top - br.top - btn.clientTop}px`;
+      tag.style.right = 'auto';
+      tag.style.bottom = 'auto';
+      tag.style.translate = 'none';
+      btn.dataset.tagPlaced = '';
+    }
+    // Every shown tag placed afresh, in keyboard order (the yard's layout changed).
+    function placeTags() {
+      for (const b of yardItems) {
+        delete b.dataset.tagPlaced;
+        tagOf(b).removeAttribute('style');
+      }
+      const order = yard.dataset.compactOrder!.split(' ').map((k) => yardItems.find((b) => b.dataset.yardItem === k)!);
+      for (const b of order) placeTag(b);
+    }
+    // Tags shown since the last placement (e.g. "Missed" after "I'm done"), in keyboard order;
+    // the others stay put.
+    function placeNewTags() {
+      const order = yard.dataset.compactOrder!.split(' ').map((k) => yardItems.find((b) => b.dataset.yardItem === k)!);
+      for (const b of order) if (b.dataset.state && !('tagPlaced' in b.dataset)) placeTag(b);
+    }
+    let lastLayout = '';
+    const layoutChanged = () => {
+      const key = `${yardFrame.clientWidth} ${document.documentElement.dataset.textSize ?? ''} ${yardFrame.hasAttribute('data-compact')}`;
+      if (key === lastLayout) return false;
+      lastLayout = key;
+      return true;
+    };
+    addEventListener('resize', () => layoutChanged() && placeTags());
+
     new ResizeObserver(fitYard).observe(yardFrame);
     new MutationObserver(fitYard).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
     function startYard() {
@@ -431,6 +516,8 @@ const scriptText = {
         btn.setAttribute('aria-pressed', 'false');
         btn.disabled = false;
         delete btn.dataset.state;
+        delete btn.dataset.tagPlaced;
+        tagOf(btn).removeAttribute('style');
       }
       showProgress();
       yardResult.hidden = true;
@@ -457,6 +544,7 @@ const scriptText = {
       yardResult.hidden = false;
       progressLine.hidden = true;
       keyMissed.hidden = !missed;
+      placeNewTags();
       doneBtn.hidden = true;
       finishBtn.hidden = false;
       finishBtn.focus({ preventScroll: true }); // the yard stays where it is

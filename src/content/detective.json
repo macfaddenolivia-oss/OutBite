@@ -243,46 +243,55 @@
         "bucket": {
           "name": "Bucket",
           "tag": "Empty & scrub weekly",
+          "tagShort": "Empty & scrub",
           "say": "Bucket: holds water. Empty and scrub it once a week."
         },
         "tire": {
           "name": "Tire",
           "tag": "Turn over or throw out",
+          "tagShort": "Turn over or toss",
           "say": "Tire: holds water. Turn it over or throw it out."
         },
         "plantSaucer": {
           "name": "Plant saucer",
           "tag": "Dump the saucer",
+          "tagShort": "Dump the saucer",
           "say": "Plant saucer: holds water. Dump the saucer once a week."
         },
         "petBowl": {
           "name": "Pet bowl",
           "tag": "Empty & scrub weekly",
+          "tagShort": "Empty & scrub",
           "say": "Pet bowl: holds water. Empty and scrub it once a week."
         },
         "birdbath": {
           "name": "Birdbath",
           "tag": "Empty & scrub weekly",
+          "tagShort": "Empty & scrub",
           "say": "Birdbath: holds water. Empty and scrub it once a week."
         },
         "trashCan": {
           "name": "Trash can with its lid on",
           "tag": "Lid on: fine",
+          "tagShort": "Lid on: fine",
           "say": "Trash can with its lid on: rain can’t get in, so it’s fine."
         },
         "chair": {
           "name": "Chair",
           "tag": "No water: fine",
+          "tagShort": "No water: fine",
           "say": "Chair: it has nowhere to hold water, so it’s fine."
         },
         "bucketUpsideDown": {
           "name": "Bucket turned upside down",
           "tag": "Turned over: fine",
+          "tagShort": "Turned over: fine",
           "say": "Bucket turned upside down: it can’t fill with water, so it’s fine."
         },
         "ball": {
           "name": "Soccer ball",
           "tag": "No water: fine",
+          "tagShort": "No water: fine",
           "say": "Soccer ball: it can’t hold water, so it’s fine."
         }
       },
@@ -381,46 +390,55 @@
         "bucket": {
           "name": "Balde",
           "tag": "Vacía y friega cada semana",
+          "tagShort": "Vacía y friega",
           "say": "Balde: acumula agua. Vacíalo y friégalo una vez a la semana."
         },
         "tire": {
           "name": "Goma",
           "tag": "Voltéala o bótala",
+          "tagShort": "Voltéala o bótala",
           "say": "Goma: acumula agua. Voltéala o bótala."
         },
         "plantSaucer": {
           "name": "Plato de maceta",
           "tag": "Vacía el plato",
+          "tagShort": "Vacía el plato",
           "say": "Plato de maceta: acumula agua. Vacía el plato una vez a la semana."
         },
         "petBowl": {
           "name": "Plato de mascota",
           "tag": "Vacía y friega cada semana",
+          "tagShort": "Vacía y friega",
           "say": "Plato de mascota: acumula agua. Vacíalo y friégalo una vez a la semana."
         },
         "birdbath": {
           "name": "Bebedero de pájaros",
           "tag": "Vacía y friega cada semana",
+          "tagShort": "Vacía y friega",
           "say": "Bebedero de pájaros: acumula agua. Vacíalo y friégalo una vez a la semana."
         },
         "trashCan": {
           "name": "Zafacón con la tapa puesta",
           "tag": "Con tapa: bien",
+          "tagShort": "Con tapa: bien",
           "say": "Zafacón con la tapa puesta: la lluvia no entra, así que está bien."
         },
         "chair": {
           "name": "Silla",
           "tag": "Sin agua: bien",
+          "tagShort": "Sin agua: bien",
           "say": "Silla: no tiene dónde acumular agua, así que está bien."
         },
         "bucketUpsideDown": {
           "name": "Balde boca abajo",
           "tag": "Volteado: bien",
+          "tagShort": "Volteado: bien",
           "say": "Balde boca abajo: no se puede llenar de agua, así que está bien."
         },
         "ball": {
           "name": "Bola de fútbol",
           "tag": "Sin agua: bien",
+          "tagShort": "Sin agua: bien",
           "say": "Bola de fútbol: no puede acumular agua, así que está bien."
         }
       },
