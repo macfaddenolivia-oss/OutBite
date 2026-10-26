@@ -72,12 +72,12 @@ const TAB_ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'bucket'
 // The compact yard, row by row.
 const COMPACT_ORDER = ['birdbath', 'trashCan', 'chair', 'bucketUpsideDown', 'bucket', 'plantSaucer', 'ball', 'tire', 'petBowl'];
 // Compact drawings: each item's box plus 3 units for the outline, at one shared scale (the
-// widest box, the tire's, fills its column).
+// widest box, the tire's, fills 85% of its column, so all three rows fit a 375×670 phone).
 const OUTLINE = 3;
 const WIDEST = Math.max(...Object.values(BOXES).map(([, , w]) => w)) + 2 * OUTLINE;
 const compactBox = (key: string) => {
   const [x, y, w, h] = BOXES[key];
-  return { viewBox: `${x - OUTLINE} ${y - OUTLINE} ${w + 2 * OUTLINE} ${h + 2 * OUTLINE}`, style: `width: ${(((w + 2 * OUTLINE) / WIDEST) * 100).toFixed(2)}%; aspect-ratio: ${w + 2 * OUTLINE} / ${h + 2 * OUTLINE}` };
+  return { viewBox: `${x - OUTLINE} ${y - OUTLINE} ${w + 2 * OUTLINE} ${h + 2 * OUTLINE}`, style: `width: ${(((w + 2 * OUTLINE) / WIDEST) * 85).toFixed(2)}%; aspect-ratio: ${w + 2 * OUTLINE} / ${h + 2 * OUTLINE}` };
 };
 // Tags sit above each box, centered, except for two side-by-side pairs whose tags would
 // collide (trash can and chair, upside-down bucket and bucket): the left one's tag ends at
@@ -262,7 +262,7 @@ const style = (key: string) => {
     width: auto;
     height: auto;
     min-height: 44px;
-    padding: var(--space-1);
+    padding: 2px;
     translate: none;
   }
 

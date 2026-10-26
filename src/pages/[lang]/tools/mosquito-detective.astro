@@ -41,7 +41,11 @@ const items = text.items as Record<string, { name: string; tag: string; say: str
 const photoAlt = text.photos as Record<string, string>;
 const href = (key: string) => localizePath(lang, getPage(key).path);
 const { water, fine } = content.yard;
-const SIZES = '(max-width: 40rem) 45vw, 280px';
+const SIZES = '(max-width: 40rem) 30vw, 180px';
+// Wider screens: the spot above the photos is kept as tall as the longest full result can
+// be (phones show a short one that fits the instructions' room), so Check moves nothing.
+const fillN = (s: string) => s.replace(/\{n\}/g, '3');
+const longestResult = [text.allFound, `${text.missedOne} ${text.wrongOne}`, `${fillN(text.missedMany)} ${fillN(text.wrongMany)}`, `${fillN(text.missedMany)} ${text.wrongOne}`, `${text.missedOne} ${fillN(text.wrongMany)}`].reduce((a, b) => (b.length > a.length ? b : a));
 const srcset = (id: string, ext: string) => [320, 640].map((w) => `${assetPath(`photos/detective/${id}-${w}.${ext}`)} ${w}w`).join(', ');
 // What the page script needs, in this language.
 const scriptText = {
@@ -50,6 +54,7 @@ const scriptText = {
   yardRound: text.yardRound,
   found: text.found,
   allFound: text.allFound,
+  resultShort: text.resultShort,
   missedOne: text.missedOne,
   missedMany: text.missedMany,
   wrongOne: text.wrongOne,
@@ -121,11 +126,13 @@ const scriptText = {
           <span data-photos-heading></span>
         </h2>
         <p class="det-help" data-photos-help><Genus text={text.photoRoundHelp} /></p>
+        <p class="det-help det-msg-sizer" aria-hidden="true">{longestResult}</p>
         <ul class="det-grid" data-grid></ul>
         <p class="det-credit">{text.credit}</p>
         <div class="det-foot">
-          <p class="det-result" data-photos-result hidden></p>
-          {/* Phones: a slim bar stuck to the bottom of the game box (elsewhere it adds nothing). */}
+          {/* The full result, and on phones a short one ("You missed 1 Aedes and picked 1
+              Culex.") that fits the instructions' space; screen readers get the full one. */}
+          <p class="det-result" data-photos-result hidden><span class="det-result__full" data-result-full></span><span class="det-result__short" aria-hidden="true" data-result-short></span></p>
           <div class="det-bar">
             <button type="button" class="btn btn-primary" data-check>{text.check}</button>
             <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
@@ -138,7 +145,7 @@ const scriptText = {
           <span class="det-step__round">{text.roundOf.replace('{n}', '3')}</span><span class="visually-hidden">. </span>
           {text.yardRound}
         </h2>
-        <p class="det-help">{text.yardHelp} {text.yardFact}</p>
+        <p class="det-help"><span class="det-help__full">{text.yardHelp}</span><span class="det-help__short">{text.yardHelpShort}</span> {text.yardFact}</p>
         <DetectiveYard items={items} water={water} label={text.yardLabel} />
         <ul class="det-key">
           <li class="det-key__item det-key__item--found">{text.keyWater}</li>
@@ -146,7 +153,7 @@ const scriptText = {
           <li class="det-key__item det-key__item--missed" data-key-missed hidden>{text.keyMissed}</li>
         </ul>
         <div class="det-foot">
-          <p class="det-progress">
+          <p class="det-progress" data-progress-line>
             <span class="det-progress__boxes" aria-hidden="true">
               {water.map(() => <span class="det-progress__box" data-progress-box />)}
             </span>
@@ -224,11 +231,41 @@ const scriptText = {
       return a;
     };
 
+    // The page never jumps to the top: a step's heading is scrolled to just under the
+    // sticky header (or the top of the screen where the header doesn't stick), with the
+    // photos or yard right below it, and only if it isn't already there. Where that would
+    // leave too little of the photos or yard on the screen above the round's bar (small
+    // phones at larger text), the photos or yard start just under the header instead.
+    const siteHeader = document.querySelector<HTMLElement>('.site-header');
+    const bringIntoView = (heading: HTMLElement, content?: HTMLElement | null, bar?: HTMLElement | null) => {
+      const offset = siteHeader && getComputedStyle(siteHeader).position === 'sticky' ? siteHeader.offsetHeight : 0;
+      const want = offset + 8;
+      const top = heading.getBoundingClientRect().top;
+      let delta = top < offset || top > want + 16 ? top - want : 0;
+      if (content) {
+        const barTop = bar ? innerHeight - bar.offsetHeight : innerHeight;
+        const contentTop = content.getBoundingClientRect().top - delta;
+        if (barTop - contentTop < Math.min(220, (barTop - want) / 2)) delta = content.getBoundingClientRect().top - want;
+      }
+      if (delta) window.scrollBy({ top: delta, behavior: 'instant' });
+    };
+
     // Steps: one shows at a time; its heading takes focus.
     const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
     const show = (name: string, focus = true) => {
       for (const s of steps) s.hidden = s.dataset.step !== name;
-      if (focus) steps.find((s) => s.dataset.step === name)!.querySelector<HTMLElement>('[data-step-heading]')!.focus();
+      // Settle the layout before scrolling to the heading.
+      if (name === 'photos') sizeHeading();
+      if (name === 'yard') fitYard();
+      if (focus) {
+        // Focus moves to the new heading for screen readers, without the browser's own
+        // scrolling; the heading is then brought just under the sticky header (unless it's
+        // already there), with the photos or yard right below it.
+        const step = steps.find((s) => s.dataset.step === name)!;
+        const heading = step.querySelector<HTMLElement>('[data-step-heading]')!;
+        heading.focus({ preventScroll: true });
+        bringIntoView(heading, step.querySelector<HTMLElement>('[data-grid], [data-yard-frame]'), step.querySelector<HTMLElement>('.det-bar, .det-foot'));
+      }
     };
 
     // ---- Rounds 1 and 2: photos ----
@@ -241,6 +278,8 @@ const scriptText = {
     const photosTitle = $('#det-photos-heading');
     const photosHelp = $('[data-photos-help]');
     const photosResult = $('[data-photos-result]');
+    const resultFull = $('[data-result-full]');
+    const resultShort = $('[data-result-short]');
     const checkBtn = $<HTMLButtonElement>('[data-check]');
     const nextBtn = $<HTMLButtonElement>('[data-next]');
     let round = 0;
@@ -249,6 +288,20 @@ const scriptText = {
 
     // Photos not shown yet come first, then the rest, each group in random order.
     const pick = (pool: string[], n: number) => [...shuffle(pool.filter((id) => !used.has(id))), ...shuffle(pool.filter((id) => used.has(id)))].slice(0, n);
+    // The heading changes after Check ("Tap every Aedes" → "You found 1 of 2 Aedes"), which
+    // may need another line (320px, larger text): it's kept as tall as the longer of the
+    // two, so nothing under it moves.
+    function sizeHeading() {
+      const shown = [...photosHeading.childNodes].map((n) => n.cloneNode(true));
+      photosTitle.style.minHeight = '';
+      const now = photosTitle.offsetHeight;
+      rich(photosHeading, fill(T.found, { n: 3, total: 3 }));
+      const after = photosTitle.offsetHeight;
+      photosHeading.replaceChildren(...shown);
+      photosTitle.style.minHeight = `${Math.max(now, after)}px`;
+    }
+    addEventListener('resize', () => !photosTitle.closest('[hidden]') && sizeHeading());
+
     function startPhotoRound() {
       // 2 or 3 Aedes (as many as the photos allow), the rest Culex: 6 in all.
       const most = Math.min(3, aedes.length);
@@ -268,7 +321,8 @@ const scriptText = {
       );
       photosRound.textContent = fill(T.roundOf, { n: round + 1 });
       rich(photosHeading, T.photoRound);
-      photosHelp.hidden = false;
+      photosHelp.classList.remove('is-replaced');
+      photosHelp.removeAttribute('aria-hidden');
       photosResult.hidden = true;
       checkBtn.hidden = false;
       nextBtn.hidden = true;
@@ -276,6 +330,10 @@ const scriptText = {
     }
 
     checkBtn.addEventListener('click', () => {
+      // The photos stay exactly where they are on the screen: if the text above them
+      // changes height (the result line replaces the instructions, the heading becomes the
+      // score), the page scrolls by the same amount.
+      const anchor = grid.getBoundingClientRect().top;
       let found = 0;
       let missed = 0;
       let wrong = 0;
@@ -303,15 +361,20 @@ const scriptText = {
       if (wrong) lines.push(wrong === 1 ? T.wrongOne : fill(T.wrongMany, { n: wrong }));
       const heading = `${fill(T.roundOf, { n: round + 1 })}. ${fill(T.found, { n: found, total })}`;
       rich(photosHeading, fill(T.found, { n: found, total }));
-      rich(photosResult, lines.join(' '));
-      photosHelp.hidden = true;
+      rich(resultFull, lines.join(' '));
+      const S = T.resultShort as unknown as Record<string, string>;
+      rich(resultShort, missed && wrong ? fill(S.both, { m: missed, w: wrong }) : missed ? fill(S.missed, { n: missed }) : wrong ? fill(S.wrong, { n: wrong }) : S.allFound);
+      // The result takes the instructions' place; they keep their room (hidden), so on
+      // phones, where the short result fits it, nothing above the photos changes height.
+      photosHelp.classList.add('is-replaced');
+      photosHelp.setAttribute('aria-hidden', 'true');
       photosResult.hidden = false;
       checkBtn.hidden = true;
       nextBtn.hidden = false;
-      photosTitle.focus();
-      // Phones: the result line is right under the heading, so bring both to the top of the
-      // screen (WebKit doesn't scroll a focused heading into view at all).
-      if (matchMedia('(max-width: 39.99rem)').matches) photosTitle.scrollIntoView({ block: 'start' });
+      const shift = grid.getBoundingClientRect().top - anchor;
+      if (Math.abs(shift) >= 1) window.scrollBy({ top: shift, behavior: 'instant' });
+      // Focus moves for screen readers, without the browser's own scrolling.
+      photosTitle.focus({ preventScroll: true });
       say(`${heading}. ${lines.join(' ')}`);
     });
 
@@ -326,6 +389,7 @@ const scriptText = {
     const boxes = [...root.querySelectorAll<HTMLElement>('[data-progress-box]')];
     const progress = $('[data-progress]');
     const yardResult = $('[data-yard-result]');
+    const progressLine = $('[data-progress-line]');
     const doneBtn = $<HTMLButtonElement>('[data-done]');
     const finishBtn = $<HTMLButtonElement>('[data-finish]');
     const keyMissed = $('[data-key-missed]');
@@ -373,8 +437,8 @@ const scriptText = {
       keyMissed.hidden = true;
       doneBtn.hidden = false;
       finishBtn.hidden = true;
+      progressLine.hidden = false;
       show('yard');
-      fitYard();
     }
     doneBtn.addEventListener('click', () => {
       const n = foundCount();
@@ -391,10 +455,11 @@ const scriptText = {
       const missedSay = yardItems.filter((b) => b.dataset.state === 'missed').map((b) => T.say[b.dataset.yardItem!]);
       yardResult.textContent = line;
       yardResult.hidden = false;
+      progressLine.hidden = true;
       keyMissed.hidden = !missed;
       doneBtn.hidden = true;
       finishBtn.hidden = false;
-      finishBtn.focus();
+      finishBtn.focus({ preventScroll: true }); // the yard stays where it is
       say([line, ...missedSay].join(' '));
     });
     finishBtn.addEventListener('click', () => {
@@ -476,8 +541,9 @@ const scriptText = {
   /* The game and the no-JavaScript version share the navy-framed box. */
   .det-static,
   .det-game {
+    --det-pad: var(--pad-box-lg);
     max-width: 56rem;
-    padding: var(--pad-box-lg);
+    padding: var(--det-pad);
     border: 3px solid var(--color-rule);
     background: var(--color-surface);
   }
@@ -538,21 +604,122 @@ const scriptText = {
     margin-top: var(--space-2);
   }
 
-  /* ---- Photo grid: 3 across, 2 on phones ---- */
+  /* ---- Photo grid: 3 across everywhere, at most about 172px per photo (540px), so a
+     round fits a laptop screen; about 100px per photo on a 375px phone. Each card fills
+     its row, its clue bar (after Check) reaching the card's bottom, so the bars line up
+     whatever their number of lines. ---- */
   .det-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-3);
+    max-width: 540px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (max-width: 40rem) {
-    .det-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-2);
-    }
+  .det-grid :global(li) {
+    display: flex;
+  }
+
+  .det-grid :global(.det-photo) {
+    flex: 1;
+  }
+
+  .det-grid :global(.det-answer) {
+    flex: 1;
+  }
+
+  /* The mark ("Not an Aedes") never reaches the ✓ in the other corner; it wraps instead. */
+  .det-grid :global(.det-photo__mark) {
+    max-width: calc(100% - 1.75rem - 18px);
+  }
+
+  /* Rounds 1 and 2: after Check the result line takes the instructions' place above the
+     photos (the page scrolls by any change in height, so the photos don't move on the
+     screen), and Next takes Check's place. */
+  .det-step[data-step='photos']:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'head' 'msg' 'grid' 'credit' 'bar';
+  }
+
+  .det-step[data-step='photos'] .det-foot {
+    display: contents;
+  }
+
+  .det-step[data-step='photos'] .det-step__heading {
+    grid-area: head;
+  }
+
+  .det-step[data-step='photos'] .det-help,
+  .det-step[data-step='photos'] .det-result {
+    grid-area: msg;
+    align-self: start;
+    max-width: 44rem;
+    margin: 0 0 var(--space-3);
+  }
+
+  .det-step[data-step='photos'] .det-grid {
+    grid-area: grid;
+  }
+
+  .det-step[data-step='photos'] .det-credit {
+    grid-area: credit;
+  }
+
+  /* Check / Next (rounds 1 and 2), and the yard's progress and "I'm done" (round 3), sit
+     in a slim bar stuck to the bottom of the game box while the round is on screen, so
+     they're never more than a tap away and never pushed off the screen; after Check the
+     score shows beside Next, and after "I'm done" the result line takes the progress's
+     place. */
+  .det-step[data-step='photos'] .det-bar,
+  .det-step[data-step='yard'] .det-foot {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    margin: var(--space-3) calc(-1 * var(--det-pad)) calc(-1 * var(--det-pad));
+    padding: var(--space-2) var(--det-pad);
+    border-top: 2px solid var(--color-rule);
+    background: var(--color-surface);
+  }
+
+  .det-step[data-step='photos'] .det-bar {
+    grid-area: bar;
+  }
+
+  .det-step[data-step='yard'] .det-foot > p {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-weight: var(--weight-heading);
+    line-height: 1.25;
+  }
+
+  .det-step[data-step='yard'] .det-foot > p[hidden] {
+    display: none;
+  }
+
+  /* After Check the instructions keep their room, under the result. */
+  .det-help.is-replaced,
+  .det-step[data-step='photos'] .det-msg-sizer {
+    visibility: hidden;
+  }
+
+  /* Phones only (below): the short result line and the yard's shorter instruction. */
+  .det-result__short,
+  .det-help__short {
+    display: none;
+  }
+
+  /* Keyboard focus in a round stays clear of the bar. */
+  :global(html:has(.det-step[data-step='photos']:not([hidden]), .det-step[data-step='yard']:not([hidden]))) {
+    scroll-padding-bottom: calc(var(--tap-target) + 2rem);
   }
 
   .det-photo {
@@ -690,66 +857,97 @@ const scriptText = {
   }
 
   /* ---- Rounds 1 and 2 on phones (under 40rem) ----
-     - Check (and after it Next) sits in a slim bar stuck to the bottom of the game box
-       while the photos are on screen, so it's never more than a tap away; the photos keep
-       their size (2 across), since spotting the white bands is the game. After Check, the
-       result line shows right under the heading, which takes focus.
-     - Picked: the mark ("Not an Aedes") never reaches the ✓ in the other corner; it wraps
-       to a second line instead.
-     - After Check, the cards in a row are the same height, their clue bars filling to the
-       bottom, so the bars line up whatever their number of lines. */
+     - The heading, the instructions, all six photos (3 across) and the Check bar fit on a
+       375×670 screen.
+     - "Found", "Missed" and "Not an Aedes" sit in a strip under the photo (the ✓ keeps the
+       photo's corner), and the clue bars use smaller text. */
   @media (max-width: 39.99rem) {
-    .det-step[data-step='photos']:not([hidden]) {
-      display: flex;
-      flex-direction: column;
+    .det-game {
+      --det-pad: var(--space-3);
     }
 
-    .det-step[data-step='photos'] .det-foot {
-      display: contents;
+    .det-step[data-step='photos'] .det-help,
+    .det-step[data-step='photos'] .det-result,
+    .det-step[data-step='yard'] .det-help {
+      font-size: var(--text-sm);
+      line-height: 1.4;
     }
 
-    .det-step[data-step='photos'] .det-result {
-      flex: none;
-      margin: 0 0 var(--space-3);
+    .det-step[data-step='photos'] .det-grid {
+      gap: 6px;
     }
 
-    .det-step[data-step='photos'] .det-grid,
-    .det-step[data-step='photos'] .det-credit,
-    .det-step[data-step='photos'] .det-bar {
-      order: 1;
+    /* Smaller text in the bars; a long line goes above its button rather than squeeze
+       into a narrow column. */
+    .det-step[data-step='photos'] .det-bar,
+    .det-step[data-step='yard'] .det-foot {
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-3);
     }
 
-    .det-step[data-step='photos'] .det-bar {
-      position: sticky;
-      bottom: 0;
-      z-index: 2;
-      display: flex;
-      justify-content: flex-end;
-      margin: var(--space-3) calc(-1 * var(--pad-box-lg)) calc(-1 * var(--pad-box-lg));
-      padding: var(--space-2) var(--pad-box-lg);
-      border-top: 2px solid var(--color-rule);
-      background: var(--color-surface);
+    .det-step[data-step='yard'] .det-foot > p {
+      flex: 1 1 11rem;
+      font-size: var(--text-sm);
     }
 
-    /* Keyboard focus on a photo stays clear of the bar. */
-    :global(html:has(.det-step[data-step='photos']:not([hidden]))) {
-      scroll-padding-bottom: calc(var(--tap-target) + 2rem);
+    .det-result__short,
+    .det-help__short {
+      display: inline;
     }
 
-    .det-grid :global(li) {
-      display: flex;
+    .det-step[data-step='photos'] .det-msg-sizer {
+      display: none;
     }
 
-    .det-grid :global(.det-photo) {
-      flex: 1;
+    .det-help__full {
+      display: none;
     }
 
-    .det-grid :global(.det-answer) {
-      flex: 1;
+    /* The full result stays for screen readers. */
+    .det-result__full {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .det-grid :global(.det-photo__tick) {
+      top: 4px;
+      right: 4px;
+      width: 1.375rem;
+      height: 1.375rem;
+      font-size: 0.875rem;
     }
 
     .det-grid :global(.det-photo__mark) {
-      max-width: calc(100% - 1.75rem - 18px);
+      position: static;
+      max-width: none;
+      padding: 1px 4px;
+      border-width: 0 0 2px;
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    /* After Check every card has the strip, so the clue bars start at the same height;
+       where there's no mark it's simply the top of the clue bar (same color, no line). */
+    .det-grid :global(.det-photo[data-result] .det-photo__mark[hidden]) {
+      display: block;
+      min-height: calc(1.3em + 4px);
+      border-color: transparent;
+      background: var(--palette-peach);
+    }
+
+    .det-grid :global(.det-photo[data-kind='aedes'] .det-photo__mark[hidden]) {
+      background: var(--palette-navy);
+    }
+
+    .det-grid :global(.det-answer) {
+      padding: 3px 5px;
+      font-size: 0.8125rem;
+      line-height: 1.25;
     }
   }
 

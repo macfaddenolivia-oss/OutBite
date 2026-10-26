@@ -9,9 +9,9 @@
       "aedes": true,
       "species": "Aedes albopictus",
       "crop": {
-        "x": 327,
-        "y": 233,
-        "size": 466
+        "x": 335,
+        "y": 200,
+        "size": 390
       }
     },
     {
@@ -21,9 +21,9 @@
       "aedes": false,
       "species": "Culex quinquefasciatus",
       "crop": {
-        "x": 1900,
-        "y": 1200,
-        "size": 2400
+        "x": 1800,
+        "y": 1000,
+        "size": 1800
       }
     },
     {
@@ -33,9 +33,9 @@
       "aedes": true,
       "species": "Aedes aegypti",
       "crop": {
-        "x": 1800,
-        "y": 1150,
-        "size": 2300
+        "x": 1700,
+        "y": 1250,
+        "size": 1700
       }
     },
     {
@@ -45,9 +45,9 @@
       "aedes": false,
       "species": "Culex quinquefasciatus",
       "crop": {
-        "x": 2350,
-        "y": 1384,
-        "size": 2768
+        "x": 2050,
+        "y": 1300,
+        "size": 2000
       }
     },
     {
@@ -57,9 +57,9 @@
       "aedes": false,
       "species": "Culex quinquefasciatus",
       "crop": {
-        "x": 1850,
-        "y": 1200,
-        "size": 2400
+        "x": 1950,
+        "y": 1250,
+        "size": 1900
       }
     },
     {
@@ -69,9 +69,9 @@
       "aedes": true,
       "species": "Aedes albopictus",
       "crop": {
-        "x": 1920,
-        "y": 1200,
-        "size": 2400
+        "x": 2050,
+        "y": 1250,
+        "size": 1650
       }
     },
     {
@@ -81,9 +81,9 @@
       "aedes": false,
       "species": "Culex quinquefasciatus",
       "crop": {
-        "x": 1920,
-        "y": 1200,
-        "size": 2400
+        "x": 2150,
+        "y": 1050,
+        "size": 1700
       }
     }
   ],
@@ -205,12 +205,19 @@
       "markMissed": "Missed",
       "markWrong": "Not an Aedes",
       "allFound": "You found every Aedes, and picked no Culex. Nice work.",
+      "resultShort": {
+        "allFound": "You found them all!",
+        "missed": "You missed {n} Aedes.",
+        "wrong": "You picked {n} Culex.",
+        "both": "You missed {m} Aedes and picked {w} Culex."
+      },
       "missedOne": "1 Aedes was hiding (marked “Missed”). Look for white bands on the legs.",
       "missedMany": "{n} Aedes were hiding (marked “Missed”). Look for white bands on the legs.",
       "wrongOne": "1 photo you picked was a Culex (marked “Not an Aedes”): plain brown, no white bands.",
       "wrongMany": "{n} photos you picked were Culex (marked “Not an Aedes”): plain brown, no white bands.",
       "yardRound": "Find where they breed",
       "yardHelp": "Tap everything in this yard that could hold water.",
+      "yardHelpShort": "Tap everything that could hold water.",
       "yardFact": "CDC: “Mosquitoes only need a small amount of water to lay eggs.”",
       "yardLabel": "A back yard: a house and a fence behind, and nine things on the ground in two rows.",
       "keyWater": "Holds water: found",
@@ -336,12 +343,19 @@
       "markMissed": "No lo viste",
       "markWrong": "No es Aedes",
       "allFound": "Encontraste todos los Aedes y no elegiste ningún Culex. ¡Muy bien!",
+      "resultShort": {
+        "allFound": "¡Los encontraste todos!",
+        "missed": "No viste {n} Aedes.",
+        "wrong": "Elegiste {n} Culex.",
+        "both": "No viste {m} Aedes y elegiste {w} Culex."
+      },
       "missedOne": "Había 1 Aedes escondido (marcado “No lo viste”). Busca las bandas blancas en las patas.",
       "missedMany": "Había {n} Aedes escondidos (marcados “No lo viste”). Busca las bandas blancas en las patas.",
       "wrongOne": "1 foto que elegiste era un Culex (marcada “No es Aedes”): café, sin bandas blancas.",
       "wrongMany": "{n} fotos que elegiste eran Culex (marcadas “No es Aedes”): café, sin bandas blancas.",
       "yardRound": "Encuentra dónde se crían",
       "yardHelp": "Toca todo lo que en este patio podría acumular agua.",
+      "yardHelpShort": "Toca todo lo que podría acumular agua.",
       "yardFact": "Los CDC dicen: “Los mosquitos solo necesitan un poco de agua para poner huevos”.",
       "yardLabel": "Un patio: una casa y una verja atrás, y nueve cosas en el suelo, en dos filas.",
       "keyWater": "Acumula agua: encontrado",
