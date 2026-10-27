@@ -339,9 +339,9 @@ const scriptText = {
 
     // Wider screens (992px and up): the photos as large as fits, so the round fills the screen
     // down to its bar once its heading is just under the header (where Start puts it): 3
-    // across, the largest grid width (from 540px up to the whole width) whose two rows, clue
-    // bars included (their room is kept before Check too, so nothing moves), end above the
-    // bar. Phones and tablets keep the 540px grid.
+    // across and centered, the largest grid width (from 540px up to the whole width) whose two
+    // rows, clue bars included (their room is kept before Check too, so nothing moves), end
+    // above the bar. Phones and tablets keep the 540px grid.
     const wide = matchMedia('(min-width: 62rem)');
     function sizeGrid() {
       grid.style.removeProperty('max-width');
@@ -869,12 +869,17 @@ const scriptText = {
     grid-template-areas: 'head' 'msg' 'grid' 'bar';
   }
 
-  /* Each round and the results screen fill at least the screen's height, the bar at the
-     bottom (any room left goes above it), so the bar is always stuck to the bottom of the
-     screen, in the same spot from one round to the next. */
-  .det-step:not([data-step='start'], [hidden]) {
-    min-height: 100vh;
-    min-height: 100dvh;
+  /* Phones and tablets: each round and the results screen fill at least the screen's
+     height, the bar at the bottom (any room left goes above it), so the bar is always stuck
+     to the bottom of the screen, in the same spot from one round to the next. Wider screens
+     (992px and up): the bar sits right under each round's content, no empty area; rounds 1
+     and 2 are the same height (the photos sized alike, the text above them kept at its
+     tallest), so the button stays put between them and at Check. */
+  @media (max-width: 61.99rem) {
+    .det-step:not([data-step='start'], [hidden]) {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
   }
 
   .det-step[data-step='yard']:not([hidden]),
@@ -1123,6 +1128,11 @@ const scriptText = {
      included; --det-cell-h, set by the page script), so nothing moves when the clue bars
      appear; before Check the card is just the photo, the room below it blank. */
   @media (min-width: 62rem) {
+    /* Centered in the round (the text above and the bar keep their places). */
+    .det-step[data-step='photos'] .det-grid {
+      margin-inline: auto;
+    }
+
     .det-grid :global(li) {
       align-items: flex-start;
       min-height: var(--det-cell-h, 0);
