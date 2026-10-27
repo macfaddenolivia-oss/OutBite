@@ -41,7 +41,7 @@ const items = text.items as Record<string, { name: string; tag: string; say: str
 const photoAlt = text.photos as Record<string, string>;
 const href = (key: string) => localizePath(lang, getPage(key).path);
 const { water, fine } = content.yard;
-const SIZES = '(max-width: 40rem) 30vw, 180px';
+const SIZES = '(max-width: 40rem) 30vw, (max-width: 61.99rem) 180px, 280px';
 // Wider screens: the spot above the photos is kept as tall as the longest full result can
 // be (phones show a short one that fits the instructions' room), so Check moves nothing.
 const fillN = (s: string) => s.replace(/\{n\}/g, '3');
@@ -281,7 +281,10 @@ const scriptText = {
     const show = (name: string, focus = true, scroll: 'heading' | 'none' | 'if-hidden' = 'none') => {
       for (const s of steps) s.hidden = s.dataset.step !== name;
       // Settle the layout before scrolling to the heading.
-      if (name === 'photos') sizeHeading();
+      if (name === 'photos') {
+        sizeHeading();
+        sizeGrid();
+      }
       if (name === 'yard') fitYard();
       if (focus) {
         // Focus moves to the new heading for screen readers, without the browser's own
@@ -331,7 +334,47 @@ const scriptText = {
       photosHeading.replaceChildren(...shown);
       photosTitle.style.minHeight = `${Math.max(now, after)}px`;
     }
-    addEventListener('resize', () => !photosTitle.closest('[hidden]') && sizeHeading());
+    addEventListener('resize', () => !photosTitle.closest('[hidden]') && (sizeHeading(), sizeGrid()));
+    new MutationObserver(() => !photosTitle.closest('[hidden]') && (sizeHeading(), sizeGrid())).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
+
+    // Wider screens (992px and up): the photos as large as fits, so the round fills the screen
+    // down to its bar once its heading is just under the header (where Start puts it): 3
+    // across, the largest grid width (from 540px up to the whole width) whose two rows, clue
+    // bars included (their room is kept before Check too, so nothing moves), end above the
+    // bar. Phones and tablets keep the 540px grid.
+    const wide = matchMedia('(min-width: 62rem)');
+    function sizeGrid() {
+      grid.style.removeProperty('max-width');
+      grid.style.removeProperty('--det-cell-h');
+      if (!wide.matches || !grid.offsetParent) return;
+      grid.classList.add('is-measuring');
+      fitGrid();
+      // Each cell as tall as the tallest card after Check.
+      grid.style.setProperty('--det-cell-h', `${Math.ceil(Math.max(...[...grid.children].map((li) => li.getBoundingClientRect().height)))}px`);
+      grid.classList.remove('is-measuring');
+    }
+    function fitGrid() {
+      const offset = siteHeader && getComputedStyle(siteHeader).position === 'sticky' ? siteHeader.offsetHeight : 0;
+      const bar = grid.closest('[data-step]')!.querySelector<HTMLElement>('.det-bar')!;
+      const room = innerHeight - (offset + 8) - (grid.getBoundingClientRect().top - photosTitle.getBoundingClientRect().top) - bar.offsetHeight - 16;
+      const fits = (w: number) => {
+        grid.style.maxWidth = `${w}px`;
+        return grid.offsetHeight <= room;
+      };
+      let lo = 540;
+      let hi = grid.parentElement!.clientWidth;
+      if (fits(hi)) return;
+      if (!fits(lo)) {
+        grid.style.removeProperty('max-width');
+        return;
+      }
+      while (hi - lo > 2) {
+        const mid = (lo + hi) / 2;
+        if (fits(mid)) lo = mid;
+        else hi = mid;
+      }
+      grid.style.maxWidth = `${Math.floor(lo)}px`;
+    }
 
     function startPhotoRound(scroll: 'heading' | 'none' | 'if-hidden' = 'none') {
       // 2 or 3 Aedes (as many as the photos allow), the rest Culex: 6 in all.
@@ -1074,6 +1117,30 @@ const scriptText = {
 
   .det-answer[hidden] {
     display: none;
+  }
+
+  /* Wider screens: each photo's cell keeps the room of its card after Check (clue bar
+     included; --det-cell-h, set by the page script), so nothing moves when the clue bars
+     appear; before Check the card is just the photo, the room below it blank. */
+  @media (min-width: 62rem) {
+    .det-grid :global(li) {
+      align-items: flex-start;
+      min-height: var(--det-cell-h, 0);
+    }
+
+    .det-grid :global(.det-photo[data-result]) {
+      align-self: stretch;
+    }
+
+    /* While the page script measures the cards as they will be after Check. */
+    .det-grid.is-measuring :global(.det-answer[hidden]) {
+      display: block;
+      visibility: hidden;
+    }
+
+    .det-grid.is-measuring :global(.det-photo) {
+      align-self: stretch;
+    }
   }
 
   .det-photo[data-kind='aedes'] .det-answer {
