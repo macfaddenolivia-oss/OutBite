@@ -46,6 +46,10 @@ const SIZES = '(max-width: 40rem) 30vw, 180px';
 // be (phones show a short one that fits the instructions' room), so Check moves nothing.
 const fillN = (s: string) => s.replace(/\{n\}/g, '3');
 const longestResult = [text.allFound, `${text.missedOne} ${text.wrongOne}`, `${fillN(text.missedMany)} ${fillN(text.wrongMany)}`, `${fillN(text.missedMany)} ${text.wrongOne}`, `${text.missedOne} ${fillN(text.wrongMany)}`].reduce((a, b) => (b.length > a.length ? b : a));
+// The bottom bar's button (Check, Next round, I'm done, See your score, Play again) sits in
+// one slot as wide and tall as the longest of them (an invisible copy of each label), the
+// same in every round and on the results screen, so it never moves or changes size.
+const barLabels: [string, boolean][] = [[text.check, false], [text.next, true], [text.done, false], [text.finish, true], [text.again, false]];
 const srcset = (id: string, ext: string) => [320, 640].map((w) => `${assetPath(`photos/detective/${id}-${w}.${ext}`)} ${w}w`).join(', ');
 // What the page script needs, in this language.
 const scriptText = {
@@ -121,37 +125,47 @@ const scriptText = {
       </section>
 
       <section class="det-step" data-step="photos" aria-labelledby="det-photos-heading" hidden>
-        <h2 id="det-photos-heading" class="det-step__heading" tabindex="-1" data-step-heading>
+        <h2 id="det-photos-heading" class="det-step__heading" tabindex="-1" data-step-heading data-scroll-managed>
           <span class="det-step__round" data-photos-round></span><span class="visually-hidden">. </span>
           <span data-photos-heading></span>
         </h2>
         <p class="det-help" data-photos-help><Genus text={text.photoRoundHelp} /></p>
         <p class="det-help det-msg-sizer" aria-hidden="true">{longestResult}</p>
         <ul class="det-grid" data-grid></ul>
-        <p class="det-credit">{text.credit}</p>
         <div class="det-foot">
           {/* The full result, and on phones a short one ("You missed 1 Aedes and picked 1
               Culex.") that fits the instructions' space; screen readers get the full one. */}
           <p class="det-result" data-photos-result hidden><span class="det-result__full" data-result-full></span><span class="det-result__short" aria-hidden="true" data-result-short></span></p>
           <div class="det-bar">
-            <button type="button" class="btn btn-primary" data-check>{text.check}</button>
-            <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
+            {/* The photo credit sits in the bar beside the button, where the photos (taller
+                after Check) can never push it under the bar. */}
+            <p class="det-credit">{text.credit}</p>
+            <span class="det-slot">
+              <span class="det-slot__sizer" aria-hidden="true">{barLabels.map(([l, arrow]) => <span class="btn btn-primary">{l}{arrow && <> <span>→</span></>}</span>)}</span>
+              <button type="button" class="btn btn-primary" data-check>{text.check}</button>
+              <button type="button" class="btn btn-primary" data-next hidden>{text.next} <span aria-hidden="true">→</span></button>
+            </span>
           </div>
         </div>
       </section>
 
       <section class="det-step" data-step="yard" aria-labelledby="det-yard-heading" hidden>
-        <h2 id="det-yard-heading" class="det-step__heading" tabindex="-1" data-step-heading>
+        <h2 id="det-yard-heading" class="det-step__heading" tabindex="-1" data-step-heading data-scroll-managed>
           <span class="det-step__round">{text.roundOf.replace('{n}', '3')}</span><span class="visually-hidden">. </span>
           {text.yardRound}
         </h2>
-        <p class="det-help"><span class="det-help__full">{text.yardHelp}</span><span class="det-help__short">{text.yardHelpShort}</span> {text.yardFact}</p>
-        <DetectiveYard items={items} water={water} label={text.yardLabel} />
+        <p class="det-help" data-yard-help><span class="det-help__full">{text.yardHelp}</span><span class="det-help__short">{text.yardHelpShort}</span> {text.yardFact}</p>
+        {/* After "I'm done" the result takes the instructions' place (as in rounds 1 and 2), so
+            the bar never grows over the yard. */}
+        <p class="det-result" data-yard-result hidden></p>
+        {/* The key, one line between the instructions and the yard (short labels on phones), so
+            it's never under the bar. */}
         <ul class="det-key">
-          <li class="det-key__item det-key__item--found">{text.keyWater}</li>
-          <li class="det-key__item det-key__item--fine">{text.keyFine}</li>
-          <li class="det-key__item det-key__item--missed" data-key-missed hidden>{text.keyMissed}</li>
+          <li class="det-key__item det-key__item--found"><span class="det-key__full">{text.keyWater}</span><span class="det-key__short">{text.keyWaterShort}</span></li>
+          <li class="det-key__item det-key__item--fine"><span class="det-key__full">{text.keyFine}</span><span class="det-key__short">{text.keyFineShort}</span></li>
+          <li class="det-key__item det-key__item--missed" data-key-missed hidden><span class="det-key__full">{text.keyMissed}</span><span class="det-key__short">{text.keyMissedShort}</span></li>
         </ul>
+        <DetectiveYard items={items} water={water} label={text.yardLabel} />
         <div class="det-foot">
           <p class="det-progress" data-progress-line>
             <span class="det-progress__boxes" aria-hidden="true">
@@ -159,21 +173,28 @@ const scriptText = {
             </span>
             <span data-progress>{text.progress.replace('{n}', '0')}</span>
           </p>
-          <p class="det-result" data-yard-result hidden></p>
-          <button type="button" class="btn btn-primary" data-done>{text.done}</button>
-          <button type="button" class="btn btn-primary" data-finish hidden>{text.finish} <span aria-hidden="true">→</span></button>
+          <span class="det-slot">
+            <span class="det-slot__sizer" aria-hidden="true">{barLabels.map(([l, arrow]) => <span class="btn btn-primary">{l}{arrow && <> <span>→</span></>}</span>)}</span>
+            <button type="button" class="btn btn-primary" data-done>{text.done}</button>
+            <button type="button" class="btn btn-primary" data-finish hidden>{text.finish} <span aria-hidden="true">→</span></button>
+          </span>
         </div>
       </section>
 
       <section class="det-step" data-step="end" aria-labelledby="det-end-heading" hidden>
-        <h2 id="det-end-heading" class="det-end__heading" tabindex="-1" data-step-heading>{text.endHeading}</h2>
+        <h2 id="det-end-heading" class="det-end__heading" tabindex="-1" data-step-heading data-scroll-managed>{text.endHeading}</h2>
         <ul class="det-scores" data-scores></ul>
         <p class="det-end__note">{text.endNote}</p>
         <p class="det-end__actions">
           <a class="btn btn-primary" href={href('checklist')}>{text.checklist} <span aria-hidden="true">→</span></a>
           <a class="btn btn-secondary" href={href('protect')}>{text.protect} <span aria-hidden="true">→</span></a>
-          <button type="button" class="btn btn-secondary" data-again>{text.again}</button>
         </p>
+        <div class="det-bar">
+          <span class="det-slot">
+            <span class="det-slot__sizer" aria-hidden="true">{barLabels.map(([l, arrow]) => <span class="btn btn-primary">{l}{arrow && <> <span>→</span></>}</span>)}</span>
+            <button type="button" class="btn btn-secondary" data-again>{text.again}</button>
+          </span>
+        </div>
       </section>
 
       <p class="visually-hidden" aria-live="polite" data-live></p>
@@ -241,7 +262,8 @@ const scriptText = {
       const offset = siteHeader && getComputedStyle(siteHeader).position === 'sticky' ? siteHeader.offsetHeight : 0;
       const want = offset + 8;
       const top = heading.getBoundingClientRect().top;
-      let delta = top < offset || top > want + 16 ? top - want : 0;
+      // Exactly there (not "near enough"), so the round lands in the same place every time.
+      let delta = Math.abs(top - want) >= 1 ? top - want : 0;
       if (content) {
         const barTop = bar ? innerHeight - bar.offsetHeight : innerHeight;
         const contentTop = content.getBoundingClientRect().top - delta;
@@ -250,9 +272,13 @@ const scriptText = {
       if (delta) window.scrollBy({ top: delta, behavior: 'instant' });
     };
 
-    // Steps: one shows at a time; its heading takes focus.
+    // Steps: one shows at a time; its heading takes focus. The page scrolls only after Start
+    // ('heading'); moving on to the next round never scrolls it ('none'), and the results
+    // screen and Play again scroll only if their heading would be hidden above the screen
+    // ('if-hidden'). Each round's box is at least a screen tall, so its bar (stuck to the
+    // bottom of the screen) and the button in it stay exactly where they were.
     const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
-    const show = (name: string, focus = true) => {
+    const show = (name: string, focus = true, scroll: 'heading' | 'none' | 'if-hidden' = 'none') => {
       for (const s of steps) s.hidden = s.dataset.step !== name;
       // Settle the layout before scrolling to the heading.
       if (name === 'photos') sizeHeading();
@@ -264,7 +290,12 @@ const scriptText = {
         const step = steps.find((s) => s.dataset.step === name)!;
         const heading = step.querySelector<HTMLElement>('[data-step-heading]')!;
         heading.focus({ preventScroll: true });
-        bringIntoView(heading, step.querySelector<HTMLElement>('[data-grid], [data-yard-frame]'), step.querySelector<HTMLElement>('.det-bar, .det-foot'));
+        if (scroll === 'heading') bringIntoView(heading, step.querySelector<HTMLElement>('[data-grid], [data-yard-frame]'), step.querySelector<HTMLElement>('.det-bar, .det-foot'));
+        else if (scroll === 'if-hidden') {
+          const offset = siteHeader && getComputedStyle(siteHeader).position === 'sticky' ? siteHeader.offsetHeight : 0;
+          const top = heading.getBoundingClientRect().top;
+          if (top < offset) window.scrollBy({ top: top - offset - 8, behavior: 'instant' });
+        }
       }
     };
 
@@ -302,7 +333,7 @@ const scriptText = {
     }
     addEventListener('resize', () => !photosTitle.closest('[hidden]') && sizeHeading());
 
-    function startPhotoRound() {
+    function startPhotoRound(scroll: 'heading' | 'none' | 'if-hidden' = 'none') {
       // 2 or 3 Aedes (as many as the photos allow), the rest Culex: 6 in all.
       const most = Math.min(3, aedes.length);
       const least = Math.min(most, Math.max(2, 6 - culex.length));
@@ -326,7 +357,7 @@ const scriptText = {
       photosResult.hidden = true;
       checkBtn.hidden = false;
       nextBtn.hidden = true;
-      show('photos');
+      show('photos', true, scroll);
     }
 
     checkBtn.addEventListener('click', () => {
@@ -389,7 +420,7 @@ const scriptText = {
     const boxes = [...root.querySelectorAll<HTMLElement>('[data-progress-box]')];
     const progress = $('[data-progress]');
     const yardResult = $('[data-yard-result]');
-    const progressLine = $('[data-progress-line]');
+    const yardHelp = $('[data-yard-help]');
     const doneBtn = $<HTMLButtonElement>('[data-done]');
     const finishBtn = $<HTMLButtonElement>('[data-finish]');
     const keyMissed = $('[data-key-missed]');
@@ -408,97 +439,154 @@ const scriptText = {
         if (on) btn.dataset.state = btn.dataset.water === 'true' ? 'found' : 'fine';
         else delete btn.dataset.state;
         const n = showProgress();
-        if (on) placeTag(btn);
-        else {
-          delete btn.dataset.tagPlaced;
-          tagOf(btn).removeAttribute('style');
-        }
         if (on) say(`${T.say[btn.dataset.yardItem!]} ${fill(T.progress, { n })}`);
       });
     }
-    // The compact yard wherever the whole one (at least 37.5rem wide) doesn't fit, so it
+    // The compact yard wherever the whole one (at least 47rem wide) doesn't fit, so it
     // never scrolls sideways; the buttons follow its rows for the keyboard.
     const yardFrame = $('[data-yard-frame]');
     const yard = $('.yard');
     const fitYard = () => {
       if (!yardFrame.clientWidth) return; // the yard isn't showing
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const compact = yardFrame.clientWidth < 37.5 * rem;
+      const compact = yardFrame.clientWidth < 47 * rem;
       if (compact !== yardFrame.hasAttribute('data-compact') || !yard.dataset.placed) {
         yardFrame.toggleAttribute('data-compact', compact);
         for (const key of (compact ? yard.dataset.compactOrder : yard.dataset.order)!.split(' ')) yard.append(yardItems.find((b) => b.dataset.yardItem === key)!);
         yard.dataset.placed = 'true';
       }
-      if (layoutChanged()) placeTags();
+      if (layoutChanged()) layoutYard();
     };
-    // The compact (scattered) yard: a tag goes where it covers no other item, no other tag
-    // and doesn't cross the yard's edge: its preferred side first (data-ctag), then above or
-    // below (centered, or aligned to either edge of its box), then beside it, then over its
-    // own item; at its full width, then narrowed to wrap. If no spot is free, the one with the
-    // least overlap. Only a newly shown tag is placed: tags already showing never move when
-    // another item is tapped (all of them are placed afresh, in keyboard order, only when the
-    // yard's layout changes: a new width or text size).
+    // The compact (scattered) yard: every tag has a fixed place flush against its own box
+    // (data-ctag: above or below it, centered or aligned to its start or end edge), measured
+    // for all nine items whether their tags show or not. Only where a tag would cross the
+    // yard's side edge does it take another alignment, then the other side (data-tagpos;
+    // data-tag-fallback marks it). Then, back to front, wherever an item's box or tag would
+    // touch an item or tag already placed, that item and every one in front of it move down
+    // (the yard grows taller, the scattered look stays). Done only when the yard first shows
+    // or its width or text size changes, never on a tap, so a tag that shows never moves.
     type Box = { left: number; top: number; right: number; bottom: number };
     const overlap = (a: Box, b: Box) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
     const tagOf = (b: HTMLButtonElement) => b.querySelector<HTMLElement>('[data-yard-tag]')!;
-    function placeTag(btn: HTMLButtonElement) {
-      const tag = tagOf(btn);
-      tag.removeAttribute('style');
-      if (!btn.dataset.state || !yardFrame.hasAttribute('data-compact') || !yardFrame.clientWidth) return;
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const fr = yard.getBoundingClientRect();
-      const br = btn.getBoundingClientRect() as Box;
-      // Obstacles: every other item, and every other tag already placed.
-      const others = yardItems.filter((b) => b !== btn);
-      const obstacles: Box[] = [...others.map((b) => b.getBoundingClientRect()), ...others.filter((b) => b.dataset.state && 'tagPlaced' in b.dataset).map((b) => tagOf(b).getBoundingClientRect())];
-      const pref = btn.dataset.ctag ?? 'above';
-      let best: { r: Box; cost: number; maxWidth: string } | null = null;
-      for (const maxWidth of ['9rem', `${Math.max(br.right - br.left + 6, 4.5 * rem)}px`]) {
-        tag.style.maxWidth = maxWidth;
-        const w = tag.offsetWidth, h = tag.offsetHeight;
-        const xs = { center: (br.left + br.right - w) / 2, start: br.left - 3, end: br.right + 3 - w };
-        const spots: [number, number][] = [];
-        for (const v of [pref.split('-')[0], pref.startsWith('above') ? 'below' : 'above']) {
-          const y = v === 'above' ? br.top - h - 2 : br.bottom + 2;
-          for (const a of [pref.split('-')[1] ?? 'center', 'center', 'start', 'end']) spots.push([xs[a as keyof typeof xs], y]);
-        }
-        spots.push([br.left - w - 2, (br.top + br.bottom - h) / 2], [br.right + 2, (br.top + br.bottom - h) / 2]);
-        spots.push([xs.center, br.bottom - h - 3], [xs.center, br.top + 3]);
-        for (const [x0, y0] of spots) {
-          const x = Math.min(Math.max(x0, fr.left + 2), fr.right - w - 2);
-          const y = Math.min(Math.max(y0, fr.top + 2), fr.bottom - h - 2);
-          const r = { left: x, top: y, right: x + w, bottom: y + h };
-          let cost = 0;
-          for (const o of obstacles) cost += overlap(r, o);
-          if (!best || cost < best.cost) best = { r, cost, maxWidth };
-          if (cost === 0) break;
-        }
-        if (best!.cost === 0) break;
-      }
-      const { r, maxWidth } = best!;
-      tag.style.maxWidth = maxWidth;
-      // (relative to the button's padding box, inside its border)
-      tag.style.left = `${r.left - br.left - btn.clientLeft}px`;
-      tag.style.top = `${r.top - br.top - btn.clientTop}px`;
-      tag.style.right = 'auto';
-      tag.style.bottom = 'auto';
-      tag.style.translate = 'none';
-      btn.dataset.tagPlaced = '';
-    }
-    // Every shown tag placed afresh, in keyboard order (the yard's layout changed).
-    function placeTags() {
+    const tufts = [...root.querySelectorAll<SVGElement>('[data-yard-tuft]')];
+    const TAG_GAP = 4; // px between a tag and any other item or tag
+    function layoutYard() {
+      for (const el of [...yardItems, ...tufts]) el.style.removeProperty('top');
+      yard.style.removeProperty('height');
+      yard.style.removeProperty('aspect-ratio');
+      const compact = yardFrame.hasAttribute('data-compact');
       for (const b of yardItems) {
-        delete b.dataset.tagPlaced;
-        tagOf(b).removeAttribute('style');
+        b.dataset.tagpos = compact ? b.dataset.ctag : b.dataset.wtag;
+        delete b.dataset.tagFallback;
       }
-      const order = yard.dataset.compactOrder!.split(' ').map((k) => yardItems.find((b) => b.dataset.yardItem === k)!);
-      for (const b of order) placeTag(b);
+      if (!yardFrame.clientWidth) return;
+      if (!compact) return layoutWholeYard();
+      yard.toggleAttribute('data-measuring', true);
+      const fr = yard.getBoundingClientRect();
+      const rel = (el: Element): Box => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left - fr.left, top: r.top - fr.top, right: r.right - fr.left, bottom: r.bottom - fr.top };
+      };
+      const inside = (t: Box) => t.left >= 2 && t.right <= fr.width - 2;
+      const items = yardItems.map((btn) => {
+        const pref = btn.dataset.ctag!;
+        const [side, align = 'center'] = pref.split('-');
+        const other = side === 'above' ? 'below' : 'above';
+        const name = (v: string, a: string) => (a === 'center' ? v : `${v}-${a}`);
+        const tries = [pref, ...[side, other].flatMap((v) => ['center', 'start', 'end'].map((a) => name(v, a)))].filter((t, i, all) => all.indexOf(t) === i);
+        let tag: Box | null = null;
+        for (const pos of tries) {
+          btn.dataset.tagpos = pos;
+          const t = rel(tagOf(btn));
+          if (inside(t)) {
+            tag = t;
+            break;
+          }
+        }
+        if (!tag) {
+          btn.dataset.tagpos = pref;
+          tag = rel(tagOf(btn));
+        }
+        if (btn.dataset.tagpos !== pref) btn.dataset.tagFallback = '';
+        return { btn, y: parseFloat(getComputedStyle(btn).top), box: rel(btn), tag, dy: 0 };
+      });
+      yard.removeAttribute('data-measuring');
+      const down = (r: Box, d: number): Box => ({ ...r, top: r.top + d, bottom: r.bottom + d });
+      const hit = (a: Box, b: Box, gap: number) => a.left < b.right + gap && b.left < a.right + gap && a.top < b.bottom + gap && b.top < a.bottom + gap;
+      items.sort((a, b) => a.y - b.y || a.box.left - b.box.left);
+      // Everything moves down if a tag at the back would cross the top edge.
+      let offset = Math.max(0, 2 - Math.min(...items.map((it) => it.tag.top)));
+      const placed: typeof items = [];
+      for (const it of items) {
+        it.dy = offset;
+        for (;;) {
+          const box = down(it.box, it.dy);
+          const tag = down(it.tag, it.dy);
+          let need = 0;
+          for (const o of placed) {
+            const ob = down(o.box, o.dy);
+            const ot = down(o.tag, o.dy);
+            for (const [a, b, gap] of [[box, ob, 0], [box, ot, TAG_GAP], [tag, ob, TAG_GAP], [tag, ot, TAG_GAP]] as [Box, Box, number][]) {
+              if (hit(a, b, gap)) need = Math.max(need, b.bottom + gap - a.top);
+            }
+          }
+          if (!need) break;
+          it.dy += need;
+        }
+        offset = it.dy;
+        placed.push(it);
+        it.btn.style.top = `${it.y + it.dy}px`;
+      }
+      // Each tuft moves with the rows above it.
+      for (const t of tufts) {
+        const y = parseFloat(getComputedStyle(t).top);
+        const above = items.filter((it) => it.y <= y).pop();
+        t.style.top = `${y + (above ? above.dy : items[0].dy)}px`;
+      }
+      const bottom = Math.max(fr.height + offset, ...items.map((it) => Math.max(it.box.bottom, it.tag.bottom) + it.dy + 2));
+      yard.style.aspectRatio = 'auto';
+      yard.style.height = `${Math.ceil(bottom)}px`;
     }
-    // Tags shown since the last placement (e.g. "Missed" after "I'm done"), in keyboard order;
-    // the others stay put.
-    function placeNewTags() {
-      const order = yard.dataset.compactOrder!.split(' ').map((k) => yardItems.find((b) => b.dataset.yardItem === k)!);
-      for (const b of order) if (b.dataset.state && !('tagPlaced' in b.dataset)) placeTag(b);
+    // The whole yard (the scene can't change, so nothing moves): every tag keeps its place
+    // (data-wtag) unless, measured for all nine items, it would cross the yard's edge or meet
+    // the house, another item's box or another tag; only then are the other places tried,
+    // and the one meeting the least is kept (data-tag-fallback marks it).
+    function layoutWholeYard() {
+      yard.toggleAttribute('data-measuring', true);
+      const fr = yard.getBoundingClientRect();
+      const rel = (el: Element): Box => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left - fr.left, top: r.top - fr.top, right: r.right - fr.left, bottom: r.bottom - fr.top };
+      };
+      const grow = (r: Box, g: number): Box => ({ left: r.left - g, top: r.top - g, right: r.right + g, bottom: r.bottom + g });
+      const k = fr.width / 800;
+      const [hx, hy, hr, hb] = yard.dataset.house!.split(' ').map((v) => Number(v) * k);
+      const house = { left: hx, top: hy, right: hr, bottom: hb };
+      const boxes = new Map(yardItems.map((b) => [b, rel(b)]));
+      const placed: Box[] = [];
+      for (const key of yard.dataset.order!.split(' ')) {
+        const btn = yardItems.find((b) => b.dataset.yardItem === key)!;
+        const pref = btn.dataset.wtag!;
+        const [side] = pref.split('-');
+        const other = side === 'above' ? 'below' : 'above';
+        const name = (v: string, a: string) => (a === 'center' ? v : `${v}-${a}`);
+        const tries = [pref, ...[side, other].flatMap((v) => ['center', 'start', 'end'].map((a) => name(v, a)))].filter((t, i, all) => all.indexOf(t) === i);
+        let best: { pos: string; t: Box; cost: number } | null = null;
+        for (const pos of tries) {
+          btn.dataset.tagpos = pos;
+          const t = rel(tagOf(btn));
+          let cost = t.left < 2 || t.top < 2 || t.right > fr.width - 2 || t.bottom > fr.height - 2 ? 1e6 : 0;
+          cost += overlap(t, house);
+          for (const [b, r] of boxes) if (b !== btn) cost += overlap(grow(t, 2), r);
+          for (const r of placed) cost += overlap(grow(t, TAG_GAP), r);
+          if (!best || cost < best.cost) best = { pos, t, cost };
+          if (!cost) break;
+        }
+        btn.dataset.tagpos = best!.pos;
+        if (best!.pos !== pref) btn.dataset.tagFallback = '';
+        placed.push(best!.t);
+      }
+      yard.removeAttribute('data-measuring');
     }
     let lastLayout = '';
     const layoutChanged = () => {
@@ -507,7 +595,11 @@ const scriptText = {
       lastLayout = key;
       return true;
     };
-    addEventListener('resize', () => layoutChanged() && placeTags());
+    // Tags measured again once the web font has loaded.
+    document.fonts?.ready.then(() => {
+      lastLayout = '';
+      fitYard();
+    });
 
     new ResizeObserver(fitYard).observe(yardFrame);
     new MutationObserver(fitYard).observe(document.documentElement, { attributes: true, attributeFilter: ['data-text-size'] });
@@ -516,15 +608,14 @@ const scriptText = {
         btn.setAttribute('aria-pressed', 'false');
         btn.disabled = false;
         delete btn.dataset.state;
-        delete btn.dataset.tagPlaced;
-        tagOf(btn).removeAttribute('style');
       }
       showProgress();
       yardResult.hidden = true;
+      yardHelp.classList.remove('is-replaced');
+      yardHelp.removeAttribute('aria-hidden');
       keyMissed.hidden = true;
       doneBtn.hidden = false;
       finishBtn.hidden = true;
-      progressLine.hidden = false;
       show('yard');
     }
     doneBtn.addEventListener('click', () => {
@@ -540,11 +631,16 @@ const scriptText = {
       scores[2] = { n, total: totalWater };
       const line = !missed ? T.yardAllFound : missed === 1 ? T.yardMissedOne : fill(T.yardMissedMany, { n: missed });
       const missedSay = yardItems.filter((b) => b.dataset.state === 'missed').map((b) => T.say[b.dataset.yardItem!]);
+      // The yard stays exactly where it is on the screen: if the text above it changes
+      // height (the result, the key's "Missed"), the page scrolls by the same amount.
+      const anchor = yardFrame.getBoundingClientRect().top;
       yardResult.textContent = line;
       yardResult.hidden = false;
-      progressLine.hidden = true;
+      yardHelp.classList.add('is-replaced');
+      yardHelp.setAttribute('aria-hidden', 'true');
       keyMissed.hidden = !missed;
-      placeNewTags();
+      const shift = yardFrame.getBoundingClientRect().top - anchor;
+      if (Math.abs(shift) >= 1) window.scrollBy({ top: shift, behavior: 'instant' });
       doneBtn.hidden = true;
       finishBtn.hidden = false;
       finishBtn.focus({ preventScroll: true }); // the yard stays where it is
@@ -561,18 +657,18 @@ const scriptText = {
           return li;
         }),
       );
-      show('end');
+      show('end', true, 'if-hidden');
     });
 
     // ---- Start and play again ----
-    const begin = () => {
+    const begin = (scroll: 'heading' | 'if-hidden') => {
       round = 0;
       used = new Set();
       scores = [];
-      startPhotoRound();
+      startPhotoRound(scroll);
     };
-    $('[data-start]').addEventListener('click', begin);
-    $('[data-again]').addEventListener('click', begin);
+    $('[data-start]').addEventListener('click', () => begin('heading'));
+    $('[data-again]').addEventListener('click', () => begin('if-hidden'));
     show('start', false);
   }
 </script>
@@ -688,9 +784,6 @@ const scriptText = {
     font-size: var(--text-sm);
   }
 
-  .det-credit {
-    margin-top: var(--space-2);
-  }
 
   /* ---- Photo grid: 3 across everywhere, at most about 172px per photo (540px), so a
      round fits a laptop screen; about 100px per photo on a 375px phone. Each card fills
@@ -729,7 +822,91 @@ const scriptText = {
   .det-step[data-step='photos']:not([hidden]) {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'head' 'msg' 'grid' 'credit' 'bar';
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas: 'head' 'msg' 'grid' 'bar';
+  }
+
+  /* Each round and the results screen fill at least the screen's height, the bar at the
+     bottom (any room left goes above it), so the bar is always stuck to the bottom of the
+     screen, in the same spot from one round to the next. */
+  .det-step:not([data-step='start'], [hidden]) {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .det-step[data-step='yard']:not([hidden]),
+  .det-step[data-step='end']:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto 1fr;
+  }
+
+  .det-step[data-step='yard']:not([hidden]) {
+    grid-template-areas: 'head' 'msg' 'key' 'yard' 'bar';
+  }
+
+  .det-step[data-step='yard'] .det-step__heading {
+    grid-area: head;
+  }
+
+  .det-step[data-step='yard'] .det-help,
+  .det-step[data-step='yard'] .det-result {
+    grid-area: msg;
+    align-self: start;
+    max-width: 44rem;
+    margin: 0 0 var(--space-3);
+  }
+
+  .det-step[data-step='yard'] .det-result {
+    font-weight: var(--weight-strong);
+  }
+
+  .det-step[data-step='yard'] .det-key {
+    grid-area: key;
+  }
+
+  .det-step[data-step='yard'] .yard-frame {
+    grid-area: yard;
+  }
+
+  .det-step[data-step='yard'] .det-foot {
+    grid-area: bar;
+  }
+
+  .det-step[data-step='photos'] .det-bar,
+  .det-step[data-step='yard'] .det-foot,
+  .det-step[data-step='end'] .det-bar {
+    align-self: end;
+  }
+
+  /* The bar's button slot: every label's invisible copy and the buttons share one cell,
+     so the button showing is as wide and tall as the longest label. */
+  .det-slot {
+    display: inline-grid;
+    flex: none;
+    align-self: flex-end;
+    max-width: 100%;
+    margin-inline-start: auto;
+  }
+
+  .det-slot > *,
+  .det-slot__sizer > * {
+    grid-area: 1 / 1;
+  }
+
+  .det-slot__sizer {
+    display: grid;
+    visibility: hidden;
+  }
+
+  .det-slot > .btn[hidden] {
+    display: none;
+  }
+
+  /* Play again keeps its white style but, like the other buttons in the bar, no underline
+     (not even the hover one, which sticks after a tap on phones). */
+  .det-slot > .btn-secondary:hover {
+    text-decoration: none;
   }
 
   .det-step[data-step='photos'] .det-foot {
@@ -752,8 +929,12 @@ const scriptText = {
     grid-area: grid;
   }
 
-  .det-step[data-step='photos'] .det-credit {
-    grid-area: credit;
+  /* Beside the button where at least 6rem is left; otherwise on a line above it. */
+  .det-bar .det-credit {
+    flex: 1 1 6rem;
+    min-width: 0;
+    margin: 0;
+    line-height: 1.25;
   }
 
   /* Check / Next (rounds 1 and 2), and the yard's progress and "I'm done" (round 3), sit
@@ -762,7 +943,8 @@ const scriptText = {
      score shows beside Next, and after "I'm done" the result line takes the progress's
      place. */
   .det-step[data-step='photos'] .det-bar,
-  .det-step[data-step='yard'] .det-foot {
+  .det-step[data-step='yard'] .det-foot,
+  .det-step[data-step='end'] .det-bar {
     position: sticky;
     bottom: 0;
     z-index: 2;
@@ -968,7 +1150,8 @@ const scriptText = {
     /* Smaller text in the bars; a long line goes above its button rather than squeeze
        into a narrow column. */
     .det-step[data-step='photos'] .det-bar,
-    .det-step[data-step='yard'] .det-foot {
+    .det-step[data-step='yard'] .det-foot,
+    .det-step[data-step='end'] .det-bar {
       flex-wrap: wrap;
       gap: var(--space-1) var(--space-3);
     }
@@ -978,8 +1161,40 @@ const scriptText = {
       font-size: var(--text-sm);
     }
 
+    /* The progress stays beside the (wide) button where its five boxes fit (at larger text
+       it goes on a line of its own above it): its boxes above its words, which may take two
+       tight lines ("0 de 5 / encontrados"). */
+    .det-step[data-step='yard'] .det-foot > .det-progress {
+      flex: 1 1 0;
+      min-width: calc(5rem + 16px + 4px);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      line-height: 1.1;
+    }
+
     .det-result__short,
     .det-help__short {
+      display: inline;
+    }
+
+    .det-key {
+      gap: 2px var(--space-3);
+      margin-bottom: 6px;
+    }
+
+    .det-step[data-step='yard'] .det-help,
+    .det-step[data-step='yard'] .det-result {
+      margin-bottom: 6px;
+      font-size: var(--text-sm);
+      line-height: 1.4;
+    }
+
+    .det-key .det-key__full {
+      display: none;
+    }
+
+    .det-key .det-key__short {
       display: inline;
     }
 
@@ -1044,7 +1259,7 @@ const scriptText = {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1) var(--space-4);
-    margin: var(--space-2) 0 0;
+    margin: 0 0 var(--space-2);
     padding: 0;
     list-style: none;
     font-size: var(--text-sm);
@@ -1057,6 +1272,10 @@ const scriptText = {
   }
 
   .det-key__item[hidden] {
+    display: none;
+  }
+
+  .det-key__short {
     display: none;
   }
 

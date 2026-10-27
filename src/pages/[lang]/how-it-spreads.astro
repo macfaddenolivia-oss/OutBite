@@ -420,15 +420,22 @@ const openings = [
         </div>
       </li>
     </ol>
-    {/* Last step: Back, "Start from the beginning" (middle) and the Protect link in
-        Next's place and style. */}
+    {/* Last step: Back, "Start from the beginning" (middle, on wide screens) and the
+        Protect link in Next's place, style and size: Next and the link share one slot as
+        wide and tall as the larger of them (the one not in use is invisible), so the
+        button never moves or changes size from step to step. */}
     <div class="story-nav js-only" data-story-nav>
+      {/* Wider screens: while the bar is pinned to the bottom of the window over the box,
+          part of the step is below it; this strip shows just above the bar until then. */}
+      <p class="page-more" aria-hidden="true" data-page-more>{text.scrollHint} <span>↓</span></p>
       <button type="button" class="btn btn-secondary story-nav__back" data-go="-1" disabled><span aria-hidden="true">←</span> <span class="story-nav__back-word">{text.back}</span></button>
       <button type="button" class="btn btn-secondary story-nav__restart" data-restart hidden><span aria-hidden="true">↺</span> {text.restart}</button>
-      <button type="button" class="btn btn-primary story-nav__next" data-go="1">{text.next} <span aria-hidden="true">→</span></button>
-      <a class="btn btn-primary story-nav__protect" href={`${localizePath(lang, getPage('protect').path)}#layer-yard`} hidden data-protect-link>
-        {text.protectCard} <span aria-hidden="true">→</span>
-      </a>
+      <span class="story-nav__forward">
+        <button type="button" class="btn btn-primary story-nav__next" data-go="1">{text.next} <span aria-hidden="true">→</span></button>
+        <a class="btn btn-primary story-nav__protect" href={`${localizePath(lang, getPage('protect').path)}#layer-yard`} hidden data-protect-link>
+          {text.protectCard} <span aria-hidden="true">→</span>
+        </a>
+      </span>
     </div>
     </div>
   </div>
@@ -552,6 +559,26 @@ const openings = [
       box?.addEventListener('scroll', () => updateMore(box), { passive: true });
     }
     addEventListener('resize', () => updateMore());
+
+    // Wider screens: "Scroll for more ↓" above the bar while it is pinned to the bottom of
+    // the window and part of the box is still below it (data-pinned on the bar).
+    const storyFrame = root.querySelector<HTMLElement>('.story-frame');
+    let pinQueued = false;
+    const updatePinned = () => {
+      pinQueued = false;
+      if (!nav || !storyFrame) return;
+      const below = storyFrame.getBoundingClientRect().bottom - storyFrame.clientTop - nav.getBoundingClientRect().bottom;
+      nav.toggleAttribute('data-pinned', getComputedStyle(nav).position === 'sticky' && below > 1);
+    };
+    const queuePinned = () => {
+      if (!pinQueued) {
+        pinQueued = true;
+        requestAnimationFrame(updatePinned);
+      }
+    };
+    addEventListener('scroll', queuePinned, { passive: true });
+    addEventListener('resize', queuePinned);
+    if (storyFrame) new ResizeObserver(queuePinned).observe(storyFrame);
     // A "Sources" or "Show where" list opening or closing changes the text's height.
     root.addEventListener('toggle', () => updateMore(), true);
     document.fonts?.ready.then(() => updateMore());
@@ -1454,6 +1481,31 @@ const openings = [
     z-index: 4;
   }
 
+  /* "Scroll for more ↓" just above the pinned bar (wider screens), like the phones'
+     strip; it covers only what's already hidden behind the bar's edge. */
+  .page-more {
+    display: none;
+  }
+
+  :global(.js) .story .story-nav[data-pinned] .page-more {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    height: 1.75rem;
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-link);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-strong);
+    line-height: 1;
+  }
+
   .story-nav__back {
     grid-area: back;
     justify-self: start;
@@ -1463,30 +1515,50 @@ const openings = [
     grid-area: middle;
   }
 
-  .story-nav__next,
-  .story-nav__protect {
+  /* Next and the Protect link in one cell, 14em wide (11em on phones; less only if the
+     bar is narrower); the link's text wraps to two lines. */
+  .story-nav__forward {
     grid-area: forward;
     justify-self: end;
+    display: grid;
+    width: min(100%, 14em);
+  }
+
+  @media (max-width: 39.99rem) {
+    .story-nav__forward {
+      width: min(100%, 11em);
+    }
+  }
+
+  .story-nav__forward > * {
+    grid-area: 1 / 1;
   }
 
   .story-nav [hidden] {
     display: none;
   }
 
-  /* Last step on tablets and phones: the three buttons don't fit in one row, so stack
-     them, full width (Protect link first, then restart, then Back). */
-  @media (max-width: 63.99rem) {
-    /* Not pinned on this step: three stacked buttons would cover too much of it. */
-    :global(.js) .story .story-nav.is-last {
-      position: static;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: 'forward' 'middle' 'back';
-      gap: var(--space-2);
+  .story-nav__forward > [hidden] {
+    display: inline-flex;
+    visibility: hidden;
+  }
+
+  .story-nav__protect {
+    padding-block: 0;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* Tablets: "Start from the beginning" doesn't fit between them, so it sits at the end of
+     step 9's text, as on phones. */
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    :global(.js) .story .scene__restart {
+      display: block;
+      margin: var(--space-4) 0 0;
     }
 
-    .story-nav.is-last .btn {
-      justify-self: stretch;
-      justify-content: center;
+    :global(.js) .story .story-nav .story-nav__restart {
+      display: none;
     }
   }
 
@@ -1757,8 +1829,8 @@ const openings = [
      - Step 1's photo and step 7's "Where mosquitoes lay eggs" strip sit in the text
        (.phone-only; the copies in the picture panel are .not-phone).
      - Back/Next is not pinned to the screen here (the box fits), so nothing ever sits
-       behind it; on the last step it stays one row (Back, as an arrow, and the Protect
-       link), with "Start from the beginning" at the end of step 9's text. ---- */
+       behind it; on the last step it stays one row (Back and the Protect link), with
+       "Start from the beginning" at the end of step 9's text. ---- */
   .phone-only,
   .scroll-hint {
     display: none;
@@ -1919,9 +1991,6 @@ const openings = [
 
     :global(.js) .story .story-nav {
       position: static;
-    }
-
-    :global(.js) .story .story-nav.is-last {
       grid-template-columns: auto minmax(0, 1fr);
       grid-template-areas: 'back forward';
     }
@@ -1932,25 +2001,23 @@ const openings = [
 
     /* Two lines at most, at every text size (at most 15px here), so the bar keeps its
        height on the last step. */
-    :global(.js) .story .story-nav.is-last {
-      padding-inline: var(--space-2);
-    }
-
     :global(.js) .story .story-nav .story-nav__protect {
       padding: 0 var(--space-2);
       font-size: min(0.9375rem, 15px);
       line-height: 1.1;
       text-wrap: balance;
     }
+  }
 
-    /* Last step: Back shows its arrow only (the word stays for screen readers), so the
-       Protect link has room for its two lines. */
-    :global(.js) .story .story-nav.is-last .story-nav__back {
+  /* Small phones (under 360px): Back shows its arrow only on every step (the word stays
+     for screen readers), so the Protect link keeps room for two lines in Next's slot. */
+  @media (max-width: 22.49rem) {
+    :global(.js) .story .story-nav .story-nav__back {
       min-width: var(--tap-target);
       padding-inline: var(--space-2);
     }
 
-    :global(.js) .story .story-nav.is-last .story-nav__back-word {
+    :global(.js) .story .story-nav .story-nav__back-word {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -2181,7 +2248,7 @@ const openings = [
     .js .story .scene.is-active .timeline-fill {
       transform-box: fill-box;
       transform-origin: left center;
-      animation: story-timeline 2.2s ease-out 0.4s both;
+      animation: story-timeline 2s ease-out both;
     }
   }
 
@@ -2208,9 +2275,11 @@ const openings = [
     }
   }
 
+  /* Never empty: the bar starts a quarter full the moment the step shows (and is shown
+     full, without moving, with reduced motion). */
   @keyframes story-timeline {
     from {
-      transform: scaleX(0);
+      transform: scaleX(0.25);
     }
   }
 </style>
