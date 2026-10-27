@@ -24,7 +24,9 @@ const body = Astro.props.body ?? t('disclaimer.body');
     </aside>
   ) : (
     <aside class="disclaimer" aria-labelledby="disclaimer-heading">
-      <h2 id="disclaimer-heading" class="disclaimer__heading">{t('disclaimer.heading')}</h2>
+      {/* Bold text, not a heading (it was an h2 smaller than the headings after it); the
+          aside is still named by it. */}
+      <p id="disclaimer-heading" class="disclaimer__heading"><strong>{t('disclaimer.heading')}</strong></p>
       <p>{body}</p>
     </aside>
   )
@@ -42,15 +44,13 @@ const body = Astro.props.body ?? t('disclaimer.body');
     border-radius: var(--radius-sm);
   }
 
-  .disclaimer__heading {
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    color: var(--color-heading);
-    margin-bottom: var(--space-1);
-  }
-
   .disclaimer p {
     margin: 0;
+  }
+
+  .disclaimer .disclaimer__heading {
+    margin-bottom: var(--space-1);
+    color: var(--color-heading);
   }
 
   .disclaimer--slim {

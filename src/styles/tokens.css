@@ -225,3 +225,25 @@
   --gutter: 1rem;
   --tap-target: 2.75rem; /* 44px minimum touch target */
 }
+
+/* Titles never larger than the logo (Header.astro: min(1.5rem, 28px) on phones, 2.0625rem on
+   tablets, 2.5rem from 992px), and h1 ≥ h2 ≥ h3 ≥ body at every text size. */
+@media (max-width: 39.99rem) {
+  :root {
+    --text-title: min(1.5rem, 28px);
+    --text-xl: min(1.3125rem, 27px);
+  }
+}
+
+@media (min-width: 40rem) and (max-width: 61.99rem) {
+  :root {
+    --text-title: min(clamp(2rem, 1.7rem + 1vw, 2.5rem), 2.0625rem);
+  }
+}
+
+@media (min-width: 62rem) {
+  :root {
+    --text-title: 2.5rem;
+    --text-xl: 1.5rem;
+  }
+}

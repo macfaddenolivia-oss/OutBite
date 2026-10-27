@@ -571,6 +571,11 @@ const printHref = `${href('printables')}#printable-care`;
     font-weight: var(--weight-display);
   }
 
+  /* "No regular doctor?" (h2) as large as the page's h3s, so h2 ≥ h3. */
+  h2.access__heading {
+    font-size: var(--text-lg);
+  }
+
   .access p {
     margin: 0;
     font-size: var(--text-sm);

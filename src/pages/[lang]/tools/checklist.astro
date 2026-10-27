@@ -62,11 +62,13 @@ const pageData = {
     <form class="checklist__list" onsubmit="return false">
       {
         sections.map((section) => (
-          <section class="ck-section" aria-labelledby={`ck-${section}`}>
-            <h2 id={`ck-${section}`} class="ck-section__heading">
+          <div class="ck-section" role="group" aria-labelledby={`ck-${section}`}>
+            {/* Bold text, not a heading (it was an h2 smaller than the items under it); the
+                group is named by it. */}
+            <p id={`ck-${section}`} class="ck-section__heading">
               <span class={`ck-mark ck-mark--${section}`} aria-hidden="true" />
               {c.sections[section]}
-            </h2>
+            </p>
             <ul class="ck-items">
               {itemsBy(section).map(({ item, i, link }) => (
                 <li class="ck-item">
@@ -90,7 +92,7 @@ const pageData = {
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
         ))
       }
     </form>
@@ -245,7 +247,7 @@ const pageData = {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    margin-bottom: var(--space-1);
+    margin: 0 0 var(--space-1);
     font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: var(--weight-heading);

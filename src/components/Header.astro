@@ -762,8 +762,10 @@ const menuLabel = (key: string) => (getLocale(lang).messages as Record<string, a
       grid-area: id;
     }
 
+    /* 24px at the usual text size, growing with it up to 28px (page titles are never
+       larger: --text-title). */
     .brand__name {
-      font-size: 24px;
+      font-size: min(1.5rem, 28px);
       line-height: 1;
     }
 

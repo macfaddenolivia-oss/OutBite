@@ -199,7 +199,7 @@ const pickerData = {
   .hero__headline {
     max-width: 50rem;
     margin-bottom: var(--space-3);
-    font-size: clamp(2rem, 1.4rem + 2.2vw, 2.875rem);
+    font-size: var(--text-title); /* no larger than the logo */
     font-weight: var(--weight-display);
     letter-spacing: -0.03em;
     line-height: 1.08;
@@ -223,11 +223,10 @@ const pickerData = {
     line-height: 1.5;
   }
 
-  /* Phones (under 40rem): the headline two steps down the type scale (--text-2xl →
-     --text-title → --text-xl) and the intro one step (--text-lg → --text-base). */
+  /* Phones (under 40rem): the headline at the phone title size (--text-title, no larger
+     than the logo), tighter; the intro one step down (--text-lg → --text-base). */
   @media (max-width: 39.99rem) {
     .hero__headline {
-      font-size: var(--text-xl);
       letter-spacing: -0.02em;
       line-height: var(--leading-heading);
     }

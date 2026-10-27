@@ -53,9 +53,10 @@ const text = content.text[lang === 'es' ? 'es' : 'en'];
     color: var(--color-callout-text);
   }
 
+  /* The note's own size, so its text is never larger than its title. */
   .note__title {
     margin: 0 0 var(--space-1);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     font-weight: var(--weight-display);
     letter-spacing: 0.08em;
     text-transform: uppercase;

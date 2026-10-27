@@ -341,11 +341,17 @@ const pr = (map.territories as Record<string, { d: string; width: number; height
   .tile__title {
     color: var(--color-heading);
     font-family: var(--font-heading);
-    font-size: 1.625rem;
+    font-size: var(--text-lg); /* 19px; 24px from 40rem (below) */
     font-weight: var(--weight-display);
     letter-spacing: -0.02em;
     line-height: 1.1;
   }
+  @media (min-width: 40rem) {
+    .tile__title {
+      font-size: 1.5rem;
+    }
+  }
+
 
 
   .tile__btn {
