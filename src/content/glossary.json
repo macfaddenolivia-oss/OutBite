@@ -223,13 +223,15 @@
         "en": {
           "term": "Aedes",
           "def": [
-            "The kind of mosquito that spreads dengue, Zika, and chikungunya. CDC: “Aedes aegypti and Ae. albopictus mosquitoes live in many areas of the United States.” “Aedes aegypti and Aedes albopictus mosquitoes can spread dengue and other diseases.”"
+            "The kind of mosquito that spreads dengue, Zika, and chikungunya. CDC: “Aedes aegypti and Ae. albopictus mosquitoes live in many areas of the United States.” “Aedes aegypti and Aedes albopictus mosquitoes can spread dengue and other diseases.”",
+            "Aedes albopictus is also called the Asian tiger mosquito. CDC says it is less likely than Aedes aegypti to spread these viruses, because it also bites animals. Aedes aegypti lives in Puerto Rico."
           ]
         },
         "es": {
           "term": "Aedes",
           "def": [
-            "El tipo de mosquito que transmite el dengue, el zika y el chikungunya. Los CDC dicen que los mosquitos “Aedes aegypti y Ae. albopictus viven en muchas zonas de Estados Unidos” y que “pueden transmitir el dengue y otras enfermedades”."
+            "El tipo de mosquito que transmite el dengue, el zika y el chikungunya. Los CDC dicen que los mosquitos “Aedes aegypti y Ae. albopictus viven en muchas zonas de Estados Unidos” y que “pueden transmitir el dengue y otras enfermedades”.",
+            "Al Aedes albopictus también se le llama mosquito tigre asiático. Los CDC dicen que es menos probable que transmita estos virus que el Aedes aegypti, porque también pica a animales. El Aedes aegypti vive en Puerto Rico."
           ]
         }
       },

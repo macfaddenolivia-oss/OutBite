@@ -88,7 +88,7 @@
       "scenes": {
         "meet": {
           "heading": "Meet the Aedes mosquito",
-          "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). The Aedes mosquito looks different: it is black or dark brown, with white bands on its legs and white markings on its body. Aedes mosquitoes can spread dengue, Zika, and chikungunya.",
+          "caption": "Many mosquitoes in U.S. states are house mosquitoes (Culex). Aedes are black or dark brown, with white markings on the legs and body. Two kinds spread dengue, Zika, and chikungunya: Aedes aegypti and the Asian tiger mosquito (Aedes albopictus).",
           "note": "You don’t have to travel to get sick. Aedes mosquitoes can live in many parts of the U.S. Dengue spreads in Puerto Rico, and CDC has reported locally acquired cases in these states:",
           "states": {
             "toggle": "Show where",
@@ -222,8 +222,8 @@
       "scenes": {
         "meet": {
           "heading": "Conoce al mosquito Aedes",
-          "caption": "Muchos mosquitos en los estados de EE. UU. son mosquitos comunes (Culex). El mosquito Aedes es diferente: es negro o café oscuro, con bandas blancas en las patas y marcas blancas en el cuerpo. Los mosquitos Aedes pueden transmitir el dengue, el zika y el chikungunya.",
-          "note": "No hace falta viajar para enfermarse. Los mosquitos Aedes pueden vivir en muchas partes de EE. UU. El dengue se transmite en Puerto Rico, y los CDC han reportado casos locales en estos estados:",
+          "caption": "Muchos mosquitos en los estados de EE. UU. son mosquitos comunes (Culex). El Aedes es negro o café oscuro, con bandas blancas en las patas y marcas blancas en el cuerpo. Dos tipos transmiten dengue, zika y chikungunya: el Aedes aegypti y el mosquito tigre asiático (Aedes albopictus).",
+          "note": "No hace falta viajar para enfermarse. El Aedes puede vivir en muchas partes de EE. UU. El dengue se transmite en Puerto Rico, y los CDC han reportado casos locales en estos estados:",
           "states": {
             "toggle": "Mostrar dónde",
             "lines": [

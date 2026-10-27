@@ -176,6 +176,7 @@
         "heading": "How to tell them apart",
         "aedes": {
           "name": "Aedes",
+          "also": "includes the Asian tiger mosquito",
           "spreads": "spreads dengue, Zika, chikungunya",
           "points": [
             "White bands on the legs",
@@ -326,6 +327,7 @@
         "heading": "Cómo distinguirlos",
         "aedes": {
           "name": "Aedes",
+          "also": "incluye el mosquito tigre asiático",
           "spreads": "transmite el dengue, el zika y el chikungunya",
           "points": [
             "Bandas blancas en las patas",

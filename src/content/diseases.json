@@ -95,7 +95,7 @@
         "dengue": {
           "intro": "Dengue is a virus spread by Aedes mosquitoes. Most people who get it feel fine or only mildly sick, but some become very sick.",
           "glance": {
-            "spreadBy": "Infected Aedes mosquitoes spread it. It can also pass from mother to baby, or rarely through blood or organs.",
+            "spreadBy": "Infected Aedes mosquitoes (Aedes aegypti and the Asian tiger mosquito, Aedes albopictus) spread it. It can also pass from mother to baby, or rarely through blood or organs.",
             "symptomsStart": "Usually within 2 weeks of a bite, often after 5–7 days.",
             "howManySick": "About 1 in 4 infected people get sick. About 1 in 20 of those become very sick.",
             "vaccine": "No dengue vaccine is available in the U.S. right now."
@@ -125,7 +125,7 @@
         "zika": {
           "intro": "Zika is a virus spread mostly by Aedes mosquitoes. Many people have no symptoms or only mild ones, but Zika during pregnancy can cause serious birth defects.",
           "glance": {
-            "spreadBy": "Infected Aedes mosquitoes spread it. It can also spread through sex, from mother to baby, and through blood or tissues.",
+            "spreadBy": "Infected Aedes mosquitoes (Aedes aegypti and the Asian tiger mosquito, Aedes albopictus) spread it. It can also spread through sex, from mother to baby, and through blood or tissues.",
             "symptomsStart": "Within 3–14 days after a bite.",
             "howManySick": "About 4 in 5 infected people have no symptoms. Others are usually mildly sick.",
             "vaccine": "No vaccine is available to prevent Zika."
@@ -160,7 +160,7 @@
         "chikungunya": {
           "intro": "Chikungunya is a virus spread by Aedes mosquitoes. Its most common symptoms are fever and joint pain, and the joint pain can be severe and last for months.",
           "glance": {
-            "spreadBy": "Infected Aedes mosquitoes spread it. Rarely, it passes from mother to baby, and it likely can spread through blood.",
+            "spreadBy": "Infected Aedes mosquitoes (Aedes aegypti and the Asian tiger mosquito, Aedes albopictus) spread it. Rarely, it passes from mother to baby, and it likely can spread through blood.",
             "symptomsStart": "Usually 3–7 days after a bite.",
             "howManySick": "Most infected people get some symptoms. Death from chikungunya is rare.",
             "vaccine": "One vaccine, VIMKUNYA, is available for people 12 and older. CDC: “Vaccination is recommended for travelers visiting an area with an outbreak.” It “may be considered” for longer stays in places with elevated risk."
@@ -273,7 +273,7 @@
         "dengue": {
           "intro": "El dengue es un virus que transmiten los mosquitos Aedes. La mayoría de las personas que lo contraen se sienten bien o solo un poco enfermas, pero algunas se enferman gravemente.",
           "glance": {
-            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. También puede pasar de la madre al bebé y, en raras ocasiones, por la sangre o los órganos.",
+            "spreadBy": "Los mosquitos Aedes infectados (el Aedes aegypti y el mosquito tigre asiático, Aedes albopictus) lo transmiten. También puede pasar de la madre al bebé y, en raras ocasiones, por la sangre o los órganos.",
             "symptomsStart": "Por lo general, dentro de las 2 semanas después de una picada, a menudo a los 5–7 días.",
             "howManySick": "Alrededor de 1 de cada 4 personas infectadas se enferma. Alrededor de 1 de cada 20 de ellas se enferma gravemente.",
             "vaccine": "Por ahora no hay ninguna vacuna contra el dengue disponible en EE. UU."
@@ -303,7 +303,7 @@
         "zika": {
           "intro": "El zika es un virus que transmiten sobre todo los mosquitos Aedes. Muchas personas no tienen síntomas o solo síntomas leves, pero el zika durante el embarazo puede causar defectos de nacimiento graves.",
           "glance": {
-            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. También se puede transmitir por relaciones sexuales, de la madre al bebé y por la sangre o los tejidos.",
+            "spreadBy": "Los mosquitos Aedes infectados (el Aedes aegypti y el mosquito tigre asiático, Aedes albopictus) lo transmiten. También se puede transmitir por relaciones sexuales, de la madre al bebé y por la sangre o los tejidos.",
             "symptomsStart": "Entre 3 y 14 días después de una picada.",
             "howManySick": "Alrededor de 4 de cada 5 personas infectadas no tienen síntomas. Las demás suelen enfermarse levemente.",
             "vaccine": "No hay ninguna vacuna para prevenir el zika."
@@ -338,7 +338,7 @@
         "chikungunya": {
           "intro": "El chikungunya es un virus que transmiten los mosquitos Aedes. Sus síntomas más comunes son la fiebre y el dolor en las articulaciones, y ese dolor puede ser fuerte y durar meses.",
           "glance": {
-            "spreadBy": "Los mosquitos Aedes infectados lo transmiten. En raras ocasiones pasa de la madre al bebé, y es probable que se transmita por la sangre.",
+            "spreadBy": "Los mosquitos Aedes infectados (el Aedes aegypti y el mosquito tigre asiático, Aedes albopictus) lo transmiten. En raras ocasiones pasa de la madre al bebé, y es probable que se transmita por la sangre.",
             "symptomsStart": "Por lo general, de 3 a 7 días después de una picada.",
             "howManySick": "La mayoría de las personas infectadas tiene algunos síntomas. La muerte por chikungunya es rara.",
             "vaccine": "Hay una vacuna, VIMKUNYA, para personas de 12 años o más. Los CDC dicen que “la vacunación se recomienda para los viajeros que visitan una zona con un brote”. También “se puede considerar” para estadías largas en lugares con riesgo elevado."

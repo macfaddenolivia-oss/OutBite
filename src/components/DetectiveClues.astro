@@ -9,7 +9,9 @@
 // design/clue-culex.jpg (CDC PHIL 26026, a female Culex quinquefasciatus; detective.json
 // "clues").
 // Nothing here is a link or a button: glossary links are left out (data-no-glossary).
-// Text: detective.json text.*.clues; "**…**" marks the bold word ("not" / "no").
+// Text: detective.json text.*.clues; "**…**" marks the bold word ("not" / "no"). The
+// Aedes box's "also" line names the Asian tiger mosquito (Ae. albopictus, CDC "Most
+// (un)Wanted Mosquitoes"); Culex has none.
 import Genus from './Genus.astro';
 import content from '../content/detective.json';
 import { assetPath, useTranslations } from '../i18n';
@@ -64,9 +66,12 @@ const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
               </picture>
             )}
           </div>
-          <h3 class="clue-box__name" id={`${headingId}-${box.kind}`}>
-            <em>{box.name}</em>
-          </h3>
+          <div class="clue-box__title">
+            <h3 class="clue-box__name" id={`${headingId}-${box.kind}`}>
+              <em>{box.name}</em>
+            </h3>
+            {'also' in box && <p class="clue-box__also">{box.also}</p>}
+          </div>
           {
             [
               ['full', box.spreads, box.points],
@@ -154,6 +159,31 @@ const parts = (s: string) => s.split(/\*\*(.+?)\*\*/);
   .clue-box__name {
     margin: 0;
     font-size: var(--text-lg);
+  }
+
+  /* Aedes only: "includes the Asian tiger mosquito" (Ae. albopictus), small, beside the
+     name. Shown only where it fits there (each box about 21.2rem wide, so 43.5rem of
+     room; rem follows the text size), so it never adds a line: under it, on phones and
+     tablets, the boxes would grow by one to three lines. */
+  .clue-box__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.5em;
+  }
+
+  .clue-box__also {
+    display: none;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  @container clues (min-width: 43.5rem) {
+    .clue-box__also {
+      display: block;
+    }
   }
 
   .clue-box__spreads {
