@@ -3,7 +3,7 @@
 // Also: the chosen text size (applied in <head> before the page draws), the social
 // preview tags (og:/twitter:, URLs built from siteUrl in src/config/site.json, with the
 // placeholder https://outbite.example until it is set) and "Last reviewed" at the bottom
-// of each page (src/lib/page-review.ts).
+// of each page except the home page (src/lib/page-review.ts).
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
@@ -42,7 +42,8 @@ const pageUrl = siteAddress(pathname);
 const socialImage = siteAddress(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}-v2.png`));
 const shareDescription = description ?? t('social.description');
 const page = pageForPath(pathname);
-const reviewed = page ? lastReviewed(page) : null;
+// The home page doesn't show "Last reviewed" (its date is still tracked by due-for-review).
+const reviewed = page && page.key !== 'home' ? lastReviewed(page) : null;
 ---
 
 <!doctype html>
