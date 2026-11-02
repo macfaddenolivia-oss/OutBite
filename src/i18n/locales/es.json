@@ -479,9 +479,9 @@
           "url": "https://www.cdc.gov/dengue/data-research/facts-stats/current-data.html"
         },
         {
-          "name": "CDC: datos y mapas de chikungunya",
-          "note": "Casos de chikungunya locales y asociados a viajes (enlace).",
-          "url": "https://www.cdc.gov/chikungunya/data-maps/index.html"
+          "name": "CDC: chikungunya en Estados Unidos",
+          "note": "Casos de chikungunya locales y asociados a viajes en todo el país.",
+          "url": "https://www.cdc.gov/chikungunya/data-maps/chikungunya-us.html"
         },
         {
           "name": "Avisos de salud para viajeros de los CDC",
@@ -592,6 +592,7 @@
     "seeMap": "Ver el mapa",
     "seeNotices": "Ver los avisos de viaje de los CDC",
     "intro": "Casos reportados de dengue, zika y chikungunya por estado y territorio, según los CDC.",
+    "countsDiffer": "El mapa usa los informes semanales nacionales de casos de los CDC; las páginas de los CDC sobre cada enfermedad usan otro conteo, así que los números pueden variar un poco.",
     "pickHeading": "Escoge tu estado o territorio",
     "meaningHeading": "Qué significan estos números",
     "meaning1": "La mayoría de los casos en los estados de EE. UU. son de personas que se enfermaron mientras viajaban.",

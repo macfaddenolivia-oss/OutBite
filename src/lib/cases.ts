@@ -3,6 +3,7 @@
 // reads them (no network needed).
 import cases from '../data/cases.json';
 import notices from '../data/travel-notices.json';
+import splitPages from '../config/cdc-split-pages.json';
 
 export type Disease = 'dengue' | 'zika' | 'chikungunya';
 export const DISEASES: Disease[] = ['dengue', 'zika', 'chikungunya'];
@@ -71,6 +72,9 @@ export function formatDate(iso: string, htmlLang: string): string {
 }
 
 export const CDC_DATA_URL = caseData.source.datasetUrl;
+/** CDC's national local/travel page for each virus (src/config/cdc-split-pages.json), the
+ *  same pages update-data reads; linked from here so an older data file can't link elsewhere. */
+export const SPLIT_URLS: Record<Disease, string> = splitPages;
 
 /**
  * A CDC travel-notice destination in the page language, using the built-in

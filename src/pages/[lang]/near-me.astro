@@ -30,6 +30,7 @@ import {
   latestWeekByPlace,
   mapStep,
   nationalLatestWeek,
+  SPLIT_URLS,
   weekTemplate,
   ytdByPlace,
   type Count,
@@ -159,7 +160,7 @@ const pageData = {
     <div class="container">
       <h1>{t('pages.nearMe.title')}</h1>
       <p class="page-intro__lead">
-        <strong>{t('dash.dataThrough', { date: weekDateLong })}</strong> {t('dash.intro')} {t('dash.lastCheckedExplain', { date: fetched })}
+        <strong>{t('dash.dataThrough', { date: weekDateLong })}</strong> {t('dash.intro')} {t('dash.lastCheckedExplain', { date: fetched })} {t('dash.countsDiffer')}
       </p>
       <ActionRow lang={lang} />
     </div>
@@ -412,11 +413,11 @@ const pageData = {
                       year: String(s.year),
                     })}{' '}
                     <span class="dash-split__source">
-                      <a href={s.url}>{t('dash.splitAsOf', { date: formatDate(s.asOf!, htmlLang) })}</a>
+                      <a href={SPLIT_URLS[d]}>{t('dash.splitAsOf', { date: formatDate(s.asOf!, htmlLang) })}</a>
                     </span>
                   </>
                 ) : (
-                  <a href={s.url}>{t('dash.splitLink')}</a>
+                  <a href={SPLIT_URLS[d]}>{t('dash.splitLink')}</a>
                 )}
               </li>
             );

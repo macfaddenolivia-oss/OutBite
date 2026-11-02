@@ -7,7 +7,7 @@
 // Each file is validated before it is written. If a download or a check fails, the
 // last good file is kept, the reason is printed and the script exits with an error (the
 // deploy workflow decides what that means: see .github/workflows/deploy.yml). Every
-// download gets 30 seconds and one retry. Run daily once hosted, then rebuild.
+// download gets 30 seconds and one retry. Run twice a day once hosted, then rebuild.
 // No API keys or accounts. Never touches the Puerto Rico Department of Health portal.
 
 import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
@@ -41,13 +41,10 @@ const LABELS = {
   zika: ['Zika virus disease, non-congenital'],
   chikungunya: ['Arboviral diseases, Chikungunya virus disease'],
 };
-// National local vs travel breakdowns (CDC disease data pages). Read only if CDC
-// allows automated access; otherwise the site links to them.
-const SPLIT_PAGES = {
-  dengue: 'https://www.cdc.gov/dengue/data-research/facts-stats/current-data.html',
-  zika: 'https://www.cdc.gov/zika/zika-cases-us/index.html',
-  chikungunya: 'https://www.cdc.gov/chikungunya/data-maps/index.html',
-};
+// National local vs travel breakdowns (CDC disease data pages, src/config/cdc-split-pages.json;
+// the site links to the same pages). Read only if CDC allows automated access; otherwise
+// the site links to them.
+const SPLIT_PAGES = JSON.parse(readFileSync(join(root, 'src/config/cdc-split-pages.json'), 'utf8'));
 const NOTICES_RSS = 'https://wwwnc.cdc.gov/travel/rss/notices.xml';
 const NOTICES_PAGE = 'https://wwwnc.cdc.gov/travel/notices';
 

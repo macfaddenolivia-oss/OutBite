@@ -46,7 +46,7 @@ Quality checks are run locally before each release.
 The site is published on GitHub Pages at its custom domain, <https://outbite.org/>, by
 `.github/workflows/deploy.yml`, using GitHub's own Pages actions. The domain is set in the
 repository's Settings → Pages (with the matching DNS records), not in a file. It runs on every push to
-`main`, every day at about 10:00 UTC, and by hand (**Run workflow** on the Actions tab). Each
+`main`, every day at about 10:00 and 23:00 UTC, and by hand (**Run workflow** on the Actions tab). Each
 run downloads the latest CDC data (`npm run update-data`), builds the site and publishes it.
 Nothing is committed back to the repository. The data from each successful download is saved
 in the Actions cache, and every run starts from the newest good copy (that one, or the copy in
