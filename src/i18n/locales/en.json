@@ -428,11 +428,11 @@
       },
       "shows": {
         "title": "The site shows CDC’s date",
-        "text": "“Data through the week ending {date}.”"
+        "text": "“Data through the week ending {date}{posted}.”"
       },
       "lastChecked": "Last checked:",
       "dataThrough": "CDC data through:",
-      "weekEnding": "week ending {date}",
+      "weekEnding": "week ending {date}{posted}",
       "listHeading": "Full list of data sources"
     },
     "reviews": {
@@ -665,7 +665,7 @@
     },
     "sourceLabel": "Source:",
     "sourceCdcName": "CDC",
-    "sourceRest": "Counts include cases reported up to {date}. CDC updates these numbers weekly.",
+    "sourceRest": "Counts include cases reported up to {date}{posted}. CDC updates these numbers weekly.",
     "mapHint": "Tap a state or territory on the map to see its numbers.",
     "mapHintSr": "Select a state or territory on the map to see its numbers.",
     "notToScale": "Territories not to scale",
@@ -689,7 +689,8 @@
     "reportedThisYear": "reported{ref} this year, including travel-related",
     "localSpreadOf": "ongoing local {disease} spread",
     "travelWorld": "Traveling? See CDC’s risk around the world",
-    "dataThrough": "CDC data through: week ending {date}.",
+    "dataThrough": "CDC data through: week ending {date}{posted}.",
+    "postedByCdc": " (posted by CDC {date})",
     "lastCheckedExplain": "Last checked {date}: the last day Outbite looked for new CDC data.",
     "splitExplain": "Locally acquired: caught from a mosquito where the person lives. Travel-associated: caught while traveling."
   },

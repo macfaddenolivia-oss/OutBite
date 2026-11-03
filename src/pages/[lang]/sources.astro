@@ -22,7 +22,7 @@ import Badge from '../../components/Badge.astro';
 import Genus from '../../components/Genus.astro';
 import reviewData from '../../content/reviews.json';
 import site from '../../config/site.json';
-import { caseData, formatDate, noticeData } from '../../lib/cases';
+import { caseData, formatDate, noticeData, postedByCdc } from '../../lib/cases';
 import { sources } from '../../lib/suggestions';
 import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
 
@@ -59,7 +59,7 @@ const weekEnding = formatDate(caseData.weekEnding, htmlLang);
 const flow = [
   { title: page.numbers.publishes.title, text: page.numbers.publishes.text },
   { title: page.numbers.checks.title, text: site.dailyUpdatesScheduled ? page.numbers.checks.textScheduled : page.numbers.checks.text },
-  { title: page.numbers.shows.title, text: t('sourcesPage.numbers.shows.text', { date: weekEnding }) },
+  { title: page.numbers.shows.title, text: t('sourcesPage.numbers.shows.text', { date: weekEnding, posted: postedByCdc(t, htmlLang) }) },
 ];
 
 const monthYear = (ym: string) =>
@@ -184,7 +184,7 @@ const reviews = reviewData.reviews.map((r) => ({
         <span><strong>{page.numbers.lastChecked}</strong> {formatDate(lastChecked, htmlLang)}</span>
         <span class="dates__sep" aria-hidden="true">·</span>
         <span>
-          <strong>{page.numbers.dataThrough}</strong> {t('sourcesPage.numbers.weekEnding', { date: weekEnding })}
+          <strong>{page.numbers.dataThrough}</strong> {t('sourcesPage.numbers.weekEnding', { date: weekEnding, posted: postedByCdc(t, htmlLang) })}
         </span>
       </p>
       <details class="data-list" open data-data-list>

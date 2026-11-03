@@ -34,6 +34,9 @@ const UA = 'OutbiteDataUpdate/1.0 (public-health education site; reads public CD
 const DATASET_ID = 'x9gk-5huc';
 const DATASET_URL = `https://data.cdc.gov/NNDSS/NNDSS-Weekly-Data/${DATASET_ID}`;
 const API = `https://data.cdc.gov/resource/${DATASET_ID}.json`;
+// data.cdc.gov's own metadata for the same dataset; its dataUpdatedAt is the
+// "Data Last Updated" date on the dataset page (when CDC last posted new rows).
+const METADATA_URL = `https://data.cdc.gov/api/views/metadata/v1/${DATASET_ID}`;
 // NNDSS labels for each virus. Dengue is reported in several rows ("Dengue", "Severe
 // dengue", in some years "Dengue-like illness"); they are added together.
 const LABELS = {
@@ -108,6 +111,21 @@ function readSplitTable(html, year) {
   return null;
 }
 
+// When CDC posted the data: the dataset's "Data Last Updated" time, as an ISO timestamp,
+// or null if it can't be read or doesn't make sense (before the reporting week ended, or
+// in the future). Never throws: the site then just leaves "(posted by CDC …)" out.
+async function readPostedAt(weekEnding) {
+  try {
+    const meta = await (await get(METADATA_URL)).json();
+    const t = Date.parse(meta?.dataUpdatedAt ?? '');
+    if (!Number.isFinite(t)) return null;
+    if (t < Date.parse(`${weekEnding}T00:00:00Z`) || t > Date.now() + 86_400_000) return null;
+    return new Date(t).toISOString();
+  } catch {
+    return null;
+  }
+}
+
 async function updateCases() {
   const prev = readJson(CASES_FILE);
   const allLabels = Object.values(LABELS).flat();
@@ -132,6 +150,8 @@ async function updateCases() {
   ).json();
   const week = Math.max(...rows.map((r) => Number(r.week)));
   const weekEnding = mmwrWeekEnding(year, week);
+  await sleep(1100);
+  const cdcPostedAt = await readPostedAt(weekEnding);
 
   // 3. Per place: year-to-date (latest week's cumulative) and weekly counts.
   const empty = () => ({ ytd: null, weekly: Array(week).fill(null) });
@@ -187,6 +207,7 @@ async function updateCases() {
       'National = the sum of the 50 states, DC and the five territories.',
       'allUS = "All of the U.S.": the same sum for the year (ytd) and the latest week (week); missing lists places with no value, which the totals leave out.',
       'weekly[i] = cases reported in MMWR week i+1 (current week column).',
+      'cdcPostedAt = when CDC last posted this dataset (data.cdc.gov "Data Last Updated", from its metadata); null if it could not be read. Shown as "(posted by CDC …)".',
     ],
     source: {
       name: 'CDC National Notifiable Diseases Surveillance System (NNDSS), Weekly Data',
@@ -198,6 +219,7 @@ async function updateCases() {
     mmwrYear: year,
     mmwrWeek: week,
     weekEnding,
+    cdcPostedAt,
     fetchedAt: new Date().toISOString(),
     national,
     allUS,
@@ -208,7 +230,7 @@ async function updateCases() {
   const problems = validateCases(data, prev);
   if (problems.length) throw new Error(`validation failed:\n  - ${problems.join('\n  - ')}`);
   writeSafely(CASES_FILE, data);
-  return { year, week, weekEnding, labelsUsed, national, notReported, split };
+  return { year, week, weekEnding, cdcPostedAt, labelsUsed, national, notReported, split };
 }
 
 async function updateNotices() {
@@ -303,7 +325,7 @@ async function updateRisk() {
 let failed = false;
 try {
   const r = await updateCases();
-  console.log(`✅ Cases: MMWR ${r.year} week ${r.week} (week ending ${r.weekEnding}).`);
+  console.log(`✅ Cases: MMWR ${r.year} week ${r.week} (week ending ${r.weekEnding}); posted by CDC ${r.cdcPostedAt ?? 'unknown (left off the site)'}.`);
   for (const d of DISEASES) console.log(`   ${d}: labels ${JSON.stringify(r.labelsUsed[d])}; national ${r.national[d]}`);
   console.log(`   Not reported (no CDC value): ${r.notReported.length ? r.notReported.join(', ') : 'none'}`);
   for (const d of DISEASES) {

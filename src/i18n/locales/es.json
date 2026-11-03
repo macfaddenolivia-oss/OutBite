@@ -430,11 +430,11 @@
       },
       "shows": {
         "title": "El sitio muestra la fecha de los CDC",
-        "text": "“Datos hasta la semana que terminó el {date}.”"
+        "text": "“Datos hasta la semana que terminó el {date}{posted}.”"
       },
       "lastChecked": "Última revisión:",
       "dataThrough": "Datos de los CDC hasta:",
-      "weekEnding": "la semana que terminó el {date}",
+      "weekEnding": "la semana que terminó el {date}{posted}",
       "listHeading": "Lista completa de fuentes de datos"
     },
     "reviews": {
@@ -667,7 +667,7 @@
     },
     "sourceLabel": "Fuente:",
     "sourceCdcName": "CDC",
-    "sourceRest": "Los conteos incluyen casos reportados hasta el {date}. Los CDC actualizan estas cifras cada semana.",
+    "sourceRest": "Los conteos incluyen casos reportados hasta el {date}{posted}. Los CDC actualizan estas cifras cada semana.",
     "mapHint": "Toca un estado o territorio en el mapa para ver sus números.",
     "mapHintSr": "Selecciona un estado o territorio en el mapa para ver sus números.",
     "notToScale": "Territorios sin escala",
@@ -691,7 +691,8 @@
     "reportedThisYear": "reportados{ref} este año, incluidos los relacionados con viajes",
     "localSpreadOf": "propagación local continua del {disease}",
     "travelWorld": "¿Vas a viajar? Mira el riesgo en el mundo según los CDC",
-    "dataThrough": "Datos de los CDC hasta la semana que terminó el {date}.",
+    "dataThrough": "Datos de los CDC hasta la semana que terminó el {date}{posted}.",
+    "postedByCdc": " (publicados por los CDC el {date})",
     "lastCheckedExplain": "Última revisión: {date} (el último día en que Outbite buscó datos nuevos de los CDC).",
     "splitExplain": "Adquiridos localmente: contraídos por la picada de un mosquito donde vive la persona. Asociados a viajes: contraídos durante un viaje."
   },

@@ -19,7 +19,7 @@ import ZikaSpread from '../../components/ZikaSpread.astro';
 import diseases from '../../content/diseases.json';
 import { cardText, getSuggestion } from '../../lib/suggestions';
 import faq from '../../content/faq.json';
-import { caseData, formatDate } from '../../lib/cases';
+import { caseData, formatDate, postedByCdc } from '../../lib/cases';
 import { sources } from '../../lib/suggestions';
 import { getLocale, langStaticPaths, localizePath, useTranslations } from '../../i18n';
 import { getPage } from '../../config/pages';
@@ -42,7 +42,8 @@ const tipTitle = (id: string) => cardText(getSuggestion(id), lang).title;
 const pageLinkText = text.pageLinks as Record<string, string>;
 const dataThrough = formatDate(caseData.weekEnding, htmlLang);
 const asOf = new Intl.DateTimeFormat(htmlLang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${faq.vaccineAsOf}-01T00:00:00Z`));
-const fill = (s: string) => s.replace('{date}', dataThrough).replace('{asOf}', asOf);
+const posted = postedByCdc(t, htmlLang);
+const fill = (s: string) => s.replace('{date}', dataThrough).replace('{posted}', posted).replace('{asOf}', asOf);
 const readMore = (id: string) => {
   const s = sources[id];
   return s ? { url: s.url, label: s.publisher === 'EPA' ? text.readMoreEpa : text.readMoreCdc } : null;

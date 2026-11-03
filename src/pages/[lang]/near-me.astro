@@ -30,6 +30,7 @@ import {
   latestWeekByPlace,
   mapStep,
   nationalLatestWeek,
+  postedByCdc,
   SPLIT_URLS,
   weekTemplate,
   ytdByPlace,
@@ -160,7 +161,7 @@ const pageData = {
     <div class="container">
       <h1>{t('pages.nearMe.title')}</h1>
       <p class="page-intro__lead">
-        <strong>{t('dash.dataThrough', { date: weekDateLong })}</strong> {t('dash.intro')} {t('dash.lastCheckedExplain', { date: fetched })} {t('dash.countsDiffer')}
+        <strong>{t('dash.dataThrough', { date: weekDateLong, posted: postedByCdc(t, htmlLang) })}</strong> {t('dash.intro')} {t('dash.lastCheckedExplain', { date: fetched })} {t('dash.countsDiffer')}
       </p>
       <ActionRow lang={lang} />
     </div>

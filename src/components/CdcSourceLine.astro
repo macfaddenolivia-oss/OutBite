@@ -1,8 +1,8 @@
 ---
-// "Source: CDC. Counts include cases reported up to [date]. CDC updates these numbers
+// "Source: CDC. Counts include cases reported up to [date] (posted by CDC [date]). CDC updates these numbers
 // weekly." Used under every set of case numbers (home panel, dashboard numbers, map).
 // "CDC" links to the NNDSS dataset page; the system is named in full only in Sources.
-import { CDC_DATA_URL, caseData, formatDate } from '../lib/cases';
+import { CDC_DATA_URL, caseData, formatDate, postedByCdc } from '../lib/cases';
 import { getLocale, useTranslations } from '../i18n';
 
 interface Props {
@@ -11,9 +11,11 @@ interface Props {
 }
 const { lang, class: className } = Astro.props;
 const t = useTranslations(lang);
-const date = formatDate(caseData.weekEnding, getLocale(lang).meta.htmlLang);
+const htmlLang = getLocale(lang).meta.htmlLang;
+const date = formatDate(caseData.weekEnding, htmlLang);
+const posted = postedByCdc(t, htmlLang);
 ---
 
 <p class={className}>
-  {t('dash.sourceLabel')} <a href={CDC_DATA_URL}>{t('dash.sourceCdcName')}</a>. {t('dash.sourceRest', { date })}
+  {t('dash.sourceLabel')} <a href={CDC_DATA_URL}>{t('dash.sourceCdcName')}</a>. {t('dash.sourceRest', { date, posted })}
 </p>

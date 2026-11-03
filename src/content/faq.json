@@ -441,7 +441,7 @@
         "case-numbers": {
           "q": "Where do the case numbers come from, and how often do they update?",
           "a": [
-            "The case numbers come from CDC's National Notifiable Diseases Surveillance System (NNDSS), the CDC system that collects reports of cases from across the U.S., which CDC updates every week. The numbers on this site include cases reported up to {date}."
+            "The case numbers come from CDC's National Notifiable Diseases Surveillance System (NNDSS), the CDC system that collects reports of cases from across the U.S., which CDC updates every week. The numbers on this site include cases reported up to {date}{posted}."
           ]
         },
         "real-number": {
@@ -648,7 +648,7 @@
         "case-numbers": {
           "q": "¿De dónde vienen las cifras de casos y cada cuánto se actualizan?",
           "a": [
-            "Las cifras de casos vienen del Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, el sistema que reúne los reportes de casos de todo EE. UU., que los CDC actualizan cada semana. Las cifras de este sitio incluyen casos reportados hasta el {date}."
+            "Las cifras de casos vienen del Sistema Nacional de Vigilancia de Enfermedades de Notificación Obligatoria (NNDSS) de los CDC, el sistema que reúne los reportes de casos de todo EE. UU., que los CDC actualizan cada semana. Las cifras de este sitio incluyen casos reportados hasta el {date}{posted}."
           ]
         },
         "real-number": {

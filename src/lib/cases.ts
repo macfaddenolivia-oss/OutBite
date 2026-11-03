@@ -29,6 +29,8 @@ export const caseData = cases as unknown as {
   mmwrYear: number;
   mmwrWeek: number;
   weekEnding: string;
+  /** When CDC posted the data (data.cdc.gov "Data Last Updated"); null/absent = unknown. */
+  cdcPostedAt?: string | null;
   fetchedAt: string;
   national: Record<Disease, number>;
   /** "All of the U.S.": every state, DC and territory added up (year and latest week). */
@@ -69,6 +71,20 @@ export function formatDate(iso: string, htmlLang: string): string {
   return new Intl.DateTimeFormat(htmlLang, { dateStyle: 'long', timeZone: 'UTC' }).format(
     new Date(iso.length === 10 ? `${iso}T00:00:00Z` : iso),
   );
+}
+
+/** " (posted by CDC October 28)" to follow the "reported up to" date, or "" when the
+ *  posting date is missing or doesn't make sense (then it is left out, never guessed).
+ *  The date is CDC's (Eastern time); the year is shown only if it differs from the
+ *  reporting week's. `t` is the page's translation function. */
+export function postedByCdc(t: (key: string, vars?: Record<string, string>) => string, htmlLang: string): string {
+  const at = caseData.cdcPostedAt ? Date.parse(caseData.cdcPostedAt) : NaN;
+  if (!Number.isFinite(at) || at < Date.parse(`${caseData.weekEnding}T00:00:00Z`)) return '';
+  const posted = new Date(at);
+  const zone = 'America/New_York';
+  const sameYear = new Intl.DateTimeFormat('en', { year: 'numeric', timeZone: zone }).format(posted) === caseData.weekEnding.slice(0, 4);
+  const date = new Intl.DateTimeFormat(htmlLang, { month: 'long', day: 'numeric', ...(sameYear ? {} : { year: 'numeric' }), timeZone: zone }).format(posted);
+  return t('dash.postedByCdc', { date });
 }
 
 export const CDC_DATA_URL = caseData.source.datasetUrl;
