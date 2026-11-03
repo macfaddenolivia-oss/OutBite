@@ -154,7 +154,7 @@ const SIZES = ['100', '115', '130'] as const;
 
     // The page's main content, in reading order: text blocks inside <main>, skipping the
     // menus, this row, source lists, printable sheets, drawings and anything hidden.
-    const SKIP = 'nav, header, footer, [data-action-row], .source-line, .print-sources, .print-sheet, .trip-sheets, .last-reviewed, svg, script, style, template, noscript, .visually-hidden, [aria-hidden="true"], [hidden], [data-no-listen]';
+    const SKIP = 'nav, header, footer, [data-action-row], .source-line, .print-sources, .print-sheet, .trip-sheets, svg, script, style, template, noscript, .visually-hidden, [aria-hidden="true"], [hidden], [data-no-listen]';
     const BLOCKS = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, figcaption, summary, blockquote, caption, legend';
     const readable = () => {
       const main = document.querySelector('main');

@@ -425,8 +425,8 @@
       },
       "checks": {
         "title": "Outbite revisa",
-        "text": "Cuando el sitio esté en línea, un programa revisará cada día si los CDC publicaron una semana nueva.",
-        "textScheduled": "Cada día, un programa revisa si los CDC publicaron una semana nueva."
+        "text": "Cuando el sitio esté en línea, un programa revisará dos veces al día si los CDC publicaron una semana nueva.",
+        "textScheduled": "Dos veces al día, un programa revisa si los CDC publicaron una semana nueva."
       },
       "shows": {
         "title": "El sitio muestra la fecha de los CDC",
@@ -495,7 +495,7 @@
         },
         {
           "name": "CDC: Áreas con riesgo de dengue",
-          "note": "La lista mundial de países según la categoría de riesgo de dengue de los CDC, para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad (se revisa a diario, con la fecha y las notas de los CDC).",
+          "note": "La lista mundial de países según la categoría de riesgo de dengue de los CDC, para los mapas del mundo de “¿Vas a viajar pronto?” y de las páginas de cada enfermedad (se revisa dos veces al día, con la fecha y las notas de los CDC).",
           "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
         },
         {
@@ -839,10 +839,6 @@
       "115": "Texto más grande",
       "130": "Texto aún más grande"
     }
-  },
-  "lastReviewed": {
-    "label": "Última revisión",
-    "note": "La fecha en que una persona revisó esta página por última vez."
   },
   "social": {
     "description": "Dengue, zika y chikungunya: cómo se transmiten y cómo proteger a tu familia.",

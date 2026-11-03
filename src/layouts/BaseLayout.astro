@@ -2,8 +2,8 @@
 // The frame around every page: <head>, alert banner, header, main, footer.
 // Also: the chosen text size (applied in <head> before the page draws), the social
 // preview tags (og:/twitter:, URLs built from siteUrl in src/config/site.json, with the
-// placeholder https://outbite.example until it is set) and "Last reviewed" at the bottom
-// of each page except the home page (src/lib/page-review.ts).
+// placeholder https://outbite.example until it is set). Pages don't show a "Last reviewed"
+// date; review dates are tracked in the content files for npm run due-for-review.
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
@@ -14,8 +14,6 @@ import Footer from '../components/Footer.astro';
 import VisitCounter from '../components/VisitCounter.astro';
 import { assetPath, defaultLocale, getLocale, locales, localizePath, siteAddress, siteName, switchLocalePath, useTranslations } from '../i18n';
 import { STORAGE } from '../lib/storage';
-import { formatDate } from '../lib/cases';
-import { lastReviewed, pageForPath } from '../lib/page-review';
 import site from '../config/site.json';
 
 interface Props {
@@ -41,9 +39,6 @@ const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href 
 const pageUrl = siteAddress(pathname);
 const socialImage = siteAddress(assetPath(`brand/social-${lang === 'es' ? 'es' : 'en'}-v2.png`));
 const shareDescription = description ?? t('social.description');
-const page = pageForPath(pathname);
-// The home page doesn't show "Last reviewed" (its date is still tracked by due-for-review).
-const reviewed = page && page.key !== 'home' ? lastReviewed(page) : null;
 ---
 
 <!doctype html>
@@ -117,15 +112,6 @@ const reviewed = page && page.key !== 'home' ? lastReviewed(page) : null;
     <Header lang={lang} langLinksHome={langLinksHome} />
     <main id="main" tabindex="-1">
       <slot />
-      {
-        reviewed && (
-          <div class="container last-reviewed">
-            <p>
-              <strong>{t('lastReviewed.label')}:</strong> <time datetime={reviewed}>{formatDate(reviewed, locale.meta.htmlLang)}</time>
-            </p>
-          </div>
-        )
-      }
     </main>
     <Footer lang={lang} />
   </body>

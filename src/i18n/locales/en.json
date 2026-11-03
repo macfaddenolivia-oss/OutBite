@@ -423,8 +423,8 @@
       },
       "checks": {
         "title": "Outbite checks",
-        "text": "Once the site is live, a script checks every day for CDC’s newest week.",
-        "textScheduled": "Every day, a script checks for CDC’s newest week."
+        "text": "Once the site is live, a script checks twice a day for CDC’s newest week.",
+        "textScheduled": "Twice a day, a script checks for CDC’s newest week."
       },
       "shows": {
         "title": "The site shows CDC’s date",
@@ -493,7 +493,7 @@
         },
         {
           "name": "CDC: Areas with Risk of Dengue",
-          "note": "The world list of countries by CDC’s dengue risk category, for the world maps on “Traveling soon?” and the disease pages (read daily, with CDC’s date and notes).",
+          "note": "The world list of countries by CDC’s dengue risk category, for the world maps on “Traveling soon?” and the disease pages (read twice a day, with CDC’s date and notes).",
           "url": "https://www.cdc.gov/dengue/areas-with-risk/index.html"
         },
         {
@@ -814,10 +814,6 @@
       "115": "Larger text",
       "130": "Largest text"
     }
-  },
-  "lastReviewed": {
-    "label": "Last reviewed",
-    "note": "The date a person last checked this page."
   },
   "social": {
     "description": "Dengue, Zika, and chikungunya: how they spread and how to protect your family.",

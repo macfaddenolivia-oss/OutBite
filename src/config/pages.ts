@@ -7,8 +7,9 @@ export interface PageDef {
   path: string;
   phase?: number;
   group: 'main' | 'disease' | 'tool' | 'info';
-  /** The page's content file (in src/content) whose "lastReviewed" date the page shows as
-   *  "Last reviewed" (each page is re-checked against current guidance every 6 weeks). */
+  /** The page's content file (in src/content) whose "lastReviewed" date records when a
+   *  person last checked the page (not shown on the site; npm run due-for-review lists
+   *  pages not re-checked against current guidance in 6 weeks). */
   review: string;
 }
 

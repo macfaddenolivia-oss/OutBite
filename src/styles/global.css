@@ -338,19 +338,6 @@ html[data-text-size='130'] {
   font-size: 130%;
 }
 
-/* "Last reviewed: [date]" at the bottom of each page but home: the date a person last checked
-   the page (not CDC's data date). */
-.last-reviewed {
-  padding-block: var(--space-3) var(--space-5);
-}
-
-.last-reviewed p {
-  margin: 0;
-  padding-top: var(--space-3);
-  border-top: 2px solid var(--color-border);
-  font-size: var(--text-sm);
-}
-
 @media print {
   .action-row {
     display: none !important;
